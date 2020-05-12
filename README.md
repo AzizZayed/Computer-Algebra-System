@@ -7,4 +7,4 @@ The main goals are:
 * Parse a mathematical expression and transform it into a tree of operators and elementary functions
 * Simplify the expression
 * Differentiate and integrate the expression
-* 
+* Graph it in 2D and 3D
