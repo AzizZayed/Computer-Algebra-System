@@ -1,12 +1,24 @@
 package math.structure;
 
+/**
+ * class inherited by all operators, so summations and products
+ * 
+ * @author Abd-El-Aziz Zayed
+ *
+ */
 public abstract class Operator extends Expression implements IMath {
 
-	protected Expression[] children;
-	protected char symbol;
+	protected Expression[] children; // all the children to sum
+	protected char symbol; // the symbol of the operator
 
-	public Operator(Expression... expressions) {
+	/**
+	 * constructor receiving all the expressions to sum up
+	 * 
+	 * @param expressions
+	 */
+	public Operator(char sym, Expression... expressions) {
 		children = expressions;
+		symbol = sym;
 	}
 
 	@Override
@@ -40,7 +52,7 @@ public abstract class Operator extends Expression implements IMath {
 	/**
 	 * @param a - input 1 to operate on
 	 * @param b - input 2 to operate on
-	 * @return the operator operation on the inputs
+	 * @return the specific operation on the inputs
 	 */
 	protected abstract double operate(double a, double b);
 
@@ -49,11 +61,12 @@ public abstract class Operator extends Expression implements IMath {
 	 */
 	protected abstract double neutral();
 
+	/*
+	 * a finite product
+	 */
 	public static class Product extends Operator implements IMath {
-
 		public Product(Expression... expressions) {
-			super(expressions);
-			symbol = '*';
+			super('*', expressions);
 		}
 
 		@Override
@@ -68,11 +81,12 @@ public abstract class Operator extends Expression implements IMath {
 
 	}
 
+	/*
+	 * a finite sum
+	 */
 	public static class Sum extends Operator implements IMath {
-
 		public Sum(Expression... expressions) {
-			super(expressions);
-			symbol = '+';
+			super('+', expressions);
 		}
 
 		@Override

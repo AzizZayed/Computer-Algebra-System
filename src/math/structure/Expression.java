@@ -1,7 +1,16 @@
 package math.structure;
 
+/**
+ * class for an arbitrary mathematical expression
+ * 
+ * @author Abd-El-Aziz Zayed
+ *
+ */
 public abstract class Expression implements IMath {
 
+	/*
+	 * class to represent a fraction
+	 */
 	public static class Fraction extends Expression implements IMath {
 
 		private Expression numerator, denominator;
@@ -18,18 +27,21 @@ public abstract class Expression implements IMath {
 
 		@Override
 		public String toString() {
-			return numerator.toString() + " / " + denominator.toString();
+			return numerator.toString() + "/" + denominator.toString();
 		}
 	}
 
+	/*
+	 * class to represent any term like x, y, z
+	 */
 	public static class Term extends Expression implements IMath {
 
 		private char symbol;
-		
+
 		public Term(char sym) {
 			symbol = sym;
 		}
-		
+
 		public Term() {
 			symbol = 'x';
 		}
@@ -45,6 +57,9 @@ public abstract class Expression implements IMath {
 		}
 	}
 
+	/*
+	 * class to represent any constant/number
+	 */
 	public static class Constant extends Expression implements IMath {
 
 		public static final Constant PI = new Constant(3.141592653589793d);
