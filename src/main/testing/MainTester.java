@@ -1,6 +1,6 @@
-package math.main;
+package main.testing;
 
-import main.wrapper.MathTree;
+import math.wrapper.MathTree;
 
 /**
  * Tester/main class

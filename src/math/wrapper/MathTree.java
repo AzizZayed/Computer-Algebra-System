@@ -1,4 +1,4 @@
-package main.wrapper;
+package math.wrapper;
 
 import javax.swing.JOptionPane;
 
