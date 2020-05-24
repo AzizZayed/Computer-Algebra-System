@@ -9,12 +9,9 @@ package math.structure;
 public interface IMath {
 
 	/**
-	 * calculate the value of the expression
-	 * 
-	 * @param x - value of x
-	 * @return the value of the expression
+	 * @return the latex code of the mathematical expression
 	 */
-	public double evaluate(double x);
+	public String toLatex();
 
 	@Override
 	public String toString();

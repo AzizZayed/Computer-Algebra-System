@@ -30,6 +30,11 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 	public String toString() {
 		return name + expr.toString();
 	}
+	
+	@Override
+	public String toLatex() {
+		return '\\' + name + expr.toString();
+	}
 
 	/**
 	 * @param in - input to the trigonometric function

@@ -8,6 +8,14 @@ package math.structure;
  */
 public abstract class Expression implements IMath {
 
+	/**
+	 * calculate the value of the mathematical expression
+	 * 
+	 * @param x - value of x
+	 * @return the value of the expression
+	 */
+	public abstract double evaluate(double x);
+	
 	/*
 	 * class to represent a fraction
 	 */
@@ -27,22 +35,27 @@ public abstract class Expression implements IMath {
 
 		@Override
 		public String toString() {
-			return numerator.toString() + "/" + denominator.toString();
+			return "(" + numerator.toString() + "/" + denominator.toString() + ")";
+		}
+		
+		@Override
+		public String toLatex() {
+			return "\\left(\\frac{" + numerator.toLatex() + "}{" + denominator.toLatex() + "}\\right)";
 		}
 	}
 
 	/*
 	 * class to represent any term like x, y, z
 	 */
-	public static class Term extends Expression implements IMath {
+	public static class Variable extends Expression implements IMath {
 
 		private char symbol;
 
-		public Term(char sym) {
+		public Variable(char sym) {
 			symbol = sym;
 		}
 
-		public Term() {
+		public Variable() {
 			symbol = 'x';
 		}
 
@@ -54,6 +67,11 @@ public abstract class Expression implements IMath {
 		@Override
 		public String toString() {
 			return Character.toString(symbol);
+		}
+		
+		@Override
+		public String toLatex() {
+			return toString();
 		}
 	}
 
@@ -67,6 +85,13 @@ public abstract class Expression implements IMath {
 		public static final Constant GOLDEN_RATIO = new Constant(1.618033988749895d);
 
 		private double value;
+		
+		/**
+		 * @return the value of the constant
+		 */
+		public double getValue() {
+			return value;
+		}
 
 		public Constant(double val) {
 			value = val;
@@ -87,6 +112,11 @@ public abstract class Expression implements IMath {
 				return "\u03D5";
 
 			return Double.toString(value);
+		}
+
+		@Override
+		public String toLatex() {
+			return toString();
 		}
 	}
 }

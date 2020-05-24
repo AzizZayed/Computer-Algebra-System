@@ -3,7 +3,7 @@ package math.structure;
 /**
  * functioned defined with brackets like the floor function and the ceiling
  * function. This parent class is used for all functions that don't need to be
- * redifined everytime, so we or mathematicians define a bracket notation to
+ * redefined every time, so we or mathematicians define a bracket notation to
  * refer to them
  * 
  * @author Abd-El-Aziz Zayed
@@ -38,6 +38,11 @@ public abstract class BracketFunction extends Function implements IMath {
 	@Override
 	public String toString() {
 		return open + expr.toString() + closed;
+	}
+	
+	@Override
+	public String toLatex() {
+		return open + expr.toLatex() + closed;
 	}
 
 	/**

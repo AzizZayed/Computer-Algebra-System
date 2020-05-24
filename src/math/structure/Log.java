@@ -23,7 +23,7 @@ public class Log extends Function implements IMath {
 	 */
 	public Log(Expression expr) {
 		super(expr);
-		this.base = new Constant(10);
+		this.base = new Constant(10.0d);
 	}
 
 	@Override
@@ -33,7 +33,12 @@ public class Log extends Function implements IMath {
 
 	@Override
 	public String toString() {
-		return "log_" + base.toString() + " " + expr.toString();
+		return "log_" + base.toString() + "_" + expr.toString();
+	}
+
+	@Override
+	public String toLatex() {
+		return "log_" + base.toLatex() + expr.toLatex();
 	}
 
 	/*
@@ -47,6 +52,11 @@ public class Log extends Function implements IMath {
 		@Override
 		public String toString() {
 			return "ln" + expr.toString();
+		}
+		
+		@Override
+		public String toLatex() {
+			return "ln" + expr.toLatex();
 		}
 	}
 }

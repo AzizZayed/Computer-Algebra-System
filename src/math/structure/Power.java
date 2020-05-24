@@ -28,7 +28,24 @@ public class Power extends Function implements IMath {
 
 	@Override
 	public String toString() {
+		if (power instanceof Constant) {
+			Constant c = (Constant) power;
+			if (c.getValue() == 0.5d)
+				return "sqrt" + expr.toString();
+		}
+		
 		return expr.toString() + "\u005E" + power.toString();
+	}
+	
+	@Override
+	public String toLatex() {
+		if (power instanceof Constant) {
+			Constant c = (Constant) power;
+			if (c.getValue() == 0.5d)
+				return "\\sqrt{" + expr.toLatex() + "}";
+		}
+		
+		return expr.toLatex() + "^{" + power.toLatex() + "}";
 	}
 
 	/*

@@ -25,6 +25,10 @@ public abstract class Operator extends Expression implements IMath {
 	public double evaluate(double x) {
 		double result = neutral();
 		for (Expression node : children) {
+			if (node == null)
+				continue;
+			
+//			System.out.println("Op: " + node.toString());
 			result = operate(result, node.evaluate(x));
 		}
 		return result;
@@ -46,6 +50,25 @@ public abstract class Operator extends Expression implements IMath {
 		}
 		sb.append(children[i]);
 		sb.append(')');
+		return sb.toString();
+	}
+	
+	@Override
+	public String toLatex() {
+		if (children.length == 0)
+			return "";
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("\\left(");
+		int i = 0;
+		for (i = 0; i < children.length - 1; i++) {
+			sb.append(children[i].toLatex());
+			sb.append(' ');
+			sb.append(symbol);
+			sb.append(' ');
+		}
+		sb.append(children[i].toLatex());
+		sb.append("\\right)");
 		return sb.toString();
 	}
 
@@ -78,7 +101,6 @@ public abstract class Operator extends Expression implements IMath {
 		protected double neutral() {
 			return 1;
 		}
-
 	}
 
 	/*
