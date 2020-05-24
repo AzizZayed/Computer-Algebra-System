@@ -1,0 +1,19 @@
+TODO
+
+	Immediate
+		- Add min, max in parser
+		- add latex for min, max and the inverse trig functions
+		- optimize bracket placement
+	
+	TESTING:
+		- Test parser after completion with quick JPanel and textbox
+		- Test expression tree with quick JPanel and textbox
+	
+	SOON
+		- Start simplification algorithms 
+		- Start derivative algorithms
+		- Enhance simplification algorithms 
+
+	LATER
+		- setup OpenGL (LWJGL) * ImGUI
+		- Setup plotting package with 2D plotter

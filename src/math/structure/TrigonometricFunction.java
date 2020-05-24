@@ -83,4 +83,88 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 			return Math.tan(in);
 		}
 	}
+	
+	/*
+	 * cosecant function
+	 */
+	public static class Csc extends TrigonometricFunction implements IMath {
+		public Csc(Expression expr) {
+			super(expr, "csc");
+		}
+
+		@Override
+		protected double compute(double in) {
+			return 1.0d / Math.sin(in);
+		}
+	}
+
+	/*
+	 * secant function
+	 */
+	public static class Sec extends TrigonometricFunction implements IMath {
+		public Sec(Expression expr) {
+			super(expr, "sec");
+		}
+
+		@Override
+		protected double compute(double in) {
+			return 1.0d / Math.cos(in);
+		}
+	}
+
+	/*
+	 * cotangent function
+	 */
+	public static class Cot extends TrigonometricFunction implements IMath {
+		public Cot(Expression expr) {
+			super(expr, "cot");
+		}
+
+		@Override
+		protected double compute(double in) {
+			return 1.0d / Math.tan(in);
+		}
+	}
+	
+	/*
+	 * arccosine function
+	 */
+	public static class ArcCos extends TrigonometricFunction implements IMath {
+		public ArcCos(Expression expr) {
+			super(expr, "arccos");
+		}
+
+		@Override
+		protected double compute(double in) {
+			return Math.acos(in);
+		}
+	}
+
+	/*
+	 * arcsine function
+	 */
+	public static class ArcSin extends TrigonometricFunction implements IMath {
+		public ArcSin(Expression expr) {
+			super(expr, "arcsin");
+		}
+
+		@Override
+		protected double compute(double in) {
+			return Math.asin(in);
+		}
+	}
+
+	/*
+	 * tangent function
+	 */
+	public static class ArcTan extends TrigonometricFunction implements IMath {
+		public ArcTan(Expression expr) {
+			super(expr, "arctan");
+		}
+
+		@Override
+		protected double compute(double in) {
+			return Math.atan(in);
+		}
+	}
 }

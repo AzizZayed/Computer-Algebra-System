@@ -9,10 +9,59 @@ package math.structure;
  */
 public abstract class Function extends Expression implements IMath {
 
-	Expression expr;
+	protected Expression expr;
 
 	public Function(Expression expr) {
 		this.expr = expr;
 	}
 
+	public static class Min extends Function implements IMath {
+
+		private Expression expr2;
+		
+		public Min(Expression e1, Expression e2) {
+			super(e1);
+			expr2 = e2;
+		}
+		
+		@Override
+		public String toString() {
+			return "min(" + expr.toString() + ", " + expr2.toString() + ")";
+		}
+
+		@Override
+		public String toLatex() {
+			return "\\min\\left(" + expr.toLatex() + ", " + expr2.toLatex() + "\\right)";
+		}
+
+		@Override
+		public double evaluate(double x) {
+			return Math.min(expr.evaluate(x), expr2.evaluate(x));
+		}
+	}
+	
+	public static class Max extends Function implements IMath {
+
+		private Expression expr2;
+		
+		public Max(Expression e1, Expression e2) {
+			super(e1);
+			expr2 = e2;
+		}
+		
+		@Override
+		public String toString() {
+			return "max(" + expr.toString() + ", " + expr2.toString() + ")";
+		}
+
+		@Override
+		public String toLatex() {
+			return "\\max\\left(" + expr.toLatex() + ", " + expr2.toLatex() + "\\right)";
+		}
+
+		@Override
+		public double evaluate(double x) {
+			return Math.max(expr.evaluate(x), expr2.evaluate(x));
+		}
+	}
 }

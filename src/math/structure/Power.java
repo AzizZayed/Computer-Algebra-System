@@ -31,10 +31,10 @@ public class Power extends Function implements IMath {
 		if (power instanceof Constant) {
 			Constant c = (Constant) power;
 			if (c.getValue() == 0.5d)
-				return "sqrt" + expr.toString();
+				return "sqrt" + expr.toString() + "";
 		}
 		
-		return expr.toString() + "\u005E" + power.toString();
+		return "(" + expr.toString() + ")\u005E" + power.toString();
 	}
 	
 	@Override
@@ -45,7 +45,7 @@ public class Power extends Function implements IMath {
 				return "\\sqrt{" + expr.toLatex() + "}";
 		}
 		
-		return expr.toLatex() + "^{" + power.toLatex() + "}";
+		return "\\left(" + expr.toLatex() + "\\right)" + "^{" + power.toLatex() + "}";
 	}
 
 	/*

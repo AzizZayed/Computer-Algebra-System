@@ -33,12 +33,12 @@ public class Log extends Function implements IMath {
 
 	@Override
 	public String toString() {
-		return "log_" + base.toString() + "_" + expr.toString();
+		return "(log_" + base.toString() + "_" + expr.toString() + ")";
 	}
 
 	@Override
 	public String toLatex() {
-		return "log_" + base.toLatex() + expr.toLatex();
+		return "\\left(log_" + base.toLatex() + expr.toLatex() + "\\right)";
 	}
 
 	/*
