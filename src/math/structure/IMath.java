@@ -9,7 +9,7 @@ package math.structure;
 public interface IMath {
 
 	/**
-	 * @return the latex code of the mathematical expression
+	 * @return the latex code for the mathematical expression
 	 */
 	public String toLatex();
 

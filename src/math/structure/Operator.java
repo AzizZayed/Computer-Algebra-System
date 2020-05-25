@@ -1,5 +1,7 @@
 package math.structure;
 
+import java.util.HashSet;
+
 /**
  * class inherited by all operators, so summations and products
  * 
@@ -21,11 +23,11 @@ public abstract class Operator extends Expression implements IMath {
 		symbol = sym;
 	}
 
-	protected Operator(char sym, String... strExpressions) {
+	protected Operator(char sym, HashSet<Character> vars, String... strExpressions) {
 //		System.out.println("in here " + Arrays.toString(strExpressions));
 		Expression[] expressions = new Expression[strExpressions.length];
 		for (int i = 0; i < expressions.length; i++)
-			expressions[i] = Parser.parseExpression(strExpressions[i]);
+			expressions[i] = Parser.parseExpression(strExpressions[i], vars);
 		children = expressions;
 		symbol = sym;
 	}
@@ -33,13 +35,8 @@ public abstract class Operator extends Expression implements IMath {
 	@Override
 	public double evaluate(double x) {
 		double result = neutral();
-		for (Expression node : children) {
-			if (node == null)
-				continue;
-
-//			System.out.println("Op: " + node.toString());
+		for (Expression node : children)
 			result = operate(result, node.evaluate(x));
-		}
 		return result;
 	}
 
@@ -51,13 +48,13 @@ public abstract class Operator extends Expression implements IMath {
 		StringBuilder sb = new StringBuilder();
 		sb.append('(');
 		int i = 0;
-		for (i = 0; i < children.length - 1; i++) {
-			sb.append(children[i]);
-			sb.append(' ');
-			sb.append(symbol);
+		sb.append(children[i]);
+		sb.append(' ');
+		for (i = 1; i < children.length - 1; i++) {
+			string(i, sb);
 			sb.append(' ');
 		}
-		sb.append(children[i]);
+		string(i, sb);
 		sb.append(')');
 		return sb.toString();
 	}
@@ -67,19 +64,41 @@ public abstract class Operator extends Expression implements IMath {
 		if (children.length == 0)
 			return "";
 
+		boolean brackets = needsBrackets();
 		StringBuilder sb = new StringBuilder();
-		sb.append("\\left(");
+		if (brackets)
+			sb.append("\\left(");
 		int i = 0;
-		for (i = 0; i < children.length - 1; i++) {
-			sb.append(children[i].toLatex());
-			sb.append(' ');
-			sb.append(symbol);
+		for (; i < children.length - 1; i++) {
+			latex(i, sb);
 			sb.append(' ');
 		}
-		sb.append(children[i].toLatex());
-		sb.append("\\right)");
+		latex(i, sb);
+		if (brackets)
+			sb.append("\\right)");
 		return sb.toString();
 	}
+
+	/**
+	 * add the string representation of the child at the index
+	 * 
+	 * @param index   - index of the child
+	 * @param builder - where to store string representation
+	 */
+	protected abstract void string(int index, StringBuilder builder);
+
+	/**
+	 * add the latex code representation of the child at the index
+	 * 
+	 * @param index   - index of the child
+	 * @param builder - where to store latex code representation
+	 */
+	protected abstract void latex(int index, StringBuilder builder);
+
+	/**
+	 * @return true if the operator needs to put brackets around it's input
+	 */
+	protected abstract boolean needsBrackets();
 
 	/**
 	 * @param a - input 1 to operate on
@@ -92,62 +111,4 @@ public abstract class Operator extends Expression implements IMath {
 	 * @return the neutral element of the operation
 	 */
 	protected abstract double neutral();
-
-	/*
-	 * a finite product
-	 */
-	public static class Product extends Operator implements IMath {
-		public Product(Expression... expressions) {
-			super('*', expressions);
-		}
-
-		public Product(String... strExpression) {
-			super('*', strExpression);
-		}
-		
-		public static Expression create(String... strExpression) {
-			if (strExpression.length == 1)
-				return Parser.parseExpression(strExpression[0]);
-			return new Product(strExpression);
-		}
-
-		@Override
-		protected double operate(double a, double b) {
-			return a * b;
-		}
-
-		@Override
-		protected double neutral() {
-			return 1;
-		}
-	}
-
-	/*
-	 * a finite sum
-	 */
-	public static class Sum extends Operator implements IMath {
-		public Sum(Expression... expressions) {
-			super('+', expressions);
-		}
-
-		public Sum(String... strExpression) {
-			super('+', strExpression);
-		}
-		
-		public static Expression create(String... strExpression) {
-			if (strExpression.length == 1)
-				return Parser.parseExpression(strExpression[0]);
-			return new Sum(strExpression);
-		}
-
-		@Override
-		protected double operate(double a, double b) {
-			return a + b;
-		}
-
-		@Override
-		protected double neutral() {
-			return 0;
-		}
-	}
 }

@@ -1,5 +1,7 @@
 package math.wrapper;
 
+import java.util.HashSet;
+
 import javax.swing.JOptionPane;
 
 import org.scilab.forge.jlatexmath.TeXConstants;
@@ -10,11 +12,11 @@ import math.structure.Constant;
 import math.structure.Expression;
 import math.structure.Fraction;
 import math.structure.IMath;
-import math.structure.Operator.Product;
-import math.structure.Operator.Sum;
 import math.structure.Parser;
 import math.structure.Power;
 import math.structure.Power.Exp;
+import math.structure.Product;
+import math.structure.Sum;
 import math.structure.TrigonometricFunction.Cos;
 import math.structure.TrigonometricFunction.Sin;
 import math.structure.TrigonometricFunction.Tan;
@@ -30,6 +32,7 @@ public class MathTree implements IMath {
 
 	private String expression; // the inputed expression
 	private Expression root; // the root of the expression tree
+	private HashSet<Character> variables = new HashSet<Character>();
 
 	/*
 	 * Constructor with expression
@@ -37,7 +40,8 @@ public class MathTree implements IMath {
 	public MathTree(String exp) {
 		expression = Parser.clean(exp);
 		try {
-			root = Parser.parseExpression(expression);
+			root = Parser.parseExpression(expression, variables);
+			System.out.println(variables);
 		} catch (Exception e) {
 			System.out.println(e);
 			root = null;
