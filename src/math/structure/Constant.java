@@ -47,6 +47,16 @@ public class Constant extends Expression implements IMath {
 
 	@Override
 	public String toLatex() {
-		return toString();
+		if (this == PI || value == PI.value)
+			return "\\pi";
+		if (this == EXP || value == EXP.value)
+			return "e";
+		if (this == GOLDEN_RATIO || value == GOLDEN_RATIO.value)
+			return "\\varphi";
+
+		String strValue = Double.toString(value);
+		if (value == Math.floor(value)) // check if integer and if so, display 2 instead of 2.0
+			return strValue.substring(0, strValue.indexOf('.'));
+		return strValue;
 	}
 }

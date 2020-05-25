@@ -36,13 +36,6 @@ public class Product extends Operator implements IMath {
 	}
 
 	@Override
-	protected void string(int index, StringBuilder builder) {
-		builder.append(symbol);
-		builder.append(' ');
-		builder.append(children[index]);
-	}
-
-	@Override
 	protected void latex(int index, StringBuilder builder) {
 		Constant constant = null;
 		if (children[index] instanceof Constant)
@@ -54,10 +47,5 @@ public class Product extends Operator implements IMath {
 			builder.append(' ');
 			builder.append(children[index].toLatex());
 		}
-	}
-
-	@Override
-	protected boolean needsBrackets() {
-		return false;
 	}
 }

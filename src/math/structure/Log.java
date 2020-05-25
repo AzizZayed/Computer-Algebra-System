@@ -60,11 +60,15 @@ public class Log extends Function implements IMath {
 
 		@Override
 		public String toString() {
+			if (needsBrackets())
+				return "ln(" + expr.toString() + ")";
 			return "ln" + expr.toString();
 		}
 
 		@Override
 		public String toLatex() {
+			if (needsBrackets())
+				return "ln\\left(" + expr.toLatex() + "\\right)";
 			return "ln" + expr.toLatex();
 		}
 	}

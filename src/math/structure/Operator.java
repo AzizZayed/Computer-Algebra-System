@@ -24,7 +24,6 @@ public abstract class Operator extends Expression implements IMath {
 	}
 
 	protected Operator(char sym, HashSet<Character> vars, String... strExpressions) {
-//		System.out.println("in here " + Arrays.toString(strExpressions));
 		Expression[] expressions = new Expression[strExpressions.length];
 		for (int i = 0; i < expressions.length; i++)
 			expressions[i] = Parser.parseExpression(strExpressions[i], vars);
@@ -51,10 +50,14 @@ public abstract class Operator extends Expression implements IMath {
 		sb.append(children[i]);
 		sb.append(' ');
 		for (i = 1; i < children.length - 1; i++) {
-			string(i, sb);
+			sb.append(symbol);
+			sb.append(' ');
+			sb.append(children[i]);
 			sb.append(' ');
 		}
-		string(i, sb);
+		sb.append(symbol);
+		sb.append(' ');
+		sb.append(children[i]);
 		sb.append(')');
 		return sb.toString();
 	}
@@ -64,28 +67,14 @@ public abstract class Operator extends Expression implements IMath {
 		if (children.length == 0)
 			return "";
 
-		boolean brackets = needsBrackets();
 		StringBuilder sb = new StringBuilder();
-		if (brackets)
-			sb.append("\\left(");
-		int i = 0;
-		for (; i < children.length - 1; i++) {
+		for (int i = 0; i < children.length - 1; i++) {
 			latex(i, sb);
 			sb.append(' ');
 		}
-		latex(i, sb);
-		if (brackets)
-			sb.append("\\right)");
+		latex(children.length - 1, sb);
 		return sb.toString();
 	}
-
-	/**
-	 * add the string representation of the child at the index
-	 * 
-	 * @param index   - index of the child
-	 * @param builder - where to store string representation
-	 */
-	protected abstract void string(int index, StringBuilder builder);
 
 	/**
 	 * add the latex code representation of the child at the index
@@ -94,11 +83,6 @@ public abstract class Operator extends Expression implements IMath {
 	 * @param builder - where to store latex code representation
 	 */
 	protected abstract void latex(int index, StringBuilder builder);
-
-	/**
-	 * @return true if the operator needs to put brackets around it's input
-	 */
-	protected abstract boolean needsBrackets();
 
 	/**
 	 * @param a - input 1 to operate on

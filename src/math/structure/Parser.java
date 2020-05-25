@@ -133,7 +133,8 @@ public class Parser {
 				while (denum.contains("()"))
 					denum = StringUtils.replaceOnce(denum, "()", "(" + remove.pop() + ")");
 
-				return new Fraction(generate(num, vars), generate(denum, vars)); // create fraction with generated children
+				return new Fraction(generate(num, vars), generate(denum, vars)); // create fraction with generated
+																					// children
 			} else if (cut.contains("^")) { // parse powers
 				int sign = cut.indexOf('^');
 				String base = cut.substring(0, sign);
@@ -147,7 +148,7 @@ public class Parser {
 				return new Power(generate(base, vars), generate(power, vars));
 			} else if (cut.equals("sqrt()")) // square root
 				return new Power(generate(remove.pop(), vars), new Constant(0.5d));
-			
+
 			else if (cut.equals("sin()")) // sin
 				return new Sin(generate(remove.pop(), vars));
 			else if (cut.equals("cos()")) // cos
@@ -189,7 +190,7 @@ public class Parser {
 				String in1 = in.substring(0, sign);
 				String in2 = in.substring(sign + 1);
 				return new Min(generate(in1, vars), generate(in2, vars));
-				
+
 			} else if (cut.equals("log()")) // logarithm
 				return new Log(generate(remove.pop(), vars));
 			else if (cut.equals("ln()")) // natural logarithm
@@ -204,35 +205,37 @@ public class Parser {
 					base = StringUtils.replaceOnce(base, "()", "(" + remove.pop() + ")");
 				while (num.contains("()"))
 					num = StringUtils.replaceOnce(num, "()", "(" + remove.pop() + ")");
-				
+
 				return new Log(generate(base, vars), generate(num, vars));
 			}
 
-//		} else if (strExp.equals("x")) // x variable
-//			return new Variable();	
 		} else if (strExp.equals("e")) // letter e
 			return new Constant(Constant.EXP.getValue());
+		else if (strExp.equals("pi")) // letter e
+			return new Constant(Constant.PI.getValue());
+		else if (strExp.equals("phi")) // letter e
+			return new Constant(Constant.GOLDEN_RATIO.getValue());
 		else if (strExp.length() == 1 && (Character.isAlphabetic(strExp.charAt(0)))) {
 			char c = strExp.charAt(0);
 			vars.add(c);
 			return new Variable(c);
 		} else if (NumberUtils.isParsable(strExp)) // numbers
 			return new Constant(NumberUtils.createDouble(strExp));
-		
+
 		else if (strExp.contains("+")) { // parse addition
 			String[] exps = StringUtils.split(strExp, "+");
 			return Sum.create(vars, exps);
-			
+
 		} else if (strExp.contains("*")) { // parse multiplication
 			String[] exps = StringUtils.split(strExp, "*");
 			return Product.create(vars, exps);
-			
+
 		} else if (strExp.contains("/")) { // parse divisions
 			int sign = strExp.indexOf('/');
 			String num = strExp.substring(0, sign);
 			String denum = strExp.substring(sign + 1);
 			return new Fraction(generate(num, vars), generate(denum, vars));
-			
+
 		} else if (strExp.contains("^")) { // parse powers
 			int sign = strExp.indexOf('^');
 			String base = strExp.substring(0, sign);

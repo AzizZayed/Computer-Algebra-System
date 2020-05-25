@@ -36,13 +36,6 @@ public class Sum extends Operator implements IMath {
 	}
 
 	@Override
-	protected void string(int index, StringBuilder builder) {
-		builder.append(symbol);
-		builder.append(' ');
-		builder.append(children[index]);
-	}
-
-	@Override
 	protected void latex(int index, StringBuilder builder) {
 		boolean putSymbol = true;
 
@@ -59,10 +52,5 @@ public class Sum extends Operator implements IMath {
 			builder.append(symbol);
 		builder.append(' ');
 		builder.append(children[index].toLatex());
-	}
-
-	@Override
-	protected boolean needsBrackets() {
-		return false;
 	}
 }
