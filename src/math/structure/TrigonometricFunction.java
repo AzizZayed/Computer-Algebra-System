@@ -8,7 +8,7 @@ package math.structure;
  */
 public abstract class TrigonometricFunction extends Function implements IMath {
 
-	private String name; // the name of the function
+	protected String name; // the name of the function
 
 	/**
 	 * constructor
@@ -28,12 +28,21 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 
 	@Override
 	public String toString() {
-		return name + expr.toString();
+		if (!needsBrackets())
+			return name + expr.toString();
+		return name + "(" + expr.toString() + ")";
 	}
-	
+
 	@Override
 	public String toLatex() {
-		return '\\' + name + expr.toString();
+		if (!needsBrackets())
+			return '\\' + name + "{" + expr.toLatex() + "}";
+		return '\\' + name + "{\\left(" + expr.toLatex() + "\\right)}";
+	}
+
+	protected boolean needsBrackets() {
+		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction
+				|| expr instanceof TrigonometricFunction || expr instanceof Min || expr instanceof Max);
 	}
 
 	/**
@@ -83,7 +92,7 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 			return Math.tan(in);
 		}
 	}
-	
+
 	/*
 	 * cosecant function
 	 */
@@ -123,48 +132,6 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 		@Override
 		protected double compute(double in) {
 			return 1.0d / Math.tan(in);
-		}
-	}
-	
-	/*
-	 * arccosine function
-	 */
-	public static class ArcCos extends TrigonometricFunction implements IMath {
-		public ArcCos(Expression expr) {
-			super(expr, "arccos");
-		}
-
-		@Override
-		protected double compute(double in) {
-			return Math.acos(in);
-		}
-	}
-
-	/*
-	 * arcsine function
-	 */
-	public static class ArcSin extends TrigonometricFunction implements IMath {
-		public ArcSin(Expression expr) {
-			super(expr, "arcsin");
-		}
-
-		@Override
-		protected double compute(double in) {
-			return Math.asin(in);
-		}
-	}
-
-	/*
-	 * tangent function
-	 */
-	public static class ArcTan extends TrigonometricFunction implements IMath {
-		public ArcTan(Expression expr) {
-			super(expr, "arctan");
-		}
-
-		@Override
-		protected double compute(double in) {
-			return Math.atan(in);
 		}
 	}
 }

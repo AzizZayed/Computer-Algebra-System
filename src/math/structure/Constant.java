@@ -39,7 +39,10 @@ public class Constant extends Expression implements IMath {
 		if (this == GOLDEN_RATIO || value == GOLDEN_RATIO.value)
 			return "\u03D5";
 
-		return Double.toString(value);
+		String strValue = Double.toString(value);
+		if (value == Math.floor(value)) // check if integer and if so, display 2 instead of 2.0
+			return strValue.substring(0, strValue.indexOf('.'));
+		return strValue;
 	}
 
 	@Override

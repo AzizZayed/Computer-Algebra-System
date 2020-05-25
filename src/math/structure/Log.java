@@ -33,12 +33,21 @@ public class Log extends Function implements IMath {
 
 	@Override
 	public String toString() {
-		return "(log_" + base.toString() + "_" + expr.toString() + ")";
+		if (needsBrackets())
+			return "log_" + base.toString() + "_(" + expr.toString() + ")";
+		return "log_" + base.toString() + "_" + expr.toString();
 	}
 
 	@Override
 	public String toLatex() {
-		return "\\left(log_" + base.toLatex() + expr.toLatex() + "\\right)";
+		if (needsBrackets())
+			return "log_{" + base.toLatex() + "}{\\left(" + expr.toLatex() + "\\right)}";
+		return "log_{" + base.toLatex() + "}{" + expr.toLatex() + "}";
+	}
+
+	protected boolean needsBrackets() {
+		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction
+				|| expr instanceof TrigonometricFunction || expr instanceof Min || expr instanceof Max);
 	}
 
 	/*
@@ -53,7 +62,7 @@ public class Log extends Function implements IMath {
 		public String toString() {
 			return "ln" + expr.toString();
 		}
-		
+
 		@Override
 		public String toLatex() {
 			return "ln" + expr.toLatex();

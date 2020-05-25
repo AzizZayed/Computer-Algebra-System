@@ -1,9 +1,7 @@
 TODO
 
 	Immediate
-		- Add min, max in parser
-		- add latex for min, max and the inverse trig functions
-		- optimize bracket placement
+		- optimize bracket placement for operators
 	
 	TESTING:
 		- Test parser after completion with quick JPanel and textbox

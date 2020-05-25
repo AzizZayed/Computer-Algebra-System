@@ -29,23 +29,33 @@ public class Power extends Function implements IMath {
 	@Override
 	public String toString() {
 		if (power instanceof Constant) {
-			Constant c = (Constant) power;
-			if (c.getValue() == 0.5d)
+			Constant constant = (Constant) power;
+			if (constant.getValue() == 0.5d)
 				return "sqrt" + expr.toString() + "";
 		}
-		
-		return "(" + expr.toString() + ")\u005E" + power.toString();
+
+		if (!needsBrackets())
+			return expr.toString() + "^" + power.toString();
+		else
+			return "(" + expr.toString() + ")^" + power.toString();
 	}
-	
+
 	@Override
 	public String toLatex() {
 		if (power instanceof Constant) {
-			Constant c = (Constant) power;
-			if (c.getValue() == 0.5d)
+			Constant constant = (Constant) power;
+			if (constant.getValue() == 0.5d)
 				return "\\sqrt{" + expr.toLatex() + "}";
 		}
-		
-		return "\\left(" + expr.toLatex() + "\\right)" + "^{" + power.toLatex() + "}";
+
+		if (!needsBrackets())
+			return expr.toLatex() + "^{" + power.toLatex() + "}";
+		else
+			return "\\left(" + expr.toLatex() + "\\right)^{" + power.toLatex() + "}";
+	}
+
+	private boolean needsBrackets() {
+		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction);
 	}
 
 	/*

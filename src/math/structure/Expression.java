@@ -15,4 +15,10 @@ public abstract class Expression implements IMath {
 	 * @return the value of the expression
 	 */
 	public abstract double evaluate(double x);
+	
+//	/**
+//	 * checks if the expression needs brackets 
+//	 * @return
+//	 */
+//	private abstract boolean needsBrackets();
 }

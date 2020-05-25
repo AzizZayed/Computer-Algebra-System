@@ -36,7 +36,13 @@ public class MathTree implements IMath {
 	 */
 	public MathTree(String exp) {
 		expression = Parser.clean(exp);
-		root = Parser.parseExpression(expression);
+		try {
+			root = Parser.parseExpression(expression);
+		} catch (Exception e) {
+			System.out.println(e);
+			root = null;
+		}
+
 	}
 
 	/*
@@ -65,7 +71,12 @@ public class MathTree implements IMath {
 	public String toString() {
 		if (root == null)
 			throw new NullPointerException("The expression is empty.");
-		return "Tree Expression: " + root.toString();
+		try {
+			return "Tree Expression: " + root.toString();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return null;
 	}
 
 	/**
@@ -78,7 +89,7 @@ public class MathTree implements IMath {
 	@Override
 	public String toLatex() {
 		String latex = root.toLatex();
-//		System.out.println(latex.substring(230));
+		System.out.println(latex);
 
 		// create a formula
 		TeXFormula formula = new TeXFormula(latex);

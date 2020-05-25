@@ -16,7 +16,16 @@ public abstract class Operator extends Expression implements IMath {
 	 * 
 	 * @param expressions
 	 */
-	public Operator(char sym, Expression... expressions) {
+	protected Operator(char sym, Expression... expressions) {
+		children = expressions;
+		symbol = sym;
+	}
+
+	protected Operator(char sym, String... strExpressions) {
+//		System.out.println("in here " + Arrays.toString(strExpressions));
+		Expression[] expressions = new Expression[strExpressions.length];
+		for (int i = 0; i < expressions.length; i++)
+			expressions[i] = Parser.parseExpression(strExpressions[i]);
 		children = expressions;
 		symbol = sym;
 	}
@@ -27,7 +36,7 @@ public abstract class Operator extends Expression implements IMath {
 		for (Expression node : children) {
 			if (node == null)
 				continue;
-			
+
 //			System.out.println("Op: " + node.toString());
 			result = operate(result, node.evaluate(x));
 		}
@@ -52,7 +61,7 @@ public abstract class Operator extends Expression implements IMath {
 		sb.append(')');
 		return sb.toString();
 	}
-	
+
 	@Override
 	public String toLatex() {
 		if (children.length == 0)
@@ -92,6 +101,16 @@ public abstract class Operator extends Expression implements IMath {
 			super('*', expressions);
 		}
 
+		public Product(String... strExpression) {
+			super('*', strExpression);
+		}
+		
+		public static Expression create(String... strExpression) {
+			if (strExpression.length == 1)
+				return Parser.parseExpression(strExpression[0]);
+			return new Product(strExpression);
+		}
+
 		@Override
 		protected double operate(double a, double b) {
 			return a * b;
@@ -109,6 +128,16 @@ public abstract class Operator extends Expression implements IMath {
 	public static class Sum extends Operator implements IMath {
 		public Sum(Expression... expressions) {
 			super('+', expressions);
+		}
+
+		public Sum(String... strExpression) {
+			super('+', strExpression);
+		}
+		
+		public static Expression create(String... strExpression) {
+			if (strExpression.length == 1)
+				return Parser.parseExpression(strExpression[0]);
+			return new Sum(strExpression);
 		}
 
 		@Override

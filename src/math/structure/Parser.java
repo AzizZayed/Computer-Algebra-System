@@ -10,12 +10,14 @@ import org.apache.commons.lang3.math.NumberUtils;
 import math.structure.BracketFunction.Abs;
 import math.structure.BracketFunction.Ceiling;
 import math.structure.BracketFunction.Floor;
+import math.structure.Function.Max;
+import math.structure.Function.Min;
+import math.structure.InverseTrigonometricFunction.ArcCos;
+import math.structure.InverseTrigonometricFunction.ArcSin;
+import math.structure.InverseTrigonometricFunction.ArcTan;
 import math.structure.Log.Ln;
 import math.structure.Operator.Product;
 import math.structure.Operator.Sum;
-import math.structure.TrigonometricFunction.ArcCos;
-import math.structure.TrigonometricFunction.ArcSin;
-import math.structure.TrigonometricFunction.ArcTan;
 import math.structure.TrigonometricFunction.Cos;
 import math.structure.TrigonometricFunction.Cot;
 import math.structure.TrigonometricFunction.Csc;
@@ -46,7 +48,7 @@ public class Parser {
 		exp = exp.replace("{", "(");
 		exp = exp.replace("}", ")");
 		exp = exp.replace("()", "");
-//		exp = exp.replace("-", "+-1*");
+		exp = exp.replace("-", "+-1*");
 		exp = exp.replace(")(", ")*(");
 		exp = removeUnnecessaryBracket(exp);
 		return exp;
@@ -59,7 +61,7 @@ public class Parser {
 	 * @return expression tree
 	 */
 	public static Expression parseExpression(String exp) {
-		exp = clean(exp);
+//		exp = clean(exp);
 
 		if (!isValidExpression(exp))
 			throw new IllegalArgumentException("Invalid Expression");
@@ -112,12 +114,7 @@ public class Parser {
 					while (exps[i].contains("()"))
 						exps[i] = StringUtils.replaceOnce(exps[i], "()", "(" + remove.pop() + ")");
 
-				// create children expression for sum
-				Expression[] exp = new Expression[exps.length];
-				for (int i = 0; i < exp.length; i++)
-					exp[i] = generate(exps[i]);
-
-				return new Sum(exp); // finally create sum node with recursively generated children
+				return Sum.create(exps); // finally create sum node with recursively generated children
 			} else if (cut.contains("*")) { // parse multiplication
 				String[] exps = StringUtils.split(cut, "*");
 
@@ -126,14 +123,9 @@ public class Parser {
 					while (exps[i].contains("()"))
 						exps[i] = StringUtils.replaceOnce(exps[i], "()", "(" + remove.pop() + ")");
 
-				// create children expression for product
-				Expression[] exp = new Expression[exps.length];
-				for (int i = 0; i < exp.length; i++)
-					exp[i] = generate(exps[i]);
-
-				return new Product(exp); // finally create product node with recursively generated children
+				return Product.create(exps); // finally create product node with recursively generated children
 			} else if (cut.contains("/")) { // parse division
-				
+
 				int sign = cut.indexOf('/');
 				String num = cut.substring(0, sign);
 				String denum = cut.substring(sign + 1);
@@ -163,30 +155,43 @@ public class Parser {
 				return new Cos(generate(remove.pop()));
 			else if (cut.equals("tan()")) // tan
 				return new Tan(generate(remove.pop()));
-			
+
 			else if (cut.equals("csc()")) // csc
 				return new Csc(generate(remove.pop()));
 			else if (cut.equals("sec()")) // sec
 				return new Sec(generate(remove.pop()));
 			else if (cut.equals("cot()")) // cot
 				return new Cot(generate(remove.pop()));
-			
+
 			else if (cut.equals("arcsin()")) // arcsin
 				return new ArcSin(generate(remove.pop()));
 			else if (cut.equals("arccos()")) // arccos
 				return new ArcCos(generate(remove.pop()));
 			else if (cut.equals("arctan()")) // arctan
 				return new ArcTan(generate(remove.pop()));
-			
+
 			else if (cut.equals("abs()")) // absolute value
 				return new Abs(generate(remove.pop()));
-			
+
 			else if (cut.equals("floor()")) // floor function
 				return new Floor(generate(remove.pop()));
 			else if (cut.equals("ceil()")) // ceiling function
 				return new Ceiling(generate(remove.pop()));
-			
-			else if (cut.equals("log()")) // logarithm
+
+			else if (cut.equals("max()")) { // max function
+				String in = remove.pop();
+				int sign = in.indexOf(",");
+				String in1 = in.substring(0, sign);
+				String in2 = in.substring(sign + 1);
+				return new Max(generate(in1), generate(in2));
+			} else if (cut.equals("min()")) { // min function
+				String in = remove.pop();
+				int sign = in.indexOf(",");
+				String in1 = in.substring(0, sign);
+				String in2 = in.substring(sign + 1);
+				return new Min(generate(in1), generate(in2));
+				
+			} else if (cut.equals("log()")) // logarithm
 				return new Log(generate(remove.pop()));
 			else if (cut.equals("ln()")) // natural logarithm
 				return new Ln(generate(remove.pop()));
@@ -200,9 +205,9 @@ public class Parser {
 					base = StringUtils.replaceOnce(base, "()", "(" + remove.pop() + ")");
 				while (num.contains("()"))
 					num = StringUtils.replaceOnce(num, "()", "(" + remove.pop() + ")");
-
+				
 				return new Log(generate(base), generate(num));
-			} // TODO: Add min and max functions 
+			}
 
 		} else if (strExp.equals("x")) // x variable
 			return new Variable();
@@ -212,16 +217,10 @@ public class Parser {
 			return new Constant(NumberUtils.createDouble(strExp));
 		else if (strExp.contains("+")) { // parse addition
 			String[] exps = StringUtils.split(strExp, "+");
-			Expression[] exp = new Expression[exps.length];
-			for (int i = 0; i < exp.length; i++)
-				exp[i] = generate(exps[i]);
-			return new Sum(exp);
+			return Sum.create(exps);
 		} else if (strExp.contains("*")) { // parse multiplication
 			String[] exps = StringUtils.split(strExp, "*");
-			Expression[] exp = new Expression[exps.length];
-			for (int i = 0; i < exp.length; i++)
-				exp[i] = generate(exps[i]);
-			return new Product(exp);
+			return Product.create(exps);
 		} else if (strExp.contains("/")) { // parse divisions
 			int sign = strExp.indexOf('/');
 			String num = strExp.substring(0, sign);
@@ -234,24 +233,24 @@ public class Parser {
 			return new Power(generate(base), generate(power));
 		} else if (strExp.substring(0, 2).equals("ln")) // natural log
 			return new Ln(generate(strExp.substring(2)));
-		
+
 		else if (strExp.substring(0, 3).equals("sin")) // sin
 			return new Sin(generate(strExp.substring(3)));
 		else if (strExp.substring(0, 3).equals("cos")) // cos
 			return new Cos(generate(strExp.substring(3)));
 		else if (strExp.substring(0, 3).equals("tan")) // tan
 			return new Tan(generate(strExp.substring(3)));
-		
+
 		else if (strExp.substring(0, 3).equals("csc")) // csc
 			return new Csc(generate(strExp.substring(3)));
 		else if (strExp.substring(0, 3).equals("sec")) // sec
 			return new Sec(generate(strExp.substring(3)));
 		else if (strExp.substring(0, 3).equals("cot")) // cot
 			return new Cot(generate(strExp.substring(3)));
-		
+
 		else if (strExp.substring(0, 3).equals("abs")) // absolute value
 			return new Abs(generate(strExp.substring(3)));
-		
+
 		else if (strExp.substring(0, 3).equals("log") && strExp.length() < 4) // log
 			return new Log(generate(strExp.substring(3)));
 		else if (strExp.substring(0, 4).equals("log_")) { // log with specific single expression base where brackets are
@@ -260,14 +259,14 @@ public class Parser {
 			String base = strExp.substring(4, sign);
 			String num = strExp.substring(sign + 1);
 			return new Log(generate(base), generate(num));
-			
+
 		} else if (strExp.substring(0, 4).equals("ceil")) // ceiling function
 			return new Ceiling(generate(strExp.substring(4)));
 		else if (strExp.substring(0, 4).equals("sqrt")) // sqrt function
 			return new Power(generate(strExp.substring(4)), new Constant(0.5d));
 		else if (strExp.substring(0, 5).equals("floor")) // floor function
 			return new Floor(generate(strExp.substring(5)));
-		
+
 		else if (strExp.substring(0, 6).equals("arcsin")) // arcsin
 			return new ArcSin(generate(strExp.substring(6)));
 		else if (strExp.substring(0, 6).equals("arccos")) // arccos

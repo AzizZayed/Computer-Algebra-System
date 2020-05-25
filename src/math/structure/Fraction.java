@@ -27,6 +27,6 @@ public class Fraction extends Expression implements IMath {
 
 	@Override
 	public String toLatex() {
-		return "\\left(\\frac{" + numerator.toLatex() + "}{" + denominator.toLatex() + "}\\right)";
+		return "\\frac{" + numerator.toLatex() + "}{" + denominator.toLatex() + "}";
 	}
 }
