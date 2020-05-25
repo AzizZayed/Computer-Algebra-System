@@ -1,5 +1,7 @@
 package math.structure;
 
+import java.util.HashMap;
+
 /**
  * class inherited by all trigonometric functions like cosine, sine, tangent
  * 
@@ -22,8 +24,8 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 	}
 
 	@Override
-	public double evaluate(double x) {
-		return compute(expr.evaluate(x));
+	public double evaluate(HashMap<Character, Double> varValues) {
+		return compute(expr.evaluate(varValues));
 	}
 
 	@Override

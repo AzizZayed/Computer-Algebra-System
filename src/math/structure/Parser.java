@@ -47,8 +47,13 @@ public class Parser {
 		exp = exp.replace("{", "(");
 		exp = exp.replace("}", ")");
 		exp = exp.replace("()", "");
+		return exp;
+	}
+
+	private static String setup(String exp) {
 		exp = exp.replace("-", "+-1*");
 		exp = exp.replace(")(", ")*(");
+		// put * signs where needed
 		exp = removeUnnecessaryBracket(exp);
 		return exp;
 	}
@@ -60,12 +65,12 @@ public class Parser {
 	 * @return expression tree
 	 */
 	public static Expression parseExpression(String exp, HashSet<Character> vars) {
-//		exp = clean(exp);
+		exp = setup(exp);
 
 		if (!isValidExpression(exp))
 			throw new IllegalArgumentException("Invalid Expression");
 
-		return generate(exp, vars);
+		return generateExpression(exp, vars);
 	}
 
 	/**
@@ -85,12 +90,12 @@ public class Parser {
 	}
 
 	/**
-	 * generate an expression tree from the given expression
+	 * generateExpression an expression tree from the given expression
 	 * 
 	 * @param strExp - given expression
 	 * @return the expression tree
 	 */
-	private static Expression generate(String strExp, HashSet<Character> vars) {
+	protected static Expression generateExpression(String strExp, HashSet<Character> vars) {
 		strExp = removeUnnecessaryBracket(strExp);
 
 		if (strExp.contains("(")) {
@@ -133,8 +138,7 @@ public class Parser {
 				while (denum.contains("()"))
 					denum = StringUtils.replaceOnce(denum, "()", "(" + remove.pop() + ")");
 
-				return new Fraction(generate(num, vars), generate(denum, vars)); // create fraction with generated
-																					// children
+				return new Fraction(generateExpression(num, vars), generateExpression(denum, vars)); // create fraction
 			} else if (cut.contains("^")) { // parse powers
 				int sign = cut.indexOf('^');
 				String base = cut.substring(0, sign);
@@ -145,56 +149,56 @@ public class Parser {
 				while (power.contains("()"))
 					power = StringUtils.replaceOnce(power, "()", "(" + remove.pop() + ")");
 
-				return new Power(generate(base, vars), generate(power, vars));
+				return new Power(generateExpression(base, vars), generateExpression(power, vars));
 			} else if (cut.equals("sqrt()")) // square root
-				return new Power(generate(remove.pop(), vars), new Constant(0.5d));
+				return new Power(generateExpression(remove.pop(), vars), new Constant(0.5d));
 
 			else if (cut.equals("sin()")) // sin
-				return new Sin(generate(remove.pop(), vars));
+				return new Sin(generateExpression(remove.pop(), vars));
 			else if (cut.equals("cos()")) // cos
-				return new Cos(generate(remove.pop(), vars));
+				return new Cos(generateExpression(remove.pop(), vars));
 			else if (cut.equals("tan()")) // tan
-				return new Tan(generate(remove.pop(), vars));
+				return new Tan(generateExpression(remove.pop(), vars));
 
 			else if (cut.equals("csc()")) // csc
-				return new Csc(generate(remove.pop(), vars));
+				return new Csc(generateExpression(remove.pop(), vars));
 			else if (cut.equals("sec()")) // sec
-				return new Sec(generate(remove.pop(), vars));
+				return new Sec(generateExpression(remove.pop(), vars));
 			else if (cut.equals("cot()")) // cot
-				return new Cot(generate(remove.pop(), vars));
+				return new Cot(generateExpression(remove.pop(), vars));
 
 			else if (cut.equals("arcsin()")) // arcsin
-				return new ArcSin(generate(remove.pop(), vars));
+				return new ArcSin(generateExpression(remove.pop(), vars));
 			else if (cut.equals("arccos()")) // arccos
-				return new ArcCos(generate(remove.pop(), vars));
+				return new ArcCos(generateExpression(remove.pop(), vars));
 			else if (cut.equals("arctan()")) // arctan
-				return new ArcTan(generate(remove.pop(), vars));
+				return new ArcTan(generateExpression(remove.pop(), vars));
 
 			else if (cut.equals("abs()")) // absolute value
-				return new Abs(generate(remove.pop(), vars));
+				return new Abs(generateExpression(remove.pop(), vars));
 
 			else if (cut.equals("floor()")) // floor function
-				return new Floor(generate(remove.pop(), vars));
+				return new Floor(generateExpression(remove.pop(), vars));
 			else if (cut.equals("ceil()")) // ceiling function
-				return new Ceiling(generate(remove.pop(), vars));
+				return new Ceiling(generateExpression(remove.pop(), vars));
 
 			else if (cut.equals("max()")) { // max function
 				String in = remove.pop();
 				int sign = in.indexOf(",");
 				String in1 = in.substring(0, sign);
 				String in2 = in.substring(sign + 1);
-				return new Max(generate(in1, vars), generate(in2, vars));
+				return new Max(generateExpression(in1, vars), generateExpression(in2, vars));
 			} else if (cut.equals("min()")) { // min function
 				String in = remove.pop();
 				int sign = in.indexOf(",");
 				String in1 = in.substring(0, sign);
 				String in2 = in.substring(sign + 1);
-				return new Min(generate(in1, vars), generate(in2, vars));
+				return new Min(generateExpression(in1, vars), generateExpression(in2, vars));
 
 			} else if (cut.equals("log()")) // logarithm
-				return new Log(generate(remove.pop(), vars));
+				return new Log(generateExpression(remove.pop(), vars));
 			else if (cut.equals("ln()")) // natural logarithm
-				return new Ln(generate(remove.pop(), vars));
+				return new Ln(generateExpression(remove.pop(), vars));
 			else if (cut.substring(0, 4).equals("log_")) { // log with specified base
 				String log = cut.substring(4);
 				int sign = log.indexOf('_');
@@ -206,7 +210,7 @@ public class Parser {
 				while (num.contains("()"))
 					num = StringUtils.replaceOnce(num, "()", "(" + remove.pop() + ")");
 
-				return new Log(generate(base, vars), generate(num, vars));
+				return new Log(generateExpression(base, vars), generateExpression(num, vars));
 			}
 
 		} else if (strExp.equals("e")) // letter e
@@ -234,55 +238,54 @@ public class Parser {
 			int sign = strExp.indexOf('/');
 			String num = strExp.substring(0, sign);
 			String denum = strExp.substring(sign + 1);
-			return new Fraction(generate(num, vars), generate(denum, vars));
+			return new Fraction(generateExpression(num, vars), generateExpression(denum, vars));
 
 		} else if (strExp.contains("^")) { // parse powers
 			int sign = strExp.indexOf('^');
 			String base = strExp.substring(0, sign);
 			String power = strExp.substring(sign + 1);
-			return new Power(generate(base, vars), generate(power, vars));
+			return new Power(generateExpression(base, vars), generateExpression(power, vars));
 		} else if (strExp.substring(0, 2).equals("ln")) // natural log
-			return new Ln(generate(strExp.substring(2), vars));
+			return new Ln(generateExpression(strExp.substring(2), vars));
 
 		else if (strExp.substring(0, 3).equals("sin")) // sin
-			return new Sin(generate(strExp.substring(3), vars));
+			return new Sin(generateExpression(strExp.substring(3), vars));
 		else if (strExp.substring(0, 3).equals("cos")) // cos
-			return new Cos(generate(strExp.substring(3), vars));
+			return new Cos(generateExpression(strExp.substring(3), vars));
 		else if (strExp.substring(0, 3).equals("tan")) // tan
-			return new Tan(generate(strExp.substring(3), vars));
+			return new Tan(generateExpression(strExp.substring(3), vars));
 
 		else if (strExp.substring(0, 3).equals("csc")) // csc
-			return new Csc(generate(strExp.substring(3), vars));
+			return new Csc(generateExpression(strExp.substring(3), vars));
 		else if (strExp.substring(0, 3).equals("sec")) // sec
-			return new Sec(generate(strExp.substring(3), vars));
+			return new Sec(generateExpression(strExp.substring(3), vars));
 		else if (strExp.substring(0, 3).equals("cot")) // cot
-			return new Cot(generate(strExp.substring(3), vars));
+			return new Cot(generateExpression(strExp.substring(3), vars));
 
 		else if (strExp.substring(0, 3).equals("abs")) // absolute value
-			return new Abs(generate(strExp.substring(3), vars));
+			return new Abs(generateExpression(strExp.substring(3), vars));
 
 		else if (strExp.substring(0, 3).equals("log") && strExp.length() < 4) // log
-			return new Log(generate(strExp.substring(3), vars));
-		else if (strExp.substring(0, 4).equals("log_")) { // log with specific single expression base where brackets are
-															// not needed
+			return new Log(generateExpression(strExp.substring(3), vars));
+		else if (strExp.substring(0, 4).equals("log_")) { // log where brackets are not needed
 			int sign = strExp.substring(4).indexOf('_') + 4;
 			String base = strExp.substring(4, sign);
 			String num = strExp.substring(sign + 1);
-			return new Log(generate(base, vars), generate(num, vars));
+			return new Log(generateExpression(base, vars), generateExpression(num, vars));
 
 		} else if (strExp.substring(0, 4).equals("ceil")) // ceiling function
-			return new Ceiling(generate(strExp.substring(4), vars));
+			return new Ceiling(generateExpression(strExp.substring(4), vars));
 		else if (strExp.substring(0, 4).equals("sqrt")) // sqrt function
-			return new Power(generate(strExp.substring(4), vars), new Constant(0.5d));
+			return new Power(generateExpression(strExp.substring(4), vars), new Constant(0.5d));
 		else if (strExp.substring(0, 5).equals("floor")) // floor function
-			return new Floor(generate(strExp.substring(5), vars));
+			return new Floor(generateExpression(strExp.substring(5), vars));
 
 		else if (strExp.substring(0, 6).equals("arcsin")) // arcsin
-			return new ArcSin(generate(strExp.substring(6), vars));
+			return new ArcSin(generateExpression(strExp.substring(6), vars));
 		else if (strExp.substring(0, 6).equals("arccos")) // arccos
-			return new ArcCos(generate(strExp.substring(6), vars));
+			return new ArcCos(generateExpression(strExp.substring(6), vars));
 		else if (strExp.substring(0, 6).equals("arctan")) // arctan
-			return new ArcTan(generate(strExp.substring(6), vars));
+			return new ArcTan(generateExpression(strExp.substring(6), vars));
 
 		return null;
 	}

@@ -1,5 +1,7 @@
 package math.structure;
 
+import java.util.HashMap;
+
 /**
  * class for an arbitrary mathematical expression
  * 
@@ -11,14 +13,8 @@ public abstract class Expression implements IMath {
 	/**
 	 * calculate the value of the mathematical expression
 	 * 
-	 * @param x - value of x
+	 * @param varValues - map with all the values of each variable in the expression
 	 * @return the value of the expression
 	 */
-	public abstract double evaluate(double x);
-	
-//	/**
-//	 * checks if the expression needs brackets 
-//	 * @return
-//	 */
-//	private abstract boolean needsBrackets();
+	public abstract double evaluate(HashMap<Character, Double> varValues);
 }

@@ -1,5 +1,6 @@
 package math.wrapper;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.swing.JOptionPane;
@@ -28,36 +29,34 @@ import math.structure.Variable;
  * @author Abd-El-Aziz Zayed
  *
  */
-public class MathTree implements IMath {
+public class Equation implements IMath {
 
 	private String expression; // the inputed expression
 	private Expression root; // the root of the expression tree
-	private HashSet<Character> variables = new HashSet<Character>();
+	protected HashSet<Character> variables = new HashSet<Character>();
 
 	/*
 	 * Constructor with expression
 	 */
-	public MathTree(String exp) {
+	public Equation(String exp) {
 		expression = Parser.clean(exp);
 		try {
 			root = Parser.parseExpression(expression, variables);
-			System.out.println(variables);
-		} catch (Exception e) {
-			System.out.println(e);
-			root = null;
+		} catch (IllegalArgumentException e) {
+			System.out.println("ERROR: " + e);
 		}
-
 	}
 
 	/*
 	 * constructor with default expression
 	 */
-	public MathTree() {
+	public Equation() {
 		root = new Fraction(
 				new Sum(new Exp(new Power(new Variable(), new Constant(1d / 2d))),
 						new Product(new Constant(2), new Variable()), new Fraction(new Constant(1), new Variable())),
 				new Product(new Power(new Variable(), new Constant(1d / 2d)),
 						new Sin(new Cos(new Tan(new Variable())))));
+		variables.add('x');
 	}
 
 	/**
@@ -65,22 +64,21 @@ public class MathTree implements IMath {
 	 * @param x - value of x
 	 * @return the value of the expression at the given values
 	 */
-	public double valueAt(double x) {
-		if (root == null)
-			throw new NullPointerException("The expression is empty.");
-		return root.evaluate(x);
+//	public double valueAt(double x) {
+//		if (root == null)
+//			throw new NullPointerException("The expression is empty.");
+//		return root.evaluate(x);
+//	}
+	
+	public double valueAt(HashMap<Character, Double> varValues) {
+		return root.evaluate(varValues);
 	}
 
 	@Override
 	public String toString() {
 		if (root == null)
 			throw new NullPointerException("The expression is empty.");
-		try {
-			return "Tree Expression: " + root.toString();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return null;
+		return "Tree Expression: " + root.toString();
 	}
 
 	/**
@@ -92,8 +90,9 @@ public class MathTree implements IMath {
 
 	@Override
 	public String toLatex() {
+		if (root == null)
+			throw new NullPointerException("The expression is empty.");
 		String latex = root.toLatex();
-		System.out.println(latex);
 
 		// create a formula
 		TeXFormula formula = new TeXFormula(latex);

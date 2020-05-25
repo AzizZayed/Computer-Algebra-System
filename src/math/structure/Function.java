@@ -1,5 +1,7 @@
 package math.structure;
 
+import java.util.HashMap;
+
 /**
  * class that represents any elementary function like trigonometric functions,
  * absolute value, floor, ceiling ... etc
@@ -35,8 +37,8 @@ public abstract class Function extends Expression implements IMath {
 		}
 
 		@Override
-		public double evaluate(double x) {
-			return Math.min(expr.evaluate(x), expr2.evaluate(x));
+		public double evaluate(HashMap<Character, Double> varValues) {
+			return Math.min(expr.evaluate(varValues), expr2.evaluate(varValues));
 		}
 	}
 	
@@ -60,8 +62,8 @@ public abstract class Function extends Expression implements IMath {
 		}
 
 		@Override
-		public double evaluate(double x) {
-			return Math.max(expr.evaluate(x), expr2.evaluate(x));
+		public double evaluate(HashMap<Character, Double> varValues) {
+			return Math.max(expr.evaluate(varValues), expr2.evaluate(varValues));
 		}
 	}
 }

@@ -1,5 +1,7 @@
 package math.structure;
 
+import java.util.HashMap;
+
 /**
  * class to represent a fraction
  * 
@@ -16,8 +18,8 @@ public class Fraction extends Expression implements IMath {
 	}
 
 	@Override
-	public double evaluate(double x) {
-		return numerator.evaluate(x) / denominator.evaluate(x);
+	public double evaluate(HashMap<Character, Double> varValues) {
+		return numerator.evaluate(varValues) / denominator.evaluate(varValues);
 	}
 
 	@Override

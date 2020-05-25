@@ -1,5 +1,6 @@
 package math.structure;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -26,16 +27,16 @@ public abstract class Operator extends Expression implements IMath {
 	protected Operator(char sym, HashSet<Character> vars, String... strExpressions) {
 		Expression[] expressions = new Expression[strExpressions.length];
 		for (int i = 0; i < expressions.length; i++)
-			expressions[i] = Parser.parseExpression(strExpressions[i], vars);
+			expressions[i] = Parser.generateExpression(strExpressions[i], vars);
 		children = expressions;
 		symbol = sym;
 	}
 
 	@Override
-	public double evaluate(double x) {
+	public double evaluate(HashMap<Character, Double> varValues) {
 		double result = neutral();
 		for (Expression node : children)
-			result = operate(result, node.evaluate(x));
+			result = operate(result, node.evaluate(varValues));
 		return result;
 	}
 
@@ -68,11 +69,15 @@ public abstract class Operator extends Expression implements IMath {
 			return "";
 
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < children.length - 1; i++) {
+		for (int i = 0; i < children.length; i++) {
+			boolean brackets = needsBrackets(children[i]);
+			if(brackets) 
+				sb.append("\\left(");
 			latex(i, sb);
+			if(brackets) 
+				sb.append("\\right)");
 			sb.append(' ');
 		}
-		latex(children.length - 1, sb);
 		return sb.toString();
 	}
 
@@ -95,4 +100,9 @@ public abstract class Operator extends Expression implements IMath {
 	 * @return the neutral element of the operation
 	 */
 	protected abstract double neutral();
+	
+	/**
+	 * @return true if brackets around an element is needed
+	 */
+	protected abstract boolean needsBrackets(Expression e);
 }

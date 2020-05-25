@@ -1,5 +1,7 @@
 package math.structure;
 
+import java.util.HashMap;
+
 /**
  * class representing exponentials with any base and power expression
  * 
@@ -22,8 +24,8 @@ public class Power extends Function implements IMath {
 	}
 
 	@Override
-	public double evaluate(double x) {
-		return Math.pow(expr.evaluate(x), power.evaluate(x));
+	public double evaluate(HashMap<Character, Double> varValues) {
+		return Math.pow(expr.evaluate(varValues), power.evaluate(varValues));
 	}
 
 	@Override
@@ -66,9 +68,9 @@ public class Power extends Function implements IMath {
 			super(Constant.EXP, power);
 		}
 
-		@Override
-		public double evaluate(double x) {
-			return Math.exp(power.evaluate(x));
-		}
+//		@Override
+//		public double evaluate(double x) {
+//			return Math.exp(power.evaluate(x));
+//		}
 	}
 }

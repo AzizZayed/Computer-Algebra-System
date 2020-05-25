@@ -1,5 +1,7 @@
 package math.structure;
 
+import java.util.HashMap;
+
 /**
  * class to represent any constant/number
  * 
@@ -26,7 +28,7 @@ public class Constant extends Expression implements IMath {
 	}
 
 	@Override
-	public double evaluate(double x) {
+	public double evaluate(HashMap<Character, Double> varValues) {
 		return value;
 	}
 

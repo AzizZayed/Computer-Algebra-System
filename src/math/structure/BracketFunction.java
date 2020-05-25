@@ -1,5 +1,7 @@
 package math.structure;
 
+import java.util.HashMap;
+
 /**
  * functioned defined with brackets like the floor function and the ceiling
  * function. This parent class is used for all functions that don't need to be
@@ -31,8 +33,8 @@ public abstract class BracketFunction extends Function implements IMath {
 	}
 
 	@Override
-	public double evaluate(double x) {
-		return compute(expr.evaluate(x));
+	public double evaluate(HashMap<Character, Double> varValues) {
+		return compute(expr.evaluate(varValues));
 	}
 
 	@Override

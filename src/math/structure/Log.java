@@ -1,5 +1,7 @@
 package math.structure;
 
+import java.util.HashMap;
+
 /**
  * logarithmic functions
  * 
@@ -27,8 +29,8 @@ public class Log extends Function implements IMath {
 	}
 
 	@Override
-	public double evaluate(double x) {
-		return Math.log(expr.evaluate(x)) / Math.log(base.evaluate(x));
+	public double evaluate(HashMap<Character, Double> varValues) {
+		return Math.log(expr.evaluate(varValues)) / Math.log(base.evaluate(varValues));
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public class Product extends Operator implements IMath {
 		if (strExpression.length == 0)
 			return null;
 		else if (strExpression.length == 1)
-			return Parser.parseExpression(strExpression[0], vars);
+			return Parser.generateExpression(strExpression[0], vars);
 		return new Product(vars, strExpression);
 	}
 
@@ -43,9 +43,12 @@ public class Product extends Operator implements IMath {
 
 		if (constant != null && Math.signum(constant.getValue()) < 0)
 			builder.append('-');
-		else {
-			builder.append(' ');
+		else
 			builder.append(children[index].toLatex());
-		}
+	}
+
+	@Override
+	protected boolean needsBrackets(Expression e) {
+		return e instanceof Sum;
 	}
 }

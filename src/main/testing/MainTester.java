@@ -1,6 +1,8 @@
 package main.testing;
 
-import math.wrapper.MathTree;
+import java.util.ArrayList;
+
+import math.wrapper.EquationSet;
 
 /**
  * Tester/main class
@@ -11,35 +13,14 @@ import math.wrapper.MathTree;
 public class MainTester {
 	public static void main(String[] args) {
 
-		String exp;
-
-		exp = "((x+3)*(x+2) + x^4 + 2*x^3 + 15*x)*(x+5)^2";
-		exp = "((((x^2 + 4*x^3)*x)*x)^17 + (15*x + x^3 + x^5 + x^7 + x^2)^2^2)";
-		exp = "((((x^2 + 4*x^3)*x)*x)^17.5 + (15*x + x^2)^2^2 + (x + 3)^2)";
-		exp = "5*sin(3*x^2 + x + 12.5) + 5*tan5 + 5*cosx + 5*abs(x) + 5*floor(x) + ceil(x)";
-		exp = "(e^(17*y^pi + 15*A^15) + (9*a^15)/(5*e^7) + (log_(5*x^2)_(x*e^(x^2)))^2)^pi + lnx + lne + ln(phi^2)";
-//		exp = "floorx + ceil(x)^2 + abs(x)";
-//		exp = "min((x +15)/(x+1), x*(x^2^2^2)x)";
-//		exp = "-cos(A^2) - sinx + tanx*cscx + secx + cot(x)^2 + arccos(t^2) + arcsinx + arctanx";
-//		exp = "sqrt(x^2)";
-//		exp = "absx^2 + floorx^2 + ceilx^2";
-//		exp = "x-log_(2)_(-sinx)-(x-14)^2";
-//		exp = "(x^2 + 4)/(2*x^4) * 4";
-
-		MathTree tree = null;
-
-		try {
-			tree = new MathTree(exp);
-		} catch (IllegalArgumentException e) {
-			System.out.println(e);
-			System.exit(1);
-		}
-
-		System.out.println("Input: " + exp);
-		System.out.println("Cleaned Input: " + tree.getExpression());
-		System.out.println("Latex: " + tree.toLatex());
-
-		double testVal = .0000005d;
-		System.out.println(tree + " |x = " + testVal + " -> " + tree.valueAt(testVal));
+		ArrayList<String> expressions = new ArrayList<>();
+		
+		expressions.add("(e^x + 200)^2");
+		expressions.add("e^(a*pi) - x*phi");
+		
+		EquationSet set = new EquationSet();
+		expressions.forEach(exp -> set.addEquation(exp));
+		set.set('x', 15);
+		set.calculate();
 	}
 }
