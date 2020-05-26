@@ -17,4 +17,13 @@ public abstract class Expression implements IMath {
 	 * @return the value of the expression
 	 */
 	public abstract double evaluate(HashMap<Character, Double> varValues);
+
+	public abstract boolean equals(Expression e);
+
+//	public static class ExpressionSorter implements Comparator<Expression> {
+//		@Override
+//		public int compare(Expression e1, Expression e2) {
+//			return 0;
+//		}
+//	}
 }

@@ -56,6 +56,15 @@ public class Power extends Function implements IMath {
 			return "\\left(" + expr.toLatex() + "\\right)^{" + power.toLatex() + "}";
 	}
 
+	@Override
+	public boolean equals(Expression e) {
+		if (e instanceof Power) {
+			Power pow = (Power) e;
+			return expr.equals(pow.expr) && power.equals(pow.power);
+		}
+		return false;
+	}
+
 	private boolean needsBrackets() {
 		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction);
 	}

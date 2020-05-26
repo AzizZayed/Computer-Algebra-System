@@ -61,16 +61,13 @@ public class Equation implements IMath {
 
 	/**
 	 * get the value of the expression with the given values for the variables
-	 * @param x - value of x
+	 * 
+	 * @param varValues - values of each variable
 	 * @return the value of the expression at the given values
 	 */
-//	public double valueAt(double x) {
-//		if (root == null)
-//			throw new NullPointerException("The expression is empty.");
-//		return root.evaluate(x);
-//	}
-	
 	public double valueAt(HashMap<Character, Double> varValues) {
+		if (root == null)
+			throw new NullPointerException("The expression is empty.");
 		return root.evaluate(varValues);
 	}
 
@@ -94,14 +91,18 @@ public class Equation implements IMath {
 			throw new NullPointerException("The expression is empty.");
 		String latex = root.toLatex();
 
-		// create a formula
 		TeXFormula formula = new TeXFormula(latex);
-
-		// render the formla to an icon of the same size as the formula.
 		TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
-
 		JOptionPane.showMessageDialog(null, "", "LaTeX", JOptionPane.PLAIN_MESSAGE, icon);
 
 		return latex;
+	}
+	
+	public boolean equals(Equation eq) {
+		return root.equals(eq.root);
+	}
+	
+	public boolean equals(Expression e) {
+		return root.equals(e);
 	}
 }

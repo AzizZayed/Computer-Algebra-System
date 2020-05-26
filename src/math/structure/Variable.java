@@ -34,4 +34,11 @@ public class Variable extends Expression implements IMath {
 	public String toLatex() {
 		return toString();
 	}
+
+	@Override
+	public boolean equals(Expression e) {
+		if (e instanceof Variable)
+			return symbol == ((Variable) e).symbol;
+		return false;
+	}
 }

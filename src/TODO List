@@ -1,8 +1,4 @@
 TODO
-	TESTING:
-		- Test parser after completion with quick JPanel and textbox
-		- Test expression tree with quick JPanel and textbox
-	
 	SOON
 		- Start simplification algorithms 
 		- Start derivative algorithms

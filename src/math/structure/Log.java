@@ -51,6 +51,15 @@ public class Log extends Function implements IMath {
 		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction
 				|| expr instanceof TrigonometricFunction || expr instanceof Min || expr instanceof Max);
 	}
+	
+	@Override
+	public boolean equals(Expression e) {
+		if (e instanceof Log) {
+			Log log = (Log) e;
+			return expr.equals(log.expr) && base.equals(log.base);
+		}
+		return false;
+	}
 
 	/*
 	 * natural logarithm

@@ -25,7 +25,6 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 		protected double compute(double in) {
 			return Math.acos(in);
 		}
-
 	}
 
 	/*

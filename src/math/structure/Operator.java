@@ -71,14 +71,28 @@ public abstract class Operator extends Expression implements IMath {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < children.length; i++) {
 			boolean brackets = needsBrackets(children[i]);
-			if(brackets) 
+			if (brackets)
 				sb.append("\\left(");
 			latex(i, sb);
-			if(brackets) 
+			if (brackets)
 				sb.append("\\right)");
 			sb.append(' ');
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public boolean equals(Expression e) {
+		if (e instanceof Operator) {
+			Operator op = ((Operator) e);
+			if (children.length == op.children.length && symbol == op.symbol) {
+				for (int i = 0; i < children.length; i++)
+					if (!children[i].equals(op.children[i]))
+						return false;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -100,7 +114,7 @@ public abstract class Operator extends Expression implements IMath {
 	 * @return the neutral element of the operation
 	 */
 	protected abstract double neutral();
-	
+
 	/**
 	 * @return true if brackets around an element is needed
 	 */

@@ -61,4 +61,11 @@ public class Constant extends Expression implements IMath {
 			return strValue.substring(0, strValue.indexOf('.'));
 		return strValue;
 	}
+
+	@Override
+	public boolean equals(Expression e) {
+		if (e instanceof Constant)
+			return value == (((Constant) e).value);
+		return false;
+	}
 }

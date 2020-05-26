@@ -31,4 +31,13 @@ public class Fraction extends Expression implements IMath {
 	public String toLatex() {
 		return "\\frac{" + numerator.toLatex() + "}{" + denominator.toLatex() + "}";
 	}
+
+	@Override
+	public boolean equals(Expression e) {
+		if (e instanceof Fraction) {
+			Fraction frac = (Fraction) e;
+			return numerator.equals(frac.numerator) && denominator.equals(frac.denominator);
+		}
+		return false;
+	}
 }

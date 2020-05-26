@@ -1,7 +1,6 @@
 package main.testing;
 
-import java.util.ArrayList;
-
+import math.wrapper.Equation;
 import math.wrapper.EquationSet;
 
 /**
@@ -12,15 +11,14 @@ import math.wrapper.EquationSet;
  */
 public class MainTester {
 	public static void main(String[] args) {
-
-		ArrayList<String> expressions = new ArrayList<>();
-		
-		expressions.add("(e^x + 200)^2");
-		expressions.add("e^(a*pi) - x*phi");
-		
 		EquationSet set = new EquationSet();
-		expressions.forEach(exp -> set.addEquation(exp));
-		set.set('x', 15);
+		set.addEquation("(e^x + 200)^2");
+		set.addEquation("e^(a*pi) - x*phi");
+		set.set('x', 15d);
+		set.set('a', 2d);
 		set.calculate();
+		
+		Equation eq = new Equation("floor(x^15) + x^2 + 5*x");
+		System.out.println(eq.equals(new Equation("floor(x^15) + x^2 + 5*x")));
 	}
 }

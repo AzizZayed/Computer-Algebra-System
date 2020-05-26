@@ -41,6 +41,16 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 			return '\\' + name + "{" + expr.toLatex() + "}";
 		return '\\' + name + "{\\left(" + expr.toLatex() + "\\right)}";
 	}
+	
+	@Override
+	public boolean equals(Expression e) {
+		if (e instanceof TrigonometricFunction) {
+			TrigonometricFunction func = (TrigonometricFunction) e;
+			if (name.equals(func.name))
+				return expr.equals(func.expr);
+		}
+		return false;
+	}
 
 	protected boolean needsBrackets() {
 		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction

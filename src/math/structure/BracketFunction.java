@@ -41,7 +41,7 @@ public abstract class BracketFunction extends Function implements IMath {
 	public String toString() {
 		return open + expr.toString() + closed;
 	}
-	
+
 	@Override
 	public String toLatex() {
 		return open + expr.toLatex() + closed;
@@ -67,6 +67,13 @@ public abstract class BracketFunction extends Function implements IMath {
 		protected double compute(double in) {
 			return Math.floor(in);
 		}
+
+		@Override
+		public boolean equals(Expression e) {
+			if (e instanceof Floor)
+				return expr.equals(((Floor) e).expr);
+			return false;
+		}
 	}
 
 	/**
@@ -81,6 +88,13 @@ public abstract class BracketFunction extends Function implements IMath {
 		protected double compute(double in) {
 			return Math.ceil(in);
 		}
+
+		@Override
+		public boolean equals(Expression e) {
+			if (e instanceof Ceiling)
+				return expr.equals(((Ceiling) e).expr);
+			return false;
+		}
 	}
 
 	/**
@@ -94,6 +108,13 @@ public abstract class BracketFunction extends Function implements IMath {
 		@Override
 		protected double compute(double in) {
 			return Math.abs(in);
+		}
+
+		@Override
+		public boolean equals(Expression e) {
+			if (e instanceof Abs)
+				return expr.equals(((Abs) e).expr);
+			return false;
 		}
 	}
 }

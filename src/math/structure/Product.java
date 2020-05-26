@@ -20,7 +20,7 @@ public class Product extends Operator implements IMath {
 	public static Expression create(HashSet<Character> vars, String... strExpression) {
 		if (strExpression.length == 0)
 			return null;
-		else if (strExpression.length == 1)
+		if (strExpression.length == 1)
 			return Parser.generateExpression(strExpression[0], vars);
 		return new Product(vars, strExpression);
 	}
