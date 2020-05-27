@@ -76,6 +76,8 @@ public abstract class Operator extends Expression implements IMath {
 			latex(i, sb);
 			if (brackets)
 				sb.append("\\right)");
+			if (i < children.length - 1 && this instanceof Product)
+				sb.append(symbol);
 			sb.append(' ');
 		}
 		return sb.toString();

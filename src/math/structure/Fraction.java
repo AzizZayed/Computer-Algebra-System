@@ -40,4 +40,25 @@ public class Fraction extends Expression implements IMath {
 		}
 		return false;
 	}
+
+	@Override
+	public Expression differentiate(char var) {
+		return new Fraction( // quotient rule
+				Sum.create( // f'g - fg'
+						Product.create( // f'g
+								numerator.differentiate(var), // f'g
+								denominator // g
+						), // end f'*g
+						Product.create( // -fg'
+								new Constant(-1d), // -1
+								numerator, // f
+								denominator.differentiate(var) // g'
+						) // end -fg'
+				), // end f'g - fg'
+				new Power( // g^2
+						denominator, // g
+						new Constant(2d) // 2
+				) // end g^2
+		); // end quotient rule
+	}
 }

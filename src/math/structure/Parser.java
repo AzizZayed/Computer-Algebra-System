@@ -17,6 +17,7 @@ import math.structure.InverseTrigonometricFunction.ArcCos;
 import math.structure.InverseTrigonometricFunction.ArcSin;
 import math.structure.InverseTrigonometricFunction.ArcTan;
 import math.structure.Log.Ln;
+import math.structure.Power.Exp;
 import math.structure.TrigonometricFunction.Cos;
 import math.structure.TrigonometricFunction.Cot;
 import math.structure.TrigonometricFunction.Csc;
@@ -61,7 +62,8 @@ public class Parser {
 	/**
 	 * parse the given expression into an expression tree
 	 * 
-	 * @param exp - expression to parse
+	 * @param exp  - expression to parse
+	 * @param vars - set with all the used variables
 	 * @return expression tree
 	 */
 	public static Expression parseExpression(String exp, HashSet<Character> vars) {
@@ -93,6 +95,7 @@ public class Parser {
 	 * generateExpression an expression tree from the given expression
 	 * 
 	 * @param strExp - given expression
+	 * @param vars   - set with all the used variables
 	 * @return the expression tree
 	 */
 	protected static Expression generateExpression(String strExp, HashSet<Character> vars) {
@@ -148,6 +151,9 @@ public class Parser {
 					base = StringUtils.replaceOnce(base, "()", "(" + remove.pop() + ")");
 				while (power.contains("()"))
 					power = StringUtils.replaceOnce(power, "()", "(" + remove.pop() + ")");
+				
+				if (base.equals("e"))
+					return new Exp(generateExpression(power, vars));
 
 				return new Power(generateExpression(base, vars), generateExpression(power, vars));
 			} else if (cut.equals("sqrt()")) // square root
@@ -244,6 +250,8 @@ public class Parser {
 			int sign = strExp.indexOf('^');
 			String base = strExp.substring(0, sign);
 			String power = strExp.substring(sign + 1);
+			if (base.equals("e")) 
+				return new Exp(generateExpression(power, vars));
 			return new Power(generateExpression(base, vars), generateExpression(power, vars));
 		} else if (strExp.substring(0, 2).equals("ln")) // natural log
 			return new Ln(generateExpression(strExp.substring(2), vars));

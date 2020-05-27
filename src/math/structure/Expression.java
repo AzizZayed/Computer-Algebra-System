@@ -20,10 +20,5 @@ public abstract class Expression implements IMath {
 
 	public abstract boolean equals(Expression e);
 
-//	public static class ExpressionSorter implements Comparator<Expression> {
-//		@Override
-//		public int compare(Expression e1, Expression e2) {
-//			return 0;
-//		}
-//	}
+	public abstract Expression differentiate(char var);
 }

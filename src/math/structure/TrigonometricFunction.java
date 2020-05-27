@@ -37,11 +37,11 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 
 	@Override
 	public String toLatex() {
-		if (!needsBrackets())
-			return '\\' + name + "{" + expr.toLatex() + "}";
+//		if (!needsBrackets())
+//			return '\\' + name + "{" + expr.toLatex() + "}";
 		return '\\' + name + "{\\left(" + expr.toLatex() + "\\right)}";
 	}
-	
+
 	@Override
 	public boolean equals(Expression e) {
 		if (e instanceof TrigonometricFunction) {
@@ -75,6 +75,15 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 		protected double compute(double in) {
 			return Math.cos(in);
 		}
+
+		@Override
+		public Expression differentiate(char var) {
+			return Product.create( // -1 * f' * sin(f)
+					new Constant(-1d), // -1
+					expr.differentiate(var), // f'
+					new Sin(expr) // sin(f)
+			); // end -1 * f' * sin(f)
+		}
 	}
 
 	/*
@@ -88,6 +97,14 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 		@Override
 		protected double compute(double in) {
 			return Math.sin(in);
+		}
+
+		@Override
+		public Expression differentiate(char var) {
+			return Product.create( // f' * cos(f)
+					expr.differentiate(var), // f'
+					new Cos(expr) // cos(f)
+			); // end f' * cos(f)
 		}
 	}
 
@@ -103,6 +120,21 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 		protected double compute(double in) {
 			return Math.tan(in);
 		}
+
+		@Override
+		public Expression differentiate(char var) {
+//			System.out.println("in tan");
+			
+			Expression p = Product.create( // f' * (sec(f))^2
+					expr.differentiate(var), // f'
+					new Power( // (sec(f))^2
+							new Sec(expr), // sec(f)
+							new Constant(2d) // 2
+					) // end (sec(f))^2
+			); // end f' * (sec(f))^2
+//			System.out.println(p);
+			return p;
+		}
 	}
 
 	/*
@@ -116,6 +148,16 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 		@Override
 		protected double compute(double in) {
 			return 1.0d / Math.sin(in);
+		}
+		
+		@Override
+		public Expression differentiate(char var) {
+			return Product.create( // -1 * csc(f) * cot(f) * f'
+					new Constant(-1d), // -1
+					expr.differentiate(var), // f'
+					new Csc(expr), // csc(f)
+					new Cot(expr) // cot(f)
+			); // end csc(f) * cot(f) * f'
 		}
 	}
 
@@ -131,6 +173,15 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 		protected double compute(double in) {
 			return 1.0d / Math.cos(in);
 		}
+
+		@Override
+		public Expression differentiate(char var) {
+			return Product.create( // sec(f) * tan(f) * f'
+					expr.differentiate(var), // f'
+					new Sec(expr), // sec(f)
+					new Tan(expr) // tan(f)
+			); // end sec(f) * tan(f) * f'
+		}
 	}
 
 	/*
@@ -144,6 +195,18 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 		@Override
 		protected double compute(double in) {
 			return 1.0d / Math.tan(in);
+		}
+
+		@Override
+		public Expression differentiate(char var) {
+			return Product.create( // -1 * f' * (csc(f))^2
+					new Constant(-1d), // -1
+					expr.differentiate(var), // f'
+					new Power( // (csc(f))^2
+							new Csc(expr), // csc(f)
+							new Constant(2d) // 2
+					) // end (csc(f))^2
+			); // end f' * (csc(f))^2
 		}
 	}
 }

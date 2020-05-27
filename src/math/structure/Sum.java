@@ -9,7 +9,7 @@ import java.util.HashSet;
  *
  */
 public class Sum extends Operator implements IMath {
-	public Sum(Expression... expressions) {
+	protected Sum(Expression... expressions) {
 		super('+', expressions);
 	}
 
@@ -23,6 +23,14 @@ public class Sum extends Operator implements IMath {
 		else if (strExpression.length == 1)
 			return Parser.generateExpression(strExpression[0], vars);
 		return new Sum(vars, strExpression);
+	}
+	
+	public static Expression create(Expression... expressions) {
+		if (expressions.length == 0)
+			return null;
+		if (expressions.length == 1)
+			return expressions[0];
+		return new Sum(expressions);
 	}
 
 	@Override
@@ -56,5 +64,13 @@ public class Sum extends Operator implements IMath {
 	@Override
 	protected boolean needsBrackets(Expression e) {
 		return false;
+	}
+
+	@Override
+	public Expression differentiate(char var) {
+		Expression[] derivatives = new Expression[children.length];
+		for (int i = 0; i < children.length; i++)
+			derivatives[i] = children[i].differentiate(var);
+		return Sum.create(derivatives);
 	}
 }

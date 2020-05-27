@@ -41,4 +41,10 @@ public class Variable extends Expression implements IMath {
 			return symbol == ((Variable) e).symbol;
 		return false;
 	}
+
+	@Override
+	public Expression differentiate(char var) {
+		double derivative = symbol == var ? 1d : 0d;
+		return new Constant(derivative);
+	}
 }

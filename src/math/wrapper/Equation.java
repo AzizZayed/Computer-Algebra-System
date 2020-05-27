@@ -38,6 +38,13 @@ public class Equation implements IMath {
 	/*
 	 * Constructor with expression
 	 */
+	public Equation(Expression exp) {
+		root = exp;
+	}
+	
+	/*
+	 * Constructor with string expression
+	 */
 	public Equation(String exp) {
 		expression = Parser.clean(exp);
 		try {
@@ -52,9 +59,9 @@ public class Equation implements IMath {
 	 */
 	public Equation() {
 		root = new Fraction(
-				new Sum(new Exp(new Power(new Variable(), new Constant(1d / 2d))),
-						new Product(new Constant(2), new Variable()), new Fraction(new Constant(1), new Variable())),
-				new Product(new Power(new Variable(), new Constant(1d / 2d)),
+				Sum.create(new Exp(new Power(new Variable(), new Constant(1d / 2d))),
+						Product.create(new Constant(2), new Variable()), new Fraction(new Constant(1), new Variable())),
+				Product.create(new Power(new Variable(), new Constant(1d / 2d)),
 						new Sin(new Cos(new Tan(new Variable())))));
 		variables.add('x');
 	}
@@ -104,5 +111,9 @@ public class Equation implements IMath {
 	
 	public boolean equals(Expression e) {
 		return root.equals(e);
+	}
+	
+	public Equation derivative(char var) {
+		return new Equation(root.differentiate(var));
 	}
 }

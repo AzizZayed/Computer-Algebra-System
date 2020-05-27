@@ -49,6 +49,11 @@ public abstract class Function extends Expression implements IMath {
 			}
 			return false;
 		}
+
+		@Override
+		public Expression differentiate(char var) {
+			return null;
+		}
 	}
 
 	public static class Max extends Function implements IMath {
@@ -82,6 +87,11 @@ public abstract class Function extends Expression implements IMath {
 				return expr.equals(max.expr) && expr2.equals(max.expr2);
 			}
 			return false;
+		}
+		
+		@Override
+		public Expression differentiate(char var) {
+			return null;
 		}
 	}
 }

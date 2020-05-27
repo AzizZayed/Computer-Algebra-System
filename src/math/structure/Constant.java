@@ -68,4 +68,9 @@ public class Constant extends Expression implements IMath {
 			return value == (((Constant) e).value);
 		return false;
 	}
+
+	@Override
+	public Expression differentiate(char var) {
+		return new Constant(0d);
+	}
 }

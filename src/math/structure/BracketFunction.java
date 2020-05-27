@@ -74,6 +74,11 @@ public abstract class BracketFunction extends Function implements IMath {
 				return expr.equals(((Floor) e).expr);
 			return false;
 		}
+
+		@Override
+		public Expression differentiate(char var) {
+			return new Constant(0d);
+		}
 	}
 
 	/**
@@ -95,6 +100,11 @@ public abstract class BracketFunction extends Function implements IMath {
 				return expr.equals(((Ceiling) e).expr);
 			return false;
 		}
+
+		@Override
+		public Expression differentiate(char var) {
+			return new Constant(0d);
+		}
 	}
 
 	/**
@@ -115,6 +125,11 @@ public abstract class BracketFunction extends Function implements IMath {
 			if (e instanceof Abs)
 				return expr.equals(((Abs) e).expr);
 			return false;
+		}
+
+		@Override
+		public Expression differentiate(char var) {
+			return Product.create(new Fraction(expr, this), expr.differentiate(var));
 		}
 	}
 }

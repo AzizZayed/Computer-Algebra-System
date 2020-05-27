@@ -1,7 +1,6 @@
 package main.testing;
 
 import math.wrapper.Equation;
-import math.wrapper.EquationSet;
 
 /**
  * Tester/main class
@@ -11,14 +10,20 @@ import math.wrapper.EquationSet;
  */
 public class MainTester {
 	public static void main(String[] args) {
-		EquationSet set = new EquationSet();
-		set.addEquation("(e^x + 200)^2");
-		set.addEquation("e^(a*pi) - x*phi");
-		set.set('x', 15d);
-		set.set('a', 2d);
-		set.calculate();
+//		EquationSet set = new EquationSet();
+//		set.addEquation("(e^x + 200)^2");
+//		set.addEquation("e^(a*pi) - x*phi");
+//		set.set('x', 15d);
+//		set.set('a', 2d);
+//		set.calculate();
 		
-		Equation eq = new Equation("floor(x^15) + x^2 + 5*x");
-		System.out.println(eq.equals(new Equation("floor(x^15) + x^2 + 5*x")));
+		Equation eq = new Equation("(e^sqrtx + (2 * x) + (1/x))/(sqrtx * sincostanx)");
+		System.out.println(eq);
+		eq.toLatex();
+		
+		Equation der = eq.derivative('x');
+		System.out.println(der);
+		der.toLatex();
+		
 	}
 }
