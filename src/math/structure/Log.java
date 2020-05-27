@@ -49,7 +49,7 @@ public class Log extends Function implements IMath {
 
 	protected boolean needsBrackets() {
 		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction
-				|| expr instanceof TrigonometricFunction || expr instanceof Min || expr instanceof Max);
+				|| expr instanceof TrigonometricFunction || expr instanceof DoubleInputFunction);
 	}
 
 	@Override

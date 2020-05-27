@@ -1,5 +1,11 @@
 package math.structure;
 
+/**
+ * class for the inverse trigonometric functions like arctan, arccos, arcsin
+ * 
+ * @author Abd-El-Aziz Zayed
+ *
+ */
 public abstract class InverseTrigonometricFunction extends TrigonometricFunction implements IMath {
 
 	public InverseTrigonometricFunction(Expression expr, String name) {

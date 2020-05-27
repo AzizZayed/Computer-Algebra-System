@@ -17,6 +17,7 @@ public class MainTester {
 //		set.set('a', 2d);
 //		set.calculate();
 		
+		// "(e^sqrtx + (2 * x) + (1/x))/(sqrtx * sincostanx)"
 		Equation eq = new Equation("(e^sqrtx + (2 * x) + (1/x))/(sqrtx * sincostanx)");
 		System.out.println(eq);
 		eq.toLatex();
@@ -24,6 +25,9 @@ public class MainTester {
 		Equation der = eq.derivative('x');
 		System.out.println(der);
 		der.toLatex();
+		
+//		Equation eq = new Equation("absx");
+//		System.out.println(eq.equals(new Equation("ceilx")));
 		
 	}
 }

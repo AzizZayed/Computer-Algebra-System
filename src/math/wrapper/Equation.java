@@ -41,7 +41,7 @@ public class Equation implements IMath {
 	public Equation(Expression exp) {
 		root = exp;
 	}
-	
+
 	/*
 	 * Constructor with string expression
 	 */
@@ -104,15 +104,33 @@ public class Equation implements IMath {
 
 		return latex;
 	}
-	
+
+	/**
+	 * checks if this equation is equal to the given equation
+	 * 
+	 * @param eq - given equation to check equality
+	 * @return true if the equations are equal, false otherwise
+	 */
 	public boolean equals(Equation eq) {
 		return root.equals(eq.root);
 	}
-	
+
+	/**
+	 * checks if this equation is equal to the given expression
+	 * 
+	 * @param e - given expression to check equality
+	 * @return true if the equations are equal, false otherwise
+	 */
 	public boolean equals(Expression e) {
 		return root.equals(e);
 	}
-	
+
+	/**
+	 * compute the derivative of this equation with respect to the give variable
+	 * 
+	 * @param var - variable to differentiate with respect to
+	 * @return the equation of the derivative
+	 */
 	public Equation derivative(char var) {
 		return new Equation(root.differentiate(var));
 	}

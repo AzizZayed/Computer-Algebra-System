@@ -11,8 +11,8 @@ import org.apache.commons.lang3.math.NumberUtils;
 import math.structure.BracketFunction.Abs;
 import math.structure.BracketFunction.Ceiling;
 import math.structure.BracketFunction.Floor;
-import math.structure.Function.Max;
-import math.structure.Function.Min;
+import math.structure.DoubleInputFunction.Max;
+import math.structure.DoubleInputFunction.Min;
 import math.structure.InverseTrigonometricFunction.ArcCos;
 import math.structure.InverseTrigonometricFunction.ArcSin;
 import math.structure.InverseTrigonometricFunction.ArcTan;
@@ -51,6 +51,12 @@ public class Parser {
 		return exp;
 	}
 
+	/**
+	 * setup the expression to be ready for parsing
+	 * 
+	 * @param exp - the expression to setup
+	 * @return the ready expression
+	 */
 	private static String setup(String exp) {
 		exp = exp.replace("-", "+-1*");
 		exp = exp.replace(")(", ")*(");
@@ -92,7 +98,7 @@ public class Parser {
 	}
 
 	/**
-	 * generateExpression an expression tree from the given expression
+	 * generateExpression an expression tree from the given string expression
 	 * 
 	 * @param strExp - given expression
 	 * @param vars   - set with all the used variables
@@ -151,7 +157,7 @@ public class Parser {
 					base = StringUtils.replaceOnce(base, "()", "(" + remove.pop() + ")");
 				while (power.contains("()"))
 					power = StringUtils.replaceOnce(power, "()", "(" + remove.pop() + ")");
-				
+
 				if (base.equals("e"))
 					return new Exp(generateExpression(power, vars));
 
@@ -250,7 +256,7 @@ public class Parser {
 			int sign = strExp.indexOf('^');
 			String base = strExp.substring(0, sign);
 			String power = strExp.substring(sign + 1);
-			if (base.equals("e")) 
+			if (base.equals("e"))
 				return new Exp(generateExpression(power, vars));
 			return new Power(generateExpression(base, vars), generateExpression(power, vars));
 		} else if (strExp.substring(0, 2).equals("ln")) // natural log
@@ -365,7 +371,6 @@ public class Parser {
 	 */
 	private static boolean balancedBrackets(String exp) {
 		Stack<Character> stack = new Stack<Character>();
-
 		for (int i = 0; i < exp.length(); i++) {
 			if (exp.charAt(i) == '(')
 				stack.push(exp.charAt(i));

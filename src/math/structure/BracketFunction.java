@@ -47,6 +47,21 @@ public abstract class BracketFunction extends Function implements IMath {
 		return open + expr.toLatex() + closed;
 	}
 
+	@Override
+	public boolean equals(Expression e) {
+		if (e instanceof BracketFunction) {
+			BracketFunction func = (BracketFunction) e;
+			if (open == func.open && closed == func.closed)
+				return expr.equals(func.expr);
+		}
+		return false;
+	}
+
+	@Override
+	public Expression differentiate(char var) {
+		return new Constant(0d);
+	}
+
 	/**
 	 * calculate the value of the function
 	 * 
@@ -67,18 +82,6 @@ public abstract class BracketFunction extends Function implements IMath {
 		protected double compute(double in) {
 			return Math.floor(in);
 		}
-
-		@Override
-		public boolean equals(Expression e) {
-			if (e instanceof Floor)
-				return expr.equals(((Floor) e).expr);
-			return false;
-		}
-
-		@Override
-		public Expression differentiate(char var) {
-			return new Constant(0d);
-		}
 	}
 
 	/**
@@ -92,18 +95,6 @@ public abstract class BracketFunction extends Function implements IMath {
 		@Override
 		protected double compute(double in) {
 			return Math.ceil(in);
-		}
-
-		@Override
-		public boolean equals(Expression e) {
-			if (e instanceof Ceiling)
-				return expr.equals(((Ceiling) e).expr);
-			return false;
-		}
-
-		@Override
-		public Expression differentiate(char var) {
-			return new Constant(0d);
 		}
 	}
 
@@ -121,15 +112,11 @@ public abstract class BracketFunction extends Function implements IMath {
 		}
 
 		@Override
-		public boolean equals(Expression e) {
-			if (e instanceof Abs)
-				return expr.equals(((Abs) e).expr);
-			return false;
-		}
-
-		@Override
 		public Expression differentiate(char var) {
-			return Product.create(new Fraction(expr, this), expr.differentiate(var));
+			return Product.create( // f/abs(f) * f'
+					new Fraction(expr, this), // f/abs(f)
+					expr.differentiate(var) // f'
+			); // end f/abs(f) * f'
 		}
 	}
 }

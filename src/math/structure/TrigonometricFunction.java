@@ -54,7 +54,7 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 
 	protected boolean needsBrackets() {
 		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction
-				|| expr instanceof TrigonometricFunction || expr instanceof Min || expr instanceof Max);
+				|| expr instanceof TrigonometricFunction || expr instanceof DoubleInputFunction);
 	}
 
 	/**
@@ -124,7 +124,7 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 		@Override
 		public Expression differentiate(char var) {
 //			System.out.println("in tan");
-			
+
 			Expression p = Product.create( // f' * (sec(f))^2
 					expr.differentiate(var), // f'
 					new Power( // (sec(f))^2
@@ -149,7 +149,7 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 		protected double compute(double in) {
 			return 1.0d / Math.sin(in);
 		}
-		
+
 		@Override
 		public Expression differentiate(char var) {
 			return Product.create( // -1 * csc(f) * cot(f) * f'

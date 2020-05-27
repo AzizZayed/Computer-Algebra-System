@@ -14,16 +14,17 @@ public abstract class Operator extends Expression implements IMath {
 	protected Expression[] children; // all the children to sum
 	protected char symbol; // the symbol of the operator
 
-	/**
-	 * constructor receiving all the expressions to sum up
-	 * 
-	 * @param expressions
+	/*
+	 * constructor receiving all the children already as expressions
 	 */
 	protected Operator(char sym, Expression... expressions) {
 		children = expressions;
 		symbol = sym;
 	}
 
+	/*
+	 * constructor receiving all children as strings that still need to be parsed
+	 */
 	protected Operator(char sym, HashSet<Character> vars, String... strExpressions) {
 		Expression[] expressions = new Expression[strExpressions.length];
 		for (int i = 0; i < expressions.length; i++)

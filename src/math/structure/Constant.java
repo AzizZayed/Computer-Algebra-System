@@ -16,15 +16,15 @@ public class Constant extends Expression implements IMath {
 
 	private double value;
 
+	public Constant(double val) {
+		value = val;
+	}
+	
 	/**
 	 * @return the value of the constant
 	 */
 	public double getValue() {
 		return value;
-	}
-
-	public Constant(double val) {
-		value = val;
 	}
 
 	@Override

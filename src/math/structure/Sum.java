@@ -9,14 +9,24 @@ import java.util.HashSet;
  *
  */
 public class Sum extends Operator implements IMath {
-	protected Sum(Expression... expressions) {
+	private Sum(Expression... expressions) {
 		super('+', expressions);
 	}
 
-	protected Sum(HashSet<Character> vars, String... strExpression) {
+	private Sum(HashSet<Character> vars, String... strExpression) {
 		super('+', vars, strExpression);
 	}
 
+	/**
+	 * function to create an expression node with the given children as strings,
+	 * they still need to be parsed. The point of this function is to perform early
+	 * refactoring to make life easier later on. It does not have to return a sum
+	 * node if the refactored expression does not require a sum node
+	 * 
+	 * @param vars          - the set of all variables
+	 * @param strExpression - the array of strings to be parsed into expressions
+	 * @return the refactored expression
+	 */
 	public static Expression create(HashSet<Character> vars, String... strExpression) {
 		if (strExpression.length == 0)
 			return null;
@@ -24,7 +34,16 @@ public class Sum extends Operator implements IMath {
 			return Parser.generateExpression(strExpression[0], vars);
 		return new Sum(vars, strExpression);
 	}
-	
+
+	/**
+	 * function to create expression node from the given expressions. The point of
+	 * this function is to perform early refactoring and simplification to make life
+	 * easier later on. It does not have to return a sum node if the simplified
+	 * expression does not require a sum node
+	 * 
+	 * @param expressions - array of expressions
+	 * @return simplified and refactored expression
+	 */
 	public static Expression create(Expression... expressions) {
 		if (expressions.length == 0)
 			return null;
