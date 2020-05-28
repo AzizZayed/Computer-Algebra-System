@@ -18,8 +18,8 @@ public abstract class BracketFunction extends Function implements IMath {
 	/**
 	 * constructor for different open and close brackets
 	 */
-	public BracketFunction(Expression expr, char open, char closed) {
-		super(expr);
+	public BracketFunction(String name, Expression expr, char open, char closed) {
+		super(name, expr);
 		this.open = open;
 		this.closed = closed;
 	}
@@ -27,9 +27,8 @@ public abstract class BracketFunction extends Function implements IMath {
 	/**
 	 * constructor for similar open and close brackets
 	 */
-	public BracketFunction(Expression expr, char bracket) {
-		super(expr);
-		this.open = this.closed = bracket;
+	public BracketFunction(String name, Expression expr, char bracket) {
+		this(name, expr, bracket, bracket);
 	}
 
 	@Override
@@ -61,7 +60,7 @@ public abstract class BracketFunction extends Function implements IMath {
 	public Expression differentiate(char var) {
 		return new Constant(0d);
 	}
-
+	
 	/**
 	 * calculate the value of the function
 	 * 
@@ -75,17 +74,12 @@ public abstract class BracketFunction extends Function implements IMath {
 	 */
 	public static class Floor extends BracketFunction implements IMath {
 		public Floor(Expression expr) {
-			super(expr, '\u230A', '\u230B');
+			super("floor", expr, '\u230A', '\u230B');
 		}
 
 		@Override
 		protected double compute(double in) {
 			return Math.floor(in);
-		}
-
-		@Override
-		public String getName() {
-			return "floor";
 		}
 	}
 
@@ -94,17 +88,12 @@ public abstract class BracketFunction extends Function implements IMath {
 	 */
 	public static class Ceiling extends BracketFunction implements IMath {
 		public Ceiling(Expression expr) {
-			super(expr, '\u2308', '\u2309');
+			super("ceiling", expr, '\u2308', '\u2309');
 		}
 
 		@Override
 		protected double compute(double in) {
 			return Math.ceil(in);
-		}
-
-		@Override
-		public String getName() {
-			return "ceiling";
 		}
 	}
 
@@ -113,7 +102,7 @@ public abstract class BracketFunction extends Function implements IMath {
 	 */
 	public static class Abs extends BracketFunction implements IMath {
 		public Abs(Expression expr) {
-			super(expr, '|');
+			super("absolutevalue", expr, '|');
 		}
 
 		@Override
@@ -127,11 +116,6 @@ public abstract class BracketFunction extends Function implements IMath {
 					new Fraction(expr, this), // f/abs(f)
 					expr.differentiate(var) // f'
 			); // end f/abs(f) * f'
-		}
-
-		@Override
-		public String getName() {
-			return "absolutevalue";
 		}
 	}
 }

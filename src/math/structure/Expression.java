@@ -10,6 +10,12 @@ import java.util.HashMap;
  */
 public abstract class Expression implements IMath {
 
+	protected String name;
+
+	public Expression(String name) {
+		this.name = name;
+	}
+
 	/**
 	 * calculate the value of the mathematical expression
 	 * 
@@ -39,5 +45,7 @@ public abstract class Expression implements IMath {
 	/**
 	 * @return the name of the expression
 	 */
-	public abstract String getName();
+	public String getName() {
+		return name;
+	}
 }

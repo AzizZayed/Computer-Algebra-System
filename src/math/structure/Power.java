@@ -21,7 +21,7 @@ public class Power extends Function implements IMath {
 	 * @param power - expression in the exponent
 	 */
 	public Power(Expression base, Expression power) {
-		super(base);
+		super("power", base);
 		this.power = power;
 	}
 
@@ -114,11 +114,6 @@ public class Power extends Function implements IMath {
 						) // end g*f'*(f)^(-1)
 				) // end g'*lnf + g*f'*(f)^(-1)
 		); // end [f(x)]^[g(x)] * ( g'*lnf + g*f'*(f)^(-1) )
-	}
-	
-	@Override
-	public String getName() {
-		return "power";
 	}
 
 	/*

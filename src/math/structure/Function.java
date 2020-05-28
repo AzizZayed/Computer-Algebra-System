@@ -3,7 +3,8 @@ package math.structure;
 /**
  * class that represents any elementary function like trigonometric functions,
  * absolute value, floor, ceiling ... etc. Notice all these function have fixed
- * amount of inputs. If a function has an arbitrary amount of inputs, it is a subclass of 
+ * amount of inputs. If a function has an arbitrary amount of inputs, it is a
+ * subclass of
  * 
  * @author Abd-El-Aziz Zayed
  *
@@ -12,7 +13,8 @@ public abstract class Function extends Expression implements IMath {
 
 	protected Expression expr; // the input to the function
 
-	public Function(Expression expr) {
+	public Function(String name, Expression expr) {
+		super(name);
 		this.expr = expr;
 	}
 }

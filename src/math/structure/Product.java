@@ -10,12 +10,15 @@ import java.util.HashSet;
  *
  */
 public class Product extends Operator implements IMath {
+
+	protected static final ExpressionSorter PRODUCT_SORTER = new ExpressionSorter(false); // sorter
+
 	private Product(Expression... expressions) {
-		super('*', expressions);
+		super("product", '*', expressions);
 	}
 
 	private Product(HashSet<Character> vars, String... strExpression) {
-		super('*', vars, strExpression);
+		super("product", '*', vars, strExpression);
 	}
 
 	/**
@@ -50,7 +53,7 @@ public class Product extends Operator implements IMath {
 			return null;
 		if (expressions.length == 1)
 			return expressions[0];
-		
+
 		ArrayList<Expression> valid = new ArrayList<>();
 		Constant c0 = new Constant(0d), c1 = new Constant(1d);
 		for (int i = 0; i < expressions.length; i++) {
@@ -59,7 +62,7 @@ public class Product extends Operator implements IMath {
 			if (!expressions[i].equals(c1))
 				valid.add(expressions[i]);
 		}
-		
+
 		if (valid.isEmpty())
 			return c1;
 		if (valid.size() == 1)
@@ -128,10 +131,5 @@ public class Product extends Operator implements IMath {
 			sums[i] = Product.create(products);
 		}
 		return Sum.create(sums);
-	}
-	
-	@Override
-	public String getName() {
-		return "product";
 	}
 }

@@ -16,7 +16,7 @@ public class Log extends Function implements IMath {
 	 * constructor with base expression if it's custom, so like log base 5
 	 */
 	public Log(Expression base, Expression expr) {
-		super(expr);
+		super("logarithm", expr);
 		this.base = base;
 	}
 
@@ -24,8 +24,7 @@ public class Log extends Function implements IMath {
 	 * constructor with base 10
 	 */
 	public Log(Expression expr) {
-		super(expr);
-		this.base = new Constant(10.0d);
+		this(new Constant(10.0d), expr);
 	}
 
 	@Override
@@ -86,11 +85,6 @@ public class Log extends Function implements IMath {
 				new Ln(base) // ln(g(x))
 		) // end of ln(f(x)) / ln(g(x))
 				.differentiate(var); // end derivative of ln(f(x)) / ln(g(x))
-	}
-	
-	@Override
-	public String getName() {
-		return "logarithm";
 	}
 
 	/*

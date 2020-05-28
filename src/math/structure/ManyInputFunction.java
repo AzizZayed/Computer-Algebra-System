@@ -12,12 +12,11 @@ import org.apache.commons.lang3.math.NumberUtils;
  */
 public abstract class ManyInputFunction extends Expression implements IMath {
 
-	private Expression[] children;
-	private String name;
+	private Expression[] children; // input expressions
 
 	public ManyInputFunction(String name, Expression[] expressions) {
+		super(name);
 		children = expressions;
-		this.name = name;
 	}
 
 	@Override
@@ -74,11 +73,6 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 	@Override
 	public Expression differentiate(char var) {
 		return null; // throw exception here
-	}
-	
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	protected abstract double compute(double[] in);

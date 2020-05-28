@@ -10,17 +10,14 @@ import java.util.HashMap;
  */
 public abstract class TrigonometricFunction extends Function implements IMath {
 
-	protected String name; // the name of the function
-
 	/**
 	 * constructor
 	 * 
 	 * @param expr - expression inside the function (to compute)
 	 * @param name - name of the trigonometric function
 	 */
-	public TrigonometricFunction(Expression expr, String name) {
-		super(expr);
-		this.name = name;
+	public TrigonometricFunction(String name, Expression expr) {
+		super(name, expr);
 	}
 
 	@Override
@@ -51,12 +48,10 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 		}
 		return false;
 	}
-	
-	@Override
-	public String getName() {
-		return name;
-	}
 
+	/**
+	 * @return if the input needs brackets
+	 */
 	protected boolean needsBrackets() {
 		return expr instanceof Operator || expr instanceof Power || expr instanceof Fraction || expr instanceof Log;
 	}
@@ -72,7 +67,7 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 	 */
 	public static class Cos extends TrigonometricFunction implements IMath {
 		public Cos(Expression expr) {
-			super(expr, "cos");
+			super("cos", expr);
 		}
 
 		@Override
@@ -95,7 +90,7 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 	 */
 	public static class Sin extends TrigonometricFunction implements IMath {
 		public Sin(Expression expr) {
-			super(expr, "sin");
+			super("sin", expr);
 		}
 
 		@Override
@@ -117,7 +112,7 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 	 */
 	public static class Tan extends TrigonometricFunction implements IMath {
 		public Tan(Expression expr) {
-			super(expr, "tan");
+			super("tan", expr);
 		}
 
 		@Override
@@ -146,7 +141,7 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 	 */
 	public static class Csc extends TrigonometricFunction implements IMath {
 		public Csc(Expression expr) {
-			super(expr, "csc");
+			super("csc", expr);
 		}
 
 		@Override
@@ -170,7 +165,7 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 	 */
 	public static class Sec extends TrigonometricFunction implements IMath {
 		public Sec(Expression expr) {
-			super(expr, "sec");
+			super("sec", expr);
 		}
 
 		@Override
@@ -193,7 +188,7 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 	 */
 	public static class Cot extends TrigonometricFunction implements IMath {
 		public Cot(Expression expr) {
-			super(expr, "cot");
+			super("cot", expr);
 		}
 
 		@Override

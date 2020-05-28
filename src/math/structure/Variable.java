@@ -10,14 +10,15 @@ import java.util.HashMap;
  */
 public class Variable extends Expression implements IMath {
 
-	private char symbol;
+	private char symbol; // variable character
 
 	public Variable(char sym) {
+		super("variable");
 		symbol = sym;
 	}
 
 	public Variable() {
-		symbol = 'x';
+		this('x');
 	}
 
 	@Override
@@ -46,10 +47,5 @@ public class Variable extends Expression implements IMath {
 	public Expression differentiate(char var) {
 		double derivative = symbol == var ? 1d : 0d;
 		return new Constant(derivative);
-	}
-	
-	@Override
-	public String getName() {
-		return "variable";
 	}
 }

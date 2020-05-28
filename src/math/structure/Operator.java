@@ -10,12 +10,6 @@ import java.util.HashSet;
  *
  */
 public abstract class Operator extends Expression implements IMath {
-	
-	/*
-	 * Sorters for operators
-	 */
-	protected static final ExpressionSorter PRODUCT_SORTER = new ExpressionSorter(false);
-	protected static final ExpressionSorter SUMMATION_SORTER = new ExpressionSorter(true);
 
 	protected Expression[] children; // all the children to sum
 	protected char symbol; // the symbol of the operator
@@ -23,7 +17,8 @@ public abstract class Operator extends Expression implements IMath {
 	/*
 	 * constructor receiving all the children already as expressions
 	 */
-	protected Operator(char sym, Expression... expressions) {
+	protected Operator(String name, char sym, Expression... expressions) {
+		super(name);
 		children = expressions;
 		symbol = sym;
 	}
@@ -31,7 +26,8 @@ public abstract class Operator extends Expression implements IMath {
 	/*
 	 * constructor receiving all children as strings that still need to be parsed
 	 */
-	protected Operator(char sym, HashSet<Character> vars, String... strExpressions) {
+	protected Operator(String name, char sym, HashSet<Character> vars, String... strExpressions) {
+		super(name);
 		Expression[] expressions = new Expression[strExpressions.length];
 		for (int i = 0; i < expressions.length; i++)
 			expressions[i] = Parser.generateExpression(strExpressions[i], vars);

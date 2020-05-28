@@ -17,6 +17,7 @@ public class Constant extends Expression implements IMath {
 	private double value;
 
 	public Constant(double val) {
+		super("constant");
 		value = val;
 	}
 	
@@ -72,10 +73,5 @@ public class Constant extends Expression implements IMath {
 	@Override
 	public Expression differentiate(char var) {
 		return new Constant(0d);
-	}
-
-	@Override
-	public String getName() {
-		return "constant";
 	}
 }

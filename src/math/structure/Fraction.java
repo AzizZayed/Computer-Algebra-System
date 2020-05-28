@@ -13,6 +13,7 @@ public class Fraction extends Expression implements IMath {
 	protected Expression numerator, denominator; // components
 
 	public Fraction(Expression num, Expression denom) {
+		super("fraction");
 		numerator = num;
 		denominator = denom;
 	}
@@ -60,10 +61,5 @@ public class Fraction extends Expression implements IMath {
 						new Constant(2d) // 2
 				) // end g^2
 		); // end quotient rule
-	}
-
-	@Override
-	public String getName() {
-		return "fraction";
 	}
 }
