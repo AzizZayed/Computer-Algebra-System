@@ -83,6 +83,11 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 					new Sin(expr) // sin(f)
 			); // end -1 * f' * sin(f)
 		}
+
+		@Override
+		public Expression simplify() {
+			return new Cos(expr.simplify());
+		}
 	}
 
 	/*
@@ -104,6 +109,11 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 					expr.differentiate(var), // f'
 					new Cos(expr) // cos(f)
 			); // end f' * cos(f)
+		}
+
+		@Override
+		public Expression simplify() {
+			return new Sin(expr.simplify());
 		}
 	}
 
@@ -134,6 +144,11 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 //			System.out.println(p);
 			return p;
 		}
+
+		@Override
+		public Expression simplify() {
+			return new Tan(expr.simplify());
+		}
 	}
 
 	/*
@@ -158,6 +173,11 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 					new Cot(expr) // cot(f)
 			); // end csc(f) * cot(f) * f'
 		}
+
+		@Override
+		public Expression simplify() {
+			return new Csc(expr.simplify());
+		}
 	}
 
 	/*
@@ -180,6 +200,11 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 					new Sec(expr), // sec(f)
 					new Tan(expr) // tan(f)
 			); // end sec(f) * tan(f) * f'
+		}
+
+		@Override
+		public Expression simplify() {
+			return new Sec(expr.simplify());
 		}
 	}
 
@@ -206,6 +231,11 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 							new Constant(2d) // 2
 					) // end (csc(f))^2
 			); // end f' * (csc(f))^2
+		}
+
+		@Override
+		public Expression simplify() {
+			return new Cot(expr.simplify());
 		}
 	}
 }

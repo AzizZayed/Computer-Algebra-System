@@ -75,6 +75,16 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 		return null; // throw exception here
 	}
 
+	/**
+	 * @return array of the inputs simplified
+	 */
+	protected Expression[] simplifyChildren() {
+		Expression[] simplified = new Expression[children.length];
+		for (int i = 0; i < children.length; i++)
+			simplified[i] = children[i].simplify();
+		return simplified;
+	}
+
 	protected abstract double compute(double[] in);
 
 	/**
@@ -92,6 +102,11 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 		protected double compute(double[] in) {
 			return NumberUtils.min(in);
 		}
+
+		@Override
+		public Expression simplify() {
+			return new Min(simplifyChildren());
+		}
 	}
 
 	/**
@@ -108,6 +123,11 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 		@Override
 		protected double compute(double[] in) {
 			return NumberUtils.max(in);
+		}
+
+		@Override
+		public Expression simplify() {
+			return new Max(simplifyChildren());
 		}
 	}
 }

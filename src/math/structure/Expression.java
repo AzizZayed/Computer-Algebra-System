@@ -17,6 +17,13 @@ public abstract class Expression implements IMath {
 	}
 
 	/**
+	 * @return the name of the expression
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
 	 * calculate the value of the mathematical expression
 	 * 
 	 * @param varValues - map with all the values of each variable in the expression
@@ -43,9 +50,7 @@ public abstract class Expression implements IMath {
 	public abstract Expression differentiate(char var);
 
 	/**
-	 * @return the name of the expression
+	 * @return a simplified version of the first expression, but equivalent
 	 */
-	public String getName() {
-		return name;
-	}
+	public abstract Expression simplify();
 }

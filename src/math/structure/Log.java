@@ -87,6 +87,11 @@ public class Log extends Function implements IMath {
 				.differentiate(var); // end derivative of ln(f(x)) / ln(g(x))
 	}
 
+	@Override
+	public Expression simplify() {
+		return new Log(base.simplify(), expr.simplify());
+	}
+
 	/*
 	 * natural logarithm
 	 */
@@ -118,6 +123,11 @@ public class Log extends Function implements IMath {
 							new Constant(-1d) // -1
 					) // end f^(-1)
 			); // end f' * f^(-1)
+		}
+
+		@Override
+		public Expression simplify() {
+			return new Ln(expr.simplify());
 		}
 	}
 }

@@ -116,6 +116,11 @@ public class Power extends Function implements IMath {
 		); // end [f(x)]^[g(x)] * ( g'*lnf + g*f'*(f)^(-1) )
 	}
 
+	@Override
+	public Expression simplify() {
+		return new Power(expr.simplify(), power.simplify());
+	}
+
 	/*
 	 * natural exponential with e, so e^x, where x is any expression
 	 */
@@ -130,6 +135,11 @@ public class Power extends Function implements IMath {
 					this, // e^(f)
 					power.differentiate(var) // f'
 			); // end e^(f) * f'
+		}
+
+		@Override
+		public Expression simplify() {
+			return new Exp(power.simplify());
 		}
 	}
 }

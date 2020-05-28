@@ -48,6 +48,11 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 					) // end power: (1-f^2)^(-1/2)
 			); // end Product -1 * (1-f^2)^(-1/2) * f'
 		}
+
+		@Override
+		public Expression simplify() {
+			return new ArcCos(expr.simplify());
+		}
 	}
 
 	/*
@@ -79,6 +84,11 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 					) // end power: (1-f^2)^(-1/2)
 			); // end Product (1-f^2)^(-1/2) * f'
 		}
+
+		@Override
+		public Expression simplify() {
+			return new ArcSin(expr.simplify());
+		}
 	}
 
 	/*
@@ -109,6 +119,11 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 							new Constant(-1d) // -1
 					) // end (1 + f^2)^(-1)
 			); // end of f' * (1 + f^2)^(-1)
+		}
+
+		@Override
+		public Expression simplify() {
+			return new ArcTan(expr.simplify());
 		}
 	}
 }

@@ -11,7 +11,7 @@ import java.util.HashSet;
  */
 public class Sum extends Operator implements IMath {
 
-	protected static final ExpressionSorter SUMMATION_SORTER = new ExpressionSorter(true); // sorter
+	public static final ExpressionSorter SORTER = new ExpressionSorter(true); // sorter
 
 	private Sum(Expression... expressions) {
 		super("summation", '+', expressions);
@@ -107,5 +107,10 @@ public class Sum extends Operator implements IMath {
 		for (int i = 0; i < children.length; i++)
 			derivatives[i] = children[i].differentiate(var);
 		return Sum.create(derivatives);
+	}
+	
+	@Override
+	public Expression simplify() {
+		return create(simplifyChildren());
 	}
 }

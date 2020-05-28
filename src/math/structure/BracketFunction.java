@@ -60,7 +60,7 @@ public abstract class BracketFunction extends Function implements IMath {
 	public Expression differentiate(char var) {
 		return new Constant(0d);
 	}
-	
+
 	/**
 	 * calculate the value of the function
 	 * 
@@ -81,6 +81,11 @@ public abstract class BracketFunction extends Function implements IMath {
 		protected double compute(double in) {
 			return Math.floor(in);
 		}
+
+		@Override
+		public Expression simplify() {
+			return new Floor(expr.simplify());
+		}
 	}
 
 	/**
@@ -94,6 +99,11 @@ public abstract class BracketFunction extends Function implements IMath {
 		@Override
 		protected double compute(double in) {
 			return Math.ceil(in);
+		}
+
+		@Override
+		public Expression simplify() {
+			return new Ceiling(expr.simplify());
 		}
 	}
 
@@ -116,6 +126,11 @@ public abstract class BracketFunction extends Function implements IMath {
 					new Fraction(expr, this), // f/abs(f)
 					expr.differentiate(var) // f'
 			); // end f/abs(f) * f'
+		}
+
+		@Override
+		public Expression simplify() {
+			return new Abs(expr.simplify());
 		}
 	}
 }

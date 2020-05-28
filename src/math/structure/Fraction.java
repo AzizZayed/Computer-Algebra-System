@@ -62,4 +62,9 @@ public class Fraction extends Expression implements IMath {
 				) // end g^2
 		); // end quotient rule
 	}
+
+	@Override
+	public Expression simplify() {
+		return new Fraction(numerator.simplify(), denominator.simplify());
+	}
 }

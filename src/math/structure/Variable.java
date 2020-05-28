@@ -48,4 +48,9 @@ public class Variable extends Expression implements IMath {
 		double derivative = symbol == var ? 1d : 0d;
 		return new Constant(derivative);
 	}
+
+	@Override
+	public Expression simplify() {
+		return this;
+	}
 }

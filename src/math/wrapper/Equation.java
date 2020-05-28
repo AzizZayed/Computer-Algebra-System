@@ -82,10 +82,10 @@ public class Equation implements IMath {
 	public double valueAt(double value) {
 		if (root == null)
 			throw new NullPointerException("The expression is empty.");
-		
+
 		HashMap<Character, Double> values = new HashMap<>();
 		variables.forEach(var -> values.put(var, value));
-		
+
 		return root.evaluate(values);
 	}
 
@@ -138,5 +138,12 @@ public class Equation implements IMath {
 	 */
 	public Equation derivative(char var) {
 		return new Equation(root.differentiate(var));
+	}
+
+	/**
+	 * @return a simplified version of this equation
+	 */
+	public Equation simplified() {
+		return new Equation(root.simplify());
 	}
 }

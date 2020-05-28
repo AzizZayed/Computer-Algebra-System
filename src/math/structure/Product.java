@@ -11,7 +11,7 @@ import java.util.HashSet;
  */
 public class Product extends Operator implements IMath {
 
-	protected static final ExpressionSorter PRODUCT_SORTER = new ExpressionSorter(false); // sorter
+	public static final ExpressionSorter SORTER = new ExpressionSorter(false); // sorter
 
 	private Product(Expression... expressions) {
 		super("product", '*', expressions);
@@ -131,5 +131,10 @@ public class Product extends Operator implements IMath {
 			sums[i] = Product.create(products);
 		}
 		return Sum.create(sums);
+	}
+
+	@Override
+	public Expression simplify() {
+		return create(simplifyChildren());
 	}
 }

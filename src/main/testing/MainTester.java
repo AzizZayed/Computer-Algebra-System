@@ -20,11 +20,11 @@ public class MainTester {
 		
 		// "(e^sqrtx + (2 * x) + (1/x))/(sqrtx * sincostanx)"
 		Equation eq = new Equation("2*e^sqrt(x+1)*e^x^2");
-		System.out.println(eq);
-		System.out.println(eq.toLatex());
+//		System.out.println(eq);
+//		System.out.println(eq.toLatex());
 		LatexRenderer.render(eq);
-			
-		Equation der = eq.derivative('x');
+//			
+		Equation der = eq.simplified();
 		LatexRenderer.render(der);
 		
 //		Equation eq = new Equation("absx");
@@ -38,6 +38,7 @@ public class MainTester {
 //		Expression[] expr = { // start
 //				new Power(new Variable(), new Constant(2d)),
 //				new Sin(new Variable()),
+//				new Abs(new Power(new Variable(), new Constant(2d))),
 //				new Abs(new Variable()),
 //				new Cos(new Variable()),
 //				new Floor(new Variable()),
@@ -47,8 +48,8 @@ public class MainTester {
 //			LatexRenderer.render(expr[i]);
 //		}
 		
-//		Arrays.sort(expr, new Sorter());
-//		
+//		Arrays.sort(expr, Product.SORTER);
+		
 //		for (int i = 0; i < expr.length; i++) {
 //			LatexRenderer.render(expr[i]);
 //		}

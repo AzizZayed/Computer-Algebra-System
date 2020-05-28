@@ -101,6 +101,16 @@ public abstract class Operator extends Expression implements IMath {
 	}
 
 	/**
+	 * @return array of the children simplified
+	 */
+	protected Expression[] simplifyChildren() {
+		Expression[] simplified = new Expression[children.length];
+		for (int i = 0; i < children.length; i++)
+			simplified[i] = children[i].simplify();
+		return simplified;
+	}
+
+	/**
 	 * add the latex code representation of the child at the index
 	 * 
 	 * @param index   - index of the child
