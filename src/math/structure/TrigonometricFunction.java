@@ -51,6 +51,11 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 		}
 		return false;
 	}
+	
+	@Override
+	public String getName() {
+		return name;
+	}
 
 	protected boolean needsBrackets() {
 		return expr instanceof Operator || expr instanceof Power || expr instanceof Fraction || expr instanceof Log;

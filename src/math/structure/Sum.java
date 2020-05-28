@@ -1,5 +1,6 @@
 package math.structure;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -49,7 +50,19 @@ public class Sum extends Operator implements IMath {
 			return null;
 		if (expressions.length == 1)
 			return expressions[0];
-		return new Sum(expressions);
+
+		ArrayList<Expression> valid = new ArrayList<>();
+		Constant c0 = new Constant(0d);
+		for (int i = 0; i < expressions.length; i++)
+			if (!expressions[i].equals(c0))
+				valid.add(expressions[i]);
+
+		if (valid.isEmpty())
+			return c0;
+		if (valid.size() == 1)
+			return valid.get(0);
+
+		return new Sum(valid.toArray(new Expression[0]));
 	}
 
 	@Override
@@ -91,5 +104,10 @@ public class Sum extends Operator implements IMath {
 		for (int i = 0; i < children.length; i++)
 			derivatives[i] = children[i].differentiate(var);
 		return Sum.create(derivatives);
+	}
+
+	@Override
+	public String getName() {
+		return "summation";
 	}
 }

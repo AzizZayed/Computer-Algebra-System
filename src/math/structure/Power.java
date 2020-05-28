@@ -115,6 +115,11 @@ public class Power extends Function implements IMath {
 				) // end g'*lnf + g*f'*(f)^(-1)
 		); // end [f(x)]^[g(x)] * ( g'*lnf + g*f'*(f)^(-1) )
 	}
+	
+	@Override
+	public String getName() {
+		return "power";
+	}
 
 	/*
 	 * natural exponential with e, so e^x, where x is any expression

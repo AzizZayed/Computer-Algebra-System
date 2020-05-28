@@ -75,6 +75,11 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 	public Expression differentiate(char var) {
 		return null; // throw exception here
 	}
+	
+	@Override
+	public String getName() {
+		return name;
+	}
 
 	protected abstract double compute(double[] in);
 

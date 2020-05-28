@@ -82,6 +82,11 @@ public abstract class BracketFunction extends Function implements IMath {
 		protected double compute(double in) {
 			return Math.floor(in);
 		}
+
+		@Override
+		public String getName() {
+			return "floor";
+		}
 	}
 
 	/**
@@ -95,6 +100,11 @@ public abstract class BracketFunction extends Function implements IMath {
 		@Override
 		protected double compute(double in) {
 			return Math.ceil(in);
+		}
+
+		@Override
+		public String getName() {
+			return "ceiling";
 		}
 	}
 
@@ -117,6 +127,11 @@ public abstract class BracketFunction extends Function implements IMath {
 					new Fraction(expr, this), // f/abs(f)
 					expr.differentiate(var) // f'
 			); // end f/abs(f) * f'
+		}
+
+		@Override
+		public String getName() {
+			return "absolutevalue";
 		}
 	}
 }

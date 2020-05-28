@@ -6,6 +6,7 @@ import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
 
+import math.structure.Expression;
 import math.wrapper.Equation;
 import math.wrapper.EquationSet;
 
@@ -17,6 +18,16 @@ import math.wrapper.EquationSet;
  */
 public class LatexRenderer {
 
+	public static TeXIcon render(Expression e) {
+		String latex = e.toLatex();
+
+		TeXFormula formula = new TeXFormula(latex);
+		TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
+		JOptionPane.showMessageDialog(null, "", "LaTeX", JOptionPane.PLAIN_MESSAGE, icon);
+
+		return icon;
+	}
+	
 	public static TeXIcon render(Equation eq) {
 		String latex = eq.toLatex();
 

@@ -35,4 +35,9 @@ public abstract class Expression implements IMath {
 	 * @return the derivative of the expression with respect to the given variable
 	 */
 	public abstract Expression differentiate(char var);
+
+	/**
+	 * @return the name of the expression
+	 */
+	public abstract String getName();
 }

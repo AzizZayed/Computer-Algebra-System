@@ -87,6 +87,11 @@ public class Log extends Function implements IMath {
 		) // end of ln(f(x)) / ln(g(x))
 				.differentiate(var); // end derivative of ln(f(x)) / ln(g(x))
 	}
+	
+	@Override
+	public String getName() {
+		return "logarithm";
+	}
 
 	/*
 	 * natural logarithm

@@ -10,6 +10,12 @@ import java.util.HashSet;
  *
  */
 public abstract class Operator extends Expression implements IMath {
+	
+	/*
+	 * Sorters for operators
+	 */
+	protected static final ExpressionSorter PRODUCT_SORTER = new ExpressionSorter(false);
+	protected static final ExpressionSorter SUMMATION_SORTER = new ExpressionSorter(true);
 
 	protected Expression[] children; // all the children to sum
 	protected char symbol; // the symbol of the operator

@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class Fraction extends Expression implements IMath {
 
-	private Expression numerator, denominator; // components
+	protected Expression numerator, denominator; // components
 
 	public Fraction(Expression num, Expression denom) {
 		numerator = num;
@@ -60,5 +60,10 @@ public class Fraction extends Expression implements IMath {
 						new Constant(2d) // 2
 				) // end g^2
 		); // end quotient rule
+	}
+
+	@Override
+	public String getName() {
+		return "fraction";
 	}
 }
