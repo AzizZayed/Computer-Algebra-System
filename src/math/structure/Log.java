@@ -48,8 +48,7 @@ public class Log extends Function implements IMath {
 	}
 
 	protected boolean needsBrackets() {
-		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction
-				|| expr instanceof TrigonometricFunction || expr instanceof DoubleInputFunction);
+		return expr instanceof Operator || expr instanceof Power || expr instanceof Fraction || expr instanceof Log;
 	}
 
 	@Override

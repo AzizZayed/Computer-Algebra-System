@@ -37,9 +37,9 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 
 	@Override
 	public String toLatex() {
-//		if (!needsBrackets())
-//			return '\\' + name + "{" + expr.toLatex() + "}";
-		return '\\' + name + "{\\left(" + expr.toLatex() + "\\right)}";
+		if (needsBrackets())
+			return '\\' + name + "{\\left(" + expr.toLatex() + "\\right)}";
+		return '\\' + name + "{" + expr.toLatex() + "}";
 	}
 
 	@Override
@@ -53,8 +53,7 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 	}
 
 	protected boolean needsBrackets() {
-		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction
-				|| expr instanceof TrigonometricFunction || expr instanceof DoubleInputFunction);
+		return expr instanceof Operator || expr instanceof Power || expr instanceof Fraction || expr instanceof Log;
 	}
 
 	/**

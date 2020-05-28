@@ -11,12 +11,12 @@ import org.apache.commons.lang3.math.NumberUtils;
 import math.structure.BracketFunction.Abs;
 import math.structure.BracketFunction.Ceiling;
 import math.structure.BracketFunction.Floor;
-import math.structure.DoubleInputFunction.Max;
-import math.structure.DoubleInputFunction.Min;
 import math.structure.InverseTrigonometricFunction.ArcCos;
 import math.structure.InverseTrigonometricFunction.ArcSin;
 import math.structure.InverseTrigonometricFunction.ArcTan;
 import math.structure.Log.Ln;
+import math.structure.ManyInputFunction.Max;
+import math.structure.ManyInputFunction.Min;
 import math.structure.Power.Exp;
 import math.structure.TrigonometricFunction.Cos;
 import math.structure.TrigonometricFunction.Cot;
@@ -196,16 +196,24 @@ public class Parser {
 
 			else if (cut.equals("max()")) { // max function
 				String in = remove.pop();
-				int sign = in.indexOf(",");
-				String in1 = in.substring(0, sign);
-				String in2 = in.substring(sign + 1);
-				return new Max(generateExpression(in1, vars), generateExpression(in2, vars));
+				String[] ins = StringUtils.split(in, ",");
+				if (ins.length == 1)
+					return generateExpression(ins[0], vars);
+				
+				Expression[] exps = new Expression[ins.length];
+				for (int i = 0; i < exps.length; i++)
+					exps[i] = generateExpression(ins[i], vars);
+				return new Max(exps);
 			} else if (cut.equals("min()")) { // min function
 				String in = remove.pop();
-				int sign = in.indexOf(",");
-				String in1 = in.substring(0, sign);
-				String in2 = in.substring(sign + 1);
-				return new Min(generateExpression(in1, vars), generateExpression(in2, vars));
+				String[] ins = StringUtils.split(in, ",");
+				if (ins.length == 1)
+					return generateExpression(ins[0], vars);
+				
+				Expression[] exps = new Expression[ins.length];
+				for (int i = 0; i < exps.length; i++)
+					exps[i] = generateExpression(ins[i], vars);
+				return new Min(exps);
 
 			} else if (cut.equals("log()")) // logarithm
 				return new Log(generateExpression(remove.pop(), vars));

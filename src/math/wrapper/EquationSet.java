@@ -21,14 +21,14 @@ public class EquationSet implements IMath {
 	private void add(Equation equation) {
 		equations.add(equation);
 		equation.variables.forEach(key -> varValues.putIfAbsent(key, 1d));
-		System.out.println(varValues);
+//		System.out.println(varValues);
 	}
 
 	public void calculate() {
 		equations.forEach(equation -> System.out.println(equation.valueAt(varValues)));
 	}
 
-	public void set(char c, double value) {
+	public void setValue(char c, double value) {
 		varValues.replace(c, value);
 	}
 

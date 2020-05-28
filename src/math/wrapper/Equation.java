@@ -3,12 +3,6 @@ package math.wrapper;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import javax.swing.JOptionPane;
-
-import org.scilab.forge.jlatexmath.TeXConstants;
-import org.scilab.forge.jlatexmath.TeXFormula;
-import org.scilab.forge.jlatexmath.TeXIcon;
-
 import math.structure.Constant;
 import math.structure.Expression;
 import math.structure.Fraction;
@@ -49,7 +43,7 @@ public class Equation implements IMath {
 		expression = Parser.clean(exp);
 		try {
 			root = Parser.parseExpression(expression, variables);
-		} catch (IllegalArgumentException e) {
+		} catch (Exception e) {
 			System.out.println("ERROR: " + e);
 		}
 	}
@@ -78,6 +72,23 @@ public class Equation implements IMath {
 		return root.evaluate(varValues);
 	}
 
+	/**
+	 * get the value of the expression with the given value for the all the
+	 * variables
+	 * 
+	 * @param value - value for every variable
+	 * @return the value of the expression at the given value
+	 */
+	public double valueAt(double value) {
+		if (root == null)
+			throw new NullPointerException("The expression is empty.");
+		
+		HashMap<Character, Double> values = new HashMap<>();
+		variables.forEach(var -> values.put(var, value));
+		
+		return root.evaluate(values);
+	}
+
 	@Override
 	public String toString() {
 		if (root == null)
@@ -96,13 +107,7 @@ public class Equation implements IMath {
 	public String toLatex() {
 		if (root == null)
 			throw new NullPointerException("The expression is empty.");
-		String latex = root.toLatex();
-
-		TeXFormula formula = new TeXFormula(latex);
-		TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
-		JOptionPane.showMessageDialog(null, "", "LaTeX", JOptionPane.PLAIN_MESSAGE, icon);
-
-		return latex;
+		return root.toLatex();
 	}
 
 	/**
