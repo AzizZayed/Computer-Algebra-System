@@ -1,6 +1,7 @@
 package math.structure;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 
 /**
@@ -65,7 +66,71 @@ public class Sum extends Operator implements IMath {
 		if (valid.size() == 1)
 			return valid.get(0);
 
-		return new Sum(valid.toArray(new Expression[0]));
+		/*
+		 * extract inner sums if any
+		 */
+		for (int i = valid.size() - 1; i >= 0; i--) {
+			Expression exp = valid.get(i);
+			if (exp instanceof Sum) {
+				Sum sum = (Sum) exp;
+				for (int j = 0; j < sum.children.length; j++) {
+					valid.add(sum.children[j]);
+				}
+				valid.remove(i);
+			}
+		}
+
+		ArrayList<Expression> grouped = new ArrayList<>(); // grouped expressions
+
+		/*
+		 * group constant
+		 */
+		double total = 0d;
+		for (int i = valid.size() - 1; i >= 0; i--) {
+			Expression expression = valid.get(i);
+			if (expression instanceof Constant) {
+				total += ((Constant) expression).getValue();
+				valid.remove(i);
+			}
+		}
+		if (total != 0d)
+			grouped.add(new Constant(total));
+
+		/*
+		 * LAST: group equal expressions
+		 */
+//		ArrayList<Expression> vars = new ArrayList<>();
+//		for (int i = valid.size() - 1; i >= 0; i--) {
+//			Expression expression = valid.get(i);
+//			if (expression instanceof Variable) {
+//				vars.add((Variable) expression);
+//				valid.remove(i);
+//			}
+//		}
+//		System.out.println(valid);
+//		for (int i = valid.size() - 1; i > 0; i--) {
+//			for (int j = i - 1; j >= 0; j--) {
+//				Expression e1 = valid.get(i);
+//				Expression e2 = valid.get(j);
+//				if (e1.equals(e2)) {
+//					valid.set(i, Product.create(new Constant(2d), e1));
+//					valid.remove(j);
+//					i--;
+//				}
+//			}
+//		}
+//		grouped.addAll(vars);
+		
+
+		/*
+		 * rest of the expressions that were not eligible for simplifications
+		 */
+		grouped.addAll(valid);
+
+		Collections.sort(grouped, SORTER); // sort
+
+		return new Sum(grouped.toArray(new Expression[0]));
+//		return new Sum(valid.toArray(new Expression[0]));
 	}
 
 	@Override
@@ -108,9 +173,9 @@ public class Sum extends Operator implements IMath {
 			derivatives[i] = children[i].differentiate(var);
 		return Sum.create(derivatives);
 	}
-	
+
 	@Override
 	public Expression simplify() {
-		return create(simplifyChildren());
+		return create(simplifiedChildren());
 	}
 }

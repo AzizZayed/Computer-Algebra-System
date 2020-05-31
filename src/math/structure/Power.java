@@ -118,6 +118,10 @@ public class Power extends Function implements IMath {
 
 	@Override
 	public Expression simplify() {
+		if (power instanceof Constant)
+			if (((Constant) power).getValue() == 1d)
+				return expr;
+		
 		return new Power(expr.simplify(), power.simplify());
 	}
 
@@ -139,6 +143,10 @@ public class Power extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
+			if (power instanceof Constant)
+				if (((Constant) power).getValue() == 1d)
+					return Constant.EXP;
+			
 			return new Exp(power.simplify());
 		}
 	}

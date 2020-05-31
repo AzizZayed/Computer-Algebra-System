@@ -44,7 +44,7 @@ public class ExpressionSorter implements Comparator<Expression> {
 				Fraction func2 = (Fraction) e2;
 				diff = mult * (indexOf(func1.numerator.getName()) - indexOf(func2.numerator.getName()));
 				if (diff == 0)
-					return diff = mult * (indexOf(func1.denominator.getName()) - indexOf(func2.denominator.getName()));
+					return mult * (indexOf(func1.denominator.getName()) - indexOf(func2.denominator.getName()));
 				return diff;
 			}
 		}

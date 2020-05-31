@@ -1,6 +1,7 @@
 package math.structure;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 
 /**
@@ -54,6 +55,7 @@ public class Product extends Operator implements IMath {
 		if (expressions.length == 1)
 			return expressions[0];
 
+		// remove all the 1s and if there is a zero, return a zero constant
 		ArrayList<Expression> valid = new ArrayList<>();
 		Constant c0 = new Constant(0d), c1 = new Constant(1d);
 		for (int i = 0; i < expressions.length; i++) {
@@ -68,7 +70,96 @@ public class Product extends Operator implements IMath {
 		if (valid.size() == 1)
 			return valid.get(0);
 
-		return new Product(valid.toArray(new Expression[0]));
+		/*
+		 * transform fractions into products
+		 */
+		////////////////////
+
+		/*
+		 * extract inner products if any
+		 */
+		for (int i = valid.size() - 1; i >= 0; i--) {
+			Expression exp = valid.get(i);
+			if (exp instanceof Product) {
+				Product prod = (Product) exp;
+				for (int j = 0; j < prod.children.length; j++) {
+					valid.add(prod.children[j]);
+				}
+				valid.remove(i);
+			}
+		}
+
+		ArrayList<Expression> grouped = new ArrayList<>(); // grouped expressions
+
+		/*
+		 * group constant
+		 */
+		double total = 1d;
+		for (int i = valid.size() - 1; i >= 0; i--) {
+			Expression expression = valid.get(i);
+			if (expression instanceof Constant) {
+				total *= ((Constant) expression).getValue();
+				valid.remove(i);
+			}
+		}
+		if (total != 1d)
+			grouped.add(new Constant(total));
+
+		/*
+		 * transform everything into a power
+		 */
+		for (int i = 0; i < valid.size(); i++) {
+			Expression exp = valid.get(i);
+			if (exp instanceof Variable) {
+				valid.set(i, new Power(exp, new Constant(1d)));
+			}
+		}
+
+		/*
+		 * group powers
+		 */
+		ArrayList<Power> powers = new ArrayList<>();
+		for (int i = valid.size() - 1; i >= 0; i--) {
+			Expression expression = valid.get(i);
+			if (expression instanceof Power) {
+				powers.add((Power) expression);
+				valid.remove(i);
+			}
+		}
+		for (int i = powers.size() - 1; i > 0; i--) {
+			for (int j = i - 1; j >= 0; j--) {
+				Power p1 = powers.get(i);
+				Power p2 = powers.get(j);
+				if (p1.expr.equals(p2.expr)) {
+					p1.power = Sum.create(p1.power, p2.power); // add powers
+					powers.remove(j);
+					i--;
+				}
+			}
+		}
+		for (int i = powers.size() - 1; i > 0; i--) {
+			for (int j = i - 1; j >= 0; j--) {
+				Power p1 = powers.get(i);
+				Power p2 = powers.get(j);
+				if (p1.power.equals(p2.power)) {
+					p1.expr = Product.create(p1.expr, p2.expr); // multiply bases
+					powers.remove(j);
+					i--;
+				}
+			}
+		}
+		grouped.addAll(powers);
+
+		/*
+		 * rest of the expressions that were not eligible for simplifications
+		 */
+		grouped.addAll(valid);
+
+		Collections.sort(grouped, SORTER); // sort
+
+		return new Product(grouped.toArray(new Expression[0]));
+//		return new Product(valid.toArray(new Expression[0]));
+//		return new Product(expressions);
 	}
 
 	@Override
@@ -116,7 +207,7 @@ public class Product extends Operator implements IMath {
 
 		/*
 		 * (f(x)g(x)h(x))' = f'gh + fg'h + fgh'--------------------------
-		 * (f(x)g(x)h(x)k(x)) = f'ghk + fg'hk + fgh'k + fghk'------------
+		 * (f(x)g(x)h(x)i(x)) = f'ghi + fg'hi + fgh'i + fghi'------------
 		 */
 		Expression[] sums = new Expression[children.length];
 
@@ -135,6 +226,6 @@ public class Product extends Operator implements IMath {
 
 	@Override
 	public Expression simplify() {
-		return create(simplifyChildren());
+		return create(simplifiedChildren());
 	}
 }
