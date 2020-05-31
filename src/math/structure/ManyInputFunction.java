@@ -1,5 +1,6 @@
 package math.structure;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -72,7 +73,8 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 
 	@Override
 	public Expression differentiate(char var) {
-		return null; // throw exception here
+		throw new IllegalArgumentException(
+				"Cannot find derivative of a function with arbitrary amount of inputs like min and max. Compute numerically.");
 	}
 
 	/**
@@ -83,6 +85,44 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 		for (int i = 0; i < children.length; i++)
 			simplified[i] = children[i].simplify();
 		return simplified;
+	}
+
+	/**
+	 * Common simplification: when the inputs are constants, the operation can be
+	 * computed and returned without needing the function node
+	 * 
+	 * @return a constant node with the result, null if the operation is impossible
+	 */
+	protected Constant evaluate() {
+		double result[] = new double[children.length];
+		for (int i = 0; i < children.length; i++)
+			if (children[i] instanceof Constant)
+				result[i] = ((Constant) children[i]).getValue();
+			else
+				return null;
+		return new Constant(compute(result));
+	}
+
+	/**
+	 * Common simplification: when a few of the inputs are constants, the operation
+	 * can be computed for those and simplify the function
+	 * 
+	 * @return a constant node with the result, null if simplification is useless
+	 */
+	protected Constant partialEvaluate() {
+		int nConstants = 0;
+		ArrayList<Double> resultList = new ArrayList<>();
+		for (int i = 0; i < children.length; i++)
+			if (children[i] instanceof Constant) {
+				nConstants++;
+				resultList.add(((Constant) children[i]).getValue());
+			}
+		if (nConstants < 2)
+			return null;
+		double result[] = new double[resultList.size()];
+		for (int i = 0; i < result.length; i++)
+			result[i] = resultList.get(i);
+		return new Constant(compute(result));
 	}
 
 	protected abstract double compute(double[] in);
@@ -105,7 +145,8 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 
 		@Override
 		public Expression simplify() {
-			return new Min(simplifyChildren());
+			Constant eval = evaluate();
+			return eval == null ? new Min(simplifyChildren()) : eval;
 		}
 	}
 
@@ -127,7 +168,8 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 
 		@Override
 		public Expression simplify() {
-			return new Max(simplifyChildren());
+			Constant eval = evaluate();
+			return eval == null ? new Max(simplifyChildren()) : eval;
 		}
 	}
 }

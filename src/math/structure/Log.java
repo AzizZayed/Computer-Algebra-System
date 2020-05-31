@@ -8,7 +8,7 @@ import java.util.HashMap;
  * @author Abd-El-Aziz Zayed
  *
  */
-public class Log extends Function implements IMath {
+public class Log extends FixedInputFunction implements IMath {
 
 	protected Expression base; // the expression for the base of the logarithm
 

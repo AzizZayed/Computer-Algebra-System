@@ -73,16 +73,50 @@ public class Product extends Operator implements IMath {
 			if (valid.get(0) instanceof Constant && valid.get(1) instanceof Constant) {
 				Constant a = (Constant) valid.get(0);
 				Constant b = (Constant) valid.get(1);
-				System.out.println(a);
-				System.out.println(b);
-
 				return new Constant(a.getValue() * b.getValue());
 			}
+
+		Collections.sort(valid, SORTER);
+
+		/*
+		 * expand into sums if appropriate, we only expand if there is a single sum, it
+		 * is a maximum of 2 expressions long and there is a maximum of 1 expressions to
+		 * distribute
+		 */
+		int numberOfSums = 0;
+		int index = 0, length = 0;
+		for (int i = valid.size() - 1; i >= 0; i--) {
+			Expression exp = valid.get(i);
+			if (exp instanceof Sum) {
+				numberOfSums++;
+				index = i;
+				length = ((Sum) exp).children.length;
+			}
+		}
+		if (numberOfSums == 1 && length == 2 && valid.size() < length + 1) {
+			Sum sum = (Sum) valid.get(index);
+			System.out.println(valid.get(0));
+			Expression e1 = new Product(valid.get(0), sum.children[0]);
+			Expression e2 = new Product(valid.get(0), sum.children[1]);
+			return Sum.create(e1, e2);
+		}
 
 		/*
 		 * transform fractions into products
 		 */
-		////////////////////
+		for (int i = valid.size() - 1; i >= 0; i--) {
+			Expression exp = valid.get(i);
+			if (exp instanceof Fraction) {
+				Fraction frac = (Fraction) exp;
+				valid.add(frac.numerator);
+				if (frac.denominator instanceof Power) {
+					Power denom = (Power) frac.denominator;
+					valid.add(new Power(denom.expr, create(new Constant(-1d), denom.power)));
+				} else
+					valid.add(new Power(frac.denominator, new Constant(-1d)));
+				valid.remove(i);
+			}
+		}
 
 		/*
 		 * extract inner products if any
@@ -135,6 +169,7 @@ public class Product extends Operator implements IMath {
 				valid.remove(i);
 			}
 		}
+		// add powers for common bases: a^x * a^y = a^(x + y)
 		for (int i = powers.size() - 1; i > 0; i--) {
 			for (int j = i - 1; j >= 0; j--) {
 				Power p1 = powers.get(i);
@@ -146,17 +181,18 @@ public class Product extends Operator implements IMath {
 				}
 			}
 		}
-		for (int i = powers.size() - 1; i > 0; i--) {
-			for (int j = i - 1; j >= 0; j--) {
-				Power p1 = powers.get(i);
-				Power p2 = powers.get(j);
-				if (p1.power.equals(p2.power)) {
-					p1.expr = Product.create(p1.expr, p2.expr); // multiply bases
-					powers.remove(j);
-					i--;
-				}
-			}
-		}
+		// multiply bases for common powers: x^a * y^a = (xy)^a
+//		for (int i = powers.size() - 1; i > 0; i--) {
+//			for (int j = i - 1; j >= 0; j--) {
+//				Power p1 = powers.get(i);
+//				Power p2 = powers.get(j);
+//				if (p1.power.equals(p2.power)) {
+//					p1.expr = Product.create(p1.expr, p2.expr); // multiply bases
+//					powers.remove(j);
+//					i--;
+//				}
+//			}
+//		}
 		grouped.addAll(powers);
 
 		/*
@@ -164,14 +200,43 @@ public class Product extends Operator implements IMath {
 		 */
 		grouped.addAll(valid);
 
-		Collections.sort(grouped, SORTER); // sort
-
-		if (grouped.isEmpty())
+		if (grouped.isEmpty()) {
+			System.out.println("Empty");
 			return new Constant(1d);
+		}
 
+		// final simplification of every expression
+		for (int i = 0; i < grouped.size(); i++)
+			grouped.set(i, grouped.get(i).simplify());
+
+		Collections.sort(grouped, SORTER); // final sort
+
+		/*
+		 * group denominator and numerators if possible
+		 */
+		ArrayList<Expression> denoms = new ArrayList<>(); // denominators
+		for (int i = grouped.size() - 1; i >= 0; i--) {
+			Expression exp = grouped.get(i);
+			if (exp instanceof Power) {
+				Power pow = (Power) exp;
+				if (pow.hasNegativeExponent()) {
+					denoms.add(pow.toDenominator());
+					grouped.remove(i);
+				}
+			}
+		}
+
+		// create a fraction if possible
+		if (!denoms.isEmpty()) {
+			Expression[] num = grouped.toArray(new Expression[0]);
+			Expression[] denom = denoms.toArray(new Expression[0]);
+			if (num.length == 0)
+				return new Fraction(new Constant(1d), Product.create(denom));
+			return new Fraction(Product.create(num), Product.create(denom));
+		}
+
+		// final expression
 		return new Product(grouped.toArray(new Expression[0]));
-//		return new Product(valid.toArray(new Expression[0]));
-//		return new Product(expressions);
 	}
 
 	@Override

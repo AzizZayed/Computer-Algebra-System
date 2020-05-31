@@ -10,7 +10,7 @@ import math.structure.Log.Ln;
  * @author Abd-El-Aziz Zayed
  *
  */
-public class Power extends Function implements IMath {
+public class Power extends FixedInputFunction implements IMath {
 
 	protected Expression power; // the expression in the exponent
 
@@ -118,7 +118,27 @@ public class Power extends Function implements IMath {
 
 	@Override
 	public Expression simplify() {
-		if (power instanceof Constant) {
+		if (expr instanceof Fraction) {
+			Fraction inner = (Fraction) expr;
+			return new Fraction(new Power(inner.numerator, power), new Power(inner.denominator, power));
+
+		} else if (expr instanceof Power) {
+			Power inner = (Power) expr;
+			return new Power(inner.expr, Product.create(power, inner.power));
+
+		} else if (expr instanceof Product) {
+			Product inner = (Product) expr;
+			Expression[] exps = new Expression[inner.children.length];
+			for (int i = 0; i < exps.length; i++)
+				exps[i] = new Power(inner.children[i], power);
+			return Product.create(exps);
+
+		} else if (power instanceof Log) {
+			Log log = (Log) power;
+			if (log.base.equals(expr))
+				return log.expr;
+
+		} else if (power instanceof Constant) {
 			Constant pow = (Constant) power;
 			if (expr instanceof Constant) {
 				Constant base = (Constant) expr;
@@ -130,13 +150,29 @@ public class Power extends Function implements IMath {
 				return new Constant(1d);
 			if (pow.getValue() == 1d)
 				return expr;
-		} else if (power instanceof Log) {
-			Log log = (Log) power;
-			if (log.base.equals(expr))
-				return log.expr;
 		}
-
 		return new Power(expr.simplify(), power.simplify());
+	}
+
+	/**
+	 * @return true if the exponent is negative
+	 */
+	protected boolean hasNegativeExponent() {
+		if (power instanceof Constant)
+			return (((Constant) power).getValue() < 0);
+		if (power instanceof Product) {
+			Product prod = (Product) power;
+			if (prod.children[0] instanceof Constant)
+				return (((Constant) prod.children[0]).getValue() < 0);
+		}
+		return false;
+	}
+
+	/**
+	 * @return 
+	 */
+	protected Expression toDenominator() {
+		return new Power(expr, Product.create(new Constant(-1d), power));
 	}
 
 	/*

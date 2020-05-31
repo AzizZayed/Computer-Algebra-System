@@ -11,7 +11,7 @@ import java.util.HashMap;
  * @author Abd-El-Aziz Zayed
  *
  */
-public abstract class BracketFunction extends Function implements IMath {
+public abstract class BracketFunction extends FixedInputFunction implements IMath {
 
 	private char open, closed; // open and close brackets for
 
@@ -62,6 +62,21 @@ public abstract class BracketFunction extends Function implements IMath {
 	}
 
 	/**
+	 * Common simplification between all bracket functions: when the input is a
+	 * constant, the operation can be computed and returned without needing the
+	 * bracket function
+	 * 
+	 * @return a constant node with the result, null if the operation is impossible
+	 */
+	protected Constant evaluate() {
+		if (expr instanceof Constant) {
+			Constant c = (Constant) expr;
+			return new Constant(compute(c.getValue()));
+		}
+		return null;
+	}
+
+	/**
 	 * calculate the value of the function
 	 * 
 	 * @param in - the input to the function
@@ -84,7 +99,8 @@ public abstract class BracketFunction extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
-			return new Floor(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new Floor(expr.simplify()) : eval;
 		}
 	}
 
@@ -103,7 +119,8 @@ public abstract class BracketFunction extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
-			return new Ceiling(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new Ceiling(expr.simplify()) : eval;
 		}
 	}
 
@@ -130,7 +147,8 @@ public abstract class BracketFunction extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
-			return new Abs(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new Abs(expr.simplify()) : eval;
 		}
 	}
 }

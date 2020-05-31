@@ -53,4 +53,11 @@ public class Variable extends Expression implements IMath {
 	public Expression simplify() {
 		return this;
 	}
+
+	/**
+	 * @return the symbol character
+	 */
+	public char getSymbol() {
+		return symbol;
+	}
 }

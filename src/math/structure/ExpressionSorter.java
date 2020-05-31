@@ -21,7 +21,7 @@ public class ExpressionSorter implements Comparator<Expression> {
 	 */
 	private static String[] order = { "constant", "variable", "power", "fraction", "logarithm", "absolutevalue",
 			"floor", "ceiling", "sin", "cos", "tan", "csc", "sec", "cot", "arcsin", "arccos", "arctan", "max", "min",
-			"product", "sum" };
+			"product", "summation" };
 
 	@Override
 	public int compare(Expression e1, Expression e2) {
@@ -34,9 +34,9 @@ public class ExpressionSorter implements Comparator<Expression> {
 		int diff = mult * (index1 - index2);
 
 		if (diff == 0) {
-			if (e1 instanceof Function) {
-				Function func1 = (Function) e1;
-				Function func2 = (Function) e2;
+			if (e1 instanceof FixedInputFunction) {
+				FixedInputFunction func1 = (FixedInputFunction) e1;
+				FixedInputFunction func2 = (FixedInputFunction) e2;
 				return mult * (indexOf(func1.expr.getName()) - indexOf(func2.expr.getName()));
 			}
 			if (e1 instanceof Fraction) {
@@ -46,6 +46,11 @@ public class ExpressionSorter implements Comparator<Expression> {
 				if (diff == 0)
 					return mult * (indexOf(func1.denominator.getName()) - indexOf(func2.denominator.getName()));
 				return diff;
+			}
+			if (e1 instanceof Variable) {
+				Variable var1 = (Variable) e1;
+				Variable var2 = (Variable) e2;
+				return var2.getSymbol() - var1.getSymbol();
 			}
 		}
 

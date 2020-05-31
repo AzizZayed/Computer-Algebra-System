@@ -9,11 +9,11 @@ package math.structure;
  * @author Abd-El-Aziz Zayed
  *
  */
-public abstract class Function extends Expression implements IMath {
+public abstract class FixedInputFunction extends Expression implements IMath {
 
 	protected Expression expr; // the input to the function
 
-	public Function(String name, Expression expr) {
+	public FixedInputFunction(String name, Expression expr) {
 		super(name);
 		this.expr = expr;
 	}

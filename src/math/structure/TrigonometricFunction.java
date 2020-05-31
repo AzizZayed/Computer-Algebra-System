@@ -8,7 +8,7 @@ import java.util.HashMap;
  * @author Abd-El-Aziz Zayed
  *
  */
-public abstract class TrigonometricFunction extends Function implements IMath {
+public abstract class TrigonometricFunction extends FixedInputFunction implements IMath {
 
 	/**
 	 * constructor
@@ -57,6 +57,18 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 	}
 
 	/**
+	 * @return evaluation of the trigonometric function if input is a constant
+	 */
+	protected Constant evaluate() {
+		if (expr instanceof Constant) {
+			double result = compute(((Constant) expr).getValue());
+			if (Math.floor(result) == result)
+				return new Constant(result);
+		}
+		return null;
+	}
+
+	/**
 	 * @param in - input to the trigonometric function
 	 * @return the computed value from the trigonometric function
 	 */
@@ -86,7 +98,8 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
-			return new Cos(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new Cos(expr.simplify()) : eval;
 		}
 	}
 
@@ -113,7 +126,8 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
-			return new Sin(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new Sin(expr.simplify()) : eval;
 		}
 	}
 
@@ -147,7 +161,8 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
-			return new Tan(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new Tan(expr.simplify()) : eval;
 		}
 	}
 
@@ -176,7 +191,8 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
-			return new Csc(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new Csc(expr.simplify()) : eval;
 		}
 	}
 
@@ -204,7 +220,8 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
-			return new Sec(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new Sec(expr.simplify()) : eval;
 		}
 	}
 
@@ -235,7 +252,8 @@ public abstract class TrigonometricFunction extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
-			return new Cot(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new Cot(expr.simplify()) : eval;
 		}
 	}
 }

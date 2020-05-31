@@ -4,7 +4,7 @@ package math.structure;
  * class for the inverse trigonometric functions like arctan, arccos, arcsin
  * 
  * @author Abd-El-Aziz Zayed
- *
+ * 
  */
 public abstract class InverseTrigonometricFunction extends TrigonometricFunction implements IMath {
 
@@ -51,7 +51,8 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 
 		@Override
 		public Expression simplify() {
-			return new ArcCos(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new ArcCos(expr.simplify()) : eval;
 		}
 	}
 
@@ -87,7 +88,8 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 
 		@Override
 		public Expression simplify() {
-			return new ArcSin(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new ArcSin(expr.simplify()) : eval;
 		}
 	}
 
@@ -123,7 +125,8 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 
 		@Override
 		public Expression simplify() {
-			return new ArcTan(expr.simplify());
+			Constant eval = evaluate();
+			return eval == null ? new ArcTan(expr.simplify()) : eval;
 		}
 	}
 }

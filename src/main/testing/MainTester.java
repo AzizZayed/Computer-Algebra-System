@@ -19,10 +19,16 @@ public class MainTester {
 //		set.calculate();
 
 		// "(e^sqrtx + (2 * x) + (1/x))/(sqrtx * sincostanx)"
-		Equation eq = new Equation(
-				"4*x*x*x*x^(-3)*a^x*b^x*e^x*e^x*a^x*5*6*a^x*c^(x + 5)*c^5*lna*lna*lna*lna + x + 5+ x+6");
-		LatexRenderer.render(eq);
-		LatexRenderer.render(eq.simplified().simplified().simplified());
+//		Equation eq = new Equation(
+//				"5*6*x*(x + y)"); 
+//		LatexRenderer.render(eq);
+//		LatexRenderer.render(eq.simplified());
+//		LatexRenderer.render(eq.simplified().simplified());
+//		LatexRenderer.render(eq.simplified().simplified().simplified());
+//		LatexRenderer.render(eq);
+		
+		System.out.println(Math.acos(1d));
+		System.out.println(Math.floor(Math.acos(1d)) == 0d);
 
 //		System.out.println(eq);
 //		System.out.println(eq.toLatex());
