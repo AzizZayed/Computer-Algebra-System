@@ -69,6 +69,15 @@ public class Product extends Operator implements IMath {
 			return c1;
 		if (valid.size() == 1)
 			return valid.get(0);
+		if (valid.size() == 2)
+			if (valid.get(0) instanceof Constant && valid.get(1) instanceof Constant) {
+				Constant a = (Constant) valid.get(0);
+				Constant b = (Constant) valid.get(1);
+				System.out.println(a);
+				System.out.println(b);
+
+				return new Constant(a.getValue() * b.getValue());
+			}
 
 		/*
 		 * transform fractions into products
@@ -106,11 +115,11 @@ public class Product extends Operator implements IMath {
 			grouped.add(new Constant(total));
 
 		/*
-		 * transform everything into a power
+		 * transform everything into a power to make simplifications easier
 		 */
 		for (int i = 0; i < valid.size(); i++) {
 			Expression exp = valid.get(i);
-			if (exp instanceof Variable) {
+			if (!(exp instanceof Power)) {
 				valid.set(i, new Power(exp, new Constant(1d)));
 			}
 		}
@@ -157,6 +166,9 @@ public class Product extends Operator implements IMath {
 
 		Collections.sort(grouped, SORTER); // sort
 
+		if (grouped.isEmpty())
+			return new Constant(1d);
+
 		return new Product(grouped.toArray(new Expression[0]));
 //		return new Product(valid.toArray(new Expression[0]));
 //		return new Product(expressions);
@@ -169,7 +181,7 @@ public class Product extends Operator implements IMath {
 
 	@Override
 	protected double neutral() {
-		return 1;
+		return 1d;
 	}
 
 	@Override

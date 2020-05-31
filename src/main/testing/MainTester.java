@@ -17,12 +17,12 @@ public class MainTester {
 //		set.set('x', 15d);
 //		set.set('a', 2d);
 //		set.calculate();
-		
+
 		// "(e^sqrtx + (2 * x) + (1/x))/(sqrtx * sincostanx)"
-		Equation eq = new Equation("4*x*x*x*a^x*b^x*e^x*e^x*a^x*5*6*a^x*c^(x + 5)*c^5 + x + 5+ x+6");
+		Equation eq = new Equation(
+				"4*x*x*x*x^(-3)*a^x*b^x*e^x*e^x*a^x*5*6*a^x*c^(x + 5)*c^5*lna*lna*lna*lna + x + 5+ x+6");
 		LatexRenderer.render(eq);
-		LatexRenderer.render(eq.simplified());
-		
+		LatexRenderer.render(eq.simplified().simplified().simplified());
 
 //		System.out.println(eq);
 //		System.out.println(eq.toLatex());
@@ -36,11 +36,11 @@ public class MainTester {
 //		
 //		Equation eq = new Equation("absx");
 //		System.out.println(eq.equals(new Equation("ceilx")));
-		
+
 //		Equation eq = new Equation("max(a*x, x^2, x^3, x^4, b*x^5)");
 //		LatexRenderer.render(eq);
 //		System.out.println(eq.valueAt(5.5d));
-		
+
 		// x^2 + sinx + absx + cosx + floorx
 //		Expression[] expr = { // start
 //				new Power(new Variable(), new Constant(2d)),
@@ -50,16 +50,16 @@ public class MainTester {
 //				new Cos(new Variable()),
 //				new Floor(new Variable()),
 //				}; // end
-		
+
 //		for (int i = 0; i < expr.length; i++) {
 //			LatexRenderer.render(expr[i]);
 //		}
-		
+
 //		Arrays.sort(expr, Product.SORTER);
-		
+
 //		for (int i = 0; i < expr.length; i++) {
 //			LatexRenderer.render(expr[i]);
 //		}
-		
+
 	}
 }

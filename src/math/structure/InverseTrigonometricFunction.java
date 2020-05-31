@@ -14,9 +14,9 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 
 	@Override
 	public String toLatex() {
-		if (!needsBrackets())
-			return name.substring(3) + "^{-1}" + expr.toLatex();
-		return name.substring(3) + "^{-1}\\left(" + expr.toLatex() + "\\right)";
+		if (needsBrackets())
+			return name.substring(3) + "^{-1}\\left(" + expr.toLatex() + "\\right)";
+		return name.substring(3) + "^{-1}" + expr.toLatex();
 	}
 
 	/*

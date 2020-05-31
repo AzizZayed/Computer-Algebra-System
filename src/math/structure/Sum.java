@@ -120,7 +120,6 @@ public class Sum extends Operator implements IMath {
 //			}
 //		}
 //		grouped.addAll(vars);
-		
 
 		/*
 		 * rest of the expressions that were not eligible for simplifications
@@ -128,6 +127,9 @@ public class Sum extends Operator implements IMath {
 		grouped.addAll(valid);
 
 		Collections.sort(grouped, SORTER); // sort
+
+		if (grouped.isEmpty())
+			return new Constant(0d);
 
 		return new Sum(grouped.toArray(new Expression[0]));
 //		return new Sum(valid.toArray(new Expression[0]));
@@ -140,7 +142,7 @@ public class Sum extends Operator implements IMath {
 
 	@Override
 	protected double neutral() {
-		return 0;
+		return 0d;
 	}
 
 	@Override

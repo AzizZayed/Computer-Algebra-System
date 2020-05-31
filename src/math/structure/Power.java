@@ -90,11 +90,11 @@ public class Power extends Function implements IMath {
 			); // end k*f^(k-1)*f'
 
 		if (baseIsNumber && !powerIsNumber) // case k^[ f(x) ], where k is a constant
-			return Product.create( // a^f * lna + f'
+			return Product.create( // k^f * lnk + f'
 					this, // a^f
 					power.differentiate(var), // f'
-					new Ln(expr) // lna
-			); // end a^f * lna + f'
+					new Ln(expr) // lnk
+			); // end k^f * lnk + f'
 
 		// otherwise: case [ f(x) ]^[ g(x) ], here we use the generalized power rule
 		return Product.create( // [f(x)]^[g(x)] * ( g'*lnf + g*f'*(f)^(-1) )
@@ -118,10 +118,24 @@ public class Power extends Function implements IMath {
 
 	@Override
 	public Expression simplify() {
-		if (power instanceof Constant)
-			if (((Constant) power).getValue() == 1d)
+		if (power instanceof Constant) {
+			Constant pow = (Constant) power;
+			if (expr instanceof Constant) {
+				Constant base = (Constant) expr;
+				double res = Math.pow(base.getValue(), pow.getValue());
+				if (Math.floor(res) == res && res < 1000d)
+					return new Constant(res);
+			}
+			if (pow.getValue() == 0d)
+				return new Constant(1d);
+			if (pow.getValue() == 1d)
 				return expr;
-		
+		} else if (power instanceof Log) {
+			Log log = (Log) power;
+			if (log.base.equals(expr))
+				return log.expr;
+		}
+
 		return new Power(expr.simplify(), power.simplify());
 	}
 
@@ -143,11 +157,20 @@ public class Power extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
-			if (power instanceof Constant)
-				if (((Constant) power).getValue() == 1d)
-					return Constant.EXP;
-			
+			if (power instanceof Constant) {
+				Constant pow = (Constant) power;
+				if (pow.getValue() == 0d)
+					return new Constant(1d);
+				if (pow.getValue() == 1d)
+					return expr;
+			} else if (power instanceof Log) {
+				Log log = (Log) power;
+				if (log.base.equals(expr))
+					return log.expr;
+			}
+
 			return new Exp(power.simplify());
 		}
+
 	}
 }

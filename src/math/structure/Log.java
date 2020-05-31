@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class Log extends Function implements IMath {
 
-	private Expression base; // the expression for the base of the logarithm
+	protected Expression base; // the expression for the base of the logarithm
 
 	/*
 	 * constructor with base expression if it's custom, so like log base 5
@@ -89,6 +89,17 @@ public class Log extends Function implements IMath {
 
 	@Override
 	public Expression simplify() {
+		if (expr.equals(base))
+			return new Constant(1d);
+		if (expr instanceof Power) {
+			Power pow = (Power) expr;
+			if (pow.expr.equals(base))
+				return pow.power;
+		}
+		if (expr instanceof Constant)
+			if (((Constant) expr).getValue() == 1d)
+				return new Constant(0d);
+
 		return new Log(base.simplify(), expr.simplify());
 	}
 
@@ -127,6 +138,19 @@ public class Log extends Function implements IMath {
 
 		@Override
 		public Expression simplify() {
+			if (expr.equals(base))
+				return new Constant(1d);
+			if (expr instanceof Power) {
+				Power pow = (Power) expr;
+				if (pow.expr.equals(base))
+					return pow.power;
+			}
+			if (expr instanceof Constant) {
+				Constant c = (Constant) expr;
+				if (c.getValue() == 1d)
+					return new Constant(0d);
+			}
+
 			return new Ln(expr.simplify());
 		}
 	}
