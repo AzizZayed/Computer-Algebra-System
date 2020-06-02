@@ -1,6 +1,7 @@
 package math.structure;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -12,14 +13,16 @@ import java.util.HashSet;
  */
 public class Sum extends Operator implements IMath {
 
-	public static final ExpressionSorter SORTER = new ExpressionSorter(true); // sorter
+//	private static final ExpressionSorter SORTER = new ExpressionSorter(true); // sorter
 
 	private Sum(Expression... expressions) {
 		super("summation", '+', expressions);
+		Arrays.sort(children, SORTER);
 	}
 
 	private Sum(HashSet<Character> vars, String... strExpression) {
 		super("summation", '+', vars, strExpression);
+		Arrays.sort(children, SORTER);
 	}
 
 	/**
@@ -65,6 +68,14 @@ public class Sum extends Operator implements IMath {
 			return c0;
 		if (valid.size() == 1)
 			return valid.get(0);
+		if (valid.size() == 2)
+			if (valid.get(0) instanceof Constant && valid.get(1) instanceof Constant) {
+				Constant a = (Constant) valid.get(0);
+				Constant b = (Constant) valid.get(1);
+				return new Constant(a.getValue() + b.getValue());
+			}
+
+		Collections.sort(valid, SORTER);
 
 		/*
 		 * extract inner sums if any
@@ -80,6 +91,9 @@ public class Sum extends Operator implements IMath {
 			}
 		}
 
+		/*
+		 * ArrayList to hold the grouped and simplified expressions/children
+		 */
 		ArrayList<Expression> grouped = new ArrayList<>(); // grouped expressions
 
 		/*
@@ -95,6 +109,53 @@ public class Sum extends Operator implements IMath {
 		}
 		if (total != 0d)
 			grouped.add(new Constant(total));
+
+		/*
+		 * transform everything into a product: 1*f(x)
+		 */
+		for (int i = 0; i < valid.size(); i++) {
+			Expression exp = valid.get(i);
+			if (exp instanceof Product) {
+				Product p = (Product) exp;
+				if (!(p.children[0] instanceof Constant))
+					valid.set(i, p.addedConstant());
+			} else {
+				valid.set(i, new Product(new Constant(1d), exp));
+			}
+		}
+
+		/*
+		 * group common terms
+		 */
+		ArrayList<Expression> products = new ArrayList<>();
+		for (int i = valid.size() - 1; i >= 0; i--) {
+			Expression expression = valid.get(i);
+			if (expression instanceof Product) {
+				products.add((Product) expression);
+				valid.remove(i);
+			}
+		}
+		// add common expressions: 3*f(x) + 1*f(x) = 4*f(x)
+		for (int i = products.size() - 1; i > 0; i--) {
+			for (int j = i - 1; j >= 0; j--) {
+				Product p1 = (Product) products.get(i);
+				Product p2 = (Product) products.get(j);
+
+				Constant c1 = (Constant) p1.children[0];
+				Constant c2 = (Constant) p2.children[0];
+
+				Product rest1 = p1.removedConstant();
+				Product rest2 = p2.removedConstant();
+
+				if (rest1.equals(rest2)) {
+					System.out.println(valid);
+					products.set(i, Product.create(new Constant(c1.getValue() + c2.getValue()), rest1));
+					products.remove(j);
+					i--;
+				}
+			}
+		}
+		grouped.addAll(products);
 
 		/*
 		 * LAST: group equal expressions
@@ -128,11 +189,19 @@ public class Sum extends Operator implements IMath {
 
 		Collections.sort(grouped, SORTER); // sort
 
-		if (grouped.isEmpty())
+		if (grouped.isEmpty()) {
+			System.out.println("Empty");
 			return new Constant(0d);
+		}
 
+		// final simplification of every expression
+		for (int i = 0; i < grouped.size(); i++)
+			grouped.set(i, grouped.get(i).simplify());
+
+		Collections.sort(grouped, SORTER); // sort
+
+		// final expression
 		return new Sum(grouped.toArray(new Expression[0]));
-//		return new Sum(valid.toArray(new Expression[0]));
 	}
 
 	@Override

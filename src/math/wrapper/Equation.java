@@ -44,7 +44,7 @@ public class Equation implements IMath {
 		try {
 			root = Parser.parseExpression(expression, variables);
 		} catch (Exception e) {
-			System.out.println("ERROR: " + e);
+			System.out.println("PARSING ERROR: " + e);
 		}
 	}
 

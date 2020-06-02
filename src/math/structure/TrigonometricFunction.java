@@ -57,7 +57,8 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	}
 
 	/**
-	 * @return evaluation of the trigonometric function if input is a constant
+	 * @return evaluation of the trigonometric function if input is a constant and
+	 *         the result is an integer
 	 */
 	protected Constant evaluate() {
 		if (expr instanceof Constant) {

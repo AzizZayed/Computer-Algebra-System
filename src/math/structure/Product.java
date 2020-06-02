@@ -1,6 +1,7 @@
 package math.structure;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -12,14 +13,16 @@ import java.util.HashSet;
  */
 public class Product extends Operator implements IMath {
 
-	public static final ExpressionSorter SORTER = new ExpressionSorter(false); // sorter
+//	private static final ExpressionSorter SORTER = new ExpressionSorter(false); // sorter
 
-	private Product(Expression... expressions) {
+	protected Product(Expression... expressions) {
 		super("product", '*', expressions);
+		Arrays.sort(children, SORTER);
 	}
 
 	private Product(HashSet<Character> vars, String... strExpression) {
 		super("product", '*', vars, strExpression);
+		Arrays.sort(children, SORTER);
 	}
 
 	/**
@@ -95,7 +98,6 @@ public class Product extends Operator implements IMath {
 		}
 		if (numberOfSums == 1 && length == 2 && valid.size() < length + 1) {
 			Sum sum = (Sum) valid.get(index);
-			System.out.println(valid.get(0));
 			Expression e1 = new Product(valid.get(0), sum.children[0]);
 			Expression e2 = new Product(valid.get(0), sum.children[1]);
 			return Sum.create(e1, e2);
@@ -304,5 +306,39 @@ public class Product extends Operator implements IMath {
 	@Override
 	public Expression simplify() {
 		return create(simplifiedChildren());
+	}
+
+	/**
+	 * @return this product node with the constants removed if any
+	 */
+	public Product removedConstant() {
+		int start = 0, length = children.length;
+		if (children[0] instanceof Constant) {
+			start = 1;
+			length--;
+		}
+
+		Expression[] exps = new Expression[length];
+		for (int i = start; i < children.length; i++)
+			exps[i - start] = children[i];
+		return new Product(exps);
+	}
+
+	/**
+	 * @return this product node with an added constant if there are none
+	 */
+	public Product addedConstant() {
+		int start = 0, length = children.length;
+		if (!(children[0] instanceof Constant)) {
+			start = 1;
+			length++;
+		}
+
+		Expression[] exps = new Expression[length];
+		if (start == 1)
+			exps[0] = new Constant(1d);
+		for (int i = 0; i < children.length; i++)
+			exps[i + start] = children[i];
+		return new Product(exps);
 	}
 }

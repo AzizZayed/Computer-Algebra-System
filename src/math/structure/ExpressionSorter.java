@@ -10,12 +10,6 @@ import java.util.Comparator;
  */
 public class ExpressionSorter implements Comparator<Expression> {
 
-	private boolean reverse;
-
-	public ExpressionSorter(boolean reverse) {
-		this.reverse = reverse;
-	}
-
 	/*
 	 * the desired orders we want the functions in
 	 */
@@ -25,32 +19,28 @@ public class ExpressionSorter implements Comparator<Expression> {
 
 	@Override
 	public int compare(Expression e1, Expression e2) {
-		int mult = 1;
-		if (reverse)
-			mult = -1;
-
 		int index1 = indexOf(e1.getName());
 		int index2 = indexOf(e2.getName());
-		int diff = mult * (index1 - index2);
+		int diff = index1 - index2;
 
 		if (diff == 0) {
 			if (e1 instanceof FixedInputFunction) {
 				FixedInputFunction func1 = (FixedInputFunction) e1;
 				FixedInputFunction func2 = (FixedInputFunction) e2;
-				return mult * (indexOf(func1.expr.getName()) - indexOf(func2.expr.getName()));
+				return indexOf(func1.expr.getName()) - indexOf(func2.expr.getName());
 			}
 			if (e1 instanceof Fraction) {
 				Fraction func1 = (Fraction) e1;
 				Fraction func2 = (Fraction) e2;
-				diff = mult * (indexOf(func1.numerator.getName()) - indexOf(func2.numerator.getName()));
+				diff = indexOf(func1.numerator.getName()) - indexOf(func2.numerator.getName());
 				if (diff == 0)
-					return mult * (indexOf(func1.denominator.getName()) - indexOf(func2.denominator.getName()));
+					return indexOf(func1.denominator.getName()) - indexOf(func2.denominator.getName());
 				return diff;
 			}
 			if (e1 instanceof Variable) {
 				Variable var1 = (Variable) e1;
 				Variable var2 = (Variable) e2;
-				return var2.getSymbol() - var1.getSymbol();
+				return var1.getSymbol() - var2.getSymbol();
 			}
 		}
 
