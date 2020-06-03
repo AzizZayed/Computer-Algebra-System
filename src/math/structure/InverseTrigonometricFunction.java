@@ -8,15 +8,15 @@ package math.structure;
  */
 public abstract class InverseTrigonometricFunction extends TrigonometricFunction implements IMath {
 
-	public InverseTrigonometricFunction(String name, Expression expr) {
-		super(name, expr);
+	public InverseTrigonometricFunction(ExpressionType type, Expression expr) {
+		super(type, expr);
 	}
 
 	@Override
 	public String toLatex() {
 		if (needsBrackets())
-			return name.substring(3) + "^{-1}\\left(" + expr.toLatex() + "\\right)";
-		return name.substring(3) + "^{-1}" + expr.toLatex();
+			return type.toString().substring(3) + "^{-1}\\left(" + expr.toLatex() + "\\right)";
+		return type.toString().substring(3) + "^{-1}" + expr.toLatex();
 	}
 
 	/*
@@ -24,7 +24,7 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 	 */
 	public static class ArcCos extends InverseTrigonometricFunction implements IMath {
 		public ArcCos(Expression expr) {
-			super("arccos", expr);
+			super(ExpressionType.ARCCOS, expr);
 		}
 
 		@Override
@@ -61,7 +61,7 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 	 */
 	public static class ArcSin extends InverseTrigonometricFunction implements IMath {
 		public ArcSin(Expression expr) {
-			super("arcsin", expr);
+			super(ExpressionType.ARCSIN, expr);
 		}
 
 		@Override
@@ -98,7 +98,7 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 	 */
 	public static class ArcTan extends InverseTrigonometricFunction implements IMath {
 		public ArcTan(Expression expr) {
-			super("arctan", expr);
+			super(ExpressionType.ARCTAN, expr);
 		}
 
 		@Override

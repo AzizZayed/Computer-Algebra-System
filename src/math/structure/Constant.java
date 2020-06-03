@@ -17,7 +17,7 @@ public class Constant extends Expression implements IMath {
 	private double value;
 
 	public Constant(double val) {
-		super("constant");
+		super(ExpressionType.CONSTANT);
 		value = val;
 	}
 	

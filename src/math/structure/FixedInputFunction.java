@@ -13,8 +13,8 @@ public abstract class FixedInputFunction extends Expression implements IMath {
 
 	protected Expression expr; // the input to the function
 
-	public FixedInputFunction(String name, Expression expr) {
-		super(name);
+	public FixedInputFunction(ExpressionType type, Expression expr) {
+		super(type);
 		this.expr = expr;
 	}
 }

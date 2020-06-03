@@ -13,7 +13,7 @@ public class Fraction extends Expression implements IMath {
 	protected Expression numerator, denominator; // components
 
 	public Fraction(Expression num, Expression denom) {
-		super("fraction");
+		super(ExpressionType.FRACTION);
 		numerator = num;
 		denominator = denom;
 	}

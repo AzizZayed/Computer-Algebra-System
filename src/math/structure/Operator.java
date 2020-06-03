@@ -19,8 +19,8 @@ public abstract class Operator extends Expression implements IMath {
 	/*
 	 * constructor receiving all the children already as expressions
 	 */
-	protected Operator(String name, char sym, Expression... expressions) {
-		super(name);
+	protected Operator(ExpressionType type, char sym, Expression... expressions) {
+		super(type);
 		children = expressions;
 		symbol = sym;
 	}
@@ -28,8 +28,8 @@ public abstract class Operator extends Expression implements IMath {
 	/*
 	 * constructor receiving all children as strings that still need to be parsed
 	 */
-	protected Operator(String name, char sym, HashSet<Character> vars, String... strExpressions) {
-		super(name);
+	protected Operator(ExpressionType type, char sym, HashSet<Character> vars, String... strExpressions) {
+		super(type);
 		Expression[] expressions = new Expression[strExpressions.length];
 		for (int i = 0; i < expressions.length; i++)
 			expressions[i] = Parser.generateExpression(strExpressions[i], vars);

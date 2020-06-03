@@ -1,6 +1,7 @@
 package math.structure;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -13,17 +14,18 @@ import org.apache.commons.lang3.math.NumberUtils;
  */
 public abstract class ManyInputFunction extends Expression implements IMath {
 
-	private Expression[] children; // input expressions
+	protected Expression[] children; // input expressions
 
-	public ManyInputFunction(String name, Expression[] expressions) {
-		super(name);
+	public ManyInputFunction(ExpressionType type, Expression[] expressions) {
+		super(type);
 		children = expressions;
+		Arrays.sort(children, new ExpressionSorter());
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(name);
+		sb.append(type);
 		sb.append("(");
 		for (int i = 0; i < children.length - 1; i++) {
 			sb.append(children[i]);
@@ -38,7 +40,7 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 	public String toLatex() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\\");
-		sb.append(name);
+		sb.append(type);
 		sb.append("\\left(");
 		for (int i = 0; i < children.length - 1; i++) {
 			sb.append(children[i].toLatex());
@@ -61,7 +63,7 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 	public boolean equals(Expression e) {
 		if (e instanceof ManyInputFunction) {
 			ManyInputFunction func = (ManyInputFunction) e;
-			if (name.equals(func.name)) {
+			if (type.equals(func.type)) {
 				for (int i = 0; i < children.length; i++)
 					if (!children[i].equals(func.children[i]))
 						return false;
@@ -135,7 +137,7 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 	 */
 	public static class Min extends ManyInputFunction implements IMath {
 		public Min(Expression... expressions) {
-			super("min", expressions);
+			super(ExpressionType.MIN, expressions);
 		}
 
 		@Override
@@ -158,7 +160,7 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 	 */
 	public static class Max extends ManyInputFunction implements IMath {
 		public Max(Expression... expressions) {
-			super("max", expressions);
+			super(ExpressionType.MAX, expressions);
 		}
 
 		@Override

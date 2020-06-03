@@ -21,7 +21,7 @@ public class Power extends FixedInputFunction implements IMath {
 	 * @param power - expression in the exponent
 	 */
 	public Power(Expression base, Expression power) {
-		super("power", base);
+		super(ExpressionType.POWER, base);
 		this.power = power;
 	}
 

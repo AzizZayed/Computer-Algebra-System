@@ -13,7 +13,7 @@ public class Variable extends Expression implements IMath {
 	private char symbol; // variable character
 
 	public Variable(char sym) {
-		super("variable");
+		super(ExpressionType.VARIABLE);
 		symbol = sym;
 	}
 

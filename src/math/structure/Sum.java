@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * a class representing a finite sum
@@ -16,13 +17,20 @@ public class Sum extends Operator implements IMath {
 //	private static final ExpressionSorter SORTER = new ExpressionSorter(true); // sorter
 
 	private Sum(Expression... expressions) {
-		super("summation", '+', expressions);
-		Arrays.sort(children, SORTER);
+		super(ExpressionType.SUM, '+', expressions);
+		reverseSortChildren();
 	}
 
 	private Sum(HashSet<Character> vars, String... strExpression) {
-		super("summation", '+', vars, strExpression);
+		super(ExpressionType.SUM, '+', vars, strExpression);
+		reverseSortChildren();
+	}
+
+	private void reverseSortChildren() {
 		Arrays.sort(children, SORTER);
+		List<Expression> reversed = Arrays.asList(children);
+		Collections.reverse(reversed);
+		children = reversed.toArray(children);
 	}
 
 	/**

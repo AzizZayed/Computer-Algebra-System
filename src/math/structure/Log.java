@@ -16,7 +16,7 @@ public class Log extends FixedInputFunction implements IMath {
 	 * constructor with base expression if it's custom, so like log base 5
 	 */
 	public Log(Expression base, Expression expr) {
-		super("logarithm", expr);
+		super(ExpressionType.LOGARITHM, expr);
 		this.base = base;
 	}
 

@@ -16,8 +16,8 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	 * @param expr - expression inside the function (to compute)
 	 * @param name - name of the trigonometric function
 	 */
-	public TrigonometricFunction(String name, Expression expr) {
-		super(name, expr);
+	public TrigonometricFunction(ExpressionType type, Expression expr) {
+		super(type, expr);
 	}
 
 	@Override
@@ -28,22 +28,22 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	@Override
 	public String toString() {
 		if (!needsBrackets())
-			return name + expr.toString();
-		return name + "(" + expr.toString() + ")";
+			return type + expr.toString();
+		return type + "(" + expr.toString() + ")";
 	}
 
 	@Override
 	public String toLatex() {
 		if (needsBrackets())
-			return '\\' + name + "{\\left(" + expr.toLatex() + "\\right)}";
-		return '\\' + name + "{" + expr.toLatex() + "}";
+			return "\\" + type + "{\\left(" + expr.toLatex() + "\\right)}";
+		return "\\" + type + "{" + expr.toLatex() + "}";
 	}
 
 	@Override
 	public boolean equals(Expression e) {
 		if (e instanceof TrigonometricFunction) {
 			TrigonometricFunction func = (TrigonometricFunction) e;
-			if (name.equals(func.name))
+			if (type.equals(func.type))
 				return expr.equals(func.expr);
 		}
 		return false;
@@ -80,7 +80,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	 */
 	public static class Cos extends TrigonometricFunction implements IMath {
 		public Cos(Expression expr) {
-			super("cos", expr);
+			super(ExpressionType.COS, expr);
 		}
 
 		@Override
@@ -109,7 +109,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	 */
 	public static class Sin extends TrigonometricFunction implements IMath {
 		public Sin(Expression expr) {
-			super("sin", expr);
+			super(ExpressionType.SIN, expr);
 		}
 
 		@Override
@@ -137,7 +137,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	 */
 	public static class Tan extends TrigonometricFunction implements IMath {
 		public Tan(Expression expr) {
-			super("tan", expr);
+			super(ExpressionType.TAN, expr);
 		}
 
 		@Override
@@ -172,7 +172,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	 */
 	public static class Csc extends TrigonometricFunction implements IMath {
 		public Csc(Expression expr) {
-			super("csc", expr);
+			super(ExpressionType.CSC, expr);
 		}
 
 		@Override
@@ -202,7 +202,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	 */
 	public static class Sec extends TrigonometricFunction implements IMath {
 		public Sec(Expression expr) {
-			super("sec", expr);
+			super(ExpressionType.SEC, expr);
 		}
 
 		@Override
@@ -231,7 +231,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	 */
 	public static class Cot extends TrigonometricFunction implements IMath {
 		public Cot(Expression expr) {
-			super("cot", expr);
+			super(ExpressionType.COT, expr);
 		}
 
 		@Override

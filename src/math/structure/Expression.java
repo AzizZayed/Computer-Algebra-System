@@ -10,17 +10,10 @@ import java.util.HashMap;
  */
 public abstract class Expression implements IMath {
 
-	protected String name;
+	protected ExpressionType type;
 
-	public Expression(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @return the name of the expression
-	 */
-	public String getName() {
-		return name;
+	public Expression(ExpressionType type) {
+		this.type = type;
 	}
 
 	/**

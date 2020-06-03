@@ -16,12 +16,12 @@ public class Product extends Operator implements IMath {
 //	private static final ExpressionSorter SORTER = new ExpressionSorter(false); // sorter
 
 	protected Product(Expression... expressions) {
-		super("product", '*', expressions);
+		super(ExpressionType.PRODUCT, '*', expressions);
 		Arrays.sort(children, SORTER);
 	}
 
 	private Product(HashSet<Character> vars, String... strExpression) {
-		super("product", '*', vars, strExpression);
+		super(ExpressionType.PRODUCT, '*', vars, strExpression);
 		Arrays.sort(children, SORTER);
 	}
 

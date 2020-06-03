@@ -19,8 +19,7 @@ public class MainTester {
 //		set.calculate();
 
 		// "(e^sqrtx + (2 * x) + (1/x))/(sqrtx * sincostanx)"
-		Equation eq = new Equation(
-				"x*y*z*w*a*sinx*s*c*d"); 
+		Equation eq = new Equation("ln(x^3)*ln(x^2)*ln(x^1)*lna + 5");
 		LatexRenderer.render(eq);
 		LatexRenderer.render(eq.simplified());
 		LatexRenderer.render(eq.simplified().simplified());

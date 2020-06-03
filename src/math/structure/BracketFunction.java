@@ -18,8 +18,8 @@ public abstract class BracketFunction extends FixedInputFunction implements IMat
 	/**
 	 * constructor for different open and close brackets
 	 */
-	public BracketFunction(String name, Expression expr, char open, char closed) {
-		super(name, expr);
+	public BracketFunction(ExpressionType type, Expression expr, char open, char closed) {
+		super(type, expr);
 		this.open = open;
 		this.closed = closed;
 	}
@@ -27,8 +27,8 @@ public abstract class BracketFunction extends FixedInputFunction implements IMat
 	/**
 	 * constructor for similar open and close brackets
 	 */
-	public BracketFunction(String name, Expression expr, char bracket) {
-		this(name, expr, bracket, bracket);
+	public BracketFunction(ExpressionType type, Expression expr, char bracket) {
+		this(type, expr, bracket, bracket);
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public abstract class BracketFunction extends FixedInputFunction implements IMat
 	 */
 	public static class Floor extends BracketFunction implements IMath {
 		public Floor(Expression expr) {
-			super("floor", expr, '\u230A', '\u230B');
+			super(ExpressionType.FLOOR, expr, '\u230A', '\u230B');
 		}
 
 		@Override
@@ -109,7 +109,7 @@ public abstract class BracketFunction extends FixedInputFunction implements IMat
 	 */
 	public static class Ceiling extends BracketFunction implements IMath {
 		public Ceiling(Expression expr) {
-			super("ceiling", expr, '\u2308', '\u2309');
+			super(ExpressionType.CEILING, expr, '\u2308', '\u2309');
 		}
 
 		@Override
@@ -129,7 +129,7 @@ public abstract class BracketFunction extends FixedInputFunction implements IMat
 	 */
 	public static class Abs extends BracketFunction implements IMath {
 		public Abs(Expression expr) {
-			super("absolutevalue", expr, '|');
+			super(ExpressionType.ABSOLUTE_VALUE, expr, '|');
 		}
 
 		@Override
