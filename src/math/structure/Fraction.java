@@ -16,6 +16,7 @@ public class Fraction extends Expression implements IMath {
 		super(ExpressionType.FRACTION);
 		numerator = num;
 		denominator = denom;
+		
 	}
 
 	@Override
@@ -25,12 +26,12 @@ public class Fraction extends Expression implements IMath {
 
 	@Override
 	public String toString() {
-		return "(" + numerator.toString() + "/" + denominator.toString() + ")";
+		return "(" + numerator + "/" + denominator + ")";
 	}
 
 	@Override
 	public String toLatex() {
-		return "\\frac{" + numerator.toLatex() + "}{" + denominator.toLatex() + "}";
+		return "\\dfrac{" + numerator.toLatex() + "}{" + denominator.toLatex() + "}";
 	}
 
 	@Override

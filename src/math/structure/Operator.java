@@ -10,7 +10,7 @@ import java.util.HashSet;
  *
  */
 public abstract class Operator extends Expression implements IMath {
-	
+
 	protected static final ExpressionSorter SORTER = new ExpressionSorter(); // sorter
 
 	protected Expression[] children; // all the children to sum
@@ -63,7 +63,7 @@ public abstract class Operator extends Expression implements IMath {
 		}
 		sb.append(symbol);
 		sb.append(' ');
-		sb.append(children[i]);
+		sb.append(children[children.length - 1]);
 		sb.append(')');
 		return sb.toString();
 	}
@@ -81,8 +81,6 @@ public abstract class Operator extends Expression implements IMath {
 			latex(i, sb);
 			if (brackets)
 				sb.append("\\right)");
-			if (i < children.length - 1 && this instanceof Product) // remove later
-				sb.append(symbol); // remove later
 			sb.append(' ');
 		}
 		return sb.toString();

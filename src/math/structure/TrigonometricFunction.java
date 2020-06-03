@@ -2,6 +2,10 @@ package math.structure;
 
 import java.util.HashMap;
 
+import math.structure.InverseTrigonometricFunction.ArcCos;
+import math.structure.InverseTrigonometricFunction.ArcSin;
+import math.structure.InverseTrigonometricFunction.ArcTan;
+
 /**
  * class inherited by all trigonometric functions like cosine, sine, tangent
  * 
@@ -27,9 +31,9 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 
 	@Override
 	public String toString() {
-		if (!needsBrackets())
-			return type + expr.toString();
-		return type + "(" + expr.toString() + ")";
+		if (needsBrackets())
+			return type + "(" + expr.toString() + ")";
+		return type + expr.toString();
 	}
 
 	@Override
@@ -100,7 +104,11 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 		@Override
 		public Expression simplify() {
 			Constant eval = evaluate();
-			return eval == null ? new Cos(expr.simplify()) : eval;
+			if (eval != null)
+				return eval;
+			if (expr instanceof ArcCos)
+				return ((ArcCos) expr).expr.simplify();
+			return new Cos(expr.simplify());
 		}
 	}
 
@@ -128,7 +136,11 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 		@Override
 		public Expression simplify() {
 			Constant eval = evaluate();
-			return eval == null ? new Sin(expr.simplify()) : eval;
+			if (eval != null)
+				return eval;
+			if (expr instanceof ArcSin)
+				return ((ArcSin) expr).expr.simplify();
+			return new Sin(expr.simplify());
 		}
 	}
 
@@ -163,7 +175,11 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 		@Override
 		public Expression simplify() {
 			Constant eval = evaluate();
-			return eval == null ? new Tan(expr.simplify()) : eval;
+			if (eval != null)
+				return eval;
+			if (expr instanceof ArcTan)
+				return ((ArcTan) expr).expr.simplify();
+			return new Tan(expr.simplify());
 		}
 	}
 

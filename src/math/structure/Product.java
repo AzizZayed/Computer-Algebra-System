@@ -183,18 +183,7 @@ public class Product extends Operator implements IMath {
 				}
 			}
 		}
-		// multiply bases for common powers: x^a * y^a = (xy)^a
-//		for (int i = powers.size() - 1; i > 0; i--) {
-//			for (int j = i - 1; j >= 0; j--) {
-//				Power p1 = powers.get(i);
-//				Power p2 = powers.get(j);
-//				if (p1.power.equals(p2.power)) {
-//					p1.expr = Product.create(p1.expr, p2.expr); // multiply bases
-//					powers.remove(j);
-//					i--;
-//				}
-//			}
-//		}
+
 		grouped.addAll(powers);
 
 		/*
@@ -253,17 +242,14 @@ public class Product extends Operator implements IMath {
 
 	@Override
 	protected void latex(int index, StringBuilder builder) {
-//		Constant constant = null;
-//		if (children[index] instanceof Constant)
-//			constant = (Constant) children[index];
-//
-//		if (constant != null && Math.signum(constant.getValue()) < 0)
-//			builder.append('-');
-//		else if (!(constant != null && Math.abs(constant.getValue()) == 1d))
-//			builder.append(children[index].toLatex());
-		builder.append(children[index].toLatex());
-//		if (index < children.length - 1)
-//			builder.append(symbol);
+		Constant constant = null;
+		if (children[index] instanceof Constant)
+			constant = (Constant) children[index];
+
+		if (constant != null && constant.getValue() == -1d)
+			builder.append('-');
+		else
+			builder.append(children[index].toLatex());
 	}
 
 	@Override

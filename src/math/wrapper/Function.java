@@ -23,7 +23,7 @@ import math.structure.Variable;
  * @author Abd-El-Aziz Zayed
  *
  */
-public class Equation implements IMath {
+public class Function implements IMath {
 
 	private String expression; // the inputed expression
 	private Expression root; // the root of the expression tree
@@ -32,14 +32,14 @@ public class Equation implements IMath {
 	/*
 	 * Constructor with expression
 	 */
-	public Equation(Expression exp) {
+	public Function(Expression exp) {
 		root = exp;
 	}
 
 	/*
 	 * Constructor with string expression
 	 */
-	public Equation(String exp) {
+	public Function(String exp) {
 		expression = Parser.clean(exp);
 		try {
 			root = Parser.parseExpression(expression, variables);
@@ -51,7 +51,7 @@ public class Equation implements IMath {
 	/*
 	 * constructor with default expression
 	 */
-	public Equation() {
+	public Function() {
 		root = new Fraction(
 				Sum.create(new Exp(new Power(new Variable(), new Constant(1d / 2d))),
 						Product.create(new Constant(2), new Variable()), new Fraction(new Constant(1), new Variable())),
@@ -116,7 +116,7 @@ public class Equation implements IMath {
 	 * @param eq - given equation to check equality
 	 * @return true if the equations are equal, false otherwise
 	 */
-	public boolean equals(Equation eq) {
+	public boolean equals(Function eq) {
 		return root.equals(eq.root);
 	}
 
@@ -136,14 +136,14 @@ public class Equation implements IMath {
 	 * @param var - variable to differentiate with respect to
 	 * @return the equation of the derivative
 	 */
-	public Equation derivative(char var) {
-		return new Equation(root.differentiate(var));
+	public Function derivative(char var) {
+		return new Function(root.differentiate(var));
 	}
 
 	/**
 	 * @return a simplified version of this equation
 	 */
-	public Equation simplified() {
-		return new Equation(root.simplify());
+	public Function simplified() {
+		return new Function(root.simplify());
 	}
 }

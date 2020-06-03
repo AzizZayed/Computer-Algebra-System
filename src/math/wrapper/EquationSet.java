@@ -7,18 +7,18 @@ import math.structure.IMath;
 
 public class EquationSet implements IMath {
 
-	private ArrayList<Equation> equations = new ArrayList<Equation>();
+	private ArrayList<Function> equations = new ArrayList<Function>();
 	private HashMap<Character, Double> varValues = new HashMap<>();
 
 	public EquationSet() {
-		add(new Equation());
+		add(new Function());
 	}
 
 	public void addEquation(String eq) {
-		add(new Equation(eq));
+		add(new Function(eq));
 	}
 
-	private void add(Equation equation) {
+	private void add(Function equation) {
 		equations.add(equation);
 		equation.variables.forEach(key -> varValues.putIfAbsent(key, 1d));
 //		System.out.println(varValues);

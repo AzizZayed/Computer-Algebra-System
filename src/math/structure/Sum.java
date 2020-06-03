@@ -166,36 +166,9 @@ public class Sum extends Operator implements IMath {
 		grouped.addAll(products);
 
 		/*
-		 * LAST: group equal expressions
-		 */
-//		ArrayList<Expression> vars = new ArrayList<>();
-//		for (int i = valid.size() - 1; i >= 0; i--) {
-//			Expression expression = valid.get(i);
-//			if (expression instanceof Variable) {
-//				vars.add((Variable) expression);
-//				valid.remove(i);
-//			}
-//		}
-//		System.out.println(valid);
-//		for (int i = valid.size() - 1; i > 0; i--) {
-//			for (int j = i - 1; j >= 0; j--) {
-//				Expression e1 = valid.get(i);
-//				Expression e2 = valid.get(j);
-//				if (e1.equals(e2)) {
-//					valid.set(i, Product.create(new Constant(2d), e1));
-//					valid.remove(j);
-//					i--;
-//				}
-//			}
-//		}
-//		grouped.addAll(vars);
-
-		/*
 		 * rest of the expressions that were not eligible for simplifications
 		 */
 		grouped.addAll(valid);
-
-		Collections.sort(grouped, SORTER); // sort
 
 		if (grouped.isEmpty()) {
 			System.out.println("Empty");

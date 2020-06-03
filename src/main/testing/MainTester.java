@@ -1,6 +1,6 @@
 package main.testing;
 
-import math.wrapper.Equation;
+import math.wrapper.Function;
 import rendering.latex.LatexRenderer;
 
 /**
@@ -19,13 +19,23 @@ public class MainTester {
 //		set.calculate();
 
 		// "(e^sqrtx + (2 * x) + (1/x))/(sqrtx * sincostanx)"
-		Equation eq = new Equation("ln(x^3)*ln(x^2)*ln(x^1)*lna + 5");
+		Function eq = new Function("cosx-sinx");
+		eq = eq.simplified();
 		LatexRenderer.render(eq);
-		LatexRenderer.render(eq.simplified());
-		LatexRenderer.render(eq.simplified().simplified());
-		LatexRenderer.render(eq.simplified().simplified().simplified());
+		System.out.println("Function: " + eq);
+		Function e = eq.derivative('x');
+		for (int i = 0; i < 5; i++) {
+			LatexRenderer.render(e);
+			System.out.println(i + ": " + e);
+			e = e.simplified();
+		}
+
 //		LatexRenderer.render(eq);
-		
+//		LatexRenderer.render(eq.simplified());
+//		LatexRenderer.render(eq.simplified().simplified());
+//		LatexRenderer.render(eq.simplified().simplified().simplified());
+//		LatexRenderer.render(eq);
+
 //		System.out.println(Math.acos(1d));
 //		System.out.println(Math.floor(Math.acos(1d)) == 0d);
 
