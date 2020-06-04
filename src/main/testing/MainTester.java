@@ -19,16 +19,22 @@ public class MainTester {
 //		set.calculate();
 
 		// "(e^sqrtx + (2 * x) + (1/x))/(sqrtx * sincostanx)"
-		Function eq = new Function("cosx-sinx");
+		Function eq = new Function();
+		LatexRenderer.render(eq);
 		eq = eq.simplified();
 		LatexRenderer.render(eq);
-		System.out.println("Function: " + eq);
-		Function e = eq.derivative('x');
-		for (int i = 0; i < 5; i++) {
-			LatexRenderer.render(e);
-			System.out.println(i + ": " + e);
-			e = e.simplified();
-		}
+//		System.out.println("Function: " + eq);
+		Function der = eq.derivative('x');
+		LatexRenderer.render(der);
+		der = der.simplified();
+		LatexRenderer.render(der);
+//		der = der.simplifiedStep();
+//		LatexRenderer.render(der);
+//		der = der.simplifiedStep();
+//		LatexRenderer.render(der);
+//		der = der.simplifiedStep();
+//		LatexRenderer.render(der);
+//		
 
 //		LatexRenderer.render(eq);
 //		LatexRenderer.render(eq.simplified());

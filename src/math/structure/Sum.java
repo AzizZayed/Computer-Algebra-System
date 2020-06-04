@@ -61,6 +61,7 @@ public class Sum extends Operator implements IMath {
 	 * @return simplified and refactored expression
 	 */
 	public static Expression create(Expression... expressions) {
+//		System.out.println(Arrays.toString(expressions));
 		if (expressions.length == 0)
 			return null;
 		if (expressions.length == 1)
@@ -92,9 +93,8 @@ public class Sum extends Operator implements IMath {
 			Expression exp = valid.get(i);
 			if (exp instanceof Sum) {
 				Sum sum = (Sum) exp;
-				for (int j = 0; j < sum.children.length; j++) {
+				for (int j = 0; j < sum.children.length; j++)
 					valid.add(sum.children[j]);
-				}
 				valid.remove(i);
 			}
 		}
@@ -156,7 +156,6 @@ public class Sum extends Operator implements IMath {
 				Product rest2 = p2.removedConstant();
 
 				if (rest1.equals(rest2)) {
-					System.out.println(valid);
 					products.set(i, Product.create(new Constant(c1.getValue() + c2.getValue()), rest1));
 					products.remove(j);
 					i--;

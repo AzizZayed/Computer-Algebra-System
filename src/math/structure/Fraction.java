@@ -16,7 +16,7 @@ public class Fraction extends Expression implements IMath {
 		super(ExpressionType.FRACTION);
 		numerator = num;
 		denominator = denom;
-		
+
 	}
 
 	@Override
@@ -66,6 +66,56 @@ public class Fraction extends Expression implements IMath {
 
 	@Override
 	public Expression simplify() {
-		return new Fraction(numerator.simplify(), denominator.simplify());
+		Expression sNum = numerator.simplify();
+		Expression sDenom = denominator.simplify();
+
+//		System.out.println(sNum);
+//		System.out.println(sDenom);
+
+		boolean numIsFrac = sNum instanceof Fraction;
+		boolean denomIsFrac = sDenom instanceof Fraction;
+
+		/*
+		 * simplify complex fractions
+		 */
+		if (numIsFrac && !denomIsFrac) { // (g / h) / f
+			Fraction fNum = (Fraction) sNum;
+			return new Fraction(fNum.numerator.simplify(), Product.create(fNum.denominator.simplify(), sDenom));
+		}
+		if (!numIsFrac && denomIsFrac) { // f / (g / h)
+			Fraction fDenom = (Fraction) sDenom;
+			return new Fraction(Product.create(sNum, fDenom.denominator.simplify()), fDenom.numerator.simplify());
+		}
+		if (numIsFrac && denomIsFrac) { // (g / h) / (f / i)
+			Fraction fNum = (Fraction) sNum;
+			Fraction fDenom = (Fraction) sDenom;
+			return new Fraction( // (g * i) / (h * f)
+					Product.create(fNum.numerator.simplify(), fDenom.denominator.simplify()), // g * i
+					Product.create(fNum.denominator.simplify(), fDenom.numerator.simplify()) // h * f
+			); // end (g * i) / (h * f)
+		}
+
+		/*
+		 * simplify if there is sum in numerator
+		 */
+//		if (sNum instanceof Sum && !(sDenom instanceof Sum)) {
+//			Sum numSum = (Sum) sNum;
+//			Fraction[] fracs = new Fraction[numSum.children.length];
+//			for (int i = 0; i < fracs.length; i++)
+//				fracs[i] = new Fraction(numSum.children[i].simplify(), sDenom);
+//			return Sum.create(fracs).simplify();
+//		}
+
+		/*
+		 * simplify if constants
+		 */
+		if (sNum instanceof Constant && sDenom instanceof Constant) {
+			double result = ((Constant) sNum).getValue() / ((Constant) sDenom).getValue();
+			if (result == Math.floor(result))
+				return new Constant(result);
+		}
+
+		return Product.create(sNum, new Power(sDenom, new Constant(-1d)).simplify());
+//		return new Fraction(sNum, sDenom);
 	}
 }

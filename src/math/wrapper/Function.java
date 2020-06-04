@@ -141,9 +141,26 @@ public class Function implements IMath {
 	}
 
 	/**
-	 * @return a simplified version of this equation
+	 * @return a fully simplified version of this equation
 	 */
 	public Function simplified() {
+		Expression simplified = root;
+		Expression previous = null;
+
+		do {
+			previous = simplified;
+//			System.out.println(previous);
+			simplified = simplified.simplify();
+//			System.out.println(simplified);
+		} while (!simplified.equals(previous));
+
+		return new Function(simplified.simplify());
+	}
+
+	/**
+	 * @return a single step towards the simplified version of this equation
+	 */
+	public Function simplifiedStep() {
 		return new Function(root.simplify());
 	}
 }

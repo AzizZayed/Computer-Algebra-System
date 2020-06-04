@@ -127,11 +127,15 @@ public class Power extends FixedInputFunction implements IMath {
 			return new Power(inner.expr, Product.create(power, inner.power));
 
 		} else if (expr instanceof Product) {
+			
 			Product inner = (Product) expr;
 			Expression[] exps = new Expression[inner.children.length];
 			for (int i = 0; i < exps.length; i++)
 				exps[i] = new Power(inner.children[i], power);
-			return Product.create(exps);
+			
+			Expression prod = Product.create(exps);
+//			System.out.println("in " + prod);
+			return prod;
 
 		} else if (power instanceof Log) {
 			Log log = (Log) power;

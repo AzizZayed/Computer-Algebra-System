@@ -53,6 +53,7 @@ public class Product extends Operator implements IMath {
 	 * @return simplified and refactored expression
 	 */
 	public static Expression create(Expression... expressions) {
+//		System.out.println(Arrays.toString(expressions));
 		if (expressions.length == 0)
 			return null;
 		if (expressions.length == 1)
@@ -114,11 +115,16 @@ public class Product extends Operator implements IMath {
 				if (frac.denominator instanceof Power) {
 					Power denom = (Power) frac.denominator;
 					valid.add(new Power(denom.expr, create(new Constant(-1d), denom.power)));
-				} else
+				} else {
 					valid.add(new Power(frac.denominator, new Constant(-1d)));
+				}
 				valid.remove(i);
 			}
 		}
+//		for (int i = 0; i < valid.size(); i++) {
+//			valid.set(i, valid.get(i).simplify());
+//		}
+//		System.out.println("prod: " + valid);
 
 		/*
 		 * extract inner products if any
@@ -127,9 +133,8 @@ public class Product extends Operator implements IMath {
 			Expression exp = valid.get(i);
 			if (exp instanceof Product) {
 				Product prod = (Product) exp;
-				for (int j = 0; j < prod.children.length; j++) {
+				for (int j = 0; j < prod.children.length; j++)
 					valid.add(prod.children[j]);
-				}
 				valid.remove(i);
 			}
 		}
@@ -155,9 +160,10 @@ public class Product extends Operator implements IMath {
 		 */
 		for (int i = 0; i < valid.size(); i++) {
 			Expression exp = valid.get(i);
-			if (!(exp instanceof Power)) {
-				valid.set(i, new Power(exp, new Constant(1d)));
-			}
+			if (exp instanceof Power)
+				valid.set(i, exp.simplify());
+			else
+				valid.set(i, new Power(exp.simplify(), new Constant(1d)));
 		}
 
 		/*
@@ -211,7 +217,7 @@ public class Product extends Operator implements IMath {
 			if (exp instanceof Power) {
 				Power pow = (Power) exp;
 				if (pow.hasNegativeExponent()) {
-					denoms.add(pow.toDenominator());
+					denoms.add(pow.toDenominator().simplify());
 					grouped.remove(i);
 				}
 			}
