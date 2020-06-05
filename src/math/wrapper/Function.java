@@ -45,6 +45,8 @@ public class Function implements IMath {
 			root = Parser.parseExpression(expression, variables);
 		} catch (Exception e) {
 			System.out.println("PARSING ERROR: " + e);
+			root = defaultExpression();
+			variables.add('x');
 		}
 	}
 
@@ -52,12 +54,16 @@ public class Function implements IMath {
 	 * constructor with default expression
 	 */
 	public Function() {
-		root = new Fraction(
+		root = defaultExpression();
+		variables.add('x');
+	}
+
+	private Expression defaultExpression() {
+		return new Fraction(
 				Sum.create(new Exp(new Power(new Variable(), new Constant(1d / 2d))),
 						Product.create(new Constant(2), new Variable()), new Fraction(new Constant(1), new Variable())),
 				Product.create(new Power(new Variable(), new Constant(1d / 2d)),
 						new Sin(new Cos(new Tan(new Variable())))));
-		variables.add('x');
 	}
 
 	/**
