@@ -145,7 +145,7 @@ public class Grid {
 		if (xmin < xmax) {
 			x.set(xmin, xmax);
 			y.set(y.getMin() + ds, y.getMax() - ds);
-			z.set(z.getMin() + ds, z.getMax() - ds);
+//			z.set(z.getMin() + ds, z.getMax() - ds);
 		}
 	}
 }

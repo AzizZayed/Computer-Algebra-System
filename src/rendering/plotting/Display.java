@@ -23,10 +23,14 @@ import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
 
 /**
@@ -39,7 +43,7 @@ public final class Display {
 
 	public static long ID; // the id of the window
 	public static int x = 400, y = 0;
-	public static int width = 1000 + x, height = 1000;
+	public static int width = 1000 + x, height = 1000 + y;
 
 	/**
 	 * initialize the window and show it
@@ -53,10 +57,7 @@ public final class Display {
 		glfwDefaultWindowHints();
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-		glfwWindowHint(GLFW_SAMPLES, 8); // multi-sampling and anti-aliasing enabled
-
-//		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-//		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+		glfwWindowHint(GLFW_SAMPLES, 16); // multi-sampling and anti-aliasing enabled
 
 		// create the window for OpenGL
 		ID = glfwCreateWindow(width, height, "Hello World!", MemoryUtil.NULL, MemoryUtil.NULL);
@@ -75,7 +76,11 @@ public final class Display {
 
 		GL.createCapabilities(); // make OpenGL bindings available
 
-		glViewport(x, y, width, height);
+		glViewport(x, y, width - x, height - y);
+		glMatrixMode(GL11.GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0, 1, 0, 1, -1, 1);
+		glMatrixMode(GL11.GL_MODELVIEW);
 	}
 
 	/**

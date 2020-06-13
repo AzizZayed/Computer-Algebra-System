@@ -1,17 +1,18 @@
 package rendering.data;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL11.GL_LINES;
+import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
 import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
 import static org.lwjgl.opengl.GL11.glColor4d;
 import static org.lwjgl.opengl.GL11.glDisableClientState;
-import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glEnableClientState;
 import static org.lwjgl.opengl.GL11.glVertexPointer;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glDeleteBuffers;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 import java.awt.image.BufferedImage;
@@ -26,7 +27,8 @@ public class GraphableEquation {
 
 	public static final int MAX_RESOLUTION = 10000;
 
-	private static FloatBuffer buffer = BufferUtils.createFloatBuffer(MAX_RESOLUTION * 2);
+	private static int size = MAX_RESOLUTION * 2;
+	private static FloatBuffer buffer = BufferUtils.createFloatBuffer(size);
 
 	private Equation function;
 	private float[] color;
@@ -50,23 +52,23 @@ public class GraphableEquation {
 			return;
 
 		if (updateData) {
-			int size = MAX_RESOLUTION * 2;
+			buffer.clear();
 
 			double dx = grid.getX().getLength() / MAX_RESOLUTION;
-			float xmin = (float) grid.getXMin();
+			double xmin = grid.getXMin();
 
 			int i;
-			float x;
+			double x;
 			for (i = 0, x = xmin; i < size /* && x <= xmax */; i += 2, x += dx) {
-				float y = (float) eval(x, varValues);
+				double y = eval(x, varValues);
 
 //				Range yRange = grid.getY();
 //				if (!yRange.inRange(eval(x - dx, varValues)) && !yRange.inRange(y)
 //						&& !yRange.inRange(eval(x + dx, varValues)))
 //					y = Float.NaN;
 
-				buffer.put(x);
-				buffer.put(y);
+				buffer.put((float) x);
+				buffer.put((float) y);
 			}
 			buffer.flip();
 		}
@@ -83,10 +85,10 @@ public class GraphableEquation {
 		glVertexPointer(2, GL_FLOAT, 0, 0);
 
 		glColor4d(color[0], color[1], color[2], color[3]);
-//		glDrawArrays(GL_LINE_STRIP, 0, MAX_RESOLUTION);
+		glDrawArrays(GL_LINE_STRIP, 0, MAX_RESOLUTION);
 
-		glDrawArrays(GL_LINES, 0, MAX_RESOLUTION);
-		glDrawArrays(GL_LINES, 1, MAX_RESOLUTION - 1);
+//		glDrawArrays(GL_LINES, 0, MAX_RESOLUTION);
+//		glDrawArrays(GL_LINES, 1, MAX_RESOLUTION - 1);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisableClientState(GL_VERTEX_ARRAY);
@@ -130,6 +132,11 @@ public class GraphableEquation {
 	 */
 	public Texture getTexture() {
 		return texture;
+	}
+
+	public void cleanup() {
+		glDeleteBuffers(vbo);
+		texture.cleanup();
 	}
 
 }

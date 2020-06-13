@@ -12,16 +12,19 @@ public class Curve {
 
 	public Curve(Equation eq) {
 		String latex = "y = " + eq.toLatex();
-		function = new GraphableEquation(eq.simplified(), new float[] { 0, 0, 0, 1 }, LatexRenderer.toImage(latex));
+		function = new GraphableEquation(eq.simplified(), randomColor(), LatexRenderer.toImage(latex));
 		Equation der = eq.derivative('x');
 		latex = "y_x = " + der.toLatex();
-		derivative = new GraphableEquation(der, new float[] { 0, 0, 0, 1 }, LatexRenderer.toImage(latex));
+		derivative = new GraphableEquation(der, randomColor(), LatexRenderer.toImage(latex));
 	}
 
 	public void update(Grid grid, boolean updateData, HashMap<Character, Double> varValues) {
 		function.update(grid, updateData, varValues);
 		derivative.update(grid, updateData, varValues);
-		varValues.remove('x');
+	}
+
+	private float[] randomColor() {
+		return new float[] { (float) Math.random(), (float) Math.random(), (float) Math.random(), 1f };
 	}
 
 	/**
@@ -36,5 +39,10 @@ public class Curve {
 	 */
 	public GraphableEquation getDerivative() {
 		return derivative;
+	}
+	
+	public void cleanup() {
+		function.cleanup();
+		derivative.cleanup();
 	}
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import imgui.ImBool;
 import imgui.ImDouble;
@@ -18,12 +19,15 @@ import imgui.ImVec2;
 import imgui.callbacks.ImStrConsumer;
 import imgui.callbacks.ImStrSupplier;
 import imgui.enums.ImGuiBackendFlags;
+import imgui.enums.ImGuiColorEditFlags;
 import imgui.enums.ImGuiCond;
 import imgui.enums.ImGuiConfigFlags;
 import imgui.enums.ImGuiDataType;
 import imgui.enums.ImGuiKey;
+import imgui.enums.ImGuiMouseButton;
 import imgui.enums.ImGuiMouseCursor;
 import imgui.enums.ImGuiTreeNodeFlags;
+import imgui.enums.ImGuiWindowFlags;
 import imgui.gl3.ImGuiImplGl3;
 import math.structure.Equation;
 import rendering.data.Curve;
@@ -36,31 +40,42 @@ import rendering.plotting.Display;
  * taken from the example here:
  * https://github.com/SpaiR/imgui-java/tree/master/imgui-lwjgl3/src/test/java
  * 
+ * Since ImGui has no documentation, I used the demo file to find the functions
+ * I need: https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp
+ * 
  * @author Abd-El-Aziz Zayed
  *
  */
 public class GUIRenderer {
 
-	// Mouse cursors provided by GLFW
-	private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
-	private ImString strFunction = new ImString("x+5", 500);
+	private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT]; // Mouse cursors provided by GLFW
+	private ImString strFunction = new ImString("a*x^2", 500); // string object to record input
 
-	private final ImGuiImplGl3 imGui = new ImGuiImplGl3();
+	private final ImGuiImplGl3 imGui = new ImGuiImplGl3(); // OpenGL ImGui context
 
-	private HashMap<Character, Float> sliderSteps = new HashMap<>();
+	private HashMap<Character, Float> sliderSteps = new HashMap<>(); // the incrementation values for each slider
 
-	private ImVec2 mouseDrag = new ImVec2(0f, 0f);
-	private float scroll = 0f;
+	private ImVec2 mouseDrag = new ImVec2(0f, 0f); // the vector describing the mouse drag
+	private float scroll = 0f; // mouse wheel scroll delta
 
-	private static GUIRenderer instance = new GUIRenderer();
+	private static GUIRenderer instance = new GUIRenderer(); // singleton instance
 
-	public static GUIRenderer getInstance() {
+	/**
+	 * @return the only GUIRenderer instance
+	 */
+	public static GUIRenderer getContext() {
 		return instance;
 	}
 
+	/**
+	 * make constructor private for singleton
+	 */
 	private GUIRenderer() {
 	}
 
+	/**
+	 * initialize ImGui
+	 */
 	public void initialize() {
 		long windowPtr = Display.ID;
 
@@ -176,7 +191,7 @@ public class GUIRenderer {
 			}
 		});
 
-		imGui.init("#version 130");
+		imGui.init("#version 330");
 		ImGuiStyle style = ImGui.getStyle();
 		style.setFrameRounding(0f);
 		style.setWindowRounding(0f);
@@ -184,134 +199,15 @@ public class GUIRenderer {
 		style.setScrollbarRounding(0f);
 		style.setGrabRounding(0f);
 		style.setTabRounding(0f);
-		ImGui.styleColorsLight();
+		ImGui.styleColorsDark();
 		io.setFontGlobalScale(1.25f);
 	}
 
-	public void render(double dt, ArrayList<Curve> curves, HashMap<Character, Double> varValues) {
-		startFrame((float) dt);
-
-		// Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
-		ImGui.newFrame();
-		ImGui.setNextWindowPos(2, 2, ImGuiCond.FirstUseEver);
-		ImGui.setNextWindowSize(Display.x, Display.height - 4, ImGuiCond.FirstUseEver);
-		ImGui.begin("Functions");
-
-		/*
-		 * Render sliders
-		 */
-//		for(Map.Entry<Character, Double> entry : varValues.entrySet()) {
-//			
-//		}
-
-		if (varValues.size() > 0) {
-			ImGui.text("Sliders");
-			varValues.forEach((key, value) -> {
-				float s = sliderSteps.get(key);
-				ImDouble val = new ImDouble(value);
-				ImGui.dragScalar(Character.toString(key), ImGuiDataType.Double, val, s);
-				varValues.put(key, val.get());
-
-				ImGui.sameLine();
-
-				ImFloat step = new ImFloat(s);
-				ImGui.dragScalar(Character.toString(key), ImGuiDataType.Float, step, 0.1f);
-				sliderSteps.put(key, step.get());
-
-				ImGui.separator();
-			});
-
-			ImGui.separator();
-		}
-
-		/*
-		 * Render functions
-		 */
-		ImGui.inputText("Input here", strFunction);
-		ImGui.sameLine();
-		ImGuiHelp("Input your function here. Example: x^2 + 2");
-		if (ImGui.button("Add Function")) {
-			String func = strFunction.get();
-			HashSet<Character> variables = new HashSet<>();
-			curves.add(new Curve(new Equation(func, variables)));
-			variables.forEach(key -> {
-				if (key != 'x') {
-					varValues.putIfAbsent(key, 1d);
-					sliderSteps.putIfAbsent(key, 0.01f);
-				}
-			});
-		}
-
-		for (int i = 0; i < curves.size(); i++) {
-			Curve curve = curves.get(i);
-			GraphableEquation func = curve.getFunction();
-			GraphableEquation der = curve.getDerivative();
-			if (ImGui.collapsingHeader("Function " + i, ImGuiTreeNodeFlags.DefaultOpen)) {
-//				func.setVisible(ImGui.checkbox("Plot function " + i, func.isVisible()));
-				ImBool visible;
-				Texture tex;
-
-				// Function
-				visible = new ImBool(func.isVisible());
-				ImGui.checkbox("Plot function " + i, visible);
-				func.setVisible(visible.get());
-				ImGui.colorEdit4("FColor " + i, func.getColor());
-				tex = func.getTexture();
-				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
-
-				// Derivative
-				visible = new ImBool(der.isVisible());
-				ImGui.checkbox("Plot derivative " + i, visible);
-				der.setVisible(visible.get());
-				ImGui.colorEdit4("DColor " + i, der.getColor());
-				tex = der.getTexture();
-				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
-
-//				if (ImGui.button("Delete Function " + i)) {
-//					curves.remove(i);
-//				}
-			}
-		}
-		
-		collectInput();
-
-		ImGui.end();
-		ImGui.render();
-
-		imGui.render(ImGui.getDrawData());
-
-	}
-
-	private void ImGuiHelp(String message) {
-		ImGui.textDisabled("(?)");
-		if (ImGui.isItemHovered()) {
-			ImGui.beginTooltip();
-			ImGui.pushTextWrapPos(ImGui.getFontSize() * 35.0f);
-			ImGui.textUnformatted(message);
-			ImGui.popTextWrapPos();
-			ImGui.endTooltip();
-		}
-	}
-	
-	private void collectInput() {
-		mouseDrag = new ImVec2(0f, 0f);
-		if (ImGui.getIO().getMouseDown(0))
-			ImGui.getIO().getMouseDelta(mouseDrag);
-		scroll = ImGui.getIO().getMouseWheel();
-	}
-
-	public float getDragX() {
-		return mouseDrag.x;
-	}
-
-	public float getDragY() {
-		return mouseDrag.y;
-	}
-
-	public float getMouseScroll() {
-		return scroll;
-	}
-
+	/**
+	 * setup the beginning of an ImGui frame
+	 * 
+	 * @param deltaTime - time between frames
+	 */
 	private void startFrame(final float deltaTime) {
 		long windowPtr = Display.ID;
 		// For application window properties
@@ -343,6 +239,165 @@ public class GUIRenderer {
 		final int imguiCursor = ImGui.getMouseCursor();
 		glfwSetCursor(windowPtr, mouseCursors[imguiCursor]);
 		glfwSetInputMode(windowPtr, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+
+	/**
+	 * render main GUI elements
+	 * 
+	 * @param dt        - delta time
+	 * @param curves    - list with all the curves to draw
+	 * @param varValues - map with all the variables and they're corresponding
+	 *                  values for the sliders
+	 */
+	public void render(double dt, ArrayList<Curve> curves, HashMap<Character, Double> varValues) {
+		startFrame((float) dt);
+
+		ImGui.newFrame();
+		ImGui.setNextWindowPos(2, 2, ImGuiCond.FirstUseEver);
+		ImGui.setNextWindowSize(Display.x, Display.height - 4, ImGuiCond.FirstUseEver);
+		ImGui.begin("Functions", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize);
+
+		boolean modification = false; // if any modifications were done
+
+		/*
+		 * Render sliders
+		 */
+		ImGui.text("Sliders");
+		for (Map.Entry<Character, Double> entry : varValues.entrySet()) {
+			char key = entry.getKey();
+			double value = entry.getValue();
+			if (validKey(key)) {
+				float s = sliderSteps.get(key);
+				ImDouble val = new ImDouble(value);
+				boolean mod;
+
+				// value slider
+				mod = ImGui.dragScalar(Character.toString(key), ImGuiDataType.Double, val, s);
+				modification = modification || mod;
+				varValues.put(key, val.get());
+
+//				ImGui.sameLine();
+
+				// step / incrementation slider
+				ImFloat step = new ImFloat(s);
+				mod = ImGui.dragScalar("Step " + key, ImGuiDataType.Float, step, 0.001f);
+				modification = modification || mod;
+				sliderSteps.put(key, step.get());
+
+				ImGui.separator();
+			}
+		}
+
+		ImGui.separator();
+
+		/*
+		 * Render functions
+		 */
+		ImGui.inputText("Input here", strFunction);
+		ImGui.sameLine();
+		ImGuiHelp("Input your function here. Example: x^2 + 2");
+		if (ImGui.button("Add Function")) {
+			String func = strFunction.get();
+			HashSet<Character> variables = new HashSet<>();
+			curves.add(new Curve(new Equation(func, variables)));
+			variables.forEach(key -> {
+				if (validKey(key)) {
+					varValues.putIfAbsent(key, 1d);
+					sliderSteps.putIfAbsent(key, 0.01f);
+				}
+			});
+		}
+
+		for (int i = 0; i < curves.size(); i++) {
+			Curve curve = curves.get(i);
+			GraphableEquation func = curve.getFunction();
+			GraphableEquation der = curve.getDerivative();
+			if (ImGui.collapsingHeader("Function " + i, ImGuiTreeNodeFlags.DefaultOpen)) {
+				ImBool visible;
+				Texture tex;
+				boolean mod;
+
+				// Function
+				visible = new ImBool(func.isVisible());
+				ImGui.checkbox("Plot function " + i, visible);
+				func.setVisible(visible.get());
+				mod = ImGui.colorEdit4("FColor " + i, func.getColor(), ImGuiColorEditFlags.Float);
+				modification = modification || mod;
+				tex = func.getTexture();
+				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+
+				// Derivative
+				visible = new ImBool(der.isVisible());
+				ImGui.checkbox("Plot derivative " + i, visible);
+				der.setVisible(visible.get());
+				mod = ImGui.colorEdit4("DColor " + i, der.getColor(), ImGuiColorEditFlags.Float);
+				modification = modification || mod;
+				tex = der.getTexture();
+				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+			}
+		}
+
+		collectInput(!modification);
+
+//		ImGui.showDemoWindow();
+
+		ImGui.end();
+		ImGui.render();
+
+		imGui.render(ImGui.getDrawData());
+
+	}
+
+	/**
+	 * @param key
+	 * @return true if the given key is valid to be a slider
+	 */
+	private boolean validKey(char key) {
+		return key != 'x' && key != 'y' && key != 'z';
+	}
+
+	/**
+	 * create a help tooltip with ImGui and the given message
+	 * 
+	 * @param message - help message
+	 */
+	private void ImGuiHelp(String message) {
+		ImGui.textDisabled("(?)");
+		if (ImGui.isItemHovered()) {
+			ImGui.beginTooltip();
+			ImGui.pushTextWrapPos(ImGui.getFontSize() * 35.0f);
+			ImGui.textUnformatted(message);
+			ImGui.popTextWrapPos();
+			ImGui.endTooltip();
+		}
+	}
+
+	/**
+	 * save and update the input properties
+	 * 
+	 * @param recordMouseMove - if we should record mouse movement
+	 */
+	private void collectInput(boolean recordMouseMove) {
+		ImGuiIO io = ImGui.getIO();
+		mouseDrag = new ImVec2(0f, 0f);
+		if (io.getMouseDown(ImGuiMouseButton.Left) && recordMouseMove)
+			io.getMouseDelta(mouseDrag);
+		scroll = io.getMouseWheel();
+	}
+
+	/**
+	 * @return 
+	 */
+	public float getDragX() {
+		return mouseDrag.x;
+	}
+
+	public float getDragY() {
+		return mouseDrag.y;
+	}
+
+	public float getMouseScroll() {
+		return scroll;
 	}
 
 	public void destroy() {
