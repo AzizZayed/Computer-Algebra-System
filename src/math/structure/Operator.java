@@ -9,9 +9,7 @@ import java.util.HashSet;
  * @author Abd-El-Aziz Zayed
  *
  */
-public abstract class Operator extends Expression implements IMath {
-
-	protected static final ExpressionSorter SORTER = new ExpressionSorter(); // sorter
+public abstract class Operator extends Expression {
 
 	protected Expression[] children; // all the children to sum
 	protected char symbol; // the symbol of the operator

@@ -12,14 +12,14 @@ import org.apache.commons.lang3.math.NumberUtils;
  * @author Abd-El-Aziz Zayed
  *
  */
-public abstract class ManyInputFunction extends Expression implements IMath {
+public abstract class ManyInputFunction extends Expression {
 
 	protected Expression[] children; // input expressions
 
 	public ManyInputFunction(ExpressionType type, Expression[] expressions) {
 		super(type);
 		children = expressions;
-		Arrays.sort(children, new ExpressionSorter());
+		Arrays.sort(children, ExpressionSorter.DEFAULT);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 	@Override
 	public Expression differentiate(char var) {
 		throw new IllegalArgumentException(
-				"Cannot find derivative of a function with arbitrary amount of inputs like min and max. Compute numerically.");
+				"Cannot find derivative of a function with arbitrary amount of inputs like min and max. Compute numerically instead.");
 	}
 
 	/**
@@ -135,7 +135,7 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 	 * @author Abd-El-Aziz Zayed
 	 *
 	 */
-	public static class Min extends ManyInputFunction implements IMath {
+	public static final class Min extends ManyInputFunction {
 		public Min(Expression... expressions) {
 			super(ExpressionType.MIN, expressions);
 		}
@@ -158,7 +158,7 @@ public abstract class ManyInputFunction extends Expression implements IMath {
 	 * @author Abd-El-Aziz Zayed
 	 *
 	 */
-	public static class Max extends ManyInputFunction implements IMath {
+	public static final class Max extends ManyInputFunction {
 		public Max(Expression... expressions) {
 			super(ExpressionType.MAX, expressions);
 		}

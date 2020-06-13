@@ -12,7 +12,7 @@ import math.structure.InverseTrigonometricFunction.ArcTan;
  * @author Abd-El-Aziz Zayed
  *
  */
-public abstract class TrigonometricFunction extends FixedInputFunction implements IMath {
+public abstract class TrigonometricFunction extends FixedInputFunction {
 
 	/**
 	 * constructor
@@ -54,7 +54,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	}
 
 	/**
-	 * @return if the input needs brackets
+	 * @return if the input needs surrounding brackets
 	 */
 	protected boolean needsBrackets() {
 		return expr instanceof Operator || expr instanceof Power || expr instanceof Fraction || expr instanceof Log;
@@ -82,7 +82,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	/*
 	 * cosine function
 	 */
-	public static class Cos extends TrigonometricFunction implements IMath {
+	public static final class Cos extends TrigonometricFunction {
 		public Cos(Expression expr) {
 			super(ExpressionType.COS, expr);
 		}
@@ -115,7 +115,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	/*
 	 * sine function
 	 */
-	public static class Sin extends TrigonometricFunction implements IMath {
+	public static final class Sin extends TrigonometricFunction {
 		public Sin(Expression expr) {
 			super(ExpressionType.SIN, expr);
 		}
@@ -147,7 +147,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	/*
 	 * tangent function
 	 */
-	public static class Tan extends TrigonometricFunction implements IMath {
+	public static final class Tan extends TrigonometricFunction {
 		public Tan(Expression expr) {
 			super(ExpressionType.TAN, expr);
 		}
@@ -186,7 +186,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	/*
 	 * cosecant function
 	 */
-	public static class Csc extends TrigonometricFunction implements IMath {
+	public static final class Csc extends TrigonometricFunction {
 		public Csc(Expression expr) {
 			super(ExpressionType.CSC, expr);
 		}
@@ -216,7 +216,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	/*
 	 * secant function
 	 */
-	public static class Sec extends TrigonometricFunction implements IMath {
+	public static final class Sec extends TrigonometricFunction {
 		public Sec(Expression expr) {
 			super(ExpressionType.SEC, expr);
 		}
@@ -245,7 +245,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction implement
 	/*
 	 * cotangent function
 	 */
-	public static class Cot extends TrigonometricFunction implements IMath {
+	public static final class Cot extends TrigonometricFunction {
 		public Cot(Expression expr) {
 			super(ExpressionType.COT, expr);
 		}

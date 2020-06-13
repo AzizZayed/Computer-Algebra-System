@@ -98,7 +98,7 @@ public class Parser {
 	}
 
 	/**
-	 * generateExpression an expression tree from the given string expression
+	 * generate an expression tree from the given string expression
 	 * 
 	 * @param strExp - given expression
 	 * @param vars   - set with all the used variables

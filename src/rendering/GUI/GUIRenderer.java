@@ -1,9 +1,64 @@
 package rendering.GUI;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_ARROW_CURSOR;
+import static org.lwjgl.glfw.GLFW.GLFW_CURSOR;
+import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_NORMAL;
+import static org.lwjgl.glfw.GLFW.GLFW_HAND_CURSOR;
+import static org.lwjgl.glfw.GLFW.GLFW_HRESIZE_CURSOR;
+import static org.lwjgl.glfw.GLFW.GLFW_IBEAM_CURSOR;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_C;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_DELETE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_END;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_HOME;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_INSERT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_ENTER;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_ALT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_CONTROL;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SUPER;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_PAGE_DOWN;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_PAGE_UP;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_ALT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_CONTROL;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SUPER;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_V;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_X;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_Y;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_Z;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_1;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_2;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_3;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_4;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_5;
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import static org.lwjgl.glfw.GLFW.GLFW_VRESIZE_CURSOR;
+import static org.lwjgl.glfw.GLFW.glfwCreateStandardCursor;
+import static org.lwjgl.glfw.GLFW.glfwDestroyCursor;
+import static org.lwjgl.glfw.GLFW.glfwGetClipboardString;
+import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
+import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
+import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
+import static org.lwjgl.glfw.GLFW.glfwSetCharCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetClipboardString;
+import static org.lwjgl.glfw.GLFW.glfwSetCursor;
+import static org.lwjgl.glfw.GLFW.glfwSetInputMode;
+import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetScrollCallback;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -30,10 +85,9 @@ import imgui.enums.ImGuiTreeNodeFlags;
 import imgui.enums.ImGuiWindowFlags;
 import imgui.gl3.ImGuiImplGl3;
 import math.structure.Equation;
-import rendering.data.Curve;
-import rendering.data.GraphableEquation;
-import rendering.data.Texture;
-import rendering.plotting.Display;
+import rendering.core.Display;
+import rendering.plots.Curve;
+import rendering.plots.CurvePair;
 
 /**
  * class to render ImGui using the java bindings. Most of the setup code is
@@ -249,7 +303,7 @@ public class GUIRenderer {
 	 * @param varValues - map with all the variables and they're corresponding
 	 *                  values for the sliders
 	 */
-	public void render(double dt, ArrayList<Curve> curves, HashMap<Character, Double> varValues) {
+	public void render(double dt, ArrayList<CurvePair> curves, HashMap<Character, Double> varValues) {
 		startFrame((float) dt);
 
 		ImGui.newFrame();
@@ -293,13 +347,14 @@ public class GUIRenderer {
 		/*
 		 * Render functions
 		 */
-		ImGui.inputText("Input here", strFunction);
+		modification = modification || ImGui.inputText("Input here", strFunction);
 		ImGui.sameLine();
 		ImGuiHelp("Input your function here. Example: x^2 + 2");
 		if (ImGui.button("Add Function")) {
 			String func = strFunction.get();
 			HashSet<Character> variables = new HashSet<>();
-			curves.add(new Curve(new Equation(func, variables)));
+			CurvePair c = new CurvePair(new Equation(func, variables));
+			curves.add(c);
 			variables.forEach(key -> {
 				if (validKey(key)) {
 					varValues.putIfAbsent(key, 1d);
@@ -309,9 +364,9 @@ public class GUIRenderer {
 		}
 
 		for (int i = 0; i < curves.size(); i++) {
-			Curve curve = curves.get(i);
-			GraphableEquation func = curve.getFunction();
-			GraphableEquation der = curve.getDerivative();
+			CurvePair curve = curves.get(i);
+			Curve func = curve.getFunction();
+			Curve der = curve.getDerivative();
 			if (ImGui.collapsingHeader("Function " + i, ImGuiTreeNodeFlags.DefaultOpen)) {
 				ImBool visible;
 				Texture tex;
@@ -386,20 +441,29 @@ public class GUIRenderer {
 	}
 
 	/**
-	 * @return 
+	 * @return the change in x when the mouse is dragged
 	 */
 	public float getDragX() {
 		return mouseDrag.x;
 	}
 
+	/**
+	 * @return the change in y when the mouse is dragged
+	 */
 	public float getDragY() {
 		return mouseDrag.y;
 	}
 
+	/**
+	 * @return the mouse wheel difference
+	 */
 	public float getMouseScroll() {
 		return scroll;
 	}
 
+	/**
+	 * destroy the ImGui context and it's resources
+	 */
 	public void destroy() {
 		imGui.dispose();
 		ImGui.destroyContext();

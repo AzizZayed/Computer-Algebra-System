@@ -1,5 +1,13 @@
 package math.structure;
 
+/**
+ * this is an Enum type class to identify expressions: give them a name and an
+ * order value to be sorted by. This can be used instead of the instanceof
+ * operator when it is more practical than overridden methods.
+ * 
+ * @author Abd-El-Aziz Zayed
+ *
+ */
 public enum ExpressionType {
 
 	CONSTANT(0, "constant"), // type constant/number
@@ -22,9 +30,12 @@ public enum ExpressionType {
 	PRODUCT(19, "product"), // type product with *
 	SUM(20, "sum"); // type sum with +
 
-	protected String name; // name of the function
-	protected int order; // order in which to sort the functions, smaller number shows precedence
+	protected final String name; // name of the function
+	protected final int order; // order in which to sort the functions, smaller number shows precedence
 
+	/*
+	 * constructor with all fields
+	 */
 	ExpressionType(int order, String name) {
 		this.name = name;
 		this.order = order;
@@ -33,13 +44,5 @@ public enum ExpressionType {
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	/**
-	 * @return the number defining the order of the functions. A smaller number
-	 *         means it goes before all functions with bigger order number than it
-	 */
-	protected int getOrder() {
-		return order;
 	}
 }

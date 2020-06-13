@@ -1,7 +1,7 @@
 package math.structure;
 
 /**
- * interface for all math related structures
+ * Interface for all math related structures
  * 
  * @author Abd-El-Aziz Zayed
  *

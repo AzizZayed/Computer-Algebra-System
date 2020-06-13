@@ -3,12 +3,13 @@ package math.structure;
 import java.util.HashMap;
 
 /**
- * class to represent any constant/number
+ * Class to represent any constant/number as a double. This is basically a fancy
+ * wrapper for the double data type
  * 
  * @author Abd-El-Aziz Zayed
  *
  */
-public class Constant extends Expression implements IMath {
+public final class Constant extends Expression {
 
 	public static final Constant PI = new Constant(3.141592653589793d);
 	public static final Constant EXP = new Constant(2.718281828459045d);
@@ -20,7 +21,7 @@ public class Constant extends Expression implements IMath {
 		super(ExpressionType.CONSTANT);
 		value = val;
 	}
-	
+
 	/**
 	 * @return the value of the constant
 	 */

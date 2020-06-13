@@ -12,7 +12,7 @@ import java.util.List;
  * @author Abd-El-Aziz Zayed
  *
  */
-public class Sum extends Operator implements IMath {
+public class Sum extends Operator {
 
 //	private static final ExpressionSorter SORTER = new ExpressionSorter(true); // sorter
 
@@ -27,7 +27,7 @@ public class Sum extends Operator implements IMath {
 	}
 
 	private void reverseSortChildren() {
-		Arrays.sort(children, SORTER);
+		Arrays.sort(children, ExpressionSorter.DEFAULT);
 		List<Expression> reversed = Arrays.asList(children);
 		Collections.reverse(reversed);
 		children = reversed.toArray(children);
@@ -84,7 +84,7 @@ public class Sum extends Operator implements IMath {
 				return new Constant(a.getValue() + b.getValue());
 			}
 
-		Collections.sort(valid, SORTER);
+		Collections.sort(valid, ExpressionSorter.DEFAULT);
 
 		/*
 		 * extract inner sums if any
@@ -178,7 +178,7 @@ public class Sum extends Operator implements IMath {
 		for (int i = 0; i < grouped.size(); i++)
 			grouped.set(i, grouped.get(i).simplify());
 
-		Collections.sort(grouped, SORTER); // sort
+		Collections.sort(grouped, ExpressionSorter.DEFAULT); // sort
 
 		// final expression
 		return new Sum(grouped.toArray(new Expression[0]));

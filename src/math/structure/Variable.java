@@ -8,7 +8,7 @@ import java.util.HashMap;
  * @author Abd-El-Aziz Zayed
  *
  */
-public class Variable extends Expression implements IMath {
+public final class Variable extends Expression {
 
 	private char symbol; // variable character
 

@@ -4,12 +4,12 @@ package math.structure;
  * class that represents any elementary function like trigonometric functions,
  * absolute value, floor, ceiling ... etc. Notice all these function have fixed
  * amount of inputs. If a function has an arbitrary amount of inputs, it is a
- * subclass of
+ * subclass of the ManyImputFucntion class
  * 
  * @author Abd-El-Aziz Zayed
  *
  */
-public abstract class FixedInputFunction extends Expression implements IMath {
+public abstract class FixedInputFunction extends Expression {
 
 	protected Expression expr; // the input to the function
 

@@ -1,4 +1,4 @@
-package rendering.data;
+package rendering.plots;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
@@ -22,8 +22,10 @@ import java.util.HashMap;
 import org.lwjgl.BufferUtils;
 
 import math.structure.Equation;
+import rendering.GUI.Texture;
+import rendering.tools.Grid;
 
-public class GraphableEquation {
+public class Curve {
 
 	public static final int MAX_RESOLUTION = 10000;
 
@@ -36,7 +38,7 @@ public class GraphableEquation {
 	private boolean visible;
 	private int vbo;
 
-	public GraphableEquation(Equation eq, float[] color, BufferedImage image) {
+	public Curve(Equation eq, float[] color, BufferedImage image) {
 		function = eq;
 		this.color = color;
 		texture = new Texture(image);
@@ -47,31 +49,29 @@ public class GraphableEquation {
 //		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	}
 
-	public void update(Grid grid, boolean updateData, HashMap<Character, Double> varValues) {
+	public void update(Grid grid, HashMap<Character, Double> varValues) {
 		if (!visible)
 			return;
 
-		if (updateData) {
-			buffer.clear();
+//			buffer.clear();
 
-			double dx = grid.getX().getLength() / MAX_RESOLUTION;
-			double xmin = grid.getXMin();
+		double dx = grid.getX().getLength() / MAX_RESOLUTION;
+		double xmin = grid.getXMin();
 
-			int i;
-			double x;
-			for (i = 0, x = xmin; i < size /* && x <= xmax */; i += 2, x += dx) {
-				double y = eval(x, varValues);
+		int i;
+		double x;
+		for (i = 0, x = xmin; i < size /* && x <= xmax */; i += 2, x += dx) {
+			double y = eval(x, varValues);
 
 //				Range yRange = grid.getY();
 //				if (!yRange.inRange(eval(x - dx, varValues)) && !yRange.inRange(y)
 //						&& !yRange.inRange(eval(x + dx, varValues)))
 //					y = Float.NaN;
 
-				buffer.put((float) x);
-				buffer.put((float) y);
-			}
-			buffer.flip();
+			buffer.put((float) x);
+			buffer.put((float) y);
 		}
+		buffer.flip();
 
 		render();
 	}

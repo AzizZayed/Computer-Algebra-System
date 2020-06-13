@@ -3,15 +3,21 @@ package math.structure;
 import java.util.HashMap;
 
 /**
- * class for an arbitrary mathematical expression
+ * class for an arbitrary mathematical expression. All mathematical expression
+ * classes are subclasses of this class.
  * 
  * @author Abd-El-Aziz Zayed
  *
  */
 public abstract class Expression implements IMath {
 
-	protected ExpressionType type;
+	protected ExpressionType type; // the type of math expression / function, ex: log, exponential, trig
 
+	/**
+	 * constructor with expression type
+	 * 
+	 * @param type - type of expression
+	 */
 	public Expression(ExpressionType type) {
 		this.type = type;
 	}

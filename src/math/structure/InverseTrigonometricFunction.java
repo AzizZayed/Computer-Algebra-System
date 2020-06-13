@@ -6,7 +6,7 @@ package math.structure;
  * @author Abd-El-Aziz Zayed
  * 
  */
-public abstract class InverseTrigonometricFunction extends TrigonometricFunction implements IMath {
+public abstract class InverseTrigonometricFunction extends TrigonometricFunction {
 
 	public InverseTrigonometricFunction(ExpressionType type, Expression expr) {
 		super(type, expr);
@@ -22,7 +22,7 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 	/*
 	 * arccosine function
 	 */
-	public static class ArcCos extends InverseTrigonometricFunction implements IMath {
+	public static final class ArcCos extends InverseTrigonometricFunction {
 		public ArcCos(Expression expr) {
 			super(ExpressionType.ARCCOS, expr);
 		}
@@ -59,7 +59,7 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 	/*
 	 * arcsine function
 	 */
-	public static class ArcSin extends InverseTrigonometricFunction implements IMath {
+	public static final class ArcSin extends InverseTrigonometricFunction {
 		public ArcSin(Expression expr) {
 			super(ExpressionType.ARCSIN, expr);
 		}
@@ -96,7 +96,7 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 	/*
 	 * arctangent function
 	 */
-	public static class ArcTan extends InverseTrigonometricFunction implements IMath {
+	public static final class ArcTan extends InverseTrigonometricFunction {
 		public ArcTan(Expression expr) {
 			super(ExpressionType.ARCTAN, expr);
 		}

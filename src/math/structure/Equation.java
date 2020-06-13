@@ -37,6 +37,11 @@ public class Equation implements IMath {
 	public String toLatex() {
 		return root.toLatex();
 	}
+	
+	@Override
+	public String toString() {
+		return root.toString();
+	}
 
 	/**
 	 * compute a full simplification of this expression

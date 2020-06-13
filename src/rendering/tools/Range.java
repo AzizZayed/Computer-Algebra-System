@@ -1,4 +1,4 @@
-package rendering.data;
+package rendering.tools;
 
 public class Range {
 

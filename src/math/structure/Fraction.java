@@ -3,20 +3,19 @@ package math.structure;
 import java.util.HashMap;
 
 /**
- * class to represent a fraction
+ * class to represent a fraction: f(x) / g(x)
  * 
  * @author Abd-El-Aziz Zayed
  *
  */
-public class Fraction extends Expression implements IMath {
+public final class Fraction extends Expression {
 
-	protected Expression numerator, denominator; // components
+	protected Expression numerator, denominator; // components of a fraction
 
 	public Fraction(Expression num, Expression denom) {
 		super(ExpressionType.FRACTION);
 		numerator = num;
 		denominator = denom;
-
 	}
 
 	@Override
@@ -68,9 +67,6 @@ public class Fraction extends Expression implements IMath {
 	public Expression simplify() {
 		Expression sNum = numerator.simplify();
 		Expression sDenom = denominator.simplify();
-
-//		System.out.println(sNum);
-//		System.out.println(sDenom);
 
 		boolean numIsFrac = sNum instanceof Fraction;
 		boolean denomIsFrac = sDenom instanceof Fraction;

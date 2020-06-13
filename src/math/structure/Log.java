@@ -3,12 +3,12 @@ package math.structure;
 import java.util.HashMap;
 
 /**
- * logarithmic functions
+ * logarithmic functions: log_f(x)[ g(x) ]
  * 
  * @author Abd-El-Aziz Zayed
  *
  */
-public class Log extends FixedInputFunction implements IMath {
+public class Log extends FixedInputFunction {
 
 	protected Expression base; // the expression for the base of the logarithm
 
@@ -46,6 +46,10 @@ public class Log extends FixedInputFunction implements IMath {
 		return "log_{" + base.toLatex() + "}{" + expr.toLatex() + "}";
 	}
 
+	/**
+	 * @return true if the expression needs to be printed with surrounding brackets,
+	 *         false if not
+	 */
 	protected boolean needsBrackets() {
 		return expr instanceof Operator || expr instanceof Power || expr instanceof Fraction || expr instanceof Log;
 	}
@@ -106,7 +110,7 @@ public class Log extends FixedInputFunction implements IMath {
 	/*
 	 * natural logarithm
 	 */
-	public static class Ln extends Log implements IMath {
+	public static final class Ln extends Log {
 		public Ln(Expression expr) {
 			super(Constant.EXP, expr);
 		}

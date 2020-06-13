@@ -1,9 +1,9 @@
-package rendering.data;
+package rendering.tools;
 
 public class Grid {
 
 	private static final double DRAG_DAMPENER = 1000d;
-	private static final double ZOOM_DAMPENER = 100d;
+	private static final double ZOOM_DAMPENER = 300d;
 
 	private Range x, y, z; // range in x and y direction
 
@@ -137,7 +137,7 @@ public class Grid {
 	 * @param ds - mouse scroll change
 	 */
 	public void zoom(double ds) {
-		ds = ds / ZOOM_DAMPENER;
+		ds = ds / ZOOM_DAMPENER * (x.getLength() + y.getLength());
 
 		double xmin = x.getMin() + ds;
 		double xmax = x.getMax() - ds;
@@ -145,7 +145,7 @@ public class Grid {
 		if (xmin < xmax) {
 			x.set(xmin, xmax);
 			y.set(y.getMin() + ds, y.getMax() - ds);
-//			z.set(z.getMin() + ds, z.getMax() - ds);
+			z.set(z.getMin() + ds, z.getMax() - ds);
 		}
 	}
 }

@@ -17,12 +17,12 @@ public class Product extends Operator implements IMath {
 
 	protected Product(Expression... expressions) {
 		super(ExpressionType.PRODUCT, '*', expressions);
-		Arrays.sort(children, SORTER);
+		Arrays.sort(children, ExpressionSorter.DEFAULT);
 	}
 
 	private Product(HashSet<Character> vars, String... strExpression) {
 		super(ExpressionType.PRODUCT, '*', vars, strExpression);
-		Arrays.sort(children, SORTER);
+		Arrays.sort(children, ExpressionSorter.DEFAULT);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class Product extends Operator implements IMath {
 				return new Constant(a.getValue() * b.getValue());
 			}
 
-		Collections.sort(valid, SORTER);
+		Collections.sort(valid, ExpressionSorter.DEFAULT);
 
 		/*
 		 * expand into sums if appropriate, we only expand if there is a single sum, it
@@ -206,7 +206,7 @@ public class Product extends Operator implements IMath {
 		for (int i = 0; i < grouped.size(); i++)
 			grouped.set(i, grouped.get(i).simplify());
 
-		Collections.sort(grouped, SORTER); // final sort
+		Collections.sort(grouped, ExpressionSorter.DEFAULT); // final sort
 
 		/*
 		 * group denominator and numerators if possible

@@ -3,12 +3,17 @@ package math.structure;
 import java.util.Comparator;
 
 /**
- * comparator class to sort expressions
+ * Comparator class to sort expressions. This takes advantage of Java's built-in
+ * sorting functions like Arrays.sort and Collections.sort. In order to use
+ * those functions, we will need a class like this one
  * 
  * @author Abd-El-Aziz Zayed
  *
  */
 public class ExpressionSorter implements Comparator<Expression> {
+
+	protected static final ExpressionSorter DEFAULT = new ExpressionSorter(); // main sorter
+
 	@Override
 	public int compare(Expression e1, Expression e2) {
 		int diff = e1.type.order - e2.type.order;
@@ -18,7 +23,7 @@ public class ExpressionSorter implements Comparator<Expression> {
 				Operator op1 = (Operator) e1;
 				Operator op2 = (Operator) e2;
 				diff = op1.children.length - op2.children.length;
-				
+
 				int i = 0;
 				while (diff == 0 && i < op1.children.length) {
 					diff = compare(op1.children[i], op2.children[i]);

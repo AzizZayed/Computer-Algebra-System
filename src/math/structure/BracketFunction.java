@@ -11,9 +11,9 @@ import java.util.HashMap;
  * @author Abd-El-Aziz Zayed
  *
  */
-public abstract class BracketFunction extends FixedInputFunction implements IMath {
+public abstract class BracketFunction extends FixedInputFunction {
 
-	private char open, closed; // open and close brackets for
+	private char open, closed; // open and close brackets for visual purposes
 
 	/**
 	 * constructor for different open and close brackets
@@ -87,7 +87,7 @@ public abstract class BracketFunction extends FixedInputFunction implements IMat
 	/**
 	 * the floor function
 	 */
-	public static class Floor extends BracketFunction implements IMath {
+	public static final class Floor extends BracketFunction {
 		public Floor(Expression expr) {
 			super(ExpressionType.FLOOR, expr, '\u230A', '\u230B');
 		}
@@ -107,7 +107,7 @@ public abstract class BracketFunction extends FixedInputFunction implements IMat
 	/**
 	 * the ceiling function
 	 */
-	public static class Ceiling extends BracketFunction implements IMath {
+	public static final class Ceiling extends BracketFunction {
 		public Ceiling(Expression expr) {
 			super(ExpressionType.CEILING, expr, '\u2308', '\u2309');
 		}
@@ -127,7 +127,7 @@ public abstract class BracketFunction extends FixedInputFunction implements IMat
 	/**
 	 * the absolute value function
 	 */
-	public static class Abs extends BracketFunction implements IMath {
+	public static final class Abs extends BracketFunction {
 		public Abs(Expression expr) {
 			super(ExpressionType.ABSOLUTE_VALUE, expr, '|');
 		}

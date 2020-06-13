@@ -1,4 +1,4 @@
-package rendering.plotting;
+package rendering.core;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
@@ -56,7 +56,7 @@ public final class Display {
 
 		glfwDefaultWindowHints();
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 		glfwWindowHint(GLFW_SAMPLES, 16); // multi-sampling and anti-aliasing enabled
 
 		// create the window for OpenGL

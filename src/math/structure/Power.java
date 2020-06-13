@@ -10,7 +10,7 @@ import math.structure.Log.Ln;
  * @author Abd-El-Aziz Zayed
  *
  */
-public class Power extends FixedInputFunction implements IMath {
+public class Power extends FixedInputFunction {
 
 	protected Expression power; // the expression in the exponent
 
@@ -67,6 +67,9 @@ public class Power extends FixedInputFunction implements IMath {
 		return false;
 	}
 
+	/**
+	 * @return if the input needs surrounding brackets
+	 */
 	private boolean needsBrackets() {
 		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction);
 	}
@@ -127,12 +130,12 @@ public class Power extends FixedInputFunction implements IMath {
 			return new Power(inner.expr, Product.create(power, inner.power));
 
 		} else if (expr instanceof Product) {
-			
+
 			Product inner = (Product) expr;
 			Expression[] exps = new Expression[inner.children.length];
 			for (int i = 0; i < exps.length; i++)
 				exps[i] = new Power(inner.children[i], power);
-			
+
 			Expression prod = Product.create(exps);
 //			System.out.println("in " + prod);
 			return prod;
@@ -173,7 +176,7 @@ public class Power extends FixedInputFunction implements IMath {
 	}
 
 	/**
-	 * @return 
+	 * @return this expression but with a negated power
 	 */
 	protected Expression toDenominator() {
 		return new Power(expr, Product.create(new Constant(-1d), power));
@@ -182,7 +185,7 @@ public class Power extends FixedInputFunction implements IMath {
 	/*
 	 * natural exponential with e, so e^x, where x is any expression
 	 */
-	public static class Exp extends Power implements IMath {
+	public static final class Exp extends Power {
 		public Exp(Expression power) {
 			super(Constant.EXP, power);
 		}

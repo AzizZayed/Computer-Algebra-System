@@ -1,4 +1,4 @@
-package rendering.data;
+package rendering.GUI;
 
 import static org.lwjgl.opengl.GL11.GL_LINEAR;
 import static org.lwjgl.opengl.GL11.GL_RGBA;
