@@ -57,28 +57,11 @@ import static org.lwjgl.glfw.GLFW.glfwSetInputMode;
 import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetScrollCallback;
-import static org.lwjgl.opengl.GL11.GL_LINEAR;
-import static org.lwjgl.opengl.GL11.GL_RGBA;
-import static org.lwjgl.opengl.GL11.GL_RGBA8;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_S;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_T;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glGenTextures;
-import static org.lwjgl.opengl.GL11.glTexImage2D;
-import static org.lwjgl.opengl.GL11.glTexParameteri;
-import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
-import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 
-import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-
-import org.lwjgl.BufferUtils;
+import java.util.HashSet;
 
 import imgui.ImBool;
 import imgui.ImDouble;
@@ -87,11 +70,10 @@ import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.ImGuiStyle;
 import imgui.ImString;
+import imgui.ImVec2;
 import imgui.callbacks.ImStrConsumer;
 import imgui.callbacks.ImStrSupplier;
 import imgui.enums.ImGuiBackendFlags;
-import imgui.enums.ImGuiCol;
-import imgui.enums.ImGuiColorEditFlags;
 import imgui.enums.ImGuiCond;
 import imgui.enums.ImGuiConfigFlags;
 import imgui.enums.ImGuiDataType;
@@ -99,7 +81,10 @@ import imgui.enums.ImGuiKey;
 import imgui.enums.ImGuiMouseCursor;
 import imgui.enums.ImGuiTreeNodeFlags;
 import imgui.gl3.ImGuiImplGl3;
-import math.wrapper.Function;
+import math.structure.Equation;
+import rendering.data.Curve;
+import rendering.data.GraphableEquation;
+import rendering.data.Texture;
 import rendering.plotting.Display;
 
 /**
@@ -113,20 +98,23 @@ import rendering.plotting.Display;
 public class GUIRenderer {
 
 	// Mouse cursors provided by GLFW
-	private static final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
-	static ArrayList<Function> functions = new ArrayList<>();
-	static ImString strFunction = new ImString("x+5", 500);
-	private static HashMap<Character, Double> varValues = new HashMap<>();
+	private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
+	private ImString strFunction = new ImString("x+5", 500);
 
-	private final static ImGuiImplGl3 imGui = new ImGuiImplGl3();
-	static ArrayList<float[]> colors = new ArrayList<>();
+	private final ImGuiImplGl3 imGui = new ImGuiImplGl3();
 
-	public static void initialize() {
-		varValues.put('x', 15d);
-		varValues.put('y', 15d);
-		varValues.put('a', 15d);
-		varValues.put('b', 15d);
+	private HashMap<Character, Float> sliderSteps = new HashMap<>();
 
+	private static GUIRenderer instance = new GUIRenderer();
+
+	public static GUIRenderer getInstance() {
+		return instance;
+	}
+
+	private GUIRenderer() {
+	}
+
+	public void initialize() {
 		long windowPtr = Display.ID;
 
 		ImGui.createContext();
@@ -250,115 +238,125 @@ public class GUIRenderer {
 		style.setGrabRounding(0f);
 		style.setTabRounding(0f);
 		ImGui.styleColorsLight();
-
-//		functions.add(new Function());
-//		functions.add(new Function());
-//		functions.add(new Function());
-//		functions.add(new Function());
+		io.setFontGlobalScale(1.25f);
 	}
 
-	public static void render(double dt) {
+	public void render(double dt, ArrayList<Curve> curves, HashMap<Character, Double> varValues) {
 		startFrame((float) dt);
 
 		// Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
 		ImGui.newFrame();
-		innerRender();
+		ImGui.setNextWindowPos(2, 2, ImGuiCond.FirstUseEver);
+		ImGui.setNextWindowSize(Display.x, Display.height - 4, ImGuiCond.FirstUseEver);
+		ImGui.begin("Functions");
+
+		/*
+		 * Render sliders
+		 */
+//		for(Map.Entry<Character, Double> entry : varValues.entrySet()) {
+//			
+//		}
+
+		if (varValues.size() > 0) {
+			ImGui.text("Sliders");
+			varValues.forEach((key, value) -> {
+				float s = sliderSteps.get(key);
+				ImDouble val = new ImDouble(value);
+				ImGui.dragScalar(Character.toString(key), ImGuiDataType.Double, val, s);
+				varValues.put(key, val.get());
+
+				ImGui.sameLine();
+
+				ImFloat step = new ImFloat(s);
+				ImGui.dragScalar(Character.toString(key), ImGuiDataType.Float, step, 0.1f);
+				sliderSteps.put(key, step.get());
+
+				ImGui.separator();
+			});
+
+			ImGui.separator();
+		}
+
+		/*
+		 * Render functions
+		 */
+		ImGui.inputText("Input here", strFunction);
+		ImGui.sameLine();
+		ImGuiHelp("Input your function here. Example: x^2 + 2");
+		if (ImGui.button("Add Function")) {
+			String func = strFunction.get();
+			HashSet<Character> variables = new HashSet<>();
+			curves.add(new Curve(new Equation(func, variables)));
+			variables.forEach(key -> {
+				if (key != 'x') {
+					varValues.putIfAbsent(key, 1d);
+					sliderSteps.putIfAbsent(key, 0.01f);
+				}
+			});
+		}
+
+		for (int i = 0; i < curves.size(); i++) {
+			Curve curve = curves.get(i);
+			GraphableEquation func = curve.getFunction();
+			GraphableEquation der = curve.getDerivative();
+			if (ImGui.collapsingHeader("Function " + i, ImGuiTreeNodeFlags.DefaultOpen)) {
+//				func.setVisible(ImGui.checkbox("Plot function " + i, func.isVisible()));
+				ImBool visible;
+				Texture tex;
+
+				// Function
+				visible = new ImBool(func.isVisible());
+				ImGui.checkbox("Plot function " + i, visible);
+				func.setVisible(visible.get());
+				ImGui.colorEdit4("FColor " + i, func.getColor());
+				tex = func.getTexture();
+				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+
+				// Derivative
+				visible = new ImBool(der.isVisible());
+				ImGui.checkbox("Plot derivative " + i, visible);
+				der.setVisible(visible.get());
+				ImGui.colorEdit4("DColor " + i, der.getColor());
+				tex = der.getTexture();
+				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+
+//				if (ImGui.button("Delete Function " + i)) {
+//					curves.remove(i);
+//				}
+			}
+		}
+		
+
+//		System.out.println(ImGui.getIO().getMouseWheel());
+//		ImGui.showDemoWindow();
+
+		ImGui.end();
 		ImGui.render();
 
 		imGui.render(ImGui.getDrawData());
+		
+		boolean[] arg = new boolean[1];
+		ImGui.getIO().getMouseDown(arg);
+		System.out.println(Arrays.toString(arg));
+		
+		ImVec2 arg0 = new ImVec2();
+		ImGui.getIO().getMouseDelta(arg0);
+		System.out.println(arg0);
+		System.out.println(ImGui.getIO().getMouseWheel());
 	}
 
-//	static ImDouble v = new ImDouble();
-	static float step = 0.01f;
-
-	private static void innerRender() {
-		ImGui.setNextWindowPos(2, 2, ImGuiCond.FirstUseEver);
-		ImGui.setNextWindowSize(350, Display.height - 4, ImGuiCond.FirstUseEver);
-
-		ImGui.begin("Functions");
-
-		varValues.forEach((key, value) -> {
-			ImGui.separator();
-			ImDouble v = new ImDouble(value);
-			ImGui.dragScalar(Character.toString(key), ImGuiDataType.Double, v, step);
-//			ImGui.sameLine();
-
-			varValues.put(key, v.get());
-//			System.out.println(varValues);
-		});
-
-		ImFloat f = new ImFloat(step);
-		ImGui.inputFloat("Step", f);
-
-		step = f.get();
-
-		if (ImGui.button("add letter")) {
-			varValues.put('p', 0d);
+	private void ImGuiHelp(String message) {
+		ImGui.textDisabled("(?)");
+		if (ImGui.isItemHovered()) {
+			ImGui.beginTooltip();
+			ImGui.pushTextWrapPos(ImGui.getFontSize() * 35.0f);
+			ImGui.textUnformatted(message);
+			ImGui.popTextWrapPos();
+			ImGui.endTooltip();
 		}
-
-		ImGui.separator();
-
-		ImGui.inputText("Input here", strFunction);
-		if (ImGui.button("Add Function")) {
-//			System.out.println(strFunction);
-			String func = strFunction.get();
-			if (func != null) {
-				functions.add(new Function(func));
-				colors.add(new float[] { (float) Math.random(), (float) Math.random(), (float) Math.random(), 1f });
-			}
-		}
-
-		for (int i = 0; i < functions.size(); i++) {
-			if (ImGui.collapsingHeader("Function " + i, ImGuiTreeNodeFlags.DefaultOpen)) {
-//				ImGui.textWrapped(functions.get(i).toString());
-				ImGui.colorEdit4("Curve Color " + i, colors.get(i));
-				BufferedImage icon = LatexRenderer.toImage(functions.get(i));
-
-				ImGui.image(loadTexture(icon), icon.getWidth(), icon.getHeight(), 0f, 0f, 1f, 1f, 1f, 1f, 1f, 1f);
-//				ImGui.sameLine();
-
-//				ImGui.colorPicker3(arg0, arg1, ImGuiColorEditFlags.NoInputs);
-			}
-		}
-
-		ImGui.end();
-//		ImGui.showDemoWindow();
 	}
 
-	private static int loadTexture(final BufferedImage image) {
-		final int[] pixels = new int[image.getWidth() * image.getHeight()];
-		image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
-
-		final ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * 4); // 4 for RGBA,
-																											// 3 for RGB
-		for (int y = 0; y < image.getHeight(); y++) {
-			for (int x = 0; x < image.getWidth(); x++) {
-				final int pixel = pixels[y * image.getWidth() + x];
-				buffer.put((byte) ((pixel >> 16) & 0xFF));
-				buffer.put((byte) ((pixel >> 8) & 0xFF));
-				buffer.put((byte) (pixel & 0xFF));
-				buffer.put((byte) ((pixel >> 24) & 0xFF));
-			}
-		}
-		buffer.flip();
-
-		final int textureID = glGenTextures();
-		glBindTexture(GL_TEXTURE_2D, textureID);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE,
-				buffer);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		return textureID;
-	}
-
-	private static void startFrame(final float deltaTime) {
+	private void startFrame(final float deltaTime) {
 		long windowPtr = Display.ID;
 		// For application window properties
 		final int[] winWidth = new int[1];
@@ -391,7 +389,7 @@ public class GUIRenderer {
 		glfwSetInputMode(windowPtr, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
-	public static void destroy() {
+	public void destroy() {
 		imGui.dispose();
 		ImGui.destroyContext();
 

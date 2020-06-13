@@ -1,8 +1,6 @@
 package rendering.plotting;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
-import static org.lwjgl.glfw.GLFW.GLFW_CONTEXT_VERSION_MAJOR;
-import static org.lwjgl.glfw.GLFW.GLFW_CONTEXT_VERSION_MINOR;
 import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
@@ -25,10 +23,11 @@ import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
-import static org.lwjgl.system.MemoryUtil.NULL;
+import static org.lwjgl.opengl.GL11.glViewport;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.system.MemoryUtil;
 
 /**
  * class to handle the GLFW window. Code from https://www.lwjgl.org/guide
@@ -39,7 +38,8 @@ import org.lwjgl.opengl.GL;
 public final class Display {
 
 	public static long ID; // the id of the window
-	public static int width = 1900, height = 1000;
+	public static int x = 400, y = 0;
+	public static int width = 1000 + x, height = 1000;
 
 	/**
 	 * initialize the window and show it
@@ -54,13 +54,13 @@ public final class Display {
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 		glfwWindowHint(GLFW_SAMPLES, 8); // multi-sampling and anti-aliasing enabled
-		
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+
+//		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+//		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 
 		// create the window for OpenGL
-		ID = glfwCreateWindow(width, height, "Hello World!", NULL, NULL);
-		if (ID == NULL)
+		ID = glfwCreateWindow(width, height, "Hello World!", MemoryUtil.NULL, MemoryUtil.NULL);
+		if (ID == MemoryUtil.NULL)
 			throw new RuntimeException("Failed to create the GLFW window");
 
 		// setup keys
@@ -74,6 +74,8 @@ public final class Display {
 		glfwShowWindow(ID); // window visible
 
 		GL.createCapabilities(); // make OpenGL bindings available
+
+		glViewport(x, y, width, height);
 	}
 
 	/**

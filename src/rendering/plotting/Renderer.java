@@ -13,20 +13,30 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.lwjgl.Version;
 
 import rendering.GUI.GUIRenderer;
+import rendering.data.Curve;
 
 public class Renderer {
 
 	public Renderer() {
 		System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 		Display.initialize();
-		GUIRenderer.initialize();
 		start();
 	}
 
 	public void start() {
+
+		ArrayList<Curve> curves = new ArrayList<>();
+		HashMap<Character, Double> varValues = new HashMap<>();
+		GUIRenderer gui = GUIRenderer.getInstance();
+
+		gui.initialize();
+
 		// Set the clear color
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glEnable(GL_MULTISAMPLE);
@@ -35,25 +45,24 @@ public class Renderer {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
+
 		// Run the rendering loop until the user has attempted to close the window
 		double time = 0;
 		while (!Display.isCloseRequested()) {
 			final double currentTime = glfwGetTime();
 			final double deltaTime = (time > 0) ? (currentTime - time) : 1f / 60f;
 			time = currentTime;
-			
+
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-			
-			//////
-			
-			//////
-			
-			GUIRenderer.render(deltaTime);
+
+			/// Render Curves ///
+
+			/// Render GUI ///
+			gui.render(deltaTime, curves, varValues);
 
 			Display.update();
 		}
-		GUIRenderer.destroy();
+		gui.destroy();
 		Display.destroy();
 	}
-
 }
