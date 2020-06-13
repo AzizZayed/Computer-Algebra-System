@@ -3,6 +3,7 @@ package math.structure;
 import java.util.HashMap;
 
 import math.structure.Log.Ln;
+import net.jafama.FastMath;
 
 /**
  * class representing exponentials with any base and power expression
@@ -27,7 +28,7 @@ public class Power extends FixedInputFunction {
 
 	@Override
 	public double evaluate(HashMap<Character, Double> varValues) {
-		return Math.pow(expr.evaluate(varValues), power.evaluate(varValues));
+		return FastMath.pow(expr.evaluate(varValues), power.evaluate(varValues));
 	}
 
 	@Override
@@ -137,7 +138,6 @@ public class Power extends FixedInputFunction {
 				exps[i] = new Power(inner.children[i], power);
 
 			Expression prod = Product.create(exps);
-//			System.out.println("in " + prod);
 			return prod;
 
 		} else if (power instanceof Log) {
@@ -149,8 +149,8 @@ public class Power extends FixedInputFunction {
 			Constant pow = (Constant) power;
 			if (expr instanceof Constant) {
 				Constant base = (Constant) expr;
-				double res = Math.pow(base.getValue(), pow.getValue());
-				if (Math.floor(res) == res && res < 1000d)
+				double res = FastMath.pow(base.getValue(), pow.getValue());
+				if (FastMath.floor(res) == res && res < 1000d)
 					return new Constant(res);
 			}
 			if (pow.getValue() == 0d)

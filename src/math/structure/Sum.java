@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import net.jafama.FastMath;
+
 /**
  * a class representing a finite sum
  * 
@@ -203,7 +205,7 @@ public class Sum extends Operator {
 			Product product = (Product) children[index];
 			if (product.children[0] instanceof Constant) {
 				Constant constant = (Constant) product.children[0];
-				putSymbol = !(Math.signum(constant.getValue()) < 0);
+				putSymbol = !(FastMath.signum(constant.getValue()) < 0);
 			}
 		}
 

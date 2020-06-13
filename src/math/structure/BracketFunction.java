@@ -2,6 +2,8 @@ package math.structure;
 
 import java.util.HashMap;
 
+import net.jafama.FastMath;
+
 /**
  * functioned defined with brackets like the floor function and the ceiling
  * function. This parent class is used for all functions that don't need to be
@@ -94,7 +96,7 @@ public abstract class BracketFunction extends FixedInputFunction {
 
 		@Override
 		protected double compute(double in) {
-			return Math.floor(in);
+			return FastMath.floor(in);
 		}
 
 		@Override
@@ -114,7 +116,7 @@ public abstract class BracketFunction extends FixedInputFunction {
 
 		@Override
 		protected double compute(double in) {
-			return Math.ceil(in);
+			return FastMath.ceil(in);
 		}
 
 		@Override
@@ -134,7 +136,7 @@ public abstract class BracketFunction extends FixedInputFunction {
 
 		@Override
 		protected double compute(double in) {
-			return Math.abs(in);
+			return FastMath.abs(in);
 		}
 
 		@Override

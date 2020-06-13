@@ -2,6 +2,8 @@ package math.structure;
 
 import java.util.HashMap;
 
+import net.jafama.FastMath;
+
 /**
  * Class to represent any constant/number as a double. This is basically a fancy
  * wrapper for the double data type
@@ -44,7 +46,7 @@ public final class Constant extends Expression {
 			return "\u03D5";
 
 		String strValue = Double.toString(value);
-		if (value == Math.floor(value)) // check if integer and if so, display 2 instead of 2.0
+		if (value == FastMath.floor(value)) // check if integer and if so, display 2 instead of 2.0
 			return strValue.substring(0, strValue.indexOf('.'));
 		return strValue;
 	}
@@ -59,7 +61,7 @@ public final class Constant extends Expression {
 			return "\\varphi";
 
 		String strValue = Double.toString(value);
-		if (value == Math.floor(value)) // check if integer and if so, display 2 instead of 2.0
+		if (value == FastMath.floor(value)) // check if integer and if so, display 2 instead of 2.0
 			return strValue.substring(0, strValue.indexOf('.'));
 		return strValue;
 	}

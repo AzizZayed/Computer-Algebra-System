@@ -3,6 +3,7 @@ package rendering.plots;
 import java.util.HashMap;
 
 import math.structure.Equation;
+import net.jafama.FastMath;
 import rendering.GUI.LatexRenderer;
 import rendering.tools.Grid;
 
@@ -26,7 +27,7 @@ public class CurvePair {
 	}
 
 	private float[] randomColor() {
-		return new float[] { (float) Math.random(), (float) Math.random(), (float) Math.random(), 1f };
+		return new float[] { (float) FastMath.random(), (float) FastMath.random(), (float) FastMath.random(), 1f };
 	}
 
 	/**

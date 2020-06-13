@@ -1,5 +1,7 @@
 package math.structure;
 
+import net.jafama.FastMath;
+
 /**
  * class for the inverse trigonometric functions like arctan, arccos, arcsin
  * 
@@ -29,7 +31,7 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 
 		@Override
 		protected double compute(double in) {
-			return Math.acos(in);
+			return FastMath.acos(in);
 		}
 
 		@Override
@@ -66,7 +68,7 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 
 		@Override
 		protected double compute(double in) {
-			return Math.asin(in);
+			return FastMath.asin(in);
 		}
 
 		@Override
@@ -103,7 +105,7 @@ public abstract class InverseTrigonometricFunction extends TrigonometricFunction
 
 		@Override
 		protected double compute(double in) {
-			return Math.atan(in);
+			return FastMath.atan(in);
 		}
 
 		@Override

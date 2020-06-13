@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/natives/lwjgl-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/natives/lwjgl-opengl-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/natives/lwjgl-stb-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/jars/jafama.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

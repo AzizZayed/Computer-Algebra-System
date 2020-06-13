@@ -5,6 +5,7 @@ import java.util.HashMap;
 import math.structure.InverseTrigonometricFunction.ArcCos;
 import math.structure.InverseTrigonometricFunction.ArcSin;
 import math.structure.InverseTrigonometricFunction.ArcTan;
+import net.jafama.FastMath;
 
 /**
  * class inherited by all trigonometric functions like cosine, sine, tangent
@@ -67,7 +68,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction {
 	protected Constant evaluate() {
 		if (expr instanceof Constant) {
 			double result = compute(((Constant) expr).getValue());
-			if (Math.floor(result) == result)
+			if (FastMath.floor(result) == result)
 				return new Constant(result);
 		}
 		return null;
@@ -89,7 +90,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction {
 
 		@Override
 		protected double compute(double in) {
-			return Math.cos(in);
+			return FastMath.cos(in);
 		}
 
 		@Override
@@ -122,7 +123,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction {
 
 		@Override
 		protected double compute(double in) {
-			return Math.sin(in);
+			return FastMath.sin(in);
 		}
 
 		@Override
@@ -154,7 +155,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction {
 
 		@Override
 		protected double compute(double in) {
-			return Math.tan(in);
+			return FastMath.tan(in);
 		}
 
 		@Override
@@ -193,7 +194,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction {
 
 		@Override
 		protected double compute(double in) {
-			return 1.0d / Math.sin(in);
+			return 1.0d / FastMath.sin(in);
 		}
 
 		@Override
@@ -223,7 +224,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction {
 
 		@Override
 		protected double compute(double in) {
-			return 1.0d / Math.cos(in);
+			return 1.0d / FastMath.cos(in);
 		}
 
 		@Override
@@ -252,7 +253,7 @@ public abstract class TrigonometricFunction extends FixedInputFunction {
 
 		@Override
 		protected double compute(double in) {
-			return 1.0d / Math.tan(in);
+			return 1.0d / FastMath.tan(in);
 		}
 
 		@Override

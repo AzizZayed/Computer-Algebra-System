@@ -2,6 +2,8 @@ package math.structure;
 
 import java.util.HashMap;
 
+import net.jafama.FastMath;
+
 /**
  * logarithmic functions: log_f(x)[ g(x) ]
  * 
@@ -29,7 +31,7 @@ public class Log extends FixedInputFunction {
 
 	@Override
 	public double evaluate(HashMap<Character, Double> varValues) {
-		return Math.log(expr.evaluate(varValues)) / Math.log(base.evaluate(varValues));
+		return FastMath.log(expr.evaluate(varValues)) / FastMath.log(base.evaluate(varValues));
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package math.structure;
 
 import java.util.HashMap;
 
+import net.jafama.FastMath;
+
 /**
  * class to represent a fraction: f(x) / g(x)
  * 
@@ -107,7 +109,7 @@ public final class Fraction extends Expression {
 		 */
 		if (sNum instanceof Constant && sDenom instanceof Constant) {
 			double result = ((Constant) sNum).getValue() / ((Constant) sDenom).getValue();
-			if (result == Math.floor(result))
+			if (result == FastMath.floor(result))
 				return new Constant(result);
 		}
 
