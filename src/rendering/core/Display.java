@@ -25,6 +25,7 @@ import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glMultMatrixd;
 import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glViewport;
 
@@ -32,6 +33,8 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
+
+import net.jafama.FastMath;
 
 /**
  * class to handle the GLFW window. Code from https://www.lwjgl.org/guide
@@ -79,8 +82,20 @@ public final class Display {
 		glViewport(x, y, width - x, height - y);
 		glMatrixMode(GL11.GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, 1, 0, 1, -1, 1);
+//		glOrtho(0, 1, 0, 1, -1, 1);
+		perspective(45.0d, 1d, 0.001d, 100.0d);
 		glMatrixMode(GL11.GL_MODELVIEW);
+	}
+	
+	public static void perspective(double fovy, double aspect, double zNear, double zFar) {
+		double f = 1.0 / FastMath.tan(fovy * FastMath.PI / 360); // convert degrees to radians and divide by 2
+		double xform[] = { //
+				f / aspect, 0, 0, 0, //
+				0, f, 0, 0, //
+				0, 0, (zFar + zNear) / (zNear - zFar), -1, //
+				0, 0, 2 * zFar * zNear / (zNear - zFar), 0 //
+		};
+		glMultMatrixd(xform);
 	}
 
 	/**

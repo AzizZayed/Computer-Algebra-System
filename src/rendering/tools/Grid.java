@@ -1,11 +1,18 @@
 package rendering.tools;
 
+import static org.lwjgl.opengl.GL11.GL_LINES;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glVertex3d;
+
 public class Grid {
 
 	private static final double DRAG_DAMPENER = 1000d;
 	private static final double ZOOM_DAMPENER = 300d;
 
 	private Range x, y, z; // range in x and y direction
+	private double xRotation = 0, yRotation = 0;
 
 	public Grid(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax) {
 		x = new Range(xmin, xmax);
@@ -147,5 +154,48 @@ public class Grid {
 			y.set(y.getMin() + ds, y.getMax() - ds);
 			z.set(z.getMin() + ds, z.getMax() - ds);
 		}
+	}
+	
+	public void rotate(double rx, double ry) {
+		xRotation += rx;
+		yRotation += ry;
+	}
+
+	/**
+	 * @return the xRotation
+	 */
+	public double getxRotation() {
+		return xRotation;
+	}
+
+	/**
+	 * @return the yRotation
+	 */
+	public double getyRotation() {
+		return yRotation;
+	}
+	
+	public void render() {
+		float scale = 1.25f;
+
+		glColor3f(1f, 0f, 0f);
+		glBegin(GL_LINES);
+		glVertex3d(0d, 0d, 0d);
+		glVertex3d(x.getMax() * scale, 0d, 0d);
+		glEnd();
+
+		// Draw y-axis in green
+		glColor3f(0f, 1f, 0f);
+		glBegin(GL_LINES);
+		glVertex3d(0d, 0d, 0d);
+		glVertex3d(0d, y.getMax() * scale, 0d);
+		glEnd();
+
+		// Draw z-axis in blue
+		glColor3f(0f, 0f, 1f);
+		glBegin(GL_LINES);
+		glVertex3d(0d, 0d, 0d);
+		glVertex3d(0d, 0d, z.getMax() * scale);
+		glEnd();
 	}
 }

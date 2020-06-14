@@ -86,8 +86,11 @@ import imgui.enums.ImGuiWindowFlags;
 import imgui.gl3.ImGuiImplGl3;
 import math.structure.Equation;
 import rendering.core.Display;
+import rendering.core.Renderer;
 import rendering.plots.Curve;
 import rendering.plots.CurvePair;
+import rendering.plots.Surface;
+import rendering.plots.SurfaceTrio;
 
 /**
  * class to render ImGui using the java bindings. Most of the setup code is
@@ -103,7 +106,8 @@ import rendering.plots.CurvePair;
 public class GUIRenderer {
 
 	private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT]; // Mouse cursors provided by GLFW
-	private ImString strFunction = new ImString("a*x^2", 500); // string object to record input
+	private ImString strFunction2 = new ImString("a*x^2", 500); // string object to record 2D input
+	private ImString strFunction3 = new ImString("sin(x*y)", 500); // string object to record 2D input
 
 	private final ImGuiImplGl3 imGui = new ImGuiImplGl3(); // OpenGL ImGui context
 
@@ -303,55 +307,25 @@ public class GUIRenderer {
 	 * @param varValues - map with all the variables and they're corresponding
 	 *                  values for the sliders
 	 */
-	public void render(double dt, ArrayList<CurvePair> curves, HashMap<Character, Double> varValues) {
+	public void render2D(double dt, ArrayList<CurvePair> curves, HashMap<Character, Double> varValues) {
 		startFrame((float) dt);
 
-		ImGui.newFrame();
-		ImGui.setNextWindowPos(2, 2, ImGuiCond.FirstUseEver);
-		ImGui.setNextWindowSize(Display.x, Display.height - 4, ImGuiCond.FirstUseEver);
-		ImGui.begin("Functions", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize);
+		beginWindow("2D Functions");
 
-		boolean modification = false; // if any modifications were done
-
-		/*
-		 * Render sliders
-		 */
-		ImGui.text("Sliders");
-		for (Map.Entry<Character, Double> entry : varValues.entrySet()) {
-			char key = entry.getKey();
-			double value = entry.getValue();
-			if (validKey(key)) {
-				float s = sliderSteps.get(key);
-				ImDouble val = new ImDouble(value);
-				boolean mod;
-
-				// value slider
-				mod = ImGui.dragScalar(Character.toString(key), ImGuiDataType.Double, val, s);
-				modification = modification || mod;
-				varValues.put(key, val.get());
-
-//				ImGui.sameLine();
-
-				// step / incrementation slider
-				ImFloat step = new ImFloat(s);
-				mod = ImGui.dragScalar("Step " + key, ImGuiDataType.Float, step, 0.001f);
-				modification = modification || mod;
-				sliderSteps.put(key, step.get());
-
-				ImGui.separator();
-			}
+		if (ImGui.button("Switch to 3D")) {
+			Renderer.switchMode();
 		}
 
-		ImGui.separator();
+		boolean modification = renderSliders(varValues); // if any modifications were done
 
 		/*
 		 * Render functions
 		 */
-		modification = modification || ImGui.inputText("Input here", strFunction);
+		ImGui.inputText("Input here", strFunction2);
 		ImGui.sameLine();
 		ImGuiHelp("Input your function here. Example: x^2 + 2");
 		if (ImGui.button("Add Function")) {
-			String func = strFunction.get();
+			String func = strFunction2.get();
 			HashSet<Character> variables = new HashSet<>();
 			CurvePair c = new CurvePair(new Equation(func, variables));
 			curves.add(c);
@@ -401,6 +375,136 @@ public class GUIRenderer {
 
 		imGui.render(ImGui.getDrawData());
 
+	}
+
+	public void render3D(double dt, ArrayList<SurfaceTrio> surfaces, HashMap<Character, Double> varValues) {
+		startFrame((float) dt);
+
+		beginWindow("3D Functions");
+
+		if (ImGui.button("Switch to 2D")) {
+			Renderer.switchMode();
+		}
+
+		boolean modification = renderSliders(varValues); // if any modifications were done
+
+		/*
+		 * Render functions
+		 */
+		ImGui.inputText("Input here", strFunction3);
+		ImGui.sameLine();
+		ImGuiHelp("Input your function here. Example: x^2 + y^2");
+		if (ImGui.button("Add 3D Function")) {
+			String func = strFunction3.get();
+			HashSet<Character> variables = new HashSet<>();
+			SurfaceTrio c = new SurfaceTrio(new Equation(func, variables));
+			surfaces.add(c);
+			variables.forEach(key -> {
+				if (validKey(key)) {
+					varValues.putIfAbsent(key, 1d);
+					sliderSteps.putIfAbsent(key, 0.01f);
+				}
+			});
+		}
+
+		for (int i = 0; i < surfaces.size(); i++) {
+			SurfaceTrio curve = surfaces.get(i);
+			Surface func = curve.getFunction();
+			Surface xDer = curve.getxDerivative();
+			Surface yDer = curve.getyDerivative();
+			if (ImGui.collapsingHeader("Function " + i, ImGuiTreeNodeFlags.DefaultOpen)) {
+				ImBool visible;
+				Texture tex;
+				boolean mod;
+
+				// Function
+				visible = new ImBool(func.isVisible());
+				ImGui.checkbox("Plot function " + i, visible);
+				func.setVisible(visible.get());
+				mod = ImGui.colorEdit4("FColor " + i, func.getColor(), ImGuiColorEditFlags.Float);
+				modification = modification || mod;
+				tex = func.getTexture();
+				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+
+				// x Derivative
+				visible = new ImBool(xDer.isVisible());
+				ImGui.checkbox("Plot x derivative " + i, visible);
+				xDer.setVisible(visible.get());
+				mod = ImGui.colorEdit4("XDColor " + i, xDer.getColor(), ImGuiColorEditFlags.Float);
+				modification = modification || mod;
+				tex = xDer.getTexture();
+				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+
+				// y Derivative
+				visible = new ImBool(yDer.isVisible());
+				ImGui.checkbox("Plot y derivative " + i, visible);
+				yDer.setVisible(visible.get());
+				mod = ImGui.colorEdit4("YDColor " + i, yDer.getColor(), ImGuiColorEditFlags.Float);
+				modification = modification || mod;
+				tex = yDer.getTexture();
+				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+			}
+		}
+
+		collectInput(!modification);
+
+//		ImGui.showDemoWindow();
+
+		ImGui.end();
+		ImGui.render();
+
+		imGui.render(ImGui.getDrawData());
+
+	}
+
+	private void beginWindow(String title) {
+		ImGui.newFrame();
+		ImGui.setNextWindowPos(2, 2, ImGuiCond.FirstUseEver);
+		ImGui.setNextWindowSize(Display.x, Display.height - 4, ImGuiCond.FirstUseEver);
+		ImGui.begin(title, ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize);
+	}
+
+	/**
+	 * render all the sliders
+	 * 
+	 * @param varValues - map with all the variables and value pairs
+	 * @return true if modifications were made
+	 */
+	private boolean renderSliders(HashMap<Character, Double> varValues) {
+		boolean modification = false;
+
+		/*
+		 * Render sliders
+		 */
+		ImGui.text("Sliders");
+		for (Map.Entry<Character, Double> entry : varValues.entrySet()) {
+			char key = entry.getKey();
+			double value = entry.getValue();
+			if (validKey(key)) {
+				float s = sliderSteps.get(key);
+				ImDouble val = new ImDouble(value);
+				boolean mod;
+
+				// value slider
+				mod = ImGui.dragScalar(Character.toString(key), ImGuiDataType.Double, val, s);
+				modification = modification || mod;
+				varValues.put(key, val.get());
+
+//				ImGui.sameLine();
+
+				// step / incrementation slider
+				ImFloat step = new ImFloat(s);
+				mod = ImGui.dragScalar("Step " + key, ImGuiDataType.Float, step, 0.001f);
+				modification = modification || mod;
+				sliderSteps.put(key, step.get());
+
+				ImGui.separator();
+			}
+		}
+
+		ImGui.separator();
+
+		return modification;
 	}
 
 	/**

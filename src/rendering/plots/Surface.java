@@ -1,0 +1,169 @@
+package rendering.plots;
+
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.GL_QUAD_STRIP;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glColor4d;
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glDeleteBuffers;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+
+import java.awt.image.BufferedImage;
+import java.nio.FloatBuffer;
+import java.util.HashMap;
+
+import org.lwjgl.BufferUtils;
+
+import math.structure.Equation;
+import rendering.GUI.Texture;
+import rendering.tools.Grid;
+
+public class Surface {
+
+	public static final int MAX_RESOLUTION = 100;
+
+	private static int size = (MAX_RESOLUTION + 1) * MAX_RESOLUTION * 6;
+	private static FloatBuffer buffer = BufferUtils.createFloatBuffer(size);
+
+	private boolean drawWire = true;
+	private Equation function;
+	private float[] color;
+	private Texture texture;
+	private boolean visible;
+	private int vbo;
+
+	public Surface(Equation eq, float[] color, BufferedImage image) {
+		function = eq;
+		this.color = color;
+		texture = new Texture(image);
+		visible = true;
+		vbo = glGenBuffers();
+//		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+//		glBufferData(GL_ARRAY_BUFFER, MAX_RESOLUTION * 8, GL_DYNAMIC_DRAW);
+//		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	}
+
+	public void update(Grid grid, HashMap<Character, Double> varValues) {
+		if (!visible)
+			return;
+		
+		double dx, dy;
+		double xmin = grid.getXMin();
+		double ymin = grid.getYMin();
+
+		dx = grid.getX().getLength() / MAX_RESOLUTION;
+		dy = grid.getY().getLength() / MAX_RESOLUTION;
+
+		int i, j;
+		double x, y;
+		for (y = ymin, j = 0; j < MAX_RESOLUTION; j++, y += dy) {
+			for (x = xmin, i = 0; i <= MAX_RESOLUTION; i++, x += dx) {
+				double z = eval(x, y, varValues);
+
+//				Range zRange = grid.getZ();
+//				if (!zRange.inRange(eval(x - dx, y - dy)) && !zRange.inRange(eval(x - dx, y + dy))
+//						&& !zRange.inRange(z) && !zRange.inRange(eval(x + dx, y + dy))
+//						&& !zRange.inRange(eval(x + dx, y - dy)))
+//					z = Float.NaN;
+
+				buffer.put((float) x);
+				buffer.put((float) y);
+				buffer.put((float) z);
+				
+				double yNext = y + dy;
+				
+				buffer.put((float) x);
+				buffer.put((float) yNext);
+				buffer.put((float) eval(x, yNext, varValues));
+			}
+		}
+		buffer.flip();
+		
+		render();
+	}
+
+	private void render() {
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+		glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+//		glBufferSubData(GL_ARRAY_BUFFER, 0, buffer);
+		glVertexPointer(3, GL_FLOAT, 0, 0);
+
+		glColor4d(color[0], color[1], color[2], color[3]);
+
+		int count = MAX_RESOLUTION * 2;
+		for (int i = 0; i < MAX_RESOLUTION; i++) {
+			glDrawArrays(GL_TRIANGLE_STRIP, count * i + 2 * i, count);
+		}
+
+		if (drawWire) {
+			glColor4f(1 - color[0], 1 - color[1], 1 - color[2], 0.7f);
+
+//			glPolygonMode(GL_FRONT, GL_LINE);
+			int step = MAX_RESOLUTION / 5;
+			for (int i = step; i < MAX_RESOLUTION; i += step) {
+				glDrawArrays(GL_QUAD_STRIP, (count + 2) * i, count);
+			}
+//			glPolygonMode(GL_FRONT, GL_FILL);
+		}
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glDisableClientState(GL_VERTEX_ARRAY);
+	}
+
+	private double eval(double x, double y, HashMap<Character, Double> varValues) {
+		varValues.put('x', x);
+		varValues.put('y', y);
+		return function.valueAt(varValues);
+	}
+
+	/**
+	 * @return the visible
+	 */
+	public boolean isVisible() {
+		return visible;
+	}
+
+	/**
+	 * @param visible the visible to set
+	 */
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	/**
+	 * @return the function
+	 */
+	public Equation getFunction() {
+		return function;
+	}
+
+	/**
+	 * @return the color
+	 */
+	public float[] getColor() {
+		return color;
+	}
+
+	/**
+	 * @return the texture
+	 */
+	public Texture getTexture() {
+		return texture;
+	}
+
+	public void cleanup() {
+		glDeleteBuffers(vbo);
+		texture.cleanup();
+	}
+}
