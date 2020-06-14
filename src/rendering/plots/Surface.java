@@ -34,7 +34,7 @@ public class Surface {
 	private static int size = (MAX_RESOLUTION + 1) * MAX_RESOLUTION * 6;
 	private static FloatBuffer buffer = BufferUtils.createFloatBuffer(size);
 
-	private boolean drawWire = true;
+	private boolean drawWire = false;
 	private Equation function;
 	private float[] color;
 	private Texture texture;

@@ -33,7 +33,7 @@ public class SurfaceTrio {
 	}
 
 	private float[] randomColor() {
-		return new float[] { (float) FastMath.random(), (float) FastMath.random(), (float) FastMath.random(), 1f };
+		return new float[] { (float) FastMath.random(), (float) FastMath.random(), (float) FastMath.random(), 0.5f };
 	}
 
 	public void cleanup() {

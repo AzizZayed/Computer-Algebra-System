@@ -11,6 +11,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
 import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
 import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
@@ -23,18 +24,11 @@ import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
-import static org.lwjgl.opengl.GL11.glMultMatrixd;
-import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
-
-import net.jafama.FastMath;
 
 /**
  * class to handle the GLFW window. Code from https://www.lwjgl.org/guide
@@ -45,8 +39,8 @@ import net.jafama.FastMath;
 public final class Display {
 
 	public static long ID; // the id of the window
-	public static int x = 400, y = 0;
-	public static int width = 1000 + x, height = 1000 + y;
+	public static int xViewport = 400, yViewport = 0; // position of the viewport
+	public static int width = 1000 + xViewport, height = 1000 + yViewport; // dimensions of the display
 
 	/**
 	 * initialize the window and show it
@@ -79,23 +73,14 @@ public final class Display {
 
 		GL.createCapabilities(); // make OpenGL bindings available
 
-		glViewport(x, y, width - x, height - y);
-		glMatrixMode(GL11.GL_PROJECTION);
-		glLoadIdentity();
-//		glOrtho(0, 1, 0, 1, -1, 1);
-		perspective(45.0d, 1d, 0.001d, 100.0d);
-		glMatrixMode(GL11.GL_MODELVIEW);
+		glViewport(xViewport, yViewport, width - xViewport, height - yViewport);
 	}
-	
-	public static void perspective(double fovy, double aspect, double zNear, double zFar) {
-		double f = 1.0 / FastMath.tan(fovy * FastMath.PI / 360); // convert degrees to radians and divide by 2
-		double xform[] = { //
-				f / aspect, 0, 0, 0, //
-				0, f, 0, 0, //
-				0, 0, (zFar + zNear) / (zNear - zFar), -1, //
-				0, 0, 2 * zFar * zNear / (zNear - zFar), 0 //
-		};
-		glMultMatrixd(xform);
+
+	/**
+	 * @return the time since this display was initialized
+	 */
+	public static double getTime() {
+		return glfwGetTime();
 	}
 
 	/**

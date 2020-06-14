@@ -12,7 +12,7 @@ public class Grid {
 	private static final double ZOOM_DAMPENER = 300d;
 
 	private Range x, y, z; // range in x and y direction
-	private double xRotation = 0, yRotation = 0;
+	private double xRotation = 0, zRotation = 0;
 
 	public Grid(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax) {
 		x = new Range(xmin, xmax);
@@ -156,23 +156,23 @@ public class Grid {
 		}
 	}
 	
-	public void rotate(double rx, double ry) {
+	public void rotate(double rx, double rz) {
 		xRotation += rx;
-		yRotation += ry;
+		zRotation += rz;
 	}
 
 	/**
 	 * @return the xRotation
 	 */
-	public double getxRotation() {
+	public double getXRotation() {
 		return xRotation;
 	}
 
 	/**
 	 * @return the yRotation
 	 */
-	public double getyRotation() {
-		return yRotation;
+	public double getZRotation() {
+		return zRotation;
 	}
 	
 	public void render() {

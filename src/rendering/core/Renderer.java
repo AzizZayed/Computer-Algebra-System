@@ -1,111 +1,84 @@
 package rendering.core;
 
-import static org.lwjgl.glfw.GLFW.glfwGetTime;
-import static org.lwjgl.opengl.GL11.GL_ALPHA_TEST;
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
-import static org.lwjgl.opengl.GL11.GL_LEQUAL;
-import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
-import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_PROJECTION;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glClearColor;
-import static org.lwjgl.opengl.GL11.glDepthFunc;
-import static org.lwjgl.opengl.GL11.glDepthMask;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glLineWidth;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
-import static org.lwjgl.opengl.GL11.glOrtho;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glRotated;
-import static org.lwjgl.opengl.GL11.glRotatef;
-import static org.lwjgl.opengl.GL11.glScaled;
-import static org.lwjgl.opengl.GL11.glTranslated;
-import static org.lwjgl.opengl.GL11.glTranslatef;
-import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.lwjgl.Version;
-import org.lwjgl.opengl.GL11;
-
+import net.jafama.FastMath;
 import rendering.GUI.GUIRenderer;
 import rendering.plots.CurvePair;
 import rendering.plots.SurfaceTrio;
 import rendering.tools.Grid;
 
+/**
+ * This is the core of the application, where everything meets. This class is in
+ * charge of rendering everything.
+ * 
+ * @author Abd-El-Aziz Zayed
+ *
+ */
 public class Renderer {
 
-	private static Mode mode = Mode.RENDER_3D;
-	private static Grid grid = new Grid(-1d, 1d, -1d, 1d, -1d, 1d);
+	/*
+	 * properties for perspective view
+	 */
+	private static final double FOV = 60d, ASPECT = 1d, NEAR_PLANE = 11d, FAR_PLANE = 26d;
 
+	private static Mode mode = Mode.RENDER_3D;
+
+	/**
+	 * the rendering mode, 3D or 2D
+	 * 
+	 * @author Abd-El-Aziz Zayed
+	 *
+	 */
 	private enum Mode {
 		RENDER_2D, RENDER_3D;
 	}
 
 	public Renderer() {
-		System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 		Display.initialize();
 		start();
 		Display.destroy();
 	}
 
+	/**
+	 * switch between 2D and 3D
+	 */
 	public static void switchMode() {
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
 		switch (mode) {
 		case RENDER_2D:
-			
-			glMatrixMode(GL11.GL_PROJECTION);
-			glLoadIdentity();
-			
 			mode = Mode.RENDER_3D;
-			Display.perspective(45.0d, 1d, 0.001d, 100.0d);
-			glMatrixMode(GL_MODELVIEW);
-			
-			grid = new Grid(-1d, 1d, -1d, 1d, -1d, 1d);
-			
+			perspective(FOV, ASPECT, NEAR_PLANE, FAR_PLANE);
 			break;
-			
 		case RENDER_3D:
-
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			
 			mode = Mode.RENDER_2D;
 			glOrtho(0, 1, 0, 1, -1, 1);
-			glMatrixMode(GL_MODELVIEW);
-			
-			grid = new Grid(-1d, 1d, -1d, 1d, -1d, 1d);
-			
-			break;
-			
-		default:
 			break;
 		}
+		glMatrixMode(GL_MODELVIEW);
 	}
 
+	/**
+	 * start the rendering and the main loop
+	 */
 	public void start() {
 
-		ArrayList<CurvePair> curves = new ArrayList<>();
-		ArrayList<SurfaceTrio> surfaces = new ArrayList<>();
-		HashMap<Character, Double> varValues = new HashMap<>();
-		GUIRenderer gui = GUIRenderer.getContext();
-
-		gui.initialize();
-
-		// Set the clear color
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		perspective(FOV, ASPECT, NEAR_PLANE, FAR_PLANE);
+		
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+		glClearDepth(1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnable(GL_MULTISAMPLE);
 
@@ -113,38 +86,48 @@ public class Renderer {
 //		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
 		glMatrixMode(GL_MODELVIEW);
-		glEnable(GL_ALPHA_TEST);
 		glLoadIdentity();
 
 		glLineWidth(3f);
+		glEnable(GL_ALPHA_TEST);
+
+		
+
+		ArrayList<CurvePair> curves = new ArrayList<>();
+		ArrayList<SurfaceTrio> surfaces = new ArrayList<>();
+		HashMap<Character, Double> varValues = new HashMap<>();
+
+		Grid grid2D = new Grid(-1d, 1d, -1d, 1d, 0d, 0d);
+		Grid grid3D = new Grid(-1d, 1d, -1d, 1d, -1d, 1d);
+
+		GUIRenderer gui = GUIRenderer.getContext();
+
+		gui.initialize();
 
 		// Run the rendering loop until the user has attempted to close the window
 		double time = 0;
 		while (!Display.isCloseRequested()) {
-			final double currentTime = glfwGetTime();
-			final double deltaTime = (time > 0) ? (currentTime - time) : 1f / 60f;
+			double currentTime = Display.getTime();
+			double deltaTime = (time > 0) ? (currentTime - time) : 1f / 60f;
 			time = currentTime;
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-			/*
-			 * handle input
-			 */
-			input(gui, grid);
-
-			/*
-			 * rendering
-			 */
 			glPushMatrix();
 			if (mode == Mode.RENDER_3D) {
-				render3D(surfaces, grid, varValues);
+				input3D(gui, grid3D);
+				render3D(surfaces, grid3D, varValues);
 				gui.render3D(deltaTime, surfaces, varValues);
 			} else {
-				render2D(curves, grid, varValues);
+				input2D(gui, grid2D);
+				render2D(curves, grid2D, varValues);
 				gui.render2D(deltaTime, curves, varValues);
 			}
 			glPopMatrix();
 
+			double dt = Display.getTime() - time;
+			System.out.println("Frame Time: " + dt + " s");
+			System.out.println("FPS: " + 1d / dt);
 			Display.update();
 		}
 		gui.destroy();
@@ -177,11 +160,11 @@ public class Renderer {
 	}
 
 	private void transform3D(Grid grid) {
-		glTranslatef(0.0f, -2.0f, -18.0f);
+		glTranslatef(0.0f, 0.0f, -18.0f);
 		glRotatef(-75f, 1f, 0f, 0f);
 
-		glRotated(grid.getxRotation(), 1d, 0d, 0d);
-		glRotated(grid.getyRotation(), 0d, 0d, 1d);
+		glRotated(grid.getXRotation(), 1d, 0d, 0d);
+		glRotated(grid.getZRotation(), 0d, 0d, 1d);
 
 		float scale = 8.0f;
 		glScaled(scale / grid.getX().getLength(), scale / grid.getY().getLength(), scale / grid.getZ().getLength());
@@ -192,11 +175,34 @@ public class Renderer {
 		glTranslated(-grid.getXMin(), -grid.getYMin(), 0.0d);
 	}
 
-	private void input(GUIRenderer gui, Grid grid) {
-		if (mode == Mode.RENDER_3D) {
-			grid.rotate(-gui.getDragY(), gui.getDragX());
-		} else
-			grid.drag(gui.getDragX(), gui.getDragY());
+	private void input2D(GUIRenderer gui, Grid grid) {
+		grid.drag(gui.getDragX(), gui.getDragY());
 		grid.zoom(gui.getMouseScroll());
 	}
+
+	private void input3D(GUIRenderer gui, Grid grid) {
+		grid.rotate(gui.getDragY(), gui.getDragX());
+		grid.zoom(gui.getMouseScroll());
+	}
+
+	/**
+	 * Generate perspective view. Took this from the description here:
+	 * https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluPerspective.xml
+	 * 
+	 * @param fovy   - field of view angle, in degrees, in the y direction.
+	 * @param aspect - aspect ratio of window
+	 * @param zNear  -distance from the viewer to the near clipping plane
+	 * @param zFar   - distance from the viewer to the far clipping plane
+	 */
+	private static void perspective(double fovy, double aspect, double zNear, double zFar) {
+		double f = 1.0 / FastMath.tan(fovy * Math.PI / 360);
+		double transformation[] = { //
+				f / aspect, 0, 0, 0, //
+				0, f, 0, 0, //
+				0, 0, (zFar + zNear) / (zNear - zFar), -1, //
+				0, 0, 2 * zFar * zNear / (zNear - zFar), 0 //
+		};
+		glMultMatrixd(transformation);
+	}
+
 }

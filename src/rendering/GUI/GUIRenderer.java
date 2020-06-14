@@ -106,7 +106,7 @@ import rendering.plots.SurfaceTrio;
 public class GUIRenderer {
 
 	private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT]; // Mouse cursors provided by GLFW
-	private ImString strFunction2 = new ImString("a*x^2", 500); // string object to record 2D input
+	private ImString strFunction2 = new ImString("x^2", 500); // string object to record 2D input
 	private ImString strFunction3 = new ImString("sin(x*y)", 500); // string object to record 2D input
 
 	private final ImGuiImplGl3 imGui = new ImGuiImplGl3(); // OpenGL ImGui context
@@ -323,8 +323,8 @@ public class GUIRenderer {
 		 */
 		ImGui.inputText("Input here", strFunction2);
 		ImGui.sameLine();
-		ImGuiHelp("Input your function here. Example: x^2 + 2");
-		if (ImGui.button("Add Function")) {
+		ImGuiHelp("Input your function here. Example: x^2");
+		if (ImGui.button("Add 2D Function")) {
 			String func = strFunction2.get();
 			HashSet<Character> variables = new HashSet<>();
 			CurvePair c = new CurvePair(new Equation(func, variables));
@@ -341,25 +341,26 @@ public class GUIRenderer {
 			CurvePair curve = curves.get(i);
 			Curve func = curve.getFunction();
 			Curve der = curve.getDerivative();
-			if (ImGui.collapsingHeader("Function " + i, ImGuiTreeNodeFlags.DefaultOpen)) {
+			if (ImGui.collapsingHeader("Function " + func.getFunction().toString() + "##F2" + i,
+					ImGuiTreeNodeFlags.DefaultOpen)) {
 				ImBool visible;
 				Texture tex;
 				boolean mod;
 
 				// Function
 				visible = new ImBool(func.isVisible());
-				ImGui.checkbox("Plot function " + i, visible);
+				ImGui.checkbox("Plot function##PlotF2" + i, visible);
 				func.setVisible(visible.get());
-				mod = ImGui.colorEdit4("FColor " + i, func.getColor(), ImGuiColorEditFlags.Float);
+				mod = ImGui.colorEdit4("Color##Func2C" + i, func.getColor(), ImGuiColorEditFlags.Float);
 				modification = modification || mod;
 				tex = func.getTexture();
 				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
 
 				// Derivative
 				visible = new ImBool(der.isVisible());
-				ImGui.checkbox("Plot derivative " + i, visible);
+				ImGui.checkbox("Plot derivative##DX" + i, visible);
 				der.setVisible(visible.get());
-				mod = ImGui.colorEdit4("DColor " + i, der.getColor(), ImGuiColorEditFlags.Float);
+				mod = ImGui.colorEdit4("Color##DXC" + i, der.getColor(), ImGuiColorEditFlags.Float);
 				modification = modification || mod;
 				tex = der.getTexture();
 				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
@@ -382,9 +383,8 @@ public class GUIRenderer {
 
 		beginWindow("3D Functions");
 
-		if (ImGui.button("Switch to 2D")) {
+		if (ImGui.button("Switch to 2D"))
 			Renderer.switchMode();
-		}
 
 		boolean modification = renderSliders(varValues); // if any modifications were done
 
@@ -412,34 +412,35 @@ public class GUIRenderer {
 			Surface func = curve.getFunction();
 			Surface xDer = curve.getxDerivative();
 			Surface yDer = curve.getyDerivative();
-			if (ImGui.collapsingHeader("Function " + i, ImGuiTreeNodeFlags.DefaultOpen)) {
+			if (ImGui.collapsingHeader("Function " + func.getFunction().toString() + "##F3" + i,
+					ImGuiTreeNodeFlags.DefaultOpen)) {
 				ImBool visible;
 				Texture tex;
 				boolean mod;
 
 				// Function
 				visible = new ImBool(func.isVisible());
-				ImGui.checkbox("Plot function " + i, visible);
+				ImGui.checkbox("Plot function##Plot3F" + i, visible);
 				func.setVisible(visible.get());
-				mod = ImGui.colorEdit4("FColor " + i, func.getColor(), ImGuiColorEditFlags.Float);
+				mod = ImGui.colorEdit4("Color##Func3C" + i, func.getColor(), ImGuiColorEditFlags.Float);
 				modification = modification || mod;
 				tex = func.getTexture();
 				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
 
 				// x Derivative
 				visible = new ImBool(xDer.isVisible());
-				ImGui.checkbox("Plot x derivative " + i, visible);
+				ImGui.checkbox("Plot x derivative##PDX" + i, visible);
 				xDer.setVisible(visible.get());
-				mod = ImGui.colorEdit4("XDColor " + i, xDer.getColor(), ImGuiColorEditFlags.Float);
+				mod = ImGui.colorEdit4("Color##PDXC" + i, xDer.getColor(), ImGuiColorEditFlags.Float);
 				modification = modification || mod;
 				tex = xDer.getTexture();
 				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
 
 				// y Derivative
 				visible = new ImBool(yDer.isVisible());
-				ImGui.checkbox("Plot y derivative " + i, visible);
+				ImGui.checkbox("Plot y derivative##PDY" + i, visible);
 				yDer.setVisible(visible.get());
-				mod = ImGui.colorEdit4("YDColor " + i, yDer.getColor(), ImGuiColorEditFlags.Float);
+				mod = ImGui.colorEdit4("Color##PDYC" + i, yDer.getColor(), ImGuiColorEditFlags.Float);
 				modification = modification || mod;
 				tex = yDer.getTexture();
 				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
@@ -460,7 +461,7 @@ public class GUIRenderer {
 	private void beginWindow(String title) {
 		ImGui.newFrame();
 		ImGui.setNextWindowPos(2, 2, ImGuiCond.FirstUseEver);
-		ImGui.setNextWindowSize(Display.x, Display.height - 4, ImGuiCond.FirstUseEver);
+		ImGui.setNextWindowSize(Display.xViewport, Display.height - 4, ImGuiCond.FirstUseEver);
 		ImGui.begin(title, ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize);
 	}
 
