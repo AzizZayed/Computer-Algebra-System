@@ -14,8 +14,6 @@ import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL15.glBufferData;
-import static org.lwjgl.opengl.GL15.glDeleteBuffers;
-import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 import java.awt.image.BufferedImage;
 import java.nio.FloatBuffer;
@@ -24,10 +22,9 @@ import java.util.HashMap;
 import org.lwjgl.BufferUtils;
 
 import math.structure.Equation;
-import rendering.GUI.Texture;
 import rendering.tools.Grid;
 
-public class Surface {
+public class Surface extends Plot {
 
 	public static final int MAX_RESOLUTION = 100;
 
@@ -35,27 +32,18 @@ public class Surface {
 	private static FloatBuffer buffer = BufferUtils.createFloatBuffer(size);
 
 	private boolean drawWire = false;
-	private Equation function;
-	private float[] color;
-	private Texture texture;
-	private boolean visible;
-	private int vbo;
 
-	public Surface(Equation eq, float[] color, BufferedImage image) {
-		function = eq;
-		this.color = color;
-		texture = new Texture(image);
-		visible = true;
-		vbo = glGenBuffers();
-//		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-//		glBufferData(GL_ARRAY_BUFFER, MAX_RESOLUTION * 8, GL_DYNAMIC_DRAW);
-//		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	public Surface(Equation eq, BufferedImage image) {
+		super(eq, image);
+		color[3] = .5f;
+
 	}
 
+	@Override
 	public void update(Grid grid, HashMap<Character, Double> varValues) {
 		if (!visible)
 			return;
-		
+
 		double dx, dy;
 		double xmin = grid.getXMin();
 		double ymin = grid.getYMin();
@@ -78,20 +66,21 @@ public class Surface {
 				buffer.put((float) x);
 				buffer.put((float) y);
 				buffer.put((float) z);
-				
+
 				double yNext = y + dy;
-				
+
 				buffer.put((float) x);
 				buffer.put((float) yNext);
 				buffer.put((float) eval(x, yNext, varValues));
 			}
 		}
 		buffer.flip();
-		
+
 		render();
 	}
 
-	private void render() {
+	@Override
+	protected void render() {
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
@@ -121,49 +110,17 @@ public class Surface {
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}
 
+	/**
+	 * evaluate the value of the function at the following values
+	 * 
+	 * @param x         - value of x
+	 * @param y         - value of y
+	 * @param varValues - value for all parameters
+	 * @return the value of z, or the evaluation of the function at the given values
+	 */
 	private double eval(double x, double y, HashMap<Character, Double> varValues) {
 		varValues.put('x', x);
 		varValues.put('y', y);
 		return function.valueAt(varValues);
-	}
-
-	/**
-	 * @return the visible
-	 */
-	public boolean isVisible() {
-		return visible;
-	}
-
-	/**
-	 * @param visible the visible to set
-	 */
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
-	/**
-	 * @return the function
-	 */
-	public Equation getFunction() {
-		return function;
-	}
-
-	/**
-	 * @return the color
-	 */
-	public float[] getColor() {
-		return color;
-	}
-
-	/**
-	 * @return the texture
-	 */
-	public Texture getTexture() {
-		return texture;
-	}
-
-	public void cleanup() {
-		glDeleteBuffers(vbo);
-		texture.cleanup();
 	}
 }

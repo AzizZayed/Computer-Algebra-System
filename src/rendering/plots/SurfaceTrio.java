@@ -3,7 +3,6 @@ package rendering.plots;
 import java.util.HashMap;
 
 import math.structure.Equation;
-import net.jafama.FastMath;
 import rendering.GUI.LatexRenderer;
 import rendering.tools.Grid;
 
@@ -15,25 +14,21 @@ public class SurfaceTrio {
 		String latex = "z = " + eq.toLatex();
 		Equation simplified = eq.simplified();
 
-		function = new Surface(simplified, randomColor(), LatexRenderer.toImage(latex));
+		function = new Surface(simplified, LatexRenderer.toImage(latex));
 
 		Equation xDer = simplified.derivative('x');
 		latex = "z_x = " + xDer.toLatex();
-		xDerivative = new Surface(xDer, randomColor(), LatexRenderer.toImage(latex));
+		xDerivative = new Surface(xDer, LatexRenderer.toImage(latex));
 
 		Equation yDer = simplified.derivative('y');
 		latex = "z_y = " + yDer.toLatex();
-		yDerivative = new Surface(yDer, randomColor(), LatexRenderer.toImage(latex));
+		yDerivative = new Surface(yDer, LatexRenderer.toImage(latex));
 	}
 
 	public void update(Grid grid, HashMap<Character, Double> varValues) {
 		function.update(grid, varValues);
 		xDerivative.update(grid, varValues);
 		yDerivative.update(grid, varValues);
-	}
-
-	private float[] randomColor() {
-		return new float[] { (float) FastMath.random(), (float) FastMath.random(), (float) FastMath.random(), 0.5f };
 	}
 
 	public void cleanup() {

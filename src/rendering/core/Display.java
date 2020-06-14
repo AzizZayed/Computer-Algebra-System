@@ -39,7 +39,7 @@ import org.lwjgl.system.MemoryUtil;
 public final class Display {
 
 	public static long ID; // the id of the window
-	public static int xViewport = 400, yViewport = 0; // position of the viewport
+	public static int xViewport = 420, yViewport = 0; // position of the viewport
 	public static int width = 1000 + xViewport, height = 1000 + yViewport; // dimensions of the display
 
 	/**

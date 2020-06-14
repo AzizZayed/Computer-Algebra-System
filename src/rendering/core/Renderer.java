@@ -71,31 +71,25 @@ public class Renderer {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		perspective(FOV, ASPECT, NEAR_PLANE, FAR_PLANE);
-		
+
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClearDepth(1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
-		
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnable(GL_MULTISAMPLE);
 
-//		glEnable(GL_LINE_SMOOTH);
-//		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		glLineWidth(3f);
-		glEnable(GL_ALPHA_TEST);
-
-		
-
 		ArrayList<CurvePair> curves = new ArrayList<>();
 		ArrayList<SurfaceTrio> surfaces = new ArrayList<>();
-		HashMap<Character, Double> varValues = new HashMap<>();
+
+		HashMap<Character, Double> varValues2D = new HashMap<>();
+		HashMap<Character, Double> varValues3D = new HashMap<>();
 
 		Grid grid2D = new Grid(-1d, 1d, -1d, 1d, 0d, 0d);
 		Grid grid3D = new Grid(-1d, 1d, -1d, 1d, -1d, 1d);
@@ -116,12 +110,12 @@ public class Renderer {
 			glPushMatrix();
 			if (mode == Mode.RENDER_3D) {
 				input3D(gui, grid3D);
-				render3D(surfaces, grid3D, varValues);
-				gui.render3D(deltaTime, surfaces, varValues);
+				render3D(surfaces, grid3D, varValues3D);
+				gui.render3D(deltaTime, surfaces, varValues3D);
 			} else {
 				input2D(gui, grid2D);
-				render2D(curves, grid2D, varValues);
-				gui.render2D(deltaTime, curves, varValues);
+				render2D(curves, grid2D, varValues2D);
+				gui.render2D(deltaTime, curves, varValues2D);
 			}
 			glPopMatrix();
 
@@ -137,11 +131,20 @@ public class Renderer {
 			trio.cleanup();
 	}
 
+	/**
+	 * render the 3D scene
+	 * 
+	 * @param surfaces  - all the surfaces to render
+	 * @param grid      - the data used to generate the render data
+	 * @param varValues - the parameter-value pair
+	 */
 	private void render3D(ArrayList<SurfaceTrio> surfaces, Grid grid, HashMap<Character, Double> varValues) {
 		transform3D(grid);
 
+		glLineWidth(1f);
 		grid.render();
 
+		glLineWidth(3f);
 		/// Render surfaces ///
 		glDepthMask(false);
 		for (SurfaceTrio trio : surfaces)
@@ -149,16 +152,30 @@ public class Renderer {
 		glDepthMask(true);
 	}
 
+	/**
+	 * render the 2D scene
+	 * 
+	 * @param surfaces  - all the curves to render
+	 * @param grid      - the data used to generate the render data
+	 * @param varValues - the parameter-value pair
+	 */
 	private void render2D(ArrayList<CurvePair> curves, Grid grid, HashMap<Character, Double> varValues) {
 		transform2D(grid);
 
+		glLineWidth(1f);
 		grid.render();
 
+		glLineWidth(3f);
 		/// Render Curves ///
 		for (CurvePair pair : curves)
 			pair.update(grid, varValues);
 	}
 
+	/**
+	 * transform the 3D world according to the given grid data
+	 * 
+	 * @param grid
+	 */
 	private void transform3D(Grid grid) {
 		glTranslatef(0.0f, 0.0f, -18.0f);
 		glRotatef(-75f, 1f, 0f, 0f);
@@ -170,16 +187,33 @@ public class Renderer {
 		glScaled(scale / grid.getX().getLength(), scale / grid.getY().getLength(), scale / grid.getZ().getLength());
 	}
 
+	/**
+	 * transform the 2D world according to the given grid data
+	 * 
+	 * @param grid
+	 */
 	private void transform2D(Grid grid) {
 		glScaled(1.0d / grid.getX().getLength(), 1.0d / grid.getY().getLength(), 1.0d);
 		glTranslated(-grid.getXMin(), -grid.getYMin(), 0.0d);
 	}
 
+	/**
+	 * handle inputs for the 2D curves
+	 * 
+	 * @param gui  - the event handle that carries the values we need
+	 * @param grid - grid to modify according to input
+	 */
 	private void input2D(GUIRenderer gui, Grid grid) {
 		grid.drag(gui.getDragX(), gui.getDragY());
 		grid.zoom(gui.getMouseScroll());
 	}
 
+	/**
+	 * handle inputs for the 3D surfaces
+	 * 
+	 * @param gui  - the event handle that carries the values we need
+	 * @param grid - grid to modify according to input
+	 */
 	private void input3D(GUIRenderer gui, Grid grid) {
 		grid.rotate(gui.getDragY(), gui.getDragX());
 		grid.zoom(gui.getMouseScroll());
@@ -191,7 +225,7 @@ public class Renderer {
 	 * 
 	 * @param fovy   - field of view angle, in degrees, in the y direction.
 	 * @param aspect - aspect ratio of window
-	 * @param zNear  -distance from the viewer to the near clipping plane
+	 * @param zNear  - distance from the viewer to the near clipping plane
 	 * @param zFar   - distance from the viewer to the far clipping plane
 	 */
 	private static void perspective(double fovy, double aspect, double zNear, double zFar) {
@@ -204,5 +238,4 @@ public class Renderer {
 		};
 		glMultMatrixd(transformation);
 	}
-
 }
