@@ -24,19 +24,29 @@ import org.lwjgl.BufferUtils;
 import math.structure.Equation;
 import rendering.tools.Grid;
 
+/**
+ * This class represents a surface: 3 dimensional function with z dependent on x
+ * and y
+ * 
+ * @author Abd-El-Aziz Zayed
+ *
+ */
 public class Surface extends Plot {
 
-	public static final int MAX_RESOLUTION = 100;
+	public static final int MAX_RESOLUTION = 100; // the resolution of the mesh
 
+	/*
+	 * the number of floats needed to represent the data (size) and the buffer to
+	 * store the data
+	 */
 	private static int size = (MAX_RESOLUTION + 1) * MAX_RESOLUTION * 6;
 	private static FloatBuffer buffer = BufferUtils.createFloatBuffer(size);
 
-	private boolean drawWire = false;
+	private boolean drawWire = false; // if we draw the wireframe
 
 	public Surface(Equation eq, BufferedImage image) {
 		super(eq, image);
 		color[3] = .5f;
-
 	}
 
 	@Override
@@ -45,8 +55,8 @@ public class Surface extends Plot {
 			return;
 
 		double dx, dy;
-		double xmin = grid.getXMin();
-		double ymin = grid.getYMin();
+		double xmin = grid.getX().getMin();
+		double ymin = grid.getY().getMin();
 
 		dx = grid.getX().getLength() / MAX_RESOLUTION;
 		dy = grid.getY().getLength() / MAX_RESOLUTION;
@@ -121,6 +131,6 @@ public class Surface extends Plot {
 	private double eval(double x, double y, HashMap<Character, Double> varValues) {
 		varValues.put('x', x);
 		varValues.put('y', y);
-		return function.valueAt(varValues);
+		return equation.valueAt(varValues);
 	}
 }

@@ -11,21 +11,28 @@ import net.jafama.FastMath;
 import rendering.GUI.Texture;
 import rendering.tools.Grid;
 
+/**
+ * This class represents a plot and all the data common between all types of
+ * plots
+ * 
+ * @author Abd-El-Aziz Zayed
+ *
+ */
 public abstract class Plot {
 
-	protected Equation function;
-	protected float[] color;
-	private Texture texture;
-	protected boolean visible;
-	protected int vbo;
+	protected Equation equation; // the function of the plot
+	protected float[] color; // the color of the plot
+	private Texture texture; // the texture for the equation of the plot
+	protected boolean visible; // if the plot is visible
+	protected int vbo; // the GPU buffer to carry the data
 
 	public Plot(Equation eq, BufferedImage image) {
-		function = eq;
+		equation = eq;
 		color = new float[] { (float) FastMath.random(), (float) FastMath.random(), (float) FastMath.random(), 1f };
 		texture = new Texture(image);
 		visible = true;
 		vbo = glGenBuffers();
-		
+
 //		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 //		glBufferData(GL_ARRAY_BUFFER, size * 4, GL_DYNAMIC_DRAW);
 //		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -48,8 +55,8 @@ public abstract class Plot {
 	/**
 	 * @return the function
 	 */
-	public Equation getFunction() {
-		return function;
+	public Equation getEquation() {
+		return equation;
 	}
 
 	/**

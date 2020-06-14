@@ -119,9 +119,9 @@ public class Renderer {
 			}
 			glPopMatrix();
 
-			double dt = Display.getTime() - time;
-			System.out.println("Frame Time: " + dt + " s");
-			System.out.println("FPS: " + 1d / dt);
+//			double dt = Display.getTime() - time;
+//			System.out.println("Frame Time: " + dt + " s");
+//			System.out.println("FPS: " + 1d / dt);
 			Display.update();
 		}
 		gui.destroy();
@@ -194,7 +194,7 @@ public class Renderer {
 	 */
 	private void transform2D(Grid grid) {
 		glScaled(1.0d / grid.getX().getLength(), 1.0d / grid.getY().getLength(), 1.0d);
-		glTranslated(-grid.getXMin(), -grid.getYMin(), 0.0d);
+		glTranslated(-grid.getX().getMin(), -grid.getY().getMin(), 0.0d);
 	}
 
 	/**

@@ -6,30 +6,27 @@ import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex3d;
 
+/**
+ * This class represents the coordinate system in which we draw the plots.
+ * 
+ * @author Abd-El-Aziz Zayed
+ *
+ */
 public class Grid {
 
 	private static final double DRAG_DAMPENER = 1000d;
 	private static final double ZOOM_DAMPENER = 300d;
 
 	private Range x, y, z; // range in x and y direction
-	private double xRotation = 0, zRotation = 0;
+	private double xRotation = 0, zRotation = 0; // rotation values
 
+	/*
+	 * constructor with the all the intervals
+	 */
 	public Grid(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax) {
 		x = new Range(xmin, xmax);
 		y = new Range(ymin, ymax);
 		z = new Range(zmin, zmax);
-	}
-
-	public Grid(Grid grid) {
-		x = new Range(grid.getXMin(), grid.getXMax());
-		y = new Range(grid.getYMin(), grid.getYMax());
-		z = new Range(grid.getZMin(), grid.getZMax());
-	}
-
-	public Grid(Range x, Range y, Range z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
 	}
 
 	/**
@@ -40,28 +37,6 @@ public class Grid {
 	}
 
 	/**
-	 * @return the x min
-	 */
-	public double getXMin() {
-		return x.getMin();
-	}
-
-	/**
-	 * @return the x max
-	 */
-	public double getXMax() {
-		return x.getMax();
-	}
-
-	/**
-	 * @param x the x to set
-	 */
-	public void setRangeX(double xmin, double xmax) {
-		this.x.setMin(xmin);
-		this.x.setMax(xmax);
-	}
-
-	/**
 	 * @return the y
 	 */
 	public Range getY() {
@@ -69,59 +44,10 @@ public class Grid {
 	}
 
 	/**
-	 * @return the y min
-	 */
-	public double getYMin() {
-		return y.getMin();
-	}
-
-	/**
-	 * @return the y max
-	 */
-	public double getYMax() {
-		return y.getMax();
-	}
-
-	/**
-	 * @param y the y to set
-	 */
-	public void setRangeY(double ymin, double ymax) {
-		this.y.setMin(ymin);
-		this.y.setMax(ymax);
-	}
-
-	/**
 	 * @return the z
 	 */
 	public Range getZ() {
 		return z;
-	}
-
-	/**
-	 * @return the z min
-	 */
-	public double getZMin() {
-		return z.getMin();
-	}
-
-	/**
-	 * @return the y max
-	 */
-	public double getZMax() {
-		return z.getMax();
-	}
-
-	/**
-	 * @param y the y to set
-	 */
-	public void setRangeZ(double zmin, double zmax) {
-		z.setMin(zmin);
-		z.setMax(zmax);
-	}
-
-	public boolean isEqualsTo(Grid grid) {
-		return x.getMin() == grid.getXMin() && x.getMax() == grid.getXMax() && y.getMin() == grid.getYMin()
-				&& y.getMax() == grid.getYMax() && z.getMin() == grid.getZMin() && z.getMax() == grid.getZMax();
 	}
 
 	/**
@@ -155,7 +81,7 @@ public class Grid {
 			z.set(z.getMin() + ds, z.getMax() - ds);
 		}
 	}
-	
+
 	public void rotate(double rx, double rz) {
 		xRotation += rx;
 		zRotation += rz;
@@ -174,7 +100,10 @@ public class Grid {
 	public double getZRotation() {
 		return zRotation;
 	}
-	
+
+	/**
+	 * render the x, y and z axes
+	 */
 	public void render() {
 		float scale = 1.25f;
 

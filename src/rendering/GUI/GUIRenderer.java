@@ -89,6 +89,7 @@ import rendering.core.Display;
 import rendering.core.Renderer;
 import rendering.plots.Curve;
 import rendering.plots.CurvePair;
+import rendering.plots.Plot;
 import rendering.plots.Surface;
 import rendering.plots.SurfaceTrio;
 
@@ -118,6 +119,8 @@ public class GUIRenderer {
 
 	private static GUIRenderer instance = new GUIRenderer(); // singleton instance
 
+//	private Texture xpic;
+
 	/**
 	 * @return the only GUIRenderer instance
 	 */
@@ -129,6 +132,12 @@ public class GUIRenderer {
 	 * make constructor private for singleton
 	 */
 	private GUIRenderer() {
+//		try {
+//			xpic = new Texture("res/xpic.png");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			xpic = null;
+//		}
 	}
 
 	/**
@@ -341,29 +350,17 @@ public class GUIRenderer {
 			CurvePair curve = curves.get(i);
 			Curve func = curve.getFunction();
 			Curve der = curve.getDerivative();
-			if (ImGui.collapsingHeader("Function " + func.getFunction().toString() + "##F2" + i,
-					ImGuiTreeNodeFlags.DefaultOpen)) {
-				ImBool visible;
-				Texture tex;
+			String name = "Function " + func.getEquation().toString() + "##F2" + i;
+			if (ImGui.collapsingHeader(name, ImGuiTreeNodeFlags.DefaultOpen)) {
 				boolean mod;
 
-				// Function
-				visible = new ImBool(func.isVisible());
-				ImGui.checkbox("Plot function##PlotF2" + i, visible);
-				func.setVisible(visible.get());
-				mod = ImGui.colorEdit4("Color##Func2C" + i, func.getColor(), ImGuiColorEditFlags.Float);
+				mod = drawPlotInfo(func, "Plot function##PlotF2" + i, "Color##Func2C" + i);
 				modification = modification || mod;
-				tex = func.getTexture();
-				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+				mod = drawPlotInfo(der, "Plot derivative##DX" + i, "Color##DXC" + i);
+				modification = modification || mod;
 
-				// Derivative
-				visible = new ImBool(der.isVisible());
-				ImGui.checkbox("Plot derivative##DX" + i, visible);
-				der.setVisible(visible.get());
-				mod = ImGui.colorEdit4("Color##DXC" + i, der.getColor(), ImGuiColorEditFlags.Float);
-				modification = modification || mod;
-				tex = der.getTexture();
-				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+				if (ImGui.button("Delete Function##closeF2" + i))
+					curves.remove(i);
 			}
 		}
 
@@ -378,6 +375,14 @@ public class GUIRenderer {
 
 	}
 
+	/**
+	 * render main GUI elements for 3D context
+	 * 
+	 * @param dt        - delta time
+	 * @param surfaces  - list with all the surfaces to draw
+	 * @param varValues - map with all the variables and they're corresponding
+	 *                  values for the sliders
+	 */
 	public void render3D(double dt, ArrayList<SurfaceTrio> surfaces, HashMap<Character, Double> varValues) {
 		startFrame((float) dt);
 
@@ -412,38 +417,19 @@ public class GUIRenderer {
 			Surface func = curve.getFunction();
 			Surface xDer = curve.getxDerivative();
 			Surface yDer = curve.getyDerivative();
-			if (ImGui.collapsingHeader("Function " + func.getFunction().toString() + "##F3" + i,
-					ImGuiTreeNodeFlags.DefaultOpen)) {
-				ImBool visible;
-				Texture tex;
+			String name = "Function " + func.getEquation().toString() + "##F3" + i;
+			if (ImGui.collapsingHeader(name, ImGuiTreeNodeFlags.DefaultOpen)) {
 				boolean mod;
 
-				// Function
-				visible = new ImBool(func.isVisible());
-				ImGui.checkbox("Plot function##Plot3F" + i, visible);
-				func.setVisible(visible.get());
-				mod = ImGui.colorEdit4("Color##Func3C" + i, func.getColor(), ImGuiColorEditFlags.Float);
+				mod = drawPlotInfo(func, "Plot function##Plot3F" + i, "Color##Func3C" + i);
 				modification = modification || mod;
-				tex = func.getTexture();
-				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+				mod = drawPlotInfo(xDer, "Plot x derivative##PDX" + i, "Color##PDXC" + i);
+				modification = modification || mod;
+				mod = drawPlotInfo(yDer, "Plot y derivative##PDY" + i, "Color##PDYC" + i);
+				modification = modification || mod;
 
-				// x Derivative
-				visible = new ImBool(xDer.isVisible());
-				ImGui.checkbox("Plot x derivative##PDX" + i, visible);
-				xDer.setVisible(visible.get());
-				mod = ImGui.colorEdit4("Color##PDXC" + i, xDer.getColor(), ImGuiColorEditFlags.Float);
-				modification = modification || mod;
-				tex = xDer.getTexture();
-				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
-
-				// y Derivative
-				visible = new ImBool(yDer.isVisible());
-				ImGui.checkbox("Plot y derivative##PDY" + i, visible);
-				yDer.setVisible(visible.get());
-				mod = ImGui.colorEdit4("Color##PDYC" + i, yDer.getColor(), ImGuiColorEditFlags.Float);
-				modification = modification || mod;
-				tex = yDer.getTexture();
-				ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+				if (ImGui.button("Delete Function##closeF3" + i))
+					surfaces.remove(i);
 			}
 		}
 
@@ -458,6 +444,30 @@ public class GUIRenderer {
 
 	}
 
+	/**
+	 * draw all the info relevant for a single Plot object
+	 * 
+	 * @param plot           - the plot
+	 * @param checkBoxLabel  - the label for the visibility toggle
+	 * @param colorEditLabel - the label for the color edit
+	 * @return true if the color edit was edited
+	 */
+	private boolean drawPlotInfo(Plot plot, String checkBoxLabel, String colorEditLabel) {
+		ImBool visible = new ImBool(plot.isVisible());
+		ImGui.checkbox(checkBoxLabel, visible);
+		plot.setVisible(visible.get());
+		boolean mod = ImGui.colorEdit4(colorEditLabel, plot.getColor(), ImGuiColorEditFlags.Float);
+		Texture tex = plot.getTexture();
+		ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
+
+		return mod;
+	}
+
+	/**
+	 * Begin the window frame. This should be called every start of a frame
+	 * 
+	 * @param title - title of the window
+	 */
 	private void beginWindow(String title) {
 		ImGui.newFrame();
 		ImGui.setNextWindowPos(2, 2, ImGuiCond.FirstUseEver);

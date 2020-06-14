@@ -1,8 +1,14 @@
 package rendering.tools;
 
+/**
+ * This class represents a range of numbers.
+ * 
+ * @author Abd-El-Aziz Zayed
+ *
+ */
 public class Range {
 
-	private double min, max;
+	private double min, max; // upper and lower bound of an interval
 
 	public Range(double min, double max) {
 		this.min = min;
@@ -17,13 +23,6 @@ public class Range {
 	}
 
 	/**
-	 * @param min the min to set
-	 */
-	public void setMin(double min) {
-		this.min = min;
-	}
-
-	/**
 	 * @return the max
 	 */
 	public double getMax() {
@@ -31,15 +30,14 @@ public class Range {
 	}
 
 	/**
-	 * @param max the max to set
+	 * set the min and max of this range to the given values
+	 * 
+	 * @param min
+	 * @param max
 	 */
-	public void setMax(double max) {
-		this.max = max;
-	}
-
 	public void set(double min, double max) {
-		setMin(min);
-		setMax(max);
+		this.min = min;
+		this.max = max;
 	}
 
 	/**

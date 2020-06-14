@@ -23,10 +23,20 @@ import math.structure.Equation;
 import rendering.tools.Grid;
 import rendering.tools.Range;
 
+/**
+ * This class represents a curve: 2 dimensional function with y dependent on x
+ * 
+ * @author Abd-El-Aziz Zayed
+ *
+ */
 public class Curve extends Plot {
 
-	private static final int MAX_RESOLUTION = 10000;
+	private static final int MAX_RESOLUTION = 10000; // the resolution of the line
 
+	/*
+	 * the number of floats needed to represent the data (size) and the buffer to
+	 * store the data
+	 */
 	private static int size = MAX_RESOLUTION * 2;
 	private static FloatBuffer buffer = BufferUtils.createFloatBuffer(size);
 
@@ -40,7 +50,7 @@ public class Curve extends Plot {
 			return;
 
 		double dx = grid.getX().getLength() / MAX_RESOLUTION;
-		double xmin = grid.getXMin();
+		double xmin = grid.getX().getMin();
 
 		int i;
 		double x;
@@ -88,6 +98,6 @@ public class Curve extends Plot {
 	 */
 	private double eval(double x, HashMap<Character, Double> varValues) {
 		varValues.put('x', x);
-		return function.valueAt(varValues);
+		return equation.valueAt(varValues);
 	}
 }

@@ -15,10 +15,13 @@ import static org.lwjgl.opengl.GL11.glGenTextures;
 import static org.lwjgl.opengl.GL11.glTexImage2D;
 import static org.lwjgl.opengl.GL11.glTexParameteri;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
-import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+
+import javax.imageio.ImageIO;
 
 import org.lwjgl.BufferUtils;
 
@@ -40,6 +43,13 @@ public class Texture {
 		width = image.getWidth();
 		height = image.getHeight();
 		ID = loadTexture(image);
+	}
+	
+	/*
+	 * construct texture from filepath
+	 */
+	public Texture(String filepath) throws IOException {
+		this(ImageIO.read(new File(filepath)));
 	}
 
 	/**
@@ -73,8 +83,8 @@ public class Texture {
 		int[] pixels = new int[width * height];
 		image.getRGB(0, 0, width, height, pixels, 0, width);
 
-		ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4); // 4 for RGBA,
-																				// 3 for RGB
+		ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
+
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				int pixel = pixels[y * width + x];
@@ -96,11 +106,13 @@ public class Texture {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-		glGenerateMipmap(GL_TEXTURE_2D);
 
 		return textureID;
 	}
 
+	/**
+	 * clean the memory allocated for this texture when no longer needed
+	 */
 	public void cleanup() {
 		glDeleteTextures(ID);
 	}

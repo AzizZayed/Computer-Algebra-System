@@ -13,6 +13,7 @@ import java.util.HashSet;
 public class Equation implements IMath {
 
 	private Expression root;
+	private HashSet<Character> variables;
 
 	public Equation(Expression root) {
 		this.root = root;
@@ -21,6 +22,14 @@ public class Equation implements IMath {
 	public Equation(String exp, HashSet<Character> variables) {
 		exp = Parser.clean(exp);
 		root = Parser.parseExpression(exp, variables);
+		this.variables = variables;
+	}
+
+	/**
+	 * @return the variables
+	 */
+	public HashSet<Character> getVariables() {
+		return variables;
 	}
 
 	/**
@@ -37,7 +46,7 @@ public class Equation implements IMath {
 	public String toLatex() {
 		return root.toLatex();
 	}
-	
+
 	@Override
 	public String toString() {
 		return root.toString();

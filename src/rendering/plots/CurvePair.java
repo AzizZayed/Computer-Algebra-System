@@ -6,20 +6,33 @@ import math.structure.Equation;
 import rendering.GUI.LatexRenderer;
 import rendering.tools.Grid;
 
+/**
+ * A wrapper class to hold a function of x and its derivative with respect to x
+ * 
+ * @author Abd-El-Aziz Zayed
+ *
+ */
 public class CurvePair {
 
-	private Curve function, derivative;
-//	private boolean numericalDerivative = false;
+	private Curve function, derivative; // the function and its derivative
 
 	public CurvePair(Equation eq) {
 		String latex = "y = " + eq.toLatex();
 		Equation simplified = eq.simplified();
+		
 		function = new Curve(simplified, LatexRenderer.toImage(latex));
+		
 		Equation der = simplified.derivative('x');
 		latex = "y_x = " + der.toLatex();
 		derivative = new Curve(der, LatexRenderer.toImage(latex));
 	}
 
+	/**
+	 * update the curves
+	 * 
+	 * @param grid      - coordinate system to render according to
+	 * @param varValues - value of all the parameters
+	 */
 	public void update(Grid grid, HashMap<Character, Double> varValues) {
 		function.update(grid, varValues);
 		derivative.update(grid, varValues);
@@ -38,7 +51,10 @@ public class CurvePair {
 	public Curve getDerivative() {
 		return derivative;
 	}
-	
+
+	/**
+	 * cleanup the GPU memory when not needed anymore
+	 */
 	public void cleanup() {
 		function.cleanup();
 		derivative.cleanup();
