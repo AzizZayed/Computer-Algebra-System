@@ -199,7 +199,7 @@ public class Parser {
 				String[] ins = StringUtils.split(in, ",");
 				if (ins.length == 1)
 					return generateExpression(ins[0], vars);
-				
+
 				Expression[] exps = new Expression[ins.length];
 				for (int i = 0; i < exps.length; i++)
 					exps[i] = generateExpression(ins[i], vars);
@@ -209,11 +209,23 @@ public class Parser {
 				String[] ins = StringUtils.split(in, ",");
 				if (ins.length == 1)
 					return generateExpression(ins[0], vars);
-				
+
 				Expression[] exps = new Expression[ins.length];
 				for (int i = 0; i < exps.length; i++)
 					exps[i] = generateExpression(ins[i], vars);
 				return new Min(exps);
+
+			} else if (cut.equals("mod()")) {
+				String in = remove.pop();
+				String[] ins = StringUtils.split(in, ",");
+
+				if (ins.length != 2)
+					throw new IllegalArgumentException("Invalid Expression");
+
+				Expression in1 = generateExpression(ins[0], vars);
+				Expression in2 = generateExpression(ins[1], vars);
+
+				return new Mod(in1, in2);
 
 			} else if (cut.equals("log()")) // logarithm
 				return new Log(generateExpression(remove.pop(), vars));

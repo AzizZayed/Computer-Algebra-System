@@ -19,12 +19,16 @@ public class CurvePair {
 	public CurvePair(Equation eq) {
 		String latex = "y = " + eq.toLatex();
 		Equation simplified = eq.simplified();
-		
+
 		function = new Curve(simplified, LatexRenderer.toImage(latex));
-		
-		Equation der = simplified.derivative('x');
-		latex = "y_x = " + der.toLatex();
-		derivative = new Curve(der, LatexRenderer.toImage(latex));
+		try {
+			Equation der = simplified.derivative('x');
+			latex = "y_x = " + der.toLatex();
+			derivative = new Curve(der, LatexRenderer.toImage(latex));
+		} catch (Exception e) {
+			derivative = null;
+		}
+
 	}
 
 	/**
@@ -35,7 +39,8 @@ public class CurvePair {
 	 */
 	public void update(Grid grid, HashMap<Character, Double> varValues) {
 		function.update(grid, varValues);
-		derivative.update(grid, varValues);
+		if (derivative != null)
+			derivative.update(grid, varValues);
 	}
 
 	/**
@@ -57,6 +62,7 @@ public class CurvePair {
 	 */
 	public void cleanup() {
 		function.cleanup();
-		derivative.cleanup();
+		if (derivative != null)
+			derivative.cleanup();
 	}
 }

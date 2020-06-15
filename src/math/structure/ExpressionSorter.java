@@ -49,15 +49,20 @@ public class ExpressionSorter implements Comparator<Expression> {
 				diff = compare(func1.expr, func2.expr);
 
 				if (diff == 0) {
-					if (func1.expr instanceof Log) {
-						Log log1 = (Log) func1.expr;
-						Log log2 = (Log) func2.expr;
+					if (func1 instanceof Log) {
+						Log log1 = (Log) func1;
+						Log log2 = (Log) func2;
 						return compare(log1.base, log2.base);
 					}
-					if (func1.expr instanceof Power) {
-						Power pow1 = (Power) func1.expr;
-						Power pow2 = (Power) func2.expr;
+					if (func1 instanceof Power) {
+						Power pow1 = (Power) func1;
+						Power pow2 = (Power) func2;
 						return compare(pow1.power, pow2.power);
+					}
+					if (func1 instanceof Mod) {
+						Mod mod1 = (Mod) func1;
+						Mod mod2 = (Mod) func2;
+						return compare(mod1.input, mod2.input);
 					}
 				}
 				return diff;

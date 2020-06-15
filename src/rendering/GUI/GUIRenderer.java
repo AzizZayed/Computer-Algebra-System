@@ -106,18 +106,21 @@ import rendering.plots.SurfaceTrio;
  */
 public class GUIRenderer {
 
+	private final ImGuiImplGl3 imGui = new ImGuiImplGl3(); // OpenGL ImGui context
+	private static GUIRenderer instance = new GUIRenderer(); // singleton instance
+
 	private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT]; // Mouse cursors provided by GLFW
+
 	private ImString strFunction2 = new ImString("x^2", 500); // string object to record 2D input
 	private ImString strFunction3 = new ImString("sin(x*y)", 500); // string object to record 2D input
 
-	private final ImGuiImplGl3 imGui = new ImGuiImplGl3(); // OpenGL ImGui context
+	private String errorMessage = ""; // the error message that appreas when there is an error
 
-	private HashMap<Character, Float> sliderSteps = new HashMap<>(); // the incrementation values for each slider
+	private HashMap<Character, Float> sliderSteps2D = new HashMap<>(); // the incrementation values for each slider 2D
+	private HashMap<Character, Float> sliderSteps3D = new HashMap<>(); // the incrementation values for each slider 3D
 
 	private ImVec2 mouseDrag = new ImVec2(0f, 0f); // the vector describing the mouse drag
 	private float scroll = 0f; // mouse wheel scroll delta
-
-	private static GUIRenderer instance = new GUIRenderer(); // singleton instance
 
 	/**
 	 * @return the only GUIRenderer instance
@@ -314,10 +317,11 @@ public class GUIRenderer {
 		beginWindow("2D Functions");
 
 		if (ImGui.button("Switch to 3D")) {
+			errorMessage = "";
 			Renderer.switchMode();
 		}
 
-		boolean modification = renderSliders(varValues); // if any modifications were done
+		boolean modification = renderSliders(varValues, sliderSteps2D); // if any modifications were done
 
 		/*
 		 * Render functions
@@ -325,15 +329,22 @@ public class GUIRenderer {
 		ImGui.inputText("Input here", strFunction2);
 		ImGui.sameLine();
 		ImGuiHelp("Input your function here. Example: x^2");
-		if (ImGui.button("Add 2D Function")) {
+		boolean add = ImGui.button("Add 2D Function");
+		ImGui.textColored(1f, 0f, 0f, 1f, errorMessage);
+		if (add) {
 			String func = strFunction2.get();
 			HashSet<Character> variables = new HashSet<>();
 			CurvePair c = new CurvePair(new Equation(func, variables));
-			curves.add(c);
+			if (variables.contains('y') || variables.contains('z'))
+				errorMessage = "y and z are reserved letters. Use others.";
+			else {
+				errorMessage = "";
+				curves.add(c);
+			}
 			variables.forEach(key -> {
 				if (validKey(key)) {
 					varValues.putIfAbsent(key, 1d);
-					sliderSteps.putIfAbsent(key, 0.01f);
+					sliderSteps2D.putIfAbsent(key, 0.01f);
 				}
 			});
 		}
@@ -348,6 +359,10 @@ public class GUIRenderer {
 
 				mod = drawPlotInfo(func, "Plot function##PlotF2" + i, "Color##Func2C" + i);
 				modification = modification || mod;
+
+				if (der == null)
+					continue;
+
 				mod = drawPlotInfo(der, "Plot derivative##DX" + i, "Color##DXC" + i);
 				modification = modification || mod;
 
@@ -358,13 +373,10 @@ public class GUIRenderer {
 
 		collectInput(!modification);
 
-//		ImGui.showDemoWindow();
-
 		ImGui.end();
 		ImGui.render();
 
 		imGui.render(ImGui.getDrawData());
-
 	}
 
 	/**
@@ -380,10 +392,15 @@ public class GUIRenderer {
 
 		beginWindow("3D Functions");
 
-		if (ImGui.button("Switch to 2D"))
+		if (ImGui.button("Switch to 2D")) {
+			errorMessage = "";
 			Renderer.switchMode();
+		}
+		ImGui.sameLine();
+		if (ImGui.button("Toggle Alpha Mode"))
+			Renderer.changeAlphaMode();
 
-		boolean modification = renderSliders(varValues); // if any modifications were done
+		boolean modification = renderSliders(varValues, sliderSteps3D); // if any modifications were done
 
 		/*
 		 * Render functions
@@ -391,19 +408,22 @@ public class GUIRenderer {
 		ImGui.inputText("Input here", strFunction3);
 		ImGui.sameLine();
 		ImGuiHelp("Input your function here. Example: x^2 + y^2");
-		boolean addFunction = ImGui.button("Add 3D Function");
-		ImGui.sameLine();
-		if (ImGui.button("Toggle Alpha Mode"))
-			Renderer.changeAlphaMode();
-		if (addFunction) {
+		boolean add = ImGui.button("Add 3D Function");
+		ImGui.textColored(1f, 0f, 0f, 1f, errorMessage);
+		if (add) {
 			String func = strFunction3.get();
 			HashSet<Character> variables = new HashSet<>();
 			SurfaceTrio c = new SurfaceTrio(new Equation(func, variables));
-			surfaces.add(c);
+			if (variables.contains('z'))
+				errorMessage = "z is a reserved letter. Use another.";
+			else {
+				errorMessage = "";
+				surfaces.add(c);
+			}
 			variables.forEach(key -> {
 				if (validKey(key)) {
 					varValues.putIfAbsent(key, 1d);
-					sliderSteps.putIfAbsent(key, 0.01f);
+					sliderSteps3D.putIfAbsent(key, 0.01f);
 				}
 			});
 		}
@@ -419,10 +439,15 @@ public class GUIRenderer {
 
 				mod = drawPlotInfo(func, "Plot function##Plot3F" + i, "Color##Func3C" + i);
 				modification = modification || mod;
-				mod = drawPlotInfo(xDer, "Plot x derivative##PDX" + i, "Color##PDXC" + i);
-				modification = modification || mod;
-				mod = drawPlotInfo(yDer, "Plot y derivative##PDY" + i, "Color##PDYC" + i);
-				modification = modification || mod;
+
+				if (xDer != null) {
+					mod = drawPlotInfo(xDer, "Plot x derivative##PDX" + i, "Color##PDXC" + i);
+					modification = modification || mod;
+				}
+				if (yDer != null) {
+					mod = drawPlotInfo(yDer, "Plot y derivative##PDY" + i, "Color##PDYC" + i);
+					modification = modification || mod;
+				}
 
 				if (ImGui.button("Delete Function##closeF3" + i))
 					surfaces.remove(i);
@@ -430,8 +455,6 @@ public class GUIRenderer {
 		}
 
 		collectInput(!modification);
-
-//		ImGui.showDemoWindow();
 
 		ImGui.end();
 		ImGui.render();
@@ -477,13 +500,13 @@ public class GUIRenderer {
 	 * @param varValues - map with all the variables and value pairs
 	 * @return true if modifications were made
 	 */
-	private boolean renderSliders(HashMap<Character, Double> varValues) {
+	private boolean renderSliders(HashMap<Character, Double> varValues, HashMap<Character, Float> sliderSteps) {
 		boolean modification = false;
 
 		/*
 		 * Render sliders
 		 */
-		ImGui.text("Sliders");
+//		ImGui.text("Sliders");
 		for (Map.Entry<Character, Double> entry : varValues.entrySet()) {
 			char key = entry.getKey();
 			double value = entry.getValue();

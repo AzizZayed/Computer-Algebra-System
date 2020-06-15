@@ -76,7 +76,7 @@ public abstract class ManyInputFunction extends Expression {
 	@Override
 	public Expression differentiate(char var) {
 		throw new IllegalArgumentException(
-				"Cannot find derivative of a function with arbitrary amount of inputs like min and max. Compute numerically instead.");
+				"Cannot differentiate a function with arbitrary amount of inputs like min and max. Compute numerically instead.");
 	}
 
 	/**

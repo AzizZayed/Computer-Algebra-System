@@ -1,7 +1,35 @@
 package rendering.core;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL11.GL_ALPHA_TEST;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.GL_LEQUAL;
+import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.glClearDepth;
+import static org.lwjgl.opengl.GL11.glDepthFunc;
+import static org.lwjgl.opengl.GL11.glDepthMask;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glLineWidth;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glMultMatrixd;
+import static org.lwjgl.opengl.GL11.glOrtho;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glRotated;
+import static org.lwjgl.opengl.GL11.glRotatef;
+import static org.lwjgl.opengl.GL11.glScaled;
+import static org.lwjgl.opengl.GL11.glTranslated;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,10 +52,10 @@ public class Renderer {
 	/*
 	 * properties for perspective view
 	 */
-	private static final double FOV = 60d, ASPECT = 1d, NEAR_PLANE = 11d, FAR_PLANE = 26d;
+	private static final double FOV = 60d, ASPECT = 1d, NEAR_PLANE = 5d, FAR_PLANE = 35d;
 
-	private static Mode mode = Mode.RENDER_3D;
-	private static boolean alphaMode = true;
+	private static Mode mode = Mode.RENDER_3D; // Current graphing mode
+	private static boolean alphaMode = true; // If 3D models are rendered with alpha or not
 
 	/**
 	 * the rendering mode, 3D or 2D
@@ -70,7 +98,7 @@ public class Renderer {
 	public static void changeAlphaMode() {
 		alphaMode = !alphaMode;
 	}
-	
+
 	/**
 	 * @return the alpha mode
 	 */
@@ -101,13 +129,18 @@ public class Renderer {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
+		/*
+		 * 2D
+		 */
 		ArrayList<CurvePair> curves = new ArrayList<>();
-		ArrayList<SurfaceTrio> surfaces = new ArrayList<>();
-
 		HashMap<Character, Double> varValues2D = new HashMap<>();
-		HashMap<Character, Double> varValues3D = new HashMap<>();
-
 		Grid grid2D = new Grid(-1d, 1d, -1d, 1d, 0d, 0d);
+
+		/*
+		 * 3D
+		 */
+		ArrayList<SurfaceTrio> surfaces = new ArrayList<>();
+		HashMap<Character, Double> varValues3D = new HashMap<>();
 		Grid grid3D = new Grid(-1d, 1d, -1d, 1d, -1d, 1d);
 
 		GUIRenderer gui = GUIRenderer.getContext();

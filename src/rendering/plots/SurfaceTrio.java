@@ -23,13 +23,22 @@ public class SurfaceTrio {
 
 		function = new Surface(simplified, LatexRenderer.toImage(latex));
 
-		Equation xDer = simplified.derivative('x');
-		latex = "z_x = " + xDer.toLatex();
-		xDerivative = new Surface(xDer, LatexRenderer.toImage(latex));
+		try {
+			Equation xDer = simplified.derivative('x');
+			latex = "z_x = " + xDer.toLatex();
+			xDerivative = new Surface(xDer, LatexRenderer.toImage(latex));
+		} catch (Exception e) {
+			xDerivative = null;
+		}
 
-		Equation yDer = simplified.derivative('y');
-		latex = "z_y = " + yDer.toLatex();
-		yDerivative = new Surface(yDer, LatexRenderer.toImage(latex));
+		try {
+			Equation yDer = simplified.derivative('y');
+			latex = "z_y = " + yDer.toLatex();
+			yDerivative = new Surface(yDer, LatexRenderer.toImage(latex));
+		} catch (Exception e) {
+			yDerivative = null;
+		}
+
 	}
 
 	/**
@@ -40,8 +49,10 @@ public class SurfaceTrio {
 	 */
 	public void update(Grid grid, HashMap<Character, Double> varValues) {
 		function.update(grid, varValues);
-		xDerivative.update(grid, varValues);
-		yDerivative.update(grid, varValues);
+		if (xDerivative != null)
+			xDerivative.update(grid, varValues);
+		if (yDerivative != null)
+			yDerivative.update(grid, varValues);
 	}
 
 	/**
@@ -70,7 +81,9 @@ public class SurfaceTrio {
 	 */
 	public void cleanup() {
 		function.cleanup();
-		xDerivative.cleanup();
-		yDerivative.cleanup();
+		if (xDerivative != null)
+			xDerivative.cleanup();
+		if (yDerivative != null)
+			yDerivative.cleanup();
 	}
 }

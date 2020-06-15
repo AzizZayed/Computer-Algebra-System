@@ -99,9 +99,10 @@ public class Surface extends Plot {
 //		glBufferSubData(GL_ARRAY_BUFFER, 0, buffer);
 		glVertexPointer(3, GL_FLOAT, 0, 0);
 
-		if (Renderer.isAlphaMode())
-			color[3] = .5f;
-		else
+		if (Renderer.isAlphaMode()) {
+			if (color[3] > 0.6f)
+				color[3] = 0.6f;
+		} else
 			color[3] = 1f;
 
 		glColor4d(color[0], color[1], color[2], color[3]);
