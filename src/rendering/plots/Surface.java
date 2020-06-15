@@ -22,6 +22,7 @@ import java.util.HashMap;
 import org.lwjgl.BufferUtils;
 
 import math.structure.Equation;
+import rendering.core.Renderer;
 import rendering.tools.Grid;
 
 /**
@@ -97,6 +98,11 @@ public class Surface extends Plot {
 		glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
 //		glBufferSubData(GL_ARRAY_BUFFER, 0, buffer);
 		glVertexPointer(3, GL_FLOAT, 0, 0);
+
+		if (Renderer.isAlphaMode())
+			color[3] = .5f;
+		else
+			color[3] = 1f;
 
 		glColor4d(color[0], color[1], color[2], color[3]);
 

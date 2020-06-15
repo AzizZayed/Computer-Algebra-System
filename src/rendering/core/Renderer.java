@@ -27,6 +27,7 @@ public class Renderer {
 	private static final double FOV = 60d, ASPECT = 1d, NEAR_PLANE = 11d, FAR_PLANE = 26d;
 
 	private static Mode mode = Mode.RENDER_3D;
+	private static boolean alphaMode = true;
 
 	/**
 	 * the rendering mode, 3D or 2D
@@ -64,6 +65,20 @@ public class Renderer {
 	}
 
 	/**
+	 * turn on or off the depth mask changing when rendering
+	 */
+	public static void changeAlphaMode() {
+		alphaMode = !alphaMode;
+	}
+	
+	/**
+	 * @return the alpha mode
+	 */
+	public static boolean isAlphaMode() {
+		return alphaMode;
+	}
+
+	/**
 	 * start the rendering and the main loop
 	 */
 	public void start() {
@@ -81,6 +96,7 @@ public class Renderer {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnable(GL_MULTISAMPLE);
+		glEnable(GL_ALPHA_TEST);
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -146,10 +162,12 @@ public class Renderer {
 
 		glLineWidth(3f);
 		/// Render surfaces ///
-		glDepthMask(false);
+		if (alphaMode)
+			glDepthMask(false);
 		for (SurfaceTrio trio : surfaces)
 			trio.update(grid, varValues);
-		glDepthMask(true);
+		if (alphaMode)
+			glDepthMask(true);
 	}
 
 	/**

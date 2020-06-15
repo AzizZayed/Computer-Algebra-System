@@ -119,8 +119,6 @@ public class GUIRenderer {
 
 	private static GUIRenderer instance = new GUIRenderer(); // singleton instance
 
-//	private Texture xpic;
-
 	/**
 	 * @return the only GUIRenderer instance
 	 */
@@ -132,12 +130,6 @@ public class GUIRenderer {
 	 * make constructor private for singleton
 	 */
 	private GUIRenderer() {
-//		try {
-//			xpic = new Texture("res/xpic.png");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			xpic = null;
-//		}
 	}
 
 	/**
@@ -399,7 +391,11 @@ public class GUIRenderer {
 		ImGui.inputText("Input here", strFunction3);
 		ImGui.sameLine();
 		ImGuiHelp("Input your function here. Example: x^2 + y^2");
-		if (ImGui.button("Add 3D Function")) {
+		boolean addFunction = ImGui.button("Add 3D Function");
+		ImGui.sameLine();
+		if (ImGui.button("Toggle Alpha Mode"))
+			Renderer.changeAlphaMode();
+		if (addFunction) {
 			String func = strFunction3.get();
 			HashSet<Character> variables = new HashSet<>();
 			SurfaceTrio c = new SurfaceTrio(new Equation(func, variables));
