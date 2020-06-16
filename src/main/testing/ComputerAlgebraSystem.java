@@ -8,7 +8,7 @@ import rendering.core.Renderer;
  * @author Abd-El-Aziz Zayed
  *
  */
-public class MainTester {
+public class ComputerAlgebraSystem {
 	public static void main(String[] args) {
 		new Renderer();
 	}
