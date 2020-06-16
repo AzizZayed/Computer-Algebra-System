@@ -23,7 +23,6 @@ public class Equation implements IMath {
 	public Equation(String exp, HashSet<Character> variables) {
 		exp = Parser.clean(exp);
 		root = Parser.parseExpression(exp, variables);
-		System.out.println(variables);
 		this.variables = variables;
 	}
 
@@ -53,7 +52,7 @@ public class Equation implements IMath {
 	public String toFancyString() {
 		return root.toFancyString();
 	}
-	
+
 	@Override
 	public String toString() {
 		return root.toString();
@@ -72,8 +71,14 @@ public class Equation implements IMath {
 			previous = simplified;
 			simplified = simplified.simplify();
 		} while (!simplified.equals(previous));
+		simplified = simplified.simplify();
 
-		return new Equation(simplified.simplify(), variables);
+		HashSet<Character> vars = new HashSet<>();
+		String simple = simplified.toString();
+		simple = Parser.clean(simple);
+		Parser.parseExpression(simple, vars); // quick and dirty way to get the variables
+
+		return new Equation(simplified, vars);
 	}
 
 	/**
@@ -83,7 +88,7 @@ public class Equation implements IMath {
 	 * @return a fully simplified version of the derivative of this equation
 	 */
 	public Equation derivative(char var) {
-		Equation derivative = new Equation(root.differentiate(var), variables);
+		Equation derivative = new Equation(root.differentiate(var), null);
 		return derivative.simplified();
 	}
 }

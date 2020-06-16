@@ -28,6 +28,7 @@ public class SurfaceTrio {
 			latex = "z_x = " + xDer.toLatex();
 			xDerivative = new Surface(xDer, LatexRenderer.toImage(latex), false);
 		} catch (Exception e) {
+			e.printStackTrace();
 			xDerivative = null;
 		}
 
@@ -36,6 +37,7 @@ public class SurfaceTrio {
 			latex = "z_y = " + yDer.toLatex();
 			yDerivative = new Surface(yDer, LatexRenderer.toImage(latex), false);
 		} catch (Exception e) {
+			e.printStackTrace();
 			yDerivative = null;
 		}
 

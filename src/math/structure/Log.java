@@ -46,7 +46,7 @@ public class Log extends FixedInputFunction {
 				return "log_" + base.toFancyString() + "(" + expr.toFancyString() + ")";
 			else
 				return "log_(" + base.toFancyString() + ")(" + expr.toFancyString() + ")";
-		return "log_" + base.toFancyString() + "_" + expr.toFancyString();
+		return "log_" + base.toFancyString() + " " + expr.toFancyString();
 	}
 
 	@Override
@@ -81,8 +81,8 @@ public class Log extends FixedInputFunction {
 		if (baseIsNumber && inputIsNumber) // case log_b(k), where b and k are both numbers (constants)
 			return new Constant(0d);
 
-		if (baseIsNumber && !inputIsNumber) // case log_b( f(x) ) where b is a numbers (constants)
-			return Product.create( // f' * [ f * lnb ]^(-1)
+		if (baseIsNumber && !inputIsNumber) {// case log_b( f(x) ) where b is a numbers (constants)
+			Expression e = Product.create( // f' * [ f * lnb ]^(-1)
 					expr.differentiate(var), // f'
 					new Power( // [f * lnb]^(-1)
 							Product.create( // f * lnb
@@ -92,6 +92,9 @@ public class Log extends FixedInputFunction {
 							new Constant(-1d) // -1
 					) // end [f * lnb]^(-1)
 			); // end f' * [ f * lnb ]^(-1)
+			System.out.println(e);
+			return e;
+		}
 
 		// otherwise: case log_(g(x))(f(x))
 		return new Fraction( // derivative of ln(f(x)) / ln(g(x))
@@ -123,6 +126,11 @@ public class Log extends FixedInputFunction {
 	public static final class Ln extends Log {
 		public Ln(Expression expr) {
 			super(Constant.EXP, expr);
+		}
+
+		@Override
+		public String toString() {
+			return "ln(" + expr + ")";
 		}
 
 		@Override

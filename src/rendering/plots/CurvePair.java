@@ -22,10 +22,13 @@ public class CurvePair {
 
 		function = new Curve(simplified, LatexRenderer.toImage(latex), true);
 		try {
+			System.out.println("in ");
 			Equation der = simplified.derivative('x');
+			System.out.println(der);
 			latex = "y_x = " + der.toLatex();
 			derivative = new Curve(der, LatexRenderer.toImage(latex), false);
 		} catch (Exception e) {
+			e.printStackTrace();
 			derivative = null;
 		}
 

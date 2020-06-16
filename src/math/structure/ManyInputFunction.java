@@ -29,7 +29,7 @@ public abstract class ManyInputFunction extends Expression {
 		sb.append("(");
 		for (int i = 0; i < children.length - 1; i++) {
 			sb.append(children[i]);
-			sb.append(", ");
+			sb.append(",");
 		}
 		sb.append(children[children.length - 1]);
 		sb.append(")");

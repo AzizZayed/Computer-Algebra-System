@@ -337,21 +337,25 @@ public class GUIRenderer {
 		if (errorMessage != "")
 			ImGui.textColored(1f, 0f, 0f, 1f, errorMessage);
 		if (add) {
-			String func = strFunction2.get();
-			HashSet<Character> variables = new HashSet<>();
-			CurvePair c = new CurvePair(new Equation(func, variables));
-			if (variables.contains('y') || variables.contains('z'))
-				errorMessage = "y and z are reserved letters. Use others.";
-			else {
-				errorMessage = "";
-				curves.add(c);
-			}
-			variables.forEach(key -> {
-				if (validKey(key)) {
-					varValues.putIfAbsent(key, 1d);
-					sliderSteps2D.putIfAbsent(key, 0.01f);
+			try {
+				String func = strFunction2.get();
+				HashSet<Character> variables = new HashSet<>();
+				CurvePair c = new CurvePair(new Equation(func, variables));
+				if (variables.contains('y') || variables.contains('z'))
+					errorMessage = "y and z are reserved letters. Use others.";
+				else {
+					errorMessage = "";
+					curves.add(c);
 				}
-			});
+				variables.forEach(key -> {
+					if (validKey(key)) {
+						varValues.putIfAbsent(key, 1d);
+						sliderSteps2D.putIfAbsent(key, 0.01f);
+					}
+				});
+			} catch (Exception e) {
+				errorMessage = "Parsing error. Refer to Help to function syntax.";
+			}
 		}
 
 		for (int i = 0; i < curves.size(); i++) {
@@ -365,11 +369,10 @@ public class GUIRenderer {
 				mod = drawPlotInfo(func, "Plot function##PlotF2" + i, "Color##Func2C" + i);
 				modification = modification || mod;
 
-				if (der == null)
-					continue;
-
-				mod = drawPlotInfo(der, "Plot derivative##DX" + i, "Color##DXC" + i);
-				modification = modification || mod;
+				if (der != null) {
+					mod = drawPlotInfo(der, "Plot derivative##DX" + i, "Color##DXC" + i);
+					modification = modification || mod;
+				}
 
 				if (ImGui.button("Delete Function##closeF2" + i))
 					curves.remove(i);
@@ -417,22 +420,25 @@ public class GUIRenderer {
 		if (errorMessage != "")
 			ImGui.textColored(1f, 0f, 0f, 1f, errorMessage);
 		if (add) {
-			String func = strFunction3.get();
-			HashSet<Character> variables = new HashSet<>();
-			SurfaceTrio c = new SurfaceTrio(new Equation(func, variables));
-			if (variables.contains('z'))
-				errorMessage = "z is a reserved letter. Use another.";
-			else {
-				errorMessage = "";
-				surfaces.add(c);
-			}
-			variables.forEach(key -> {
-				if (validKey(key)) {
-					varValues.putIfAbsent(key, 1d);
-					sliderSteps3D.putIfAbsent(key, 0.01f);
+			try {
+				String func = strFunction3.get();
+				HashSet<Character> variables = new HashSet<>();
+				SurfaceTrio c = new SurfaceTrio(new Equation(func, variables));
+				if (variables.contains('z'))
+					errorMessage = "z is a reserved letter. Use another.";
+				else {
+					errorMessage = "";
+					surfaces.add(c);
 				}
-			});
-			
+				variables.forEach(key -> {
+					if (validKey(key)) {
+						varValues.putIfAbsent(key, 1d);
+						sliderSteps3D.putIfAbsent(key, 0.01f);
+					}
+				});
+			} catch (Exception e) {
+				errorMessage = "Parsing error. Refer to Help to function syntax.";
+			}
 		}
 
 		for (int i = 0; i < surfaces.size(); i++) {

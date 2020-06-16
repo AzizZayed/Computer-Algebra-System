@@ -234,6 +234,5 @@ public class Power extends FixedInputFunction {
 
 			return new Exp(power.simplify());
 		}
-
 	}
 }

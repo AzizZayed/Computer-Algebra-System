@@ -90,10 +90,11 @@ public class Parser {
 	private static String removeUnnecessaryBracket(String exp) {
 		int[] firstBrackets = getFirstPairOfBrackets(exp);
 
-		if (firstBrackets != null && firstBrackets.length > 0 && firstBrackets[0] == 0
-				&& firstBrackets[1] == exp.length() - 1)
+		while (firstBrackets != null && firstBrackets.length > 0 && firstBrackets[0] == 0
+				&& firstBrackets[1] == exp.length() - 1) {
 			exp = exp.substring(1, exp.length() - 1);
-
+			firstBrackets = getFirstPairOfBrackets(exp);
+		}
 		return exp;
 	}
 
@@ -299,7 +300,7 @@ public class Parser {
 		else if (strExp.substring(0, 3).equals("abs")) // absolute value
 			return new Abs(generateExpression(strExp.substring(3), vars));
 
-		else if (strExp.substring(0, 3).equals("log") && strExp.length() < 4) // log
+		else if (strExp.substring(0, 3).equals("log") && strExp.length() <= 4) // log
 			return new Log(generateExpression(strExp.substring(3), vars));
 		else if (strExp.substring(0, 4).equals("log_")) { // log where brackets are not needed
 			int sign = strExp.substring(4).indexOf('_') + 4;
