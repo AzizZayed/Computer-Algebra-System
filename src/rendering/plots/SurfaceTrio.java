@@ -40,7 +40,6 @@ public class SurfaceTrio {
 			e.printStackTrace();
 			yDerivative = null;
 		}
-
 	}
 
 	/**

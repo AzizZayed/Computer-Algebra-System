@@ -61,7 +61,9 @@ import static org.lwjgl.glfw.GLFW.glfwSetScrollCallback;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import imgui.ImBool;
 import imgui.ImDouble;
@@ -362,7 +364,7 @@ public class GUIRenderer {
 			CurvePair curve = curves.get(i);
 			Curve func = curve.getFunction();
 			Curve der = curve.getDerivative();
-			String name = (i + 1) + " Function " + func.getEquation().toFancyString() + "##F2" + i;
+			String name = (i + 1) + " Function y = " + func.getEquation().toFancyString() + "##F2" + i;
 			if (ImGui.collapsingHeader(name, ImGuiTreeNodeFlags.DefaultOpen)) {
 				boolean mod;
 
@@ -374,8 +376,17 @@ public class GUIRenderer {
 					modification = modification || mod;
 				}
 
-				if (ImGui.button("Delete Function##closeF2" + i))
+				if (ImGui.button("Delete Function##closeF2" + i)) {
 					curves.remove(i);
+
+					HashSet<Character> vars = new HashSet<>();
+
+					for (CurvePair pair : curves) {
+						vars.addAll(pair.getFunction().getEquation().getVariables());
+					}
+
+					refreshSliders(vars, varValues.keySet(), sliderSteps2D);
+				}
 			}
 		}
 
@@ -446,7 +457,7 @@ public class GUIRenderer {
 			Surface func = curve.getFunction();
 			Surface xDer = curve.getxDerivative();
 			Surface yDer = curve.getyDerivative();
-			String name = (i + 1) + " Function " + func.getEquation().toFancyString() + "##F3" + i;
+			String name = (i + 1) + " Function z = " + func.getEquation().toFancyString() + "##F3" + i;
 			if (ImGui.collapsingHeader(name, ImGuiTreeNodeFlags.DefaultOpen)) {
 				boolean mod;
 
@@ -464,6 +475,14 @@ public class GUIRenderer {
 
 				if (ImGui.button("Delete Function##closeF3" + i)) {
 					surfaces.remove(i);
+
+					HashSet<Character> vars = new HashSet<>();
+
+					for (SurfaceTrio trio : surfaces) {
+						vars.addAll(trio.getFunction().getEquation().getVariables());
+					}
+
+					refreshSliders(vars, varValues.keySet(), sliderSteps3D);
 				}
 			}
 		}
@@ -474,6 +493,17 @@ public class GUIRenderer {
 		ImGui.render();
 
 		imGui.render(ImGui.getDrawData());
+	}
+
+	private void refreshSliders(HashSet<Character> vars, Set<Character> keys, HashMap<Character, Float> sliderSteps) {
+		Iterator<Character> itr = keys.iterator();
+		while (itr.hasNext()) {
+			char key = (char) itr.next();
+			if (!vars.contains(key)) {
+				itr.remove();
+				sliderSteps.remove(key);
+			}
+		}
 	}
 
 	/**
