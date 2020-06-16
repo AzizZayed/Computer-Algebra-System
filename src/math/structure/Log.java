@@ -82,7 +82,7 @@ public class Log extends FixedInputFunction {
 			return new Constant(0d);
 
 		if (baseIsNumber && !inputIsNumber) {// case log_b( f(x) ) where b is a numbers (constants)
-			Expression e = Product.create( // f' * [ f * lnb ]^(-1)
+			return Product.create( // f' * [ f * lnb ]^(-1)
 					expr.differentiate(var), // f'
 					new Power( // [f * lnb]^(-1)
 							Product.create( // f * lnb
@@ -92,8 +92,6 @@ public class Log extends FixedInputFunction {
 							new Constant(-1d) // -1
 					) // end [f * lnb]^(-1)
 			); // end f' * [ f * lnb ]^(-1)
-			System.out.println(e);
-			return e;
 		}
 
 		// otherwise: case log_(g(x))(f(x))

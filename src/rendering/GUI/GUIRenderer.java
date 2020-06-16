@@ -356,6 +356,7 @@ public class GUIRenderer {
 					}
 				});
 			} catch (Exception e) {
+				e.printStackTrace();
 				errorMessage = "Parsing error. Refer to Help to function syntax.";
 			}
 		}
@@ -448,6 +449,7 @@ public class GUIRenderer {
 					}
 				});
 			} catch (Exception e) {
+				e.printStackTrace();
 				errorMessage = "Parsing error. Refer to Help to function syntax.";
 			}
 		}
@@ -495,6 +497,14 @@ public class GUIRenderer {
 		imGui.render(ImGui.getDrawData());
 	}
 
+	/**
+	 * refresh the list of sliders when a function is deleted so we do not have an
+	 * unnecessary one
+	 * 
+	 * @param vars        - all the variable left after deletion of a function
+	 * @param keys        - set of current parameters to remove from
+	 * @param sliderSteps - the slider map to remove from
+	 */
 	private void refreshSliders(HashSet<Character> vars, Set<Character> keys, HashMap<Character, Float> sliderSteps) {
 		Iterator<Character> itr = keys.iterator();
 		while (itr.hasNext()) {
@@ -553,7 +563,8 @@ public class GUIRenderer {
 		ImGui.newFrame();
 		ImGui.setNextWindowPos(2, 2, ImGuiCond.FirstUseEver);
 		ImGui.setNextWindowSize(Display.xViewport, Display.height - 4, ImGuiCond.FirstUseEver);
-		ImGui.begin(title, ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize);
+		ImGui.begin(title, ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize
+				| ImGuiWindowFlags.HorizontalScrollbar);
 	}
 
 	/**

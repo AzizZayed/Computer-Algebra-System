@@ -13,11 +13,11 @@ import net.jafama.FastMath;
  */
 public final class Constant extends Expression {
 
-	public static final Constant PI = new Constant(3.141592653589793d);
-	public static final Constant EXP = new Constant(2.718281828459045d);
-	public static final Constant GOLDEN_RATIO = new Constant(1.618033988749895d);
+	public static final Constant PI = new Constant(3.141592653589793d); // PI constant
+	public static final Constant EXP = new Constant(2.718281828459045d); // Euler's number
+	public static final Constant GOLDEN_RATIO = new Constant(1.618033988749895d); // phi constant
 
-	private double value;
+	private double value; // the value of the constant
 
 	public Constant(double val) {
 		super(ExpressionType.CONSTANT);
@@ -35,7 +35,7 @@ public final class Constant extends Expression {
 	public double evaluate(HashMap<Character, Double> varValues) {
 		return value;
 	}
-	
+
 	@Override
 	public String toString() {
 		return toFancyString();

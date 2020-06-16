@@ -51,13 +51,19 @@ public abstract class Operator extends Expression {
 		StringBuilder sb = new StringBuilder();
 		sb.append('(');
 		int i = 0;
+		sb.append('(');
 		sb.append(children[i]);
+		sb.append(')');
 		for (i = 1; i < children.length - 1; i++) {
 			sb.append(symbol);
+			sb.append('(');
 			sb.append(children[i]);
+			sb.append(')');
 		}
 		sb.append(symbol);
+		sb.append('(');
 		sb.append(children[children.length - 1]);
+		sb.append(')');
 		sb.append(')');
 		return sb.toString();
 	}

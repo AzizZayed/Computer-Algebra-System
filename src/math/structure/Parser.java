@@ -228,6 +228,8 @@ public class Parser {
 
 				return new Mod(in1, in2);
 
+			} else if (cut.equals("sign()")) {
+				return new Sign(generateExpression(remove.pop(), vars));
 			} else if (cut.equals("log()")) // logarithm
 				return new Log(generateExpression(remove.pop(), vars));
 			else if (cut.equals("ln()")) // natural logarithm
@@ -246,11 +248,11 @@ public class Parser {
 				return new Log(generateExpression(base, vars), generateExpression(num, vars));
 			}
 
-		} else if (strExp.equals("e")) // letter e
+		} else if (strExp.equals("e")) // e constant
 			return new Constant(Constant.EXP.getValue());
-		else if (strExp.equals("pi")) // letter e
+		else if (strExp.equals("pi")) // pi constant
 			return new Constant(Constant.PI.getValue());
-		else if (strExp.equals("phi")) // letter e
+		else if (strExp.equals("phi")) // phi constant
 			return new Constant(Constant.GOLDEN_RATIO.getValue());
 		else if (strExp.length() == 1 && (Character.isAlphabetic(strExp.charAt(0)))) {
 			char c = strExp.charAt(0);

@@ -76,6 +76,7 @@ public class Equation implements IMath {
 		HashSet<Character> vars = new HashSet<>();
 		String simple = simplified.toString();
 		simple = Parser.clean(simple);
+//		System.out.println(simple);
 		Parser.parseExpression(simple, vars); // quick and dirty way to get the variables
 
 		return new Equation(simplified, vars);

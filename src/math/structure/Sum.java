@@ -28,6 +28,9 @@ public class Sum extends Operator {
 		reverseSortChildren();
 	}
 
+	/**
+	 * sort the children in reverse
+	 */
 	private void reverseSortChildren() {
 		Arrays.sort(children, ExpressionSorter.DEFAULT);
 		List<Expression> reversed = Arrays.asList(children);

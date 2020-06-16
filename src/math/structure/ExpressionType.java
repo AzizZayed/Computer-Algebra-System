@@ -25,12 +25,12 @@ public enum ExpressionType {
 	CSC(11, "csc"), SEC(12, "sec"), COT(13, "cot"), // reciprocal trig functions
 	ARCSIN(14, "arcsin"), ARCCOS(15, "arccos"), ARCTAN(16, "arctan"), // inverse trig
 
-	MODULUS(17, "mod"),
-	
-	MAX(18, "max"), MIN(19, "min"), // max and min functions
+	SIGN(17, "sign"), MODULUS(18, "mod"),
 
-	PRODUCT(20, "product"), // type product with *
-	SUM(21, "sum"); // type sum with +
+	MAX(19, "max"), MIN(20, "min"), // max and min functions
+
+	PRODUCT(21, "product"), // type product with *
+	SUM(22, "sum"); // type sum with +
 
 	protected final String name; // name of the function
 	protected final int order; // order in which to sort the functions, smaller number shows precedence
