@@ -15,13 +15,15 @@ public class Equation implements IMath {
 	private Expression root;
 	private HashSet<Character> variables;
 
-	public Equation(Expression root) {
+	public Equation(Expression root, HashSet<Character> variables) {
 		this.root = root;
+		this.variables = variables;
 	}
 
 	public Equation(String exp, HashSet<Character> variables) {
 		exp = Parser.clean(exp);
 		root = Parser.parseExpression(exp, variables);
+		System.out.println(variables);
 		this.variables = variables;
 	}
 
@@ -66,7 +68,7 @@ public class Equation implements IMath {
 			simplified = simplified.simplify();
 		} while (!simplified.equals(previous));
 
-		return new Equation(simplified.simplify());
+		return new Equation(simplified.simplify(), variables);
 	}
 
 	/**
@@ -76,7 +78,7 @@ public class Equation implements IMath {
 	 * @return a fully simplified version of the derivative of this equation
 	 */
 	public Equation derivative(char var) {
-		Equation derivative = new Equation(root.differentiate(var));
+		Equation derivative = new Equation(root.differentiate(var), variables);
 		return derivative.simplified();
 	}
 }

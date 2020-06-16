@@ -432,6 +432,7 @@ public class GUIRenderer {
 					sliderSteps3D.putIfAbsent(key, 0.01f);
 				}
 			});
+			
 		}
 
 		for (int i = 0; i < surfaces.size(); i++) {
@@ -455,8 +456,9 @@ public class GUIRenderer {
 					modification = modification || mod;
 				}
 
-				if (ImGui.button("Delete Function##closeF3" + i))
+				if (ImGui.button("Delete Function##closeF3" + i)) {
 					surfaces.remove(i);
+				}
 			}
 		}
 

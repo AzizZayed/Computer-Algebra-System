@@ -1,14 +1,11 @@
 package rendering.plots;
 
 import static org.lwjgl.opengl.GL11.GL_FILL;
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
 import static org.lwjgl.opengl.GL11.GL_LINE;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;
-import static org.lwjgl.opengl.GL11.glColor4d;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
 import static org.lwjgl.opengl.GL11.glPolygonMode;
-import static org.lwjgl.opengl.GL11.glVertexPointer;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBufferData;
@@ -43,7 +40,7 @@ public class Surface extends Plot {
 	}
 
 	public Surface(Equation eq, BufferedImage image, boolean visible) {
-		super(eq, image, visible);
+		super(eq, image, 3, visible);
 	}
 
 	@Override
@@ -83,10 +80,6 @@ public class Surface extends Plot {
 	@Override
 	protected void drawModel() {
 		glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
-		glVertexPointer(3, GL_FLOAT, 0, 0);
-
-		glColor4d(color[0], color[1], color[2], color[3]);
-
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		int count = MAX_RESOLUTION * 2;
 		for (int i = 0; i < MAX_RESOLUTION; i++) {

@@ -1,8 +1,11 @@
 package rendering.plots;
 
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glColor4d;
 import static org.lwjgl.opengl.GL11.glDisableClientState;
 import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL15.glDeleteBuffers;
@@ -26,18 +29,20 @@ import rendering.tools.Grid;
 public abstract class Plot {
 
 	protected Equation equation; // the function of the plot
-	protected float[] color; // the color of the plot
+	private float[] color; // the color of the plot
 	private Texture texture; // the texture for the equation of the plot
 	protected boolean visible; // if the plot is visible
 	protected int vbo; // the GPU buffer to carry the data
+	private int vertexCount; // the number of coorfinates each vertex
 
 	/*
 	 * constructor
 	 */
-	public Plot(Equation eq, BufferedImage image, boolean visible) {
+	public Plot(Equation eq, BufferedImage image, int vertexCount, boolean visible) {
 		equation = eq;
 		color = new float[] { (float) FastMath.random(), (float) FastMath.random(), (float) FastMath.random(), 1f };
 		texture = new Texture(image);
+		this.vertexCount = vertexCount;
 		this.visible = visible;
 		vbo = glGenBuffers();
 	}
@@ -91,6 +96,8 @@ public abstract class Plot {
 	public void render() {
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glVertexPointer(vertexCount, GL_FLOAT, 0, 0);
+		glColor4d(color[0], color[1], color[2], color[3]);
 		drawModel();
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisableClientState(GL_VERTEX_ARRAY);
