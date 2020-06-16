@@ -21,12 +21,12 @@ public class SurfaceTrio {
 		String latex = "z = " + eq.toLatex();
 		Equation simplified = eq.simplified();
 
-		function = new Surface(simplified, LatexRenderer.toImage(latex));
+		function = new Surface(simplified, LatexRenderer.toImage(latex), true);
 
 		try {
 			Equation xDer = simplified.derivative('x');
 			latex = "z_x = " + xDer.toLatex();
-			xDerivative = new Surface(xDer, LatexRenderer.toImage(latex));
+			xDerivative = new Surface(xDer, LatexRenderer.toImage(latex), false);
 		} catch (Exception e) {
 			xDerivative = null;
 		}
@@ -34,7 +34,7 @@ public class SurfaceTrio {
 		try {
 			Equation yDer = simplified.derivative('y');
 			latex = "z_y = " + yDer.toLatex();
-			yDerivative = new Surface(yDer, LatexRenderer.toImage(latex));
+			yDerivative = new Surface(yDer, LatexRenderer.toImage(latex), false);
 		} catch (Exception e) {
 			yDerivative = null;
 		}

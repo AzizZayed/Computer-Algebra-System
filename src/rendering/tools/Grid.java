@@ -29,6 +29,13 @@ public class Grid {
 		z = new Range(zmin, zmax);
 	}
 
+	/*
+	 * constructor with another grid
+	 */
+	public Grid(Grid grid) {
+		this(grid.x.getMin(), grid.x.getMax(), grid.y.getMin(), grid.y.getMax(), grid.z.getMin(), grid.z.getMax());
+	}
+
 	/**
 	 * @return the x
 	 */
@@ -48,6 +55,27 @@ public class Grid {
 	 */
 	public Range getZ() {
 		return z;
+	}
+
+	/**
+	 * @param x the x to set
+	 */
+	public void setX(double min, double max) {
+		x.set(min, max);
+	}
+
+	/**
+	 * @param y the y to set
+	 */
+	public void setY(double min, double max) {
+		y.set(min, max);
+	}
+
+	/**
+	 * @param z the z to set
+	 */
+	public void setZ(double min, double max) {
+		z.set(min, max);
 	}
 
 	/**
@@ -99,6 +127,20 @@ public class Grid {
 	 */
 	public double getZRotation() {
 		return zRotation;
+	}
+
+	/**
+	 * @param xRotation the xRotation to set
+	 */
+	public void setXRotation(double xRotation) {
+		this.xRotation = xRotation;
+	}
+
+	/**
+	 * @param zRotation the zRotation to set
+	 */
+	public void setZRotation(double zRotation) {
+		this.zRotation = zRotation;
 	}
 
 	/**

@@ -40,8 +40,8 @@ public class Curve extends Plot {
 	private static int size = MAX_RESOLUTION * 2;
 	private static FloatBuffer buffer = BufferUtils.createFloatBuffer(size);
 
-	public Curve(Equation eq, BufferedImage image) {
-		super(eq, image);
+	public Curve(Equation eq, BufferedImage image, boolean visible) {
+		super(eq, image, visible);
 	}
 
 	@Override

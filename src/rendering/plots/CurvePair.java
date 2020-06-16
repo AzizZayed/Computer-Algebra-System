@@ -20,11 +20,11 @@ public class CurvePair {
 		String latex = "y = " + eq.toLatex();
 		Equation simplified = eq.simplified();
 
-		function = new Curve(simplified, LatexRenderer.toImage(latex));
+		function = new Curve(simplified, LatexRenderer.toImage(latex), true);
 		try {
 			Equation der = simplified.derivative('x');
 			latex = "y_x = " + der.toLatex();
-			derivative = new Curve(der, LatexRenderer.toImage(latex));
+			derivative = new Curve(der, LatexRenderer.toImage(latex), false);
 		} catch (Exception e) {
 			derivative = null;
 		}

@@ -92,6 +92,7 @@ import rendering.plots.CurvePair;
 import rendering.plots.Plot;
 import rendering.plots.Surface;
 import rendering.plots.SurfaceTrio;
+import rendering.tools.Grid;
 
 /**
  * class to render ImGui using the java bindings. Most of the setup code is
@@ -310,8 +311,9 @@ public class GUIRenderer {
 	 * @param curves    - list with all the curves to draw
 	 * @param varValues - map with all the variables and they're corresponding
 	 *                  values for the sliders
+	 * @param grid      - the coordinate system
 	 */
-	public void render2D(double dt, ArrayList<CurvePair> curves, HashMap<Character, Double> varValues) {
+	public void render2D(double dt, ArrayList<CurvePair> curves, HashMap<Character, Double> varValues, Grid grid) {
 		startFrame((float) dt);
 
 		beginWindow("2D Functions");
@@ -320,6 +322,8 @@ public class GUIRenderer {
 			errorMessage = "";
 			Renderer.switchMode();
 		}
+		ImGui.sameLine();
+		resetButton(grid);
 
 		boolean modification = renderSliders(varValues, sliderSteps2D); // if any modifications were done
 
@@ -386,8 +390,9 @@ public class GUIRenderer {
 	 * @param surfaces  - list with all the surfaces to draw
 	 * @param varValues - map with all the variables and they're corresponding
 	 *                  values for the sliders
+	 * @param grid      - the coordinate system
 	 */
-	public void render3D(double dt, ArrayList<SurfaceTrio> surfaces, HashMap<Character, Double> varValues) {
+	public void render3D(double dt, ArrayList<SurfaceTrio> surfaces, HashMap<Character, Double> varValues, Grid grid) {
 		startFrame((float) dt);
 
 		beginWindow("3D Functions");
@@ -398,7 +403,9 @@ public class GUIRenderer {
 		}
 		ImGui.sameLine();
 		if (ImGui.button("Toggle Alpha Mode"))
-			Renderer.changeAlphaMode();
+			Renderer.alphaMode = !Renderer.alphaMode;
+		ImGui.sameLine();
+		resetButton(grid);
 
 		boolean modification = renderSliders(varValues, sliderSteps3D); // if any modifications were done
 
@@ -460,7 +467,25 @@ public class GUIRenderer {
 		ImGui.render();
 
 		imGui.render(ImGui.getDrawData());
+	}
 
+	/**
+	 * render a new window with a lone button to reset the grid
+	 * 
+	 * @param grid - grid to reset if button is pressed
+	 */
+	private void resetButton(Grid grid) {
+		if (ImGui.button("Reset")) {
+			double min = Renderer.GRID_MIN;
+			double max = Renderer.GRID_MAX;
+			grid.setX(min, max);
+			grid.setY(min, max);
+			grid.setZ(min, max);
+			grid.setXRotation(0);
+			grid.setZRotation(0);
+		}
+		ImGui.sameLine();
+		ImGuiHelp("Reset the center to (0, 0) and the range in all directions from -1 to 1.");
 	}
 
 	/**

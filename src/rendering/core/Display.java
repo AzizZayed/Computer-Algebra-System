@@ -40,7 +40,8 @@ public final class Display {
 
 	public static long ID; // the id of the window
 	public static int xViewport = 430, yViewport = 0; // position of the viewport
-	public static int width = 1000 + xViewport, height = 1000 + yViewport; // dimensions of the display
+	public static int renderWidth = 1000, renderHeight = 1000;
+	public static int width = renderWidth + xViewport, height = renderHeight + yViewport; // dimensions of the display
 
 	/**
 	 * initialize the window and show it
@@ -73,7 +74,7 @@ public final class Display {
 
 		GL.createCapabilities(); // make OpenGL bindings available
 
-		glViewport(xViewport, yViewport, width - xViewport, height - yViewport);
+		glViewport(xViewport, yViewport, renderWidth, renderHeight);
 	}
 
 	/**

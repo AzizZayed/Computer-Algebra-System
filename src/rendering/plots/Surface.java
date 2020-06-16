@@ -45,8 +45,8 @@ public class Surface extends Plot {
 
 	private boolean drawWire = false; // if we draw the wireframe
 
-	public Surface(Equation eq, BufferedImage image) {
-		super(eq, image);
+	public Surface(Equation eq, BufferedImage image, boolean visible) {
+		super(eq, image, visible);
 		color[3] = .5f;
 	}
 
@@ -99,7 +99,7 @@ public class Surface extends Plot {
 //		glBufferSubData(GL_ARRAY_BUFFER, 0, buffer);
 		glVertexPointer(3, GL_FLOAT, 0, 0);
 
-		if (Renderer.isAlphaMode()) {
+		if (Renderer.alphaMode) {
 			if (color[3] > 0.6f)
 				color[3] = 0.6f;
 		} else

@@ -26,11 +26,11 @@ public abstract class Plot {
 	protected boolean visible; // if the plot is visible
 	protected int vbo; // the GPU buffer to carry the data
 
-	public Plot(Equation eq, BufferedImage image) {
+	public Plot(Equation eq, BufferedImage image, boolean visible) {
 		equation = eq;
 		color = new float[] { (float) FastMath.random(), (float) FastMath.random(), (float) FastMath.random(), 1f };
 		texture = new Texture(image);
-		visible = true;
+		this.visible = visible;
 		vbo = glGenBuffers();
 
 //		glBindBuffer(GL_ARRAY_BUFFER, vbo);

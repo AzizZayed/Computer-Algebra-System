@@ -53,9 +53,11 @@ public class Renderer {
 	 * properties for perspective view
 	 */
 	private static final double FOV = 60d, ASPECT = 1d, NEAR_PLANE = 5d, FAR_PLANE = 35d;
+//	public static Grid DEFAULT_GRID = new Grid(-1d, 1d, -1d, 1d, -1d, 1d);
+	public static double GRID_MIN = -1d, GRID_MAX = 1d;
 
 	private static Mode mode = Mode.RENDER_3D; // Current graphing mode
-	private static boolean alphaMode = true; // If 3D models are rendered with alpha or not
+	public static boolean alphaMode = true; // If 3D models are rendered with alpha or not
 
 	/**
 	 * the rendering mode, 3D or 2D
@@ -93,20 +95,6 @@ public class Renderer {
 	}
 
 	/**
-	 * turn on or off the depth mask changing when rendering
-	 */
-	public static void changeAlphaMode() {
-		alphaMode = !alphaMode;
-	}
-
-	/**
-	 * @return the alpha mode
-	 */
-	public static boolean isAlphaMode() {
-		return alphaMode;
-	}
-
-	/**
 	 * start the rendering and the main loop
 	 */
 	public void start() {
@@ -134,14 +122,14 @@ public class Renderer {
 		 */
 		ArrayList<CurvePair> curves = new ArrayList<>();
 		HashMap<Character, Double> varValues2D = new HashMap<>();
-		Grid grid2D = new Grid(-1d, 1d, -1d, 1d, 0d, 0d);
+		Grid grid2D = new Grid(GRID_MIN, GRID_MAX, GRID_MIN, GRID_MAX, GRID_MIN, GRID_MAX);
 
 		/*
 		 * 3D
 		 */
 		ArrayList<SurfaceTrio> surfaces = new ArrayList<>();
 		HashMap<Character, Double> varValues3D = new HashMap<>();
-		Grid grid3D = new Grid(-1d, 1d, -1d, 1d, -1d, 1d);
+		Grid grid3D = new Grid(GRID_MIN, GRID_MAX, GRID_MIN, GRID_MAX, GRID_MIN, GRID_MAX);
 
 		GUIRenderer gui = GUIRenderer.getContext();
 
@@ -160,11 +148,11 @@ public class Renderer {
 			if (mode == Mode.RENDER_3D) {
 				input3D(gui, grid3D);
 				render3D(surfaces, grid3D, varValues3D);
-				gui.render3D(deltaTime, surfaces, varValues3D);
+				gui.render3D(deltaTime, surfaces, varValues3D, grid3D);
 			} else {
 				input2D(gui, grid2D);
 				render2D(curves, grid2D, varValues2D);
-				gui.render2D(deltaTime, curves, varValues2D);
+				gui.render2D(deltaTime, curves, varValues2D, grid2D);
 			}
 			glPopMatrix();
 
