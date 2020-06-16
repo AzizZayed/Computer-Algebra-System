@@ -29,13 +29,6 @@ public class Grid {
 		z = new Range(zmin, zmax);
 	}
 
-	/*
-	 * constructor with another grid
-	 */
-	public Grid(Grid grid) {
-		this(grid.x.getMin(), grid.x.getMax(), grid.y.getMin(), grid.y.getMax(), grid.z.getMin(), grid.z.getMax());
-	}
-
 	/**
 	 * @return the x
 	 */
@@ -79,6 +72,34 @@ public class Grid {
 	}
 
 	/**
+	 * @return the xRotation
+	 */
+	public double getXRotation() {
+		return xRotation;
+	}
+
+	/**
+	 * @return the yRotation
+	 */
+	public double getZRotation() {
+		return zRotation;
+	}
+
+	/**
+	 * @param xRotation the xRotation to set
+	 */
+	public void setXRotation(double xRotation) {
+		this.xRotation = xRotation;
+	}
+
+	/**
+	 * @param zRotation the zRotation to set
+	 */
+	public void setZRotation(double zRotation) {
+		this.zRotation = zRotation;
+	}
+
+	/**
 	 * translate the grid
 	 * 
 	 * @param dx - change in mouse x
@@ -110,37 +131,15 @@ public class Grid {
 		}
 	}
 
+	/**
+	 * rotate the grid by the given increments
+	 * 
+	 * @param rx - x rotation increment
+	 * @param rz - z rotation increment
+	 */
 	public void rotate(double rx, double rz) {
 		xRotation += rx;
 		zRotation += rz;
-	}
-
-	/**
-	 * @return the xRotation
-	 */
-	public double getXRotation() {
-		return xRotation;
-	}
-
-	/**
-	 * @return the yRotation
-	 */
-	public double getZRotation() {
-		return zRotation;
-	}
-
-	/**
-	 * @param xRotation the xRotation to set
-	 */
-	public void setXRotation(double xRotation) {
-		this.xRotation = xRotation;
-	}
-
-	/**
-	 * @param zRotation the zRotation to set
-	 */
-	public void setZRotation(double zRotation) {
-		this.zRotation = zRotation;
 	}
 
 	/**

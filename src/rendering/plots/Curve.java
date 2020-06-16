@@ -1,17 +1,14 @@
 package rendering.plots;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
-import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
-import static org.lwjgl.opengl.GL11.glColor4d;
-import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
-import static org.lwjgl.opengl.GL11.glEnableClientState;
 import static org.lwjgl.opengl.GL11.glVertexPointer;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
+import static org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glBufferSubData;
 
 import java.awt.image.BufferedImage;
 import java.nio.FloatBuffer;
@@ -37,11 +34,17 @@ public class Curve extends Plot {
 	 * the number of floats needed to represent the data (size) and the buffer to
 	 * store the data
 	 */
-	private static int size = MAX_RESOLUTION * 2;
-	private static FloatBuffer buffer = BufferUtils.createFloatBuffer(size);
+	private static FloatBuffer buffer;
+
+	static {
+		buffer = BufferUtils.createFloatBuffer(MAX_RESOLUTION * 2);
+	}
 
 	public Curve(Equation eq, BufferedImage image, boolean visible) {
 		super(eq, image, visible);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, buffer.capacity() * Float.BYTES, GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	@Override
@@ -54,6 +57,7 @@ public class Curve extends Plot {
 
 		int i;
 		double x;
+		int size = buffer.capacity();
 		for (i = 0, x = xmin; i < size /* && x <= xmax */; i += 2, x += dx) {
 			double y = eval(x, varValues);
 
@@ -71,22 +75,14 @@ public class Curve extends Plot {
 	}
 
 	@Override
-	protected void render() {
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-		glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
-//		glBufferSubData(GL_ARRAY_BUFFER, 0, buffer);
+	protected void drawModel() {
+		glBufferSubData(GL_ARRAY_BUFFER, 0, buffer);
 		glVertexPointer(2, GL_FLOAT, 0, 0);
 
 		glColor4d(color[0], color[1], color[2], color[3]);
 		glDrawArrays(GL_LINE_STRIP, 0, MAX_RESOLUTION);
-
 //		glDrawArrays(GL_LINES, 0, MAX_RESOLUTION);
 //		glDrawArrays(GL_LINES, 1, MAX_RESOLUTION - 1);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glDisableClientState(GL_VERTEX_ARRAY);
 	}
 
 	/**

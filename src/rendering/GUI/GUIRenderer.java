@@ -334,7 +334,8 @@ public class GUIRenderer {
 		ImGui.sameLine();
 		ImGuiHelp("Input your function here. Example: x^2");
 		boolean add = ImGui.button("Add 2D Function");
-		ImGui.textColored(1f, 0f, 0f, 1f, errorMessage);
+		if (errorMessage != "")
+			ImGui.textColored(1f, 0f, 0f, 1f, errorMessage);
 		if (add) {
 			String func = strFunction2.get();
 			HashSet<Character> variables = new HashSet<>();
@@ -357,7 +358,7 @@ public class GUIRenderer {
 			CurvePair curve = curves.get(i);
 			Curve func = curve.getFunction();
 			Curve der = curve.getDerivative();
-			String name = "Function " + func.getEquation().toString() + "##F2" + i;
+			String name = (i + 1) + " Function " + func.getEquation().toString() + "##F2" + i;
 			if (ImGui.collapsingHeader(name, ImGuiTreeNodeFlags.DefaultOpen)) {
 				boolean mod;
 
@@ -402,9 +403,6 @@ public class GUIRenderer {
 			Renderer.switchMode();
 		}
 		ImGui.sameLine();
-		if (ImGui.button("Toggle Alpha Mode"))
-			Renderer.alphaMode = !Renderer.alphaMode;
-		ImGui.sameLine();
 		resetButton(grid);
 
 		boolean modification = renderSliders(varValues, sliderSteps3D); // if any modifications were done
@@ -416,7 +414,8 @@ public class GUIRenderer {
 		ImGui.sameLine();
 		ImGuiHelp("Input your function here. Example: x^2 + y^2");
 		boolean add = ImGui.button("Add 3D Function");
-		ImGui.textColored(1f, 0f, 0f, 1f, errorMessage);
+		if (errorMessage != "")
+			ImGui.textColored(1f, 0f, 0f, 1f, errorMessage);
 		if (add) {
 			String func = strFunction3.get();
 			HashSet<Character> variables = new HashSet<>();
@@ -440,7 +439,7 @@ public class GUIRenderer {
 			Surface func = curve.getFunction();
 			Surface xDer = curve.getxDerivative();
 			Surface yDer = curve.getyDerivative();
-			String name = "Function " + func.getEquation().toString() + "##F3" + i;
+			String name = (i + 1) + " Function " + func.getEquation().toString() + "##F3" + i;
 			if (ImGui.collapsingHeader(name, ImGuiTreeNodeFlags.DefaultOpen)) {
 				boolean mod;
 
@@ -544,8 +543,6 @@ public class GUIRenderer {
 				mod = ImGui.dragScalar(Character.toString(key), ImGuiDataType.Double, val, s);
 				modification = modification || mod;
 				varValues.put(key, val.get());
-
-//				ImGui.sameLine();
 
 				// step / incrementation slider
 				ImFloat step = new ImFloat(s);

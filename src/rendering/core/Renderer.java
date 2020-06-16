@@ -1,6 +1,5 @@
 package rendering.core;
 
-import static org.lwjgl.opengl.GL11.GL_ALPHA_TEST;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
@@ -15,7 +14,6 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glClearDepth;
 import static org.lwjgl.opengl.GL11.glDepthFunc;
-import static org.lwjgl.opengl.GL11.glDepthMask;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glLineWidth;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
@@ -53,11 +51,9 @@ public class Renderer {
 	 * properties for perspective view
 	 */
 	private static final double FOV = 60d, ASPECT = 1d, NEAR_PLANE = 5d, FAR_PLANE = 35d;
-//	public static Grid DEFAULT_GRID = new Grid(-1d, 1d, -1d, 1d, -1d, 1d);
 	public static double GRID_MIN = -1d, GRID_MAX = 1d;
 
 	private static Mode mode = Mode.RENDER_3D; // Current graphing mode
-	public static boolean alphaMode = true; // If 3D models are rendered with alpha or not
 
 	/**
 	 * the rendering mode, 3D or 2D
@@ -112,7 +108,6 @@ public class Renderer {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnable(GL_MULTISAMPLE);
-		glEnable(GL_ALPHA_TEST);
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -156,9 +151,9 @@ public class Renderer {
 			}
 			glPopMatrix();
 
-//			double dt = Display.getTime() - time;
-//			System.out.println("Frame Time: " + dt + " s");
-//			System.out.println("FPS: " + 1d / dt);
+			double dt = Display.getTime() - time;
+			System.out.println("Frame Time: " + dt + " s");
+			System.out.println("FPS: " + 1d / dt);
 			Display.update();
 		}
 		gui.destroy();
@@ -181,14 +176,9 @@ public class Renderer {
 		glLineWidth(1f);
 		grid.render();
 
-		glLineWidth(3f);
-		/// Render surfaces ///
-		if (alphaMode)
-			glDepthMask(false);
+		glLineWidth(0.8f);
 		for (SurfaceTrio trio : surfaces)
 			trio.update(grid, varValues);
-		if (alphaMode)
-			glDepthMask(true);
 	}
 
 	/**
@@ -216,7 +206,7 @@ public class Renderer {
 	 * @param grid
 	 */
 	private void transform3D(Grid grid) {
-		glTranslatef(0.0f, 0.0f, -18.0f);
+		glTranslatef(0.0f, 0.0f, -15.0f);
 		glRotatef(-75f, 1f, 0f, 0f);
 
 		glRotated(grid.getXRotation(), 1d, 0d, 0d);

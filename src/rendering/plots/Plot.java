@@ -1,5 +1,10 @@
 package rendering.plots;
 
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL15.glDeleteBuffers;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 
@@ -26,16 +31,15 @@ public abstract class Plot {
 	protected boolean visible; // if the plot is visible
 	protected int vbo; // the GPU buffer to carry the data
 
+	/*
+	 * constructor
+	 */
 	public Plot(Equation eq, BufferedImage image, boolean visible) {
 		equation = eq;
 		color = new float[] { (float) FastMath.random(), (float) FastMath.random(), (float) FastMath.random(), 1f };
 		texture = new Texture(image);
 		this.visible = visible;
 		vbo = glGenBuffers();
-
-//		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-//		glBufferData(GL_ARRAY_BUFFER, size * 4, GL_DYNAMIC_DRAW);
-//		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	}
 
 	/**
@@ -82,9 +86,20 @@ public abstract class Plot {
 	}
 
 	/**
-	 * render the plot
+	 * preparation to render the plot and unbinding afterwards
 	 */
-	protected abstract void render();
+	public void render() {
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		drawModel();
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glDisableClientState(GL_VERTEX_ARRAY);
+	}
+
+	/**
+	 * render the plot model
+	 */
+	protected abstract void drawModel();
 
 	/**
 	 * update the date for the plot
