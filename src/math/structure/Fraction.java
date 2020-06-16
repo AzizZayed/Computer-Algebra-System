@@ -27,7 +27,12 @@ public final class Fraction extends Expression {
 
 	@Override
 	public String toString() {
-		return "(" + numerator + "/" + denominator + ")";
+		return "((" + numerator + ")/(" + denominator + "))";
+	}
+
+	@Override
+	public String toFancyString() {
+		return "(" + numerator.toFancyString() + "/" + denominator.toFancyString() + ")";
 	}
 
 	@Override

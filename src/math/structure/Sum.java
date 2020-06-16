@@ -197,7 +197,7 @@ public class Sum extends Operator {
 	}
 
 	@Override
-	protected void latex(int index, StringBuilder builder) {
+	protected void print(int index, StringBuilder builder, boolean latex) {
 		boolean putSymbol = true;
 
 		// don't put + sign if next element is negated, like -sinx : -1*sinx in memory
@@ -211,7 +211,9 @@ public class Sum extends Operator {
 
 		if (putSymbol && index != 0)
 			builder.append(symbol);
-		builder.append(children[index].toLatex());
+
+		String add = latex ? children[index].toLatex() : children[index].toFancyString();
+		builder.append(add);
 	}
 
 	@Override

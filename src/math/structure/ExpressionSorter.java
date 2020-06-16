@@ -62,7 +62,7 @@ public class ExpressionSorter implements Comparator<Expression> {
 					if (func1 instanceof Mod) {
 						Mod mod1 = (Mod) func1;
 						Mod mod2 = (Mod) func2;
-						return compare(mod1.input, mod2.input);
+						return compare(mod1.divisor, mod2.divisor);
 					}
 				}
 				return diff;

@@ -67,6 +67,23 @@ public abstract class Operator extends Expression {
 	}
 
 	@Override
+	public String toFancyString() {
+		if (children.length == 0)
+			return "";
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < children.length; i++) {
+			boolean brackets = needsBrackets(children[i]);
+			if (brackets)
+				sb.append("(");
+			print(i, sb, false);
+			if (brackets)
+				sb.append(")");
+		}
+		return sb.toString();
+	}
+
+	@Override
 	public String toLatex() {
 		if (children.length == 0)
 			return "";
@@ -76,7 +93,7 @@ public abstract class Operator extends Expression {
 			boolean brackets = needsBrackets(children[i]);
 			if (brackets)
 				sb.append("\\left(");
-			latex(i, sb);
+			print(i, sb, true);
 			if (brackets)
 				sb.append("\\right)");
 			sb.append(' ');
@@ -114,7 +131,7 @@ public abstract class Operator extends Expression {
 	 * @param index   - index of the child
 	 * @param builder - where to store latex code representation
 	 */
-	protected abstract void latex(int index, StringBuilder builder);
+	protected abstract void print(int index, StringBuilder builder, boolean latex);
 
 	/**
 	 * @param a - input 1 to operate on

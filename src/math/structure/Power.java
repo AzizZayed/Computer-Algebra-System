@@ -33,16 +33,29 @@ public class Power extends FixedInputFunction {
 
 	@Override
 	public String toString() {
+		return "(" + expr + ")^(" + power + ")";
+	}
+
+	@Override
+	public String toFancyString() {
 		if (power instanceof Constant) {
 			Constant constant = (Constant) power;
 			if (constant.getValue() == 0.5d)
-				return "sqrt" + expr.toString() + "";
+				return "sqrt(" + expr.toFancyString() + ")";
 		}
 
-		if (!needsBrackets())
-			return expr.toString() + "^" + power.toString();
-		else
-			return "(" + expr.toString() + ")^" + power.toString();
+		if (needsBrackets()) {
+			if (powerNeedsBrackets())
+				return "(" + expr.toFancyString() + ")^(" + power.toFancyString() + ")";
+			else
+				return "(" + expr.toFancyString() + ")^" + power.toFancyString();
+		} else {
+			if (powerNeedsBrackets())
+				return expr.toFancyString() + "^(" + power.toFancyString() + ")";
+			else
+				return expr.toFancyString() + "^" + power.toFancyString();
+		}
+
 	}
 
 	@Override
@@ -53,10 +66,10 @@ public class Power extends FixedInputFunction {
 				return "\\sqrt{" + expr.toLatex() + "}";
 		}
 
-		if (!needsBrackets())
-			return expr.toLatex() + "^{" + power.toLatex() + "}";
-		else
+		if (needsBrackets())
 			return "\\left(" + expr.toLatex() + "\\right)^{" + power.toLatex() + "}";
+		else
+			return expr.toLatex() + "^{" + power.toLatex() + "}";
 	}
 
 	@Override
@@ -73,6 +86,13 @@ public class Power extends FixedInputFunction {
 	 */
 	private boolean needsBrackets() {
 		return !(expr instanceof Variable || expr instanceof Constant || expr instanceof BracketFunction);
+	}
+
+	/**
+	 * @return if the exponent needs surrounding brackets
+	 */
+	private boolean powerNeedsBrackets() {
+		return power instanceof Fraction || power instanceof Operator || power instanceof Power;
 	}
 
 	@Override

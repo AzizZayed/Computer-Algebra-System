@@ -35,9 +35,14 @@ public final class Constant extends Expression {
 	public double evaluate(HashMap<Character, Double> varValues) {
 		return value;
 	}
-
+	
 	@Override
 	public String toString() {
+		return toFancyString();
+	}
+
+	@Override
+	public String toFancyString() {
 		if (this == PI || value == PI.value)
 			return "\u03C0";
 		if (this == EXP || value == EXP.value)
@@ -46,7 +51,7 @@ public final class Constant extends Expression {
 			return "\u03D5";
 
 		String strValue = Double.toString(value);
-		if (value == FastMath.floor(value)) // check if integer and if so, display 2 instead of 2.0
+		if (value == FastMath.floor(value)) // check if integer and if so, display 2 instead of 2.0 (example)
 			return strValue.substring(0, strValue.indexOf('.'));
 		return strValue;
 	}

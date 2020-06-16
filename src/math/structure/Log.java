@@ -36,9 +36,17 @@ public class Log extends FixedInputFunction {
 
 	@Override
 	public String toString() {
+		return "log_(" + base + ")_(" + expr + ")";
+	}
+
+	@Override
+	public String toFancyString() {
 		if (needsBrackets())
-			return "log_" + base.toString() + "_(" + expr.toString() + ")";
-		return "log_" + base.toString() + "_" + expr.toString();
+			if (base instanceof Variable || base instanceof Constant)
+				return "log_" + base.toFancyString() + "(" + expr.toFancyString() + ")";
+			else
+				return "log_(" + base.toFancyString() + ")(" + expr.toFancyString() + ")";
+		return "log_" + base.toFancyString() + "_" + expr.toFancyString();
 	}
 
 	@Override
@@ -118,10 +126,10 @@ public class Log extends FixedInputFunction {
 		}
 
 		@Override
-		public String toString() {
+		public String toFancyString() {
 			if (needsBrackets())
-				return "ln(" + expr.toString() + ")";
-			return "ln" + expr.toString();
+				return "ln(" + expr.toFancyString() + ")";
+			return "ln" + expr.toFancyString();
 		}
 
 		@Override

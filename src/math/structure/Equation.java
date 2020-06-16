@@ -50,6 +50,11 @@ public class Equation implements IMath {
 	}
 
 	@Override
+	public String toFancyString() {
+		return root.toFancyString();
+	}
+	
+	@Override
 	public String toString() {
 		return root.toString();
 	}

@@ -40,7 +40,12 @@ public abstract class BracketFunction extends FixedInputFunction {
 
 	@Override
 	public String toString() {
-		return open + expr.toString() + closed;
+		return type + "(" + expr + ")";
+	}
+
+	@Override
+	public String toFancyString() {
+		return open + expr.toFancyString() + closed;
 	}
 
 	@Override

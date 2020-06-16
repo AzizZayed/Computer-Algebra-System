@@ -358,7 +358,7 @@ public class GUIRenderer {
 			CurvePair curve = curves.get(i);
 			Curve func = curve.getFunction();
 			Curve der = curve.getDerivative();
-			String name = (i + 1) + " Function " + func.getEquation().toString() + "##F2" + i;
+			String name = (i + 1) + " Function " + func.getEquation().toFancyString() + "##F2" + i;
 			if (ImGui.collapsingHeader(name, ImGuiTreeNodeFlags.DefaultOpen)) {
 				boolean mod;
 
@@ -440,7 +440,7 @@ public class GUIRenderer {
 			Surface func = curve.getFunction();
 			Surface xDer = curve.getxDerivative();
 			Surface yDer = curve.getyDerivative();
-			String name = (i + 1) + " Function " + func.getEquation().toString() + "##F3" + i;
+			String name = (i + 1) + " Function " + func.getEquation().toFancyString() + "##F3" + i;
 			if (ImGui.collapsingHeader(name, ImGuiTreeNodeFlags.DefaultOpen)) {
 				boolean mod;
 

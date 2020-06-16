@@ -32,9 +32,14 @@ public abstract class TrigonometricFunction extends FixedInputFunction {
 
 	@Override
 	public String toString() {
+		return type + "(" + expr + ")";
+	}
+
+	@Override
+	public String toFancyString() {
 		if (needsBrackets())
-			return type + "(" + expr.toString() + ")";
-		return type + expr.toString();
+			return type + "(" + expr.toFancyString() + ")";
+		return type + expr.toFancyString();
 	}
 
 	@Override

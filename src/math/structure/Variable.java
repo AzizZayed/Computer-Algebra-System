@@ -30,6 +30,11 @@ public final class Variable extends Expression {
 	public String toString() {
 		return Character.toString(symbol);
 	}
+	
+	@Override
+	public String toFancyString() {
+		return toString();
+	}
 
 	@Override
 	public String toLatex() {

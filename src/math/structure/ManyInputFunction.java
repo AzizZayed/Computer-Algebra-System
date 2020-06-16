@@ -37,6 +37,20 @@ public abstract class ManyInputFunction extends Expression {
 	}
 
 	@Override
+	public String toFancyString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(type);
+		sb.append("(");
+		for (int i = 0; i < children.length - 1; i++) {
+			sb.append(children[i].toFancyString());
+			sb.append(", ");
+		}
+		sb.append(children[children.length - 1].toFancyString());
+		sb.append(")");
+		return sb.toString();
+	}
+
+	@Override
 	public String toLatex() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\\");

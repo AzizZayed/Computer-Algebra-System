@@ -4,33 +4,38 @@ import java.util.HashMap;
 
 public class Mod extends FixedInputFunction {
 
-	protected Expression input;
+	protected Expression divisor;
 
 	public Mod(Expression in1, Expression in2) {
 		super(ExpressionType.MODULUS, in1);
-		input = in2;
+		divisor = in2;
 	}
 
 	@Override
 	public String toString() {
-		return type + "(" + expr + "," + input + ")";
+		return type + "(" + expr + "," + divisor + ")";
+	}
+
+	@Override
+	public String toFancyString() {
+		return type + "(" + expr.toFancyString() + "," + divisor.toFancyString() + ")";
 	}
 
 	@Override
 	public String toLatex() {
-		return type + "\\left(" + expr.toLatex() + "," + input.toLatex() + "\\right)";
+		return type + "\\left(" + expr.toLatex() + "," + divisor.toLatex() + "\\right)";
 	}
 
 	@Override
 	public double evaluate(HashMap<Character, Double> varValues) {
-		return expr.evaluate(varValues) % input.evaluate(varValues);
+		return expr.evaluate(varValues) % divisor.evaluate(varValues);
 	}
 
 	@Override
 	public boolean equals(Expression e) {
 		if (e instanceof Mod) {
 			Mod mod = (Mod) e;
-			return expr.equals(mod.expr) && input.equals(mod.input);
+			return expr.equals(mod.expr) && divisor.equals(mod.divisor);
 		}
 		return false;
 	}
@@ -42,6 +47,6 @@ public class Mod extends FixedInputFunction {
 
 	@Override
 	public Expression simplify() {
-		return new Mod(expr.simplify(), input.simplify());
+		return new Mod(expr.simplify(), divisor.simplify());
 	}
 }

@@ -13,6 +13,12 @@ public interface IMath {
 	 */
 	public String toLatex();
 
+	/**
+	 * @return a fancy string representation of the mathematical expression. This
+	 *         function uses Unicode when possible
+	 */
+	public String toFancyString();
+
 	@Override
 	public String toString();
 }

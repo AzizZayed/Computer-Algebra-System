@@ -4,7 +4,7 @@ package math.structure;
  * class that represents any elementary function like trigonometric functions,
  * absolute value, floor, ceiling ... etc. Notice all these function have fixed
  * amount of inputs. If a function has an arbitrary amount of inputs, it is a
- * subclass of the ManyImputFucntion class
+ * subclass of the ManyInputFucntion class
  * 
  * @author Abd-El-Aziz Zayed
  *

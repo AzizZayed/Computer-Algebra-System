@@ -247,7 +247,7 @@ public class Product extends Operator implements IMath {
 	}
 
 	@Override
-	protected void latex(int index, StringBuilder builder) {
+	protected void print(int index, StringBuilder builder, boolean latex) {
 		Constant constant = null;
 		if (children[index] instanceof Constant)
 			constant = (Constant) children[index];
@@ -255,7 +255,7 @@ public class Product extends Operator implements IMath {
 		if (constant != null && constant.getValue() == -1d)
 			builder.append('-');
 		else
-			builder.append(children[index].toLatex());
+			builder.append(latex ? children[index].toLatex() : children[index].toFancyString());
 	}
 
 	@Override
