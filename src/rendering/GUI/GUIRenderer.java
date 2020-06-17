@@ -359,7 +359,7 @@ public class GUIRenderer {
 				});
 			} catch (Exception e) {
 				e.printStackTrace();
-				errorMessage = "Parsing error. Refer to Help to function syntax.";
+				errorMessage = "Parsing error. Refer to GitHub README for function syntax.";
 			}
 		}
 
@@ -374,7 +374,7 @@ public class GUIRenderer {
 					mods = true;
 
 				if (der != null)
-					if (drawPlotInfo(der, "Plot derivative##DX" + i, "Color##DXC" + i))
+					if (drawPlotInfo(der, "Plot derivative w.r.t. x##DX" + i, "Color##DXC" + i))
 						mods = true;
 
 				if (ImGui.button("Delete Function##closeF2" + i)) {
@@ -450,7 +450,7 @@ public class GUIRenderer {
 				});
 			} catch (Exception e) {
 				e.printStackTrace();
-				errorMessage = "Parsing error. Refer to Help to function syntax.";
+				errorMessage = "Parsing error. Refer to GitHub README for function syntax.";
 			}
 		}
 
@@ -466,11 +466,11 @@ public class GUIRenderer {
 					mods = true;
 
 				if (xDer != null)
-					if (drawPlotInfo(xDer, "Plot x derivative##PDX" + i, "Color##PDXC" + i))
+					if (drawPlotInfo(xDer, "Plot derivative w.r.t. x##PDX" + i, "Color##PDXC" + i))
 						mods = true;
 
 				if (yDer != null)
-					if (drawPlotInfo(yDer, "Plot y derivative##PDY" + i, "Color##PDYC" + i))
+					if (drawPlotInfo(yDer, "Plot derivative w.r.t. y##PDY" + i, "Color##PDYC" + i))
 						mods = true;
 
 				if (ImGui.button("Delete Function##closeF3" + i)) {

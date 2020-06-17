@@ -58,7 +58,7 @@ public final class Display {
 		glfwWindowHint(GLFW_SAMPLES, 16); // multi-sampling and anti-aliasing enabled
 
 		// create the window for OpenGL
-		ID = glfwCreateWindow(width, height, "Hello World!", MemoryUtil.NULL, MemoryUtil.NULL);
+		ID = glfwCreateWindow(width, height, "Computer Algebra System", MemoryUtil.NULL, MemoryUtil.NULL);
 		if (ID == MemoryUtil.NULL)
 			throw new RuntimeException("Failed to create the GLFW window");
 
