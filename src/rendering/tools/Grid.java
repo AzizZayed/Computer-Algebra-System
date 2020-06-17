@@ -14,7 +14,7 @@ import static org.lwjgl.opengl.GL11.glVertex3d;
  */
 public class Grid {
 
-	private static final double DRAG_DAMPENER = 1000d;
+	private static final double DRAG_DAMPENER = 1000000d;
 	private static final double ZOOM_DAMPENER = 300d;
 
 	private Range x, y, z; // range in x and y direction

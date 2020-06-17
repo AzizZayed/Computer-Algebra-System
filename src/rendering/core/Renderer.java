@@ -151,7 +151,7 @@ public class Renderer {
 			}
 			glPopMatrix();
 
-			double dt = Display.getTime() - time;
+//			double dt = Display.getTime() - time;
 //			System.out.println("Frame Time: " + dt + " s");
 //			System.out.println("FPS: " + 1d / dt);
 //			System.out.println("Frame Time: " + deltaTime + " s");

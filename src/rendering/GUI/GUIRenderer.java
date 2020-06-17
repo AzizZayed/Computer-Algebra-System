@@ -316,6 +316,8 @@ public class GUIRenderer {
 	 * @param grid      - the coordinate system
 	 */
 	public void render2D(double dt, ArrayList<CurvePair> curves, HashMap<Character, Double> varValues, Grid grid) {
+		boolean mods = false; // if modifications were done to the GUI
+
 		startFrame((float) dt);
 
 		beginWindow("2D Functions");
@@ -327,7 +329,7 @@ public class GUIRenderer {
 		ImGui.sameLine();
 		resetButton(grid);
 
-		boolean modification = renderSliders(varValues, sliderSteps2D); // if any modifications were done
+		renderSliders(varValues, sliderSteps2D); // if any modifications were done
 
 		/*
 		 * Render functions
@@ -367,31 +369,27 @@ public class GUIRenderer {
 			Curve der = curve.getDerivative();
 			String name = (i + 1) + " Function y = " + func.getEquation().toFancyString() + "##F2" + i;
 			if (ImGui.collapsingHeader(name, ImGuiTreeNodeFlags.DefaultOpen)) {
-				boolean mod;
 
-				mod = drawPlotInfo(func, "Plot function##PlotF2" + i, "Color##Func2C" + i);
-				modification = modification || mod;
+				if (drawPlotInfo(func, "Plot function##PlotF2" + i, "Color##Func2C" + i))
+					mods = true;
 
-				if (der != null) {
-					mod = drawPlotInfo(der, "Plot derivative##DX" + i, "Color##DXC" + i);
-					modification = modification || mod;
-				}
+				if (der != null)
+					if (drawPlotInfo(der, "Plot derivative##DX" + i, "Color##DXC" + i))
+						mods = true;
 
 				if (ImGui.button("Delete Function##closeF2" + i)) {
 					curves.remove(i);
 
 					HashSet<Character> vars = new HashSet<>();
-
-					for (CurvePair pair : curves) {
+					for (CurvePair pair : curves)
 						vars.addAll(pair.getFunction().getEquation().getVariables());
-					}
 
 					refreshSliders(vars, varValues.keySet(), sliderSteps2D);
 				}
 			}
 		}
 
-		collectInput(!modification);
+		collectInput(!mods);
 
 		ImGui.end();
 		ImGui.render();
@@ -409,6 +407,8 @@ public class GUIRenderer {
 	 * @param grid      - the coordinate system
 	 */
 	public void render3D(double dt, ArrayList<SurfaceTrio> surfaces, HashMap<Character, Double> varValues, Grid grid) {
+		boolean mods = false;
+
 		startFrame((float) dt);
 
 		beginWindow("3D Functions");
@@ -420,7 +420,7 @@ public class GUIRenderer {
 		ImGui.sameLine();
 		resetButton(grid);
 
-		boolean modification = renderSliders(varValues, sliderSteps3D); // if any modifications were done
+		renderSliders(varValues, sliderSteps3D); // if any modifications were done
 
 		/*
 		 * Render functions
@@ -461,35 +461,31 @@ public class GUIRenderer {
 			Surface yDer = curve.getyDerivative();
 			String name = (i + 1) + " Function z = " + func.getEquation().toFancyString() + "##F3" + i;
 			if (ImGui.collapsingHeader(name, ImGuiTreeNodeFlags.DefaultOpen)) {
-				boolean mod;
 
-				mod = drawPlotInfo(func, "Plot function##Plot3F" + i, "Color##Func3C" + i);
-				modification = modification || mod;
+				if (drawPlotInfo(func, "Plot function##Plot3F" + i, "Color##Func3C" + i))
+					mods = true;
 
-				if (xDer != null) {
-					mod = drawPlotInfo(xDer, "Plot x derivative##PDX" + i, "Color##PDXC" + i);
-					modification = modification || mod;
-				}
-				if (yDer != null) {
-					mod = drawPlotInfo(yDer, "Plot y derivative##PDY" + i, "Color##PDYC" + i);
-					modification = modification || mod;
-				}
+				if (xDer != null)
+					if (drawPlotInfo(xDer, "Plot x derivative##PDX" + i, "Color##PDXC" + i))
+						mods = true;
+
+				if (yDer != null)
+					if (drawPlotInfo(yDer, "Plot y derivative##PDY" + i, "Color##PDYC" + i))
+						mods = true;
 
 				if (ImGui.button("Delete Function##closeF3" + i)) {
 					surfaces.remove(i);
 
 					HashSet<Character> vars = new HashSet<>();
-
-					for (SurfaceTrio trio : surfaces) {
+					for (SurfaceTrio trio : surfaces)
 						vars.addAll(trio.getFunction().getEquation().getVariables());
-					}
 
 					refreshSliders(vars, varValues.keySet(), sliderSteps3D);
 				}
 			}
 		}
 
-		collectInput(!modification);
+		collectInput(!mods);
 
 		ImGui.end();
 		ImGui.render();
@@ -550,7 +546,6 @@ public class GUIRenderer {
 		boolean mod = ImGui.colorEdit4(colorEditLabel, plot.getColor(), ImGuiColorEditFlags.Float);
 		Texture tex = plot.getTexture();
 		ImGui.image(tex.getID(), tex.getWidth(), tex.getHeight());
-
 		return mod;
 	}
 
@@ -568,14 +563,13 @@ public class GUIRenderer {
 	}
 
 	/**
+	 * 
 	 * render all the sliders
 	 * 
-	 * @param varValues - map with all the variables and value pairs
-	 * @return true if modifications were made
+	 * @param varValues   - map with all the variables and value pairs
+	 * @param sliderSteps - the increments for each parameter slider
 	 */
-	private boolean renderSliders(HashMap<Character, Double> varValues, HashMap<Character, Float> sliderSteps) {
-		boolean modification = false;
-
+	private void renderSliders(HashMap<Character, Double> varValues, HashMap<Character, Float> sliderSteps) {
 		/*
 		 * Render sliders
 		 */
@@ -586,17 +580,14 @@ public class GUIRenderer {
 			if (validKey(key)) {
 				float s = sliderSteps.get(key);
 				ImDouble val = new ImDouble(value);
-				boolean mod;
 
 				// value slider
-				mod = ImGui.dragScalar(Character.toString(key), ImGuiDataType.Double, val, s);
-				modification = modification || mod;
+				ImGui.dragScalar(Character.toString(key), ImGuiDataType.Double, val, s);
 				varValues.put(key, val.get());
 
 				// step / incrementation slider
 				ImFloat step = new ImFloat(s);
-				mod = ImGui.dragScalar("Step " + key, ImGuiDataType.Float, step, 0.001f);
-				modification = modification || mod;
+				ImGui.dragScalar("Step " + key, ImGuiDataType.Float, step, 0.001f);
 				sliderSteps.put(key, step.get());
 
 				ImGui.separator();
@@ -604,8 +595,6 @@ public class GUIRenderer {
 		}
 
 		ImGui.separator();
-
-		return modification;
 	}
 
 	/**
@@ -640,9 +629,14 @@ public class GUIRenderer {
 	private void collectInput(boolean recordMouseMove) {
 		ImGuiIO io = ImGui.getIO();
 		mouseDrag = new ImVec2(0f, 0f);
-		if (io.getMouseDown(ImGuiMouseButton.Left) && recordMouseMove)
-			io.getMouseDelta(mouseDrag);
-		scroll = io.getMouseWheel();
+		ImVec2 mousePos = new ImVec2();
+		ImGui.getMousePos(mousePos);
+
+		if (mousePos.x > Display.xViewport) {
+			if (io.getMouseDown(ImGuiMouseButton.Left) && recordMouseMove)
+				io.getMouseDelta(mouseDrag);
+			scroll = io.getMouseWheel();
+		}
 	}
 
 	/**
