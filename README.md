@@ -19,6 +19,7 @@ This Computer Algebra System contains:
 * Graph the expression in both 2D and 3D.
   
 Future improvement goals:
+* Complex numbers
 * Taylor expansions
 * Root finding via the Bisection method or Newton's method
 * Limits

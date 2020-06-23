@@ -260,7 +260,7 @@ public class Renderer {
 	 * @param zFar   - distance from the viewer to the far clipping plane
 	 */
 	private static void perspective(double fovy, double aspect, double zNear, double zFar) {
-		double f = 1.0 / FastMath.tan(fovy * Math.PI / 360);
+		double f = 1.0d / FastMath.tan(fovy * Math.PI / 360d);
 		double transformation[] = { //
 				f / aspect, 0, 0, 0, //
 				0, f, 0, 0, //
