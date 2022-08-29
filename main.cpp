@@ -13,8 +13,6 @@ int main() {
     auto* constant4 = new cas::Constant{cas::Constant::E};
     printf("%s\n", constant4->stringify().c_str());
 
-    auto* cs = constant2.clone();
-
     return 0;
 }
 
