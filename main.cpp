@@ -1,5 +1,5 @@
 #include <iostream>
-#include "cas/src/core/node/Constant.h"
+#include "core/node/Constant.h"
 
 int main() {
     printf("Hello, World!\n");
@@ -10,8 +10,10 @@ int main() {
     cas::Constant constant3 = cas::Constant{cas::Constant::PI};
     printf("%s\n", constant3.stringify().c_str());
 
-    cas::Constant* constant4 = new cas::Constant{cas::Constant::E};
+    auto* constant4 = new cas::Constant{cas::Constant::E};
     printf("%s\n", constant4->stringify().c_str());
+
+    auto* cs = constant2.clone();
 
     return 0;
 }

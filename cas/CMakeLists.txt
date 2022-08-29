@@ -1,14 +1,10 @@
-project("cas")
+cmake_minimum_required(VERSION 3.23)
+project(cas)
 
-set(HEADERS
-        src/core/CAS.h
-        src/core/node/IMathNode.h
-        src/core/node/ExpressionNode.h
-        src/core/node/Constant.h)
+enable_testing()
 
-set(SOURCES
-        src/core/CAS.cpp
-        src/core/node/Constant.cpp)
+add_subdirectory(src)
+add_subdirectory(tests)
 
-add_library("cas" ${HEADERS} ${SOURCES})
-
+add_library(${PROJECT_NAME} scratch/scratch.cpp)
+target_link_libraries(${PROJECT_NAME} src)

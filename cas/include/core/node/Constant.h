@@ -5,8 +5,9 @@
 #ifndef CAS_CONSTANT_H
 #define CAS_CONSTANT_H
 
-#include "../CAS.h"
+#include "core/CAS.h"
 #include "ExpressionNode.h"
+#include <string>
 
 CAS_NAMESPACE
 

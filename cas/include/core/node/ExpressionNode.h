@@ -5,11 +5,11 @@
 #ifndef CAS_EXPRESSION_H
 #define CAS_EXPRESSION_H
 
+#include "core/CAS.h"
+#include "IMathNode.h"
 #include <unordered_map>
 #include <cstdlib>
-
-#include "../CAS.h"
-#include "IMathNode.h"
+#include <iostream>
 
 CAS_NAMESPACE
 

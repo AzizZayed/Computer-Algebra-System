@@ -6,7 +6,7 @@
 #define CAS_I_MATH_NODE_H
 
 #include <string>
-#include "../CAS.h"
+#include "core/CAS.h"
 
 CAS_NAMESPACE
 
