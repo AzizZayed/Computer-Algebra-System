@@ -26,8 +26,8 @@ TEST(ConstantNodeTest, ConstantCloneTest) {
 }
 
 TEST(ConstantNodeTest, ConstantEvaluationTest) {
-    auto* constant = new cas::Constant(cas::Constant::PI);
-    EXPECT_EQ(cas::Constant::PI, constant->evaluate({}));
+    auto* constant = cas::Constant::PI();
+    EXPECT_EQ(cas::math::PI, constant->evaluate({}));
 }
 
 TEST(ConstantNodeTest, ConstantEqualsTest) {
@@ -40,7 +40,7 @@ TEST(ConstantNodeTest, ConstantEqualsTest) {
 
 TEST(ConstantNodeTest, ConstantDerivativeTest) {
     auto* constant = new cas::Constant(1);
-    cas::ExpressionNode *derivative = constant->derivative(nullptr, 'x');
+    cas::Expression *derivative = constant->derivative(nullptr, 'x');
     EXPECT_EQ(0, ((cas::Constant*) derivative)->getValue());
 }
 
@@ -62,6 +62,11 @@ TEST(ConstantNodeTest, ConstantStringifyTest) {
 TEST(ConstantNodeTest, ConstantTextTest) {
     auto* constant = new cas::Constant(1);
     EXPECT_EQ("1.000000", constant->text());
+}
+
+TEST(ConstantNodeTest, ConstantFullTextTest) {
+    auto* constant = new cas::Constant(1);
+    EXPECT_EQ("constant(1.000000)", constant->fullText());
 }
 
 

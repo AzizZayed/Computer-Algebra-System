@@ -13,8 +13,9 @@ CAS_NAMESPACE
 class IMathNode {
 public:
     virtual std::string latex() = 0;
-    virtual std::string stringify() = 0;
-    virtual std::string text() = 0;
+    virtual std::string stringify() = 0; // fancy string representation
+    virtual std::string text() = 0; // plain short text representation
+    virtual std::string fullText() = 0; // full text representation
 };
 
 CAS_NAMESPACE_END

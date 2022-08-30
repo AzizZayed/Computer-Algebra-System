@@ -9,12 +9,11 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-set(TEST_SOURCE test_runner.cpp
+set(TEST_SOURCE
+        test_runner.cpp
         core/node/ConstantNodeTest.cpp)
 
 add_executable(tests ${TEST_SOURCE})
 target_link_libraries(tests GTest::gtest_main src)
 include(GoogleTest)
 gtest_discover_tests(tests)
-
-add_test(ConstantNodeTest tests)

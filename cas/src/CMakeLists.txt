@@ -4,8 +4,9 @@ project(src)
 set(CAS_SRC_HEADERS
         ../include/core/CAS.h
         ../include/core/node/IMathNode.h
-        ../include/core/node/ExpressionNode.h
-        ../include/core/node/Constant.h)
+        ../include/core/node/Expression.h
+        ../include/core/node/Constant.h
+        ../include/core/node/ExpressionType.h)
 
 set(CAS_SRC_SOURCES
         core/CAS.cpp

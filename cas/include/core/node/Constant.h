@@ -6,37 +6,50 @@
 #define CAS_CONSTANT_H
 
 #include "core/CAS.h"
-#include "ExpressionNode.h"
+#include "Expression.h"
 #include <string>
 
 CAS_NAMESPACE
 
-class Constant : public ExpressionNode {
+namespace math {
+    const double PI = M_PI;
+    const double E = M_E;
+    const double PHI = 1.6180339887498948482045868343656381;
+}
+
+class Constant : public Expression {
 public:
-    explicit Constant(ExpressionNode* parent, double value);
+    explicit Constant(Expression* parent, double value);
     explicit Constant(double value) : Constant(nullptr, value) {}
-    ~Constant() override;
     Constant() = delete;
+    ~Constant() override;
 
     double getValue() const { return value; }
 
-    Constant* clone(ExpressionNode* newParent) override;
     double evaluate(const std::unordered_map<char, double>& variables) override;
-    bool equals(ExpressionNode* expression) override;
-    ExpressionNode* derivative(ExpressionNode* newParent, char variable) override;
-    ExpressionNode* simplified(ExpressionNode* newParent) override;
+    bool equals(Expression* expression) override;
+
+    Constant* clone(Expression* newParent) override;
+    Constant* clone() override { return clone(nullptr); }
+
+    Constant* derivative(Expression* newParent, char variable) override;
+    Constant* simplified(Expression* newParent) override;
 
     std::string latex() override;
     std::string stringify() override;
     std::string text() override;
+    std::string fullText() override;
+
+    static Constant* PI(Expression* parent) { return new Constant{parent, math::PI}; }
+    static Constant* E(Expression* parent) { return new Constant{parent, math::E}; }
+    static Constant* PHI(Expression* parent) { return new Constant{parent, math::PHI}; }
+
+    static Constant* PI() { return PI(nullptr); }
+    static Constant* E() { return E(nullptr); }
+    static Constant* PHI() { return PHI(nullptr); }
 
 private:
     double value;
-
-public:
-    constexpr static const double E = 2.718281828459045;
-    constexpr static const double PI = 3.141592653589793;
-    constexpr static const double PHI = 1.618033988749895;
 };
 
 CAS_NAMESPACE_END

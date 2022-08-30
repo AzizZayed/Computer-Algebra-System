@@ -6,10 +6,11 @@
 
 CAS_NAMESPACE
 
-Constant::Constant(ExpressionNode* parent, double value)
-: value{value}, ExpressionNode{parent, ExpressionType::CONSTANT}
+Constant::Constant(Expression* parent, double value)
+: value{value}, Expression{parent, ExpressionType::CONSTANT}
 {
-    printf("cas::Constant(%f)\n", value);
+    std::string str = stringifyExpressionType(getExpressionType());
+    printf("%s(%f)\n", str.c_str(), value);
 }
 
 Constant::~Constant()
@@ -17,7 +18,7 @@ Constant::~Constant()
     printf("Destroy cas::Constant\n");
 }
 
-Constant* Constant::clone(ExpressionNode* newParent)
+Constant* Constant::clone(Expression* newParent)
 {
     return new Constant{newParent, this->value};
 }
@@ -27,7 +28,7 @@ double Constant::evaluate(const std::unordered_map<char, double>& variables)
     return value;
 }
 
-bool Constant::equals(ExpressionNode* expression)
+bool Constant::equals(Expression* expression)
 {
     if (expression->getExpressionType() == ExpressionType::CONSTANT)
     {
@@ -37,12 +38,12 @@ bool Constant::equals(ExpressionNode* expression)
     return false;
 }
 
-ExpressionNode* Constant::derivative(ExpressionNode* newParent, char variable)
+Constant* Constant::derivative(Expression* newParent, char variable)
 {
     return new Constant{newParent, 0.0};
 }
 
-ExpressionNode* Constant::simplified(ExpressionNode* newParent)
+Constant* Constant::simplified(Expression* newParent)
 {
     return clone(newParent);
 }
@@ -60,6 +61,11 @@ std::string Constant::stringify()
 std::string Constant::text()
 {
     return std::to_string(value);
+}
+
+std::string Constant::fullText()
+{
+    return stringifyExpressionType(expressionType) + "(" + std::to_string(value) + ")";
 }
 
 CAS_NAMESPACE_END

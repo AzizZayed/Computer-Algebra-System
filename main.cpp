@@ -2,16 +2,15 @@
 #include "core/node/Constant.h"
 
 int main() {
-    printf("Hello, World!\n");
-    cas::Constant constant(5);
-    cas::Constant constant2(cas::Constant::PHI);
-    printf("%s\n", constant2.stringify().c_str());
+    printf("Scratch work here!\n");
 
-    cas::Constant constant3 = cas::Constant{cas::Constant::PI};
-    printf("%s\n", constant3.stringify().c_str());
+    cas::Constant* cs = cas::Constant::PI();
+    std::cout << cs->getValue() << std::endl;
 
-    auto* constant4 = new cas::Constant{cas::Constant::E};
-    printf("%s\n", constant4->stringify().c_str());
+    cas::Constant* c = cs->clone();
+
+    delete cs;
+    delete c;
 
     return 0;
 }
