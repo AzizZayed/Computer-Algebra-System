@@ -17,12 +17,20 @@ TEST(ConstantNodeTest, ConstantCreationTest) {
     EXPECT_EQ(constant, constant2->getParent());
 }
 
+TEST(ConstantNodeTest, ConstantDestroyTest) {
+    auto* constant = new cas::Constant;
+    delete constant;
+
+    EXPECT_NE(constant, nullptr);
+}
+
 TEST(ConstantNodeTest, ConstantCloneTest) {
     auto* constant = new cas::Constant(1);
-    cas::Constant* constant2 = constant->clone(constant->getParent());
+    cas::Constant* constant2 = constant->clone();
     EXPECT_EQ(constant->getValue(), constant2->getValue());
     EXPECT_EQ(constant->getExpressionType(), constant2->getExpressionType());
     EXPECT_EQ(constant->getParent(), constant2->getParent());
+    EXPECT_EQ(constant->getParent(), nullptr);
 }
 
 TEST(ConstantNodeTest, ConstantEvaluationTest) {
@@ -36,6 +44,8 @@ TEST(ConstantNodeTest, ConstantEqualsTest) {
     auto* constant3 = new cas::Constant(1);
     EXPECT_TRUE(constant->equals(constant3));
     EXPECT_FALSE(constant->equals(constant2));
+
+    // TODO test with another expression type to increase branch coverage
 }
 
 TEST(ConstantNodeTest, ConstantDerivativeTest) {
@@ -50,12 +60,30 @@ TEST(ConstantNodeTest, ConstantSimplifiedTest) {
 }
 
 TEST(ConstantNodeTest, ConstantLatexTest) {
-    auto* constant = new cas::Constant(1);
+    cas::Constant* constant = cas::Constant::PI();
+    EXPECT_EQ("\\pi", constant->latex());
+
+    constant = cas::Constant::E();
+    EXPECT_EQ("e", constant->latex());
+
+    constant = cas::Constant::PHI();
+    EXPECT_EQ("\\varphi", constant->latex());
+
+    constant = new cas::Constant(1);
     EXPECT_EQ("1.000000", constant->latex());
 }
 
 TEST(ConstantNodeTest, ConstantStringifyTest) {
-    auto* constant = new cas::Constant(1);
+    cas::Constant* constant = cas::Constant::PI();
+    EXPECT_EQ("π", constant->stringify());
+
+    constant = cas::Constant::E();
+    EXPECT_EQ("e", constant->stringify());
+
+    constant = cas::Constant::PHI();
+    EXPECT_EQ("ϕ", constant->stringify());
+
+    constant = new cas::Constant(1);
     EXPECT_EQ("1.000000", constant->stringify());
 }
 

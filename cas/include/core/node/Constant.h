@@ -8,6 +8,7 @@
 #include "core/CAS.h"
 #include "Expression.h"
 #include <string>
+#include <cmath>
 
 CAS_NAMESPACE
 
@@ -21,7 +22,7 @@ class Constant : public Expression {
 public:
     explicit Constant(Expression* parent, double value);
     explicit Constant(double value) : Constant(nullptr, value) {}
-    Constant() = delete;
+    explicit Constant() : Constant(0.0) {};
     ~Constant() override;
 
     double getValue() const { return value; }
@@ -50,6 +51,16 @@ public:
 
 private:
     double value;
+
+public:
+    static const char* PI_UNICODE;
+    static const char* E_UNICODE;
+    static const char* PHI_UNICODE;
+
+    static const char* PI_LATEX;
+    static const char* E_LATEX;
+    static const char* PHI_LATEX;
+
 };
 
 CAS_NAMESPACE_END

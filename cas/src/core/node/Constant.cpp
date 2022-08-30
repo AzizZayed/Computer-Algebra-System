@@ -6,6 +6,14 @@
 
 CAS_NAMESPACE
 
+const char* Constant::PI_UNICODE = "\u03C0";
+const char* Constant::E_UNICODE = "e";
+const char* Constant::PHI_UNICODE = "\u03D5";
+
+const char* Constant::PI_LATEX = "\\pi";
+const char* Constant::E_LATEX = "e";
+const char* Constant::PHI_LATEX = "\\varphi";
+
 Constant::Constant(Expression* parent, double value)
 : value{value}, Expression{parent, ExpressionType::CONSTANT}
 {
@@ -20,7 +28,7 @@ Constant::~Constant()
 
 Constant* Constant::clone(Expression* newParent)
 {
-    return new Constant{newParent, this->value};
+    return new Constant{newParent, value};
 }
 
 double Constant::evaluate(const std::unordered_map<char, double>& variables)
@@ -50,12 +58,38 @@ Constant* Constant::simplified(Expression* newParent)
 
 std::string Constant::latex()
 {
-    return std::to_string(value);
+    if (value == math::PI)
+    {
+        return PI_LATEX;
+    }
+    if (value == math::E)
+    {
+        return E_LATEX;
+    }
+    if (value == math::PHI)
+    {
+        return PHI_LATEX;
+    }
+
+    return text();
 }
 
 std::string Constant::stringify()
 {
-    return std::to_string(value);
+    if (value == math::PI)
+    {
+        return PI_UNICODE;
+    }
+    if (value == math::E)
+    {
+        return E_UNICODE;
+    }
+    if (value == math::PHI)
+    {
+        return PHI_UNICODE;
+    }
+
+    return text();
 }
 
 std::string Constant::text()
@@ -65,7 +99,7 @@ std::string Constant::text()
 
 std::string Constant::fullText()
 {
-    return stringifyExpressionType(expressionType) + "(" + std::to_string(value) + ")";
+    return stringifyExpressionType(expressionType) + "(" + text() + ")";
 }
 
 CAS_NAMESPACE_END
