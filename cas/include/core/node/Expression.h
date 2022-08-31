@@ -18,10 +18,17 @@ class Expression : public IMathNode {
 public:
     explicit Expression(Expression* parent, ExpressionType expressionType) : parent{parent}, expressionType{expressionType}
     {
+#if DEBUG_CAS
         printf("cas::Expression(%hu)\n", expressionType);
+#endif
     }
 
-    virtual ~Expression() { printf("Destroy cas::Expression\n"); }
+    virtual ~Expression()
+    {
+#if DEBUG_CAS
+        printf("Destroy cas::Expression\n");
+#endif
+    }
 
     Expression(const Expression& expression) = delete;
 
@@ -39,7 +46,6 @@ public:
 
 protected:
     ExpressionType expressionType;
-private:
     Expression* parent;
 
 };

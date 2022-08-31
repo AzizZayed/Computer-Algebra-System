@@ -6,24 +6,28 @@
 
 CAS_NAMESPACE
 
-const char* Constant::PI_UNICODE = "\u03C0";
-const char* Constant::E_UNICODE = "e";
-const char* Constant::PHI_UNICODE = "\u03D5";
+const std::string Constant::PI_UNICODE = "\u03C0";
+const std::string Constant::E_UNICODE = "e";
+const std::string Constant::PHI_UNICODE = "\u03D5";
 
-const char* Constant::PI_LATEX = "\\pi";
-const char* Constant::E_LATEX = "e";
-const char* Constant::PHI_LATEX = "\\varphi";
+const std::string Constant::PI_LATEX = "\\pi";
+const std::string Constant::E_LATEX = "e";
+const std::string Constant::PHI_LATEX = "\\varphi";
 
 Constant::Constant(Expression* parent, double value)
 : value{value}, Expression{parent, ExpressionType::CONSTANT}
 {
-    std::string str = stringifyExpressionType(getExpressionType());
+#if DEBUG_CAS
+    std::string str = stringifyExpressionType(expressionType);
     printf("%s(%f)\n", str.c_str(), value);
+#endif
 }
 
 Constant::~Constant()
 {
+#if DEBUG_CAS
     printf("Destroy cas::Constant\n");
+#endif
 }
 
 Constant* Constant::clone(Expression* newParent)

@@ -4,6 +4,7 @@
 
 #include "gtest/gtest.h"
 #include "core/node/Constant.h"
+#include "core/node/Variable.h"
 
 TEST(ConstantNodeTest, ConstantCreationTest) {
     auto* constant = new cas::Constant(1);
@@ -45,7 +46,7 @@ TEST(ConstantNodeTest, ConstantEqualsTest) {
     EXPECT_TRUE(constant->equals(constant3));
     EXPECT_FALSE(constant->equals(constant2));
 
-    // TODO test with another expression type to increase branch coverage
+    EXPECT_FALSE(constant->equals(new cas::Variable('x')));
 }
 
 TEST(ConstantNodeTest, ConstantDerivativeTest) {

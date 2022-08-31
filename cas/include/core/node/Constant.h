@@ -53,14 +53,13 @@ private:
     double value;
 
 public:
-    static const char* PI_UNICODE;
-    static const char* E_UNICODE;
-    static const char* PHI_UNICODE;
+    static const std::string PI_UNICODE;
+    static const std::string E_UNICODE;
+    static const std::string PHI_UNICODE;
 
-    static const char* PI_LATEX;
-    static const char* E_LATEX;
-    static const char* PHI_LATEX;
-
+    static const std::string PI_LATEX;
+    static const std::string E_LATEX;
+    static const std::string PHI_LATEX;
 };
 
 CAS_NAMESPACE_END

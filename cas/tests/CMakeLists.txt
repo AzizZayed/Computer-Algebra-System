@@ -11,7 +11,8 @@ FetchContent_MakeAvailable(googletest)
 
 set(TEST_SOURCE
         test_runner.cpp
-        core/node/ConstantNodeTest.cpp)
+        core/node/ConstantNodeTest.cpp
+        core/node/VariableNodeTest.cpp)
 
 add_executable(tests ${TEST_SOURCE})
 target_link_libraries(tests GTest::gtest_main src)

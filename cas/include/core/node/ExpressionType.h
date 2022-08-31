@@ -13,6 +13,7 @@ CAS_NAMESPACE
 
 enum class ExpressionType : uint16_t {
     CONSTANT = 0,
+    VARIABLE,
 };
 
 inline std::string stringifyExpressionType(ExpressionType type) {
