@@ -9,12 +9,12 @@
 TEST(ConstantNodeTest, ConstantCreationTest) {
     auto* constant = new cas::Constant(1);
     EXPECT_EQ(1, constant->getValue());
-    EXPECT_EQ(cas::ExpressionType::CONSTANT, constant->getExpressionType());
+    EXPECT_EQ(cas::ExpressionType::CONSTANT, constant->getProperties().getType());
     EXPECT_EQ(nullptr, constant->getParent());
 
     auto* constant2 = new cas::Constant(constant, 2);
     EXPECT_EQ(2, constant2->getValue());
-    EXPECT_EQ(cas::ExpressionType::CONSTANT, constant2->getExpressionType());
+    EXPECT_EQ(cas::ExpressionType::CONSTANT, constant2->getProperties().getType());
     EXPECT_EQ(constant, constant2->getParent());
 }
 
@@ -29,7 +29,7 @@ TEST(ConstantNodeTest, ConstantCloneTest) {
     auto* constant = new cas::Constant(1);
     cas::Constant* constant2 = constant->clone();
     EXPECT_EQ(constant->getValue(), constant2->getValue());
-    EXPECT_EQ(constant->getExpressionType(), constant2->getExpressionType());
+    EXPECT_EQ(constant->getProperties().getType(), constant2->getProperties().getType());
     EXPECT_EQ(constant->getParent(), constant2->getParent());
     EXPECT_EQ(constant->getParent(), nullptr);
 }
@@ -95,7 +95,7 @@ TEST(ConstantNodeTest, ConstantTextTest) {
 
 TEST(ConstantNodeTest, ConstantFullTextTest) {
     auto* constant = new cas::Constant(1);
-    EXPECT_EQ("constant(1.000000)", constant->fullText());
+    EXPECT_EQ("constant(1.000000)", constant->explicitText());
 }
 
 

@@ -9,7 +9,7 @@
 TEST(VariableNodeTest, VariableCreationTest) {
     auto* variable = new cas::Variable('x');
     EXPECT_EQ('x', variable->getSymbol());
-    EXPECT_EQ(cas::ExpressionType::VARIABLE, variable->getExpressionType());
+    EXPECT_EQ(cas::ExpressionType::VARIABLE, variable->getProperties().getType());
     EXPECT_EQ(nullptr, variable->getParent());
 }
 
@@ -24,7 +24,7 @@ TEST(VariableNodeTest, VariableCloneTest) {
     auto* variable = new cas::Variable('x');
     cas::Variable* variable2 = variable->clone();
     EXPECT_EQ(variable->getSymbol(), variable2->getSymbol());
-    EXPECT_EQ(variable->getExpressionType(), variable2->getExpressionType());
+    EXPECT_EQ(variable->getProperties().getType(), variable2->getProperties().getType());
     EXPECT_EQ(variable->getParent(), variable2->getParent());
     EXPECT_EQ(variable->getParent(), nullptr);
 }
@@ -78,6 +78,6 @@ TEST(VariableNodeTest, VariableTextTest) {
 
 TEST(VariableNodeTest, VariableFullTextTest) {
     auto* variable = new cas::Variable('x');
-    EXPECT_EQ("x", variable->fullText());
+    EXPECT_EQ("x", variable->explicitText());
 }
 

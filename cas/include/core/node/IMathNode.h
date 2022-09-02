@@ -15,7 +15,7 @@ public:
     virtual std::string latex() = 0;
     virtual std::string stringify() = 0; // fancy string representation
     virtual std::string text() = 0; // plain short text representation
-    virtual std::string fullText() = 0; // full text representation
+    virtual std::string explicitText() = 0; // explicit text representation with names
 };
 
 CAS_NAMESPACE_END

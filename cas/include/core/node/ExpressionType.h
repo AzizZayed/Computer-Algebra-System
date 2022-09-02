@@ -12,18 +12,14 @@
 CAS_NAMESPACE
 
 enum class ExpressionType : uint16_t {
-    CONSTANT = 0,
-    VARIABLE,
-};
+    CONSTANT = 0, VARIABLE,
+    POWER, EXPONENTIAL, LOGARITHM, NATURAL_LOGARITHM,
+    ABSOLUTE_VALUE, FLOOR, CEIL, ROUND, TRUNCATE, SIGN, MODULO,
+    SIN, COS, TAN, COT, SEC, CSC, ARC_SIN, ARC_COS, ARC_TAN, ARC_COT, ARC_SEC, ARC_CSC,
+    MIN, MAX,
+    PRODUCT, SUM, DIVIDE, NEGATE,
 
-inline std::string stringifyExpressionType(ExpressionType type) {
-    switch (type) {
-        case ExpressionType::CONSTANT:
-            return "constant";
-        default:
-            return "unknown";
-    }
-}
+};
 
 CAS_NAMESPACE_END
 

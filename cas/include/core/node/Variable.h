@@ -8,6 +8,7 @@
 #include "core/CAS.h"
 #include "Expression.h"
 #include "Constant.h"
+#include <string>
 
 CAS_NAMESPACE
 
@@ -33,7 +34,7 @@ public:
     std::string latex() override;
     std::string stringify() override;
     std::string text() override;
-    std::string fullText() override;
+    std::string explicitText() override;
 private:
     const char symbol;
 

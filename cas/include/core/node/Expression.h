@@ -8,6 +8,7 @@
 #include "core/CAS.h"
 #include "IMathNode.h"
 #include "ExpressionType.h"
+#include "ExpressionProperties.h"
 #include <unordered_map>
 #include <cstdlib>
 #include <iostream>
@@ -16,10 +17,10 @@ CAS_NAMESPACE
 
 class Expression : public IMathNode {
 public:
-    explicit Expression(Expression* parent, ExpressionType expressionType) : parent{parent}, expressionType{expressionType}
+    explicit Expression(Expression* parent, const ExpressionProperties& properties) : parent{parent}, properties{properties}
     {
 #if DEBUG_CAS
-        printf("cas::Expression(%hu)\n", expressionType);
+        printf("cas::Expression(%hu)\n", properties.getType());
 #endif
     }
 
@@ -41,13 +42,15 @@ public:
     virtual Expression* derivative(Expression* newParent, char variable) = 0;
     virtual Expression* simplified(Expression* newParent) = 0;
 
-    ExpressionType getExpressionType() const { return expressionType; }
+    ExpressionProperties getProperties() const { return properties; }
     Expression* getParent() const { return parent; }
+    void setParent(Expression* newParent) { this->parent = newParent; }
+
+    bool isNegated() const { return properties.getType() == ExpressionType::NEGATE; }
 
 protected:
-    ExpressionType expressionType;
+    ExpressionProperties properties;
     Expression* parent;
-
 };
 
 CAS_NAMESPACE_END

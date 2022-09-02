@@ -8,11 +8,10 @@
 CAS_NAMESPACE
 
 Variable::Variable(Expression* parent, char variable)
-: symbol(variable), Expression(parent, ExpressionType::VARIABLE)
+: symbol(variable), Expression(parent, {ExpressionType::VARIABLE, "variable", "var"})
 {
 #if DEBUG_CAS
-    std::string str = stringifyExpressionType(expressionType);
-    printf("%s(%c)\n", str.c_str(), variable);
+    printf("%s(%c)\n", properties.getName().c_str(), variable);
 #endif
 }
 
@@ -30,12 +29,14 @@ Variable* Variable::clone(Expression* newParent)
 
 double Variable::evaluate(const std::unordered_map<char, double>& variables)
 {
+    if (variables.find(symbol) == variables.end())
+        throw std::runtime_error("Variable not found for evaluation");
     return variables.at(symbol);
 }
 
 bool Variable::equals(Expression* expression)
 {
-    if (expression->getExpressionType() == ExpressionType::VARIABLE)
+    if (expression->getProperties().getType() == ExpressionType::VARIABLE)
     {
         auto* var = dynamic_cast<Variable*>(expression);
         return var->getSymbol() == symbol;
@@ -66,10 +67,10 @@ std::string Variable::stringify()
 
 std::string Variable::text()
 {
-    return fullText();
+    return explicitText();
 }
 
-std::string Variable::fullText()
+std::string Variable::explicitText()
 {
     return std::string{symbol};
 }

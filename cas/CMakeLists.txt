@@ -6,5 +6,5 @@ enable_testing()
 add_subdirectory(src)
 add_subdirectory(tests)
 
-add_library(${PROJECT_NAME} scratch/scratch.cpp)
+add_library(${PROJECT_NAME} scratch/scratch.cpp include/core/node/ExpressionProperties.h)
 target_link_libraries(${PROJECT_NAME} src)

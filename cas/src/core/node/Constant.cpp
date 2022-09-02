@@ -15,10 +15,10 @@ const std::string Constant::E_LATEX = "e";
 const std::string Constant::PHI_LATEX = "\\varphi";
 
 Constant::Constant(Expression* parent, double value)
-: value{value}, Expression{parent, ExpressionType::CONSTANT}
+: value{value}, Expression{parent, {ExpressionType::CONSTANT, "constant", "const"}}
 {
 #if DEBUG_CAS
-    std::string str = stringifyExpressionType(expressionType);
+    std::string str = properties.getName();
     printf("%s(%f)\n", str.c_str(), value);
 #endif
 }
@@ -42,10 +42,10 @@ double Constant::evaluate(const std::unordered_map<char, double>& variables)
 
 bool Constant::equals(Expression* expression)
 {
-    if (expression->getExpressionType() == ExpressionType::CONSTANT)
+    if (expression->getProperties().getType() == ExpressionType::CONSTANT)
     {
-        auto& constant = dynamic_cast<const Constant&>(*expression);
-        return value == constant.getValue();
+        auto* constant = dynamic_cast<Constant*>(expression);
+        return value == constant->getValue();
     }
     return false;
 }
@@ -101,9 +101,9 @@ std::string Constant::text()
     return std::to_string(value);
 }
 
-std::string Constant::fullText()
+std::string Constant::explicitText()
 {
-    return stringifyExpressionType(expressionType) + "(" + text() + ")";
+    return properties.getName() + "(" + text() + ")";
 }
 
 CAS_NAMESPACE_END

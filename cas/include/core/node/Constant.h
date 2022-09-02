@@ -39,7 +39,7 @@ public:
     std::string latex() override;
     std::string stringify() override;
     std::string text() override;
-    std::string fullText() override;
+    std::string explicitText() override;
 
     static Constant* PI(Expression* parent) { return new Constant{parent, math::PI}; }
     static Constant* E(Expression* parent) { return new Constant{parent, math::E}; }
