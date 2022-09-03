@@ -3,14 +3,13 @@
 //
 
 #include "core/node/Product.h"
-#include "core/CAS.h"
 #include "core/node/Sum.h"
 #include <sstream>
 
 CAS_NAMESPACE
 
-Product::Product(Expression* parent, const std::vector<Expression*>& expressions)
-: Operator(parent, {ExpressionType::PRODUCT, "product", "prod"}, '*',expressions) {}
+Product::Product(const std::vector<Expression*>& expressions)
+: Operator({ExpressionType::PRODUCT, "product", "prod"}, 1.0, '*', expressions) {}
 
 Product::~Product()
 {
@@ -19,17 +18,17 @@ Product::~Product()
 #endif
 }
 
-Product* Product::clone(Expression* newParent)
+Product* Product::clone()
 {
     std::vector<Expression*> clonedExpressions;
 
     for (auto& expression: expressions)
-        clonedExpressions.push_back(expression->clone(newParent));
+        clonedExpressions.push_back(expression->clone());
 
-    return new Product{newParent, clonedExpressions};
+    return new Product{clonedExpressions};
 }
 
-Expression* Product::derivative(Expression* newParent, char variable)
+Expression * Product::derivative(char var)
 {
     std::vector<Expression*> differentiatedExpressions;
     
@@ -38,38 +37,24 @@ Expression* Product::derivative(Expression* newParent, char variable)
         std::vector<Expression*> products;
         for (size_t j = 0; j < expressions.size(); j++) {
             Expression* exp = expressions[j];
-
-            Expression* derivative = exp->derivative(nullptr, variable);
-            Expression* clone = exp->clone(nullptr);
-
-            Expression* prod = i == j ? derivative : clone;
+            Expression* prod = i == j ? exp->derivative(var) : exp->clone();
             products.push_back(prod);
         }
-        differentiatedExpressions.push_back(new Product{nullptr, products});
+        differentiatedExpressions.push_back(new Product{products});
     }
 
-    return new Sum{newParent, differentiatedExpressions};
+    return new Sum{differentiatedExpressions};
 }
 
-Expression* Product::simplified(Expression* newParent)
+Expression* Product::simplified()
 {
     // TODO: simplify
     std::vector<Expression*> simplifiedExpressions;
 
     for (auto& expression: expressions)
-        simplifiedExpressions.push_back(expression->simplified(newParent));
+        simplifiedExpressions.push_back(expression->simplified());
 
-    return new Sum{newParent, simplifiedExpressions};
-}
-
-double Product::operate(double a, double b)
-{
-    return a * b;
-}
-
-double Product::neutral()
-{
-    return 1.0;
+    return new Sum{simplifiedExpressions};
 }
 
 bool Product::needsParentheses(Expression* expression)

@@ -76,8 +76,8 @@ TEST(VariableNodeTest, VariableTextTest) {
     EXPECT_EQ("x", variable->text());
 }
 
-TEST(VariableNodeTest, VariableFullTextTest) {
+TEST(VariableNodeTest, VariableExplicitTextTest) {
     auto* variable = new cas::Variable('x');
-    EXPECT_EQ("x", variable->explicitText());
+    EXPECT_EQ("var(x)", variable->explicitText());
 }
 

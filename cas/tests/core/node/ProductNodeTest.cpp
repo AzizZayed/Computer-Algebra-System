@@ -58,8 +58,8 @@ TEST(ProductNodeTest, ProductEqualsTest) {
 
 TEST(ProductNodeTest, ProductDerivativeTest) {
     auto* product = new cas::Product{{new cas::Variable('x'), new cas::Variable('y')}};
-    auto* product2 = product->derivative(nullptr, 'x');
-    auto* product3 = product->derivative(nullptr, 'y');
+    auto* product2 = product->derivative('x');
+    auto* product3 = product->derivative('y');
 
     EXPECT_TRUE(product2->equals(
             new cas::Sum({

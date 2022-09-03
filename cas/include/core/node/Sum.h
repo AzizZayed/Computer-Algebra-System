@@ -12,24 +12,20 @@ CAS_NAMESPACE
 
 class Sum : public Operator {
 public:
-    explicit Sum(Expression* parent, const std::vector<Expression*>& expressions);
-    explicit Sum(const std::vector<Expression*>& expressions) : Sum(nullptr, expressions) {}
+    explicit Sum(const std::vector<Expression*>& expressions);
     Sum() = delete;
     ~Sum() override;
 
-    Sum* clone(Expression* newParent) override;
-    Sum* clone() override { return clone(nullptr); }
-
-    Sum* derivative(Expression* newParent, char variable) override;
-    Expression* simplified(Expression* newParent) override;
+    Sum* clone() override;
+    Sum* derivative(char var) override;
+    Expression* simplified() override;
 
     std::string latex() override;
     std::string stringify() override;
 
 protected:
-    double operate(double a, double b) override;
-    double neutral() override;
-    bool needsParentheses(Expression* expression) override;
+    double operate(double a, double b) override { return a + b; };
+    bool needsParentheses(Expression* expression) override { return false; };
 };
 
 CAS_NAMESPACE_END

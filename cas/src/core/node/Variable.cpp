@@ -7,8 +7,8 @@
 
 CAS_NAMESPACE
 
-Variable::Variable(Expression* parent, char variable)
-: symbol(variable), Expression(parent, {ExpressionType::VARIABLE, "variable", "var"})
+Variable::Variable(char variable)
+: symbol(variable), Expression({ExpressionType::VARIABLE, "variable", "var"})
 {
 #if DEBUG_CAS
     printf("%s(%c)\n", properties.getName().c_str(), variable);
@@ -22,9 +22,9 @@ Variable::~Variable()
 #endif
 }
 
-Variable* Variable::clone(Expression* newParent)
+Variable* Variable::clone()
 {
-    return new Variable{newParent, symbol};
+    return new Variable(symbol);
 }
 
 double Variable::evaluate(const std::unordered_map<char, double>& variables)
@@ -44,15 +44,15 @@ bool Variable::equals(Expression* expression)
     return false;
 }
 
-Constant* Variable::derivative(Expression* newParent, char var)
+Constant* Variable::derivative(char var)
 {
     double derivative = symbol == var ? 1.0 : 0.0;
-    return new Constant{newParent, derivative};
+    return new Constant{derivative};
 }
 
-Variable* Variable::simplified(Expression* newParent)
+Variable* Variable::simplified()
 {
-    return clone(newParent);
+    return clone();
 }
 
 std::string Variable::latex()
@@ -66,11 +66,6 @@ std::string Variable::stringify()
 }
 
 std::string Variable::text()
-{
-    return explicitText();
-}
-
-std::string Variable::explicitText()
 {
     return std::string{symbol};
 }

@@ -14,8 +14,8 @@ const std::string Constant::PI_LATEX = "\\pi";
 const std::string Constant::E_LATEX = "e";
 const std::string Constant::PHI_LATEX = "\\varphi";
 
-Constant::Constant(Expression* parent, double value)
-: value{value}, Expression{parent, {ExpressionType::CONSTANT, "constant", "const"}}
+Constant::Constant(double value)
+: value{value}, Expression{{ExpressionType::CONSTANT, "constant", "const"}}
 {
 #if DEBUG_CAS
     std::string str = properties.getName();
@@ -30,9 +30,9 @@ Constant::~Constant()
 #endif
 }
 
-Constant* Constant::clone(Expression* newParent)
+Constant* Constant::clone()
 {
-    return new Constant{newParent, value};
+    return new Constant{value};
 }
 
 double Constant::evaluate(const std::unordered_map<char, double>& variables)
@@ -50,14 +50,14 @@ bool Constant::equals(Expression* expression)
     return false;
 }
 
-Constant* Constant::derivative(Expression* newParent, char variable)
+Constant* Constant::derivative(char var)
 {
-    return new Constant{newParent, 0.0};
+    return new Constant{0.0};
 }
 
-Constant* Constant::simplified(Expression* newParent)
+Constant* Constant::simplified()
 {
-    return clone(newParent);
+    return clone();
 }
 
 std::string Constant::latex()
@@ -103,7 +103,7 @@ std::string Constant::text()
 
 std::string Constant::explicitText()
 {
-    return properties.getName() + "(" + text() + ")";
+    return properties.getShortName() + "(" + text() + ")";
 }
 
 CAS_NAMESPACE_END

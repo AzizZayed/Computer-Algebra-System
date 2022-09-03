@@ -20,34 +20,26 @@ namespace math {
 
 class Constant : public Expression {
 public:
-    explicit Constant(Expression* parent, double value);
-    explicit Constant(double value) : Constant(nullptr, value) {}
+    explicit Constant(double value);
     explicit Constant() : Constant(0.0) {};
     ~Constant() override;
 
-    double getValue() const { return value; }
-
     double evaluate(const std::unordered_map<char, double>& variables) override;
     bool equals(Expression* expression) override;
-
-    Constant* clone(Expression* newParent) override;
-    Constant* clone() override { return clone(nullptr); }
-
-    Constant* derivative(Expression* newParent, char variable) override;
-    Constant* simplified(Expression* newParent) override;
+    Constant* clone() override;
+    Constant* derivative(char var) override;
+    Constant* simplified() override;
 
     std::string latex() override;
     std::string stringify() override;
     std::string text() override;
     std::string explicitText() override;
 
-    static Constant* PI(Expression* parent) { return new Constant{parent, math::PI}; }
-    static Constant* E(Expression* parent) { return new Constant{parent, math::E}; }
-    static Constant* PHI(Expression* parent) { return new Constant{parent, math::PHI}; }
+    double getValue() const { return value; }
 
-    static Constant* PI() { return PI(nullptr); }
-    static Constant* E() { return E(nullptr); }
-    static Constant* PHI() { return PHI(nullptr); }
+    static Constant* PI(Expression* parent) { return new Constant{math::PI}; }
+    static Constant* E(Expression* parent) { return new Constant{math::E}; }
+    static Constant* PHI(Expression* parent) { return new Constant{math::PHI}; }
 
 private:
     double value;

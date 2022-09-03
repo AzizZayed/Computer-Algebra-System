@@ -5,11 +5,12 @@
 #include "gtest/gtest.h"
 #include "core/node/Divide.h"
 #include "core/node/Variable.h"
+#include "core/node/Constant.h"
 
 TEST(DivideNodeTest, DivideCreationTest) {
     auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
     EXPECT_EQ(cas::ExpressionType::DIVIDE, divide->getProperties().getType());
-    EXPECT_EQ("division", divide->getProperties().getName());
+    EXPECT_EQ("divide", divide->getProperties().getName());
     EXPECT_EQ("div", divide->getProperties().getShortName());
     EXPECT_EQ(nullptr, divide->getParent());
 }
@@ -47,5 +48,32 @@ TEST(DivideNodeTest, DivideEqualsTest) {
     EXPECT_FALSE(divide->equals(divide3));
 
     EXPECT_FALSE(divide->equals(new cas::Constant(1)));
+}
+
+TEST(DivideNodeTest, DivideDerivativeTest) {
+    auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
+    auto* divide2 = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
+
+    // TODO - add derivative test
+}
+
+TEST(DivideNodeTest, DivideLatexTest) {
+    auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
+    EXPECT_EQ("\\dfrac{x}{y}", divide->latex());
+}
+
+TEST(DivideNodeTest, DivideStringifyTest) {
+    auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
+    EXPECT_EQ("(x/y)", divide->stringify());
+}
+
+TEST(DivideNodeTest, DivideTextTest) {
+    auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
+    EXPECT_EQ("((x)/(y))", divide->text());
+}
+
+TEST(DivideNodeTest, DivideExplicitTextTest) {
+    auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
+    EXPECT_EQ("div(x, y)", divide->explicitText());
 }
 

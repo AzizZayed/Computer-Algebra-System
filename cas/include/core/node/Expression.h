@@ -17,40 +17,30 @@ CAS_NAMESPACE
 
 class Expression : public IMathNode {
 public:
-    explicit Expression(Expression* parent, const ExpressionProperties& properties) : parent{parent}, properties{properties}
-    {
-#if DEBUG_CAS
-        printf("cas::Expression(%hu)\n", properties.getType());
-#endif
-    }
-
-    virtual ~Expression()
-    {
-#if DEBUG_CAS
-        printf("Destroy cas::Expression\n");
-#endif
-    }
+    explicit Expression(const ExpressionProperties &properties) : properties{properties} {}
+    virtual ~Expression() = default;
 
     Expression(const Expression& expression) = delete;
 
     virtual double evaluate(const std::unordered_map<char, double>& variables) = 0;
     virtual bool equals(Expression* expression) = 0;
+    virtual Expression* clone() = 0;
+    virtual Expression* derivative(char var) = 0;
+    virtual Expression* simplified() = 0;
 
-    virtual Expression* clone(Expression* newParent) = 0;
-    virtual Expression* clone() { return clone(nullptr); }
+    ExpressionProperties getProperties() const;
+    Expression* getParent() const;
+    void setParent(Expression* newParent);
 
-    virtual Expression* derivative(Expression* newParent, char variable) = 0;
-    virtual Expression* simplified(Expression* newParent) = 0;
+    bool isNegated() const;
+    bool isOfType(ExpressionType type) const;
+    bool isOfSameType(Expression* expression) const;
 
-    ExpressionProperties getProperties() const { return properties; }
-    Expression* getParent() const { return parent; }
-    void setParent(Expression* newParent) { this->parent = newParent; }
-
-    bool isNegated() const { return properties.getType() == ExpressionType::NEGATE; }
+    std::string explicitText() override;
 
 protected:
     ExpressionProperties properties;
-    Expression* parent;
+    Expression* parent = nullptr;
 };
 
 CAS_NAMESPACE_END

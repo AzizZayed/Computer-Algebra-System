@@ -15,14 +15,13 @@ set(CAS_SRC_HEADERS
         ../include/core/node/Power.h ../include/core/node/Negate.h)
 
 set(CAS_SRC_SOURCES
-        core/CAS.cpp
         core/node/Constant.cpp
         core/node/Variable.cpp
         core/node/Operator.cpp
         core/node/Sum.cpp
         core/node/Product.cpp
         core/node/Divide.cpp
-        core/node/Power.cpp)
+        core/node/Power.cpp core/node/Expression.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)

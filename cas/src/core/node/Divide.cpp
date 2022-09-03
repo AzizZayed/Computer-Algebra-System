@@ -12,8 +12,12 @@
 
 CAS_NAMESPACE
 
-Divide::Divide(Expression* parent, Expression* dividend, Expression* divisor)
-: Expression(parent, {ExpressionType::DIVIDE, "divide", "div"}), dividend(dividend), divisor(divisor) {}
+Divide::Divide(Expression* dividend, Expression* divisor)
+: Expression({ExpressionType::DIVIDE, "divide", "div"}), dividend(dividend), divisor(divisor)
+{
+    this->dividend->setParent(this);
+    this->divisor->setParent(this);
+}
 
 Divide::~Divide()
 {
@@ -32,31 +36,31 @@ double Divide::evaluate(const std::unordered_map<char, double>& variables)
 
 bool Divide::equals(Expression* expression)
 {
-    if (expression->getProperties().getType() == ExpressionType::DIVIDE) {
-        Divide* divide = dynamic_cast<Divide*>(expression);
+    if (expression->isOfType(ExpressionType::DIVIDE)) {
+        auto* divide = dynamic_cast<Divide*>(expression);
         return dividend->equals(divide->dividend) && divisor->equals(divide->divisor);
     }
 
     return false;
 }
 
-Divide* Divide::clone(Expression* newParent)
+Divide* Divide::clone()
 {
-    return new Divide(newParent, dividend->clone(), divisor->clone());
+    return new Divide(dividend->clone(), divisor->clone());
 }
 
-Divide* Divide::derivative(Expression* newParent, char variable)
+Divide* Divide::derivative(char var)
 {
     return new Divide( // quotient rule
             new Sum({ // f'g - fg'
                 new Product({ // f'g
-                    dividend->derivative(nullptr, variable), // f'g
+                    dividend->derivative(var), // f'g
                     divisor->clone() // g
                 }), // end f'*g
                 new Product({ // -fg' // TODO negate this instead
                     new Constant(-1), // -1
                     dividend->clone(), // f
-                    divisor->derivative(nullptr, variable) // g'
+                    divisor->derivative(var) // g'
                 }) // end -fg'
             }), // end f'g - fg'
             new Power( // g^2
@@ -66,14 +70,14 @@ Divide* Divide::derivative(Expression* newParent, char variable)
     ); // end quotient rule
 }
 
-Expression* Divide::simplified(Expression* newParent)
+Expression* Divide::simplified()
 {
-    Expression* dividendSimplified = dividend->simplified(newParent);
-    Expression* divisorSimplified = divisor->simplified(newParent);
+    Expression* dividendSimplified = dividend->simplified();
+    Expression* divisorSimplified = divisor->simplified();
 
     // TODO simplify
 
-    return new Divide(newParent, dividendSimplified, divisorSimplified);
+    return new Divide(dividendSimplified, divisorSimplified);
 }
 
 std::string Divide::latex()

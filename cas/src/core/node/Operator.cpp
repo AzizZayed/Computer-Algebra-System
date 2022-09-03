@@ -9,27 +9,26 @@
 
 CAS_NAMESPACE
 
-Operator::Operator(Expression* parent, const ExpressionProperties& props, char symbol, const std::vector<Expression*>& expressions)
-: symbol(symbol), expressions(expressions), Expression(parent, props)
+Operator::Operator(const ExpressionProperties& props, double neutral, char symbol, std::vector<Expression*> expressions)
+: neutral(neutral), symbol(symbol), expressions(std::move(expressions)), Expression(props)
 {
 #if DEBUG_CAS
-    printf("%s(%c)\n", properties.getName().c_str(), symbol);
+    printf("%s(%c...)\n", properties.getName().c_str(), symbol);
 #endif
+
+    for (auto& expression: this->expressions)
+        expression->setParent(this);
 }
 
 Operator::~Operator()
 {
-#if DEBUG_CAS
-    printf("Destroy cas::Operator\n");
-#endif
-
     for (auto* expression: expressions)
         delete expression;
 }
 
 double Operator::evaluate(const std::unordered_map<char, double>& variables)
 {
-    double result = neutral();
+    double result = neutral;
     for (auto* expression: expressions)
         result = operate(result, expression->evaluate(variables));
 
@@ -38,7 +37,7 @@ double Operator::evaluate(const std::unordered_map<char, double>& variables)
 
 bool Operator::equals(Expression* expression)
 {
-    if (expression->getProperties().getType() != properties.getType())
+    if (expression->isOfType(properties.getType()))
         return false;
 
     auto* op = dynamic_cast<Operator*>(expression);

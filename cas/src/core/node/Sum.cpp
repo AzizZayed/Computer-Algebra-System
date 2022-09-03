@@ -9,8 +9,8 @@
 
 CAS_NAMESPACE
 
-Sum::Sum(cas::Expression *parent, const std::vector<Expression*>& expressions)
-: Operator(parent, {ExpressionType::SUM, "summation", "sum"}, '+', expressions) {}
+Sum::Sum(const std::vector<Expression*>& expressions)
+: Operator({ExpressionType::SUM, "summation", "sum"}, 0.0, '+', expressions) {}
 
 Sum::~Sum()
 {
@@ -19,50 +19,35 @@ Sum::~Sum()
 #endif
 }
 
-Sum* Sum::clone(cas::Expression* newParent)
+Sum* Sum::clone()
 {
     std::vector<Expression*> clonedExpressions;
 
     for (auto& expression: expressions)
-        clonedExpressions.push_back(expression->clone(newParent));
+        clonedExpressions.push_back(expression->clone());
 
-    return new Sum{newParent, clonedExpressions};
+    return new Sum{clonedExpressions};
 }
 
-Sum* Sum::derivative(cas::Expression *newParent, char variable)
+Sum* Sum::derivative(char var)
 {
     std::vector<Expression*> differentiatedExpressions;
 
     for (auto& expression: expressions)
-        differentiatedExpressions.push_back(expression->derivative(newParent, variable));
+        differentiatedExpressions.push_back(expression->derivative(var));
 
-    return new Sum{newParent, differentiatedExpressions};
+    return new Sum{differentiatedExpressions};
 }
 
-Expression* Sum::simplified(Expression* newParent)
+Expression* Sum::simplified()
 {
     // TODO: simplify
     std::vector<Expression*> simplifiedExpressions;
 
     for (auto& expression: expressions)
-        simplifiedExpressions.push_back(expression->simplified(newParent));
+        simplifiedExpressions.push_back(expression->simplified());
 
-    return new Sum{newParent, simplifiedExpressions};
-}
-
-double Sum::operate(double a, double b)
-{
-    return a + b;
-}
-
-double Sum::neutral()
-{
-    return 0.0;
-}
-
-bool Sum::needsParentheses(Expression* expression)
-{
-    return false;
+    return new Sum{simplifiedExpressions};
 }
 
 std::string Sum::latex()

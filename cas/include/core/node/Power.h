@@ -12,24 +12,24 @@ CAS_NAMESPACE
 
 class Power : public Expression {
 public:
-    explicit Power(Expression* parent, Expression* base, Expression* exponent);
-    explicit Power(Expression* base, Expression* exponent) : Power(nullptr, base, exponent) {}
+    explicit Power(Expression* base, Expression* exponent);
     Power() = delete;
     ~Power() override;
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
     bool equals(Expression* expression) override;
-
-    Power* clone(Expression* newParent) override;
-    Power* clone() override { return clone(nullptr); }
-
-    Expression* derivative(Expression* newParent, char variable) override;
-    Expression* simplified(Expression* newParent) override;
+    Power* clone() override;
+    Expression *derivative(char var) override;
+    Expression* simplified() override;
 
     std::string latex() override;
     std::string stringify() override;
     std::string text() override;
     std::string explicitText() override;
+
+private:
+    Expression* base;
+    Expression* exponent;
 };
 
 CAS_NAMESPACE_END

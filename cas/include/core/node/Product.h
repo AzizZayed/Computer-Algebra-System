@@ -12,23 +12,19 @@ CAS_NAMESPACE
 
 class Product : public Operator {
 public:
-    explicit Product(Expression* parent, const std::vector<Expression*>& expressions);
-    explicit Product(const std::vector<Expression*>& expressions) : Product(nullptr, expressions) {}
+    explicit Product(const std::vector<Expression*>& expressions);
     Product() = delete;
     ~Product() override;
 
-    Product* clone(Expression* newParent) override;
-    Product* clone() override { return clone(nullptr); }
-
-    Expression* derivative(Expression* newParent, char variable) override;
-    Expression* simplified(Expression* newParent) override;
+    Product* clone() override;
+    Expression* derivative(char var) override;
+    Expression* simplified() override;
 
     std::string latex() override;
     std::string stringify() override;
 
 protected:
-    double operate(double a, double b) override;
-    double neutral() override;
+    double operate(double a, double b) override { return a * b; };
     bool needsParentheses(Expression* expression) override;
 };
 

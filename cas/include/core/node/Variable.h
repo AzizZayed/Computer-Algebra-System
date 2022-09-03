@@ -14,27 +14,22 @@ CAS_NAMESPACE
 
 class Variable : public Expression {
 public:
-    explicit Variable(Expression* parent, char variable);
-    explicit Variable(char variable) : Variable(nullptr, variable) {}
-    explicit Variable(Expression* parent) : Variable(parent, VAR_X) {}
-    explicit Variable() : Variable(nullptr) {}
+    explicit Variable(char variable);
+    explicit Variable() : Variable(VAR_X) {}
     ~Variable() override;
-
-    char getSymbol() const { return symbol; }
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
     bool equals(Expression* expression) override;
-
-    Variable* clone(Expression* newParent) override;
-    Variable* clone() override { return clone(nullptr); }
-
-    Constant* derivative(Expression* newParent, char var) override;
-    Variable* simplified(Expression* newParent) override;
+    Variable* clone() override;
+    Constant* derivative(char var) override;
+    Variable* simplified() override;
 
     std::string latex() override;
     std::string stringify() override;
     std::string text() override;
-    std::string explicitText() override;
+
+    char getSymbol() const { return symbol; }
+
 private:
     const char symbol;
 

@@ -12,24 +12,23 @@ CAS_NAMESPACE
 
 class Negate : public Expression {
 public:
-    explicit Negate(Expression* parent, Expression* expression);
-    explicit Negate(Expression* expression) : Negate(nullptr, expression) {}
+    explicit Negate(Expression* expression);
     Negate() = delete;
     ~Negate() override;
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
     bool equals(Expression* expression) override;
-
-    Negate* clone(Expression* newParent) override;
-    Negate* clone() override { return clone(nullptr); }
-
-    Expression* derivative(Expression* newParent, char variable) override;
-    Expression* simplified(Expression* newParent) override;
+    Negate* clone() override;
+    Expression *derivative(char var) override;
+    Expression* simplified() override;
 
     std::string latex() override;
     std::string stringify() override;
     std::string text() override;
     std::string explicitText() override;
+
+private:
+    Expression* expression;
 };
 
 CAS_NAMESPACE_END
