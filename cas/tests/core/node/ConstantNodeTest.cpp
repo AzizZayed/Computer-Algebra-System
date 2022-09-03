@@ -12,7 +12,8 @@ TEST(ConstantNodeTest, ConstantCreationTest) {
     EXPECT_EQ(cas::ExpressionType::CONSTANT, constant->getProperties().getType());
     EXPECT_EQ(nullptr, constant->getParent());
 
-    auto* constant2 = new cas::Constant(constant, 2);
+    auto* constant2 = new cas::Constant(2);
+    constant2->setParent(constant);
     EXPECT_EQ(2, constant2->getValue());
     EXPECT_EQ(cas::ExpressionType::CONSTANT, constant2->getProperties().getType());
     EXPECT_EQ(constant, constant2->getParent());
@@ -51,13 +52,13 @@ TEST(ConstantNodeTest, ConstantEqualsTest) {
 
 TEST(ConstantNodeTest, ConstantDerivativeTest) {
     auto* constant = new cas::Constant(1);
-    cas::Expression *derivative = constant->derivative(nullptr, 'x');
+    cas::Expression *derivative = constant->derivative('x');
     EXPECT_EQ(0, ((cas::Constant*) derivative)->getValue());
 }
 
 TEST(ConstantNodeTest, ConstantSimplifiedTest) {
     auto* constant = new cas::Constant(1);
-    EXPECT_TRUE(constant->equals(constant->simplified(nullptr)));
+    EXPECT_TRUE(constant->equals(constant->simplified()));
 }
 
 TEST(ConstantNodeTest, ConstantLatexTest) {
@@ -93,9 +94,9 @@ TEST(ConstantNodeTest, ConstantTextTest) {
     EXPECT_EQ("1.000000", constant->text());
 }
 
-TEST(ConstantNodeTest, ConstantFullTextTest) {
+TEST(ConstantNodeTest, ConstantExplicitTextTest) {
     auto* constant = new cas::Constant(1);
-    EXPECT_EQ("constant(1.000000)", constant->explicitText());
+    EXPECT_EQ("const(1.000000)", constant->explicitText());
 }
 
 

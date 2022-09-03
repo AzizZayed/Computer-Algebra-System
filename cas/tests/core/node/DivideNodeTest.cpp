@@ -5,7 +5,10 @@
 #include "gtest/gtest.h"
 #include "core/node/Divide.h"
 #include "core/node/Variable.h"
-#include "core/node/Constant.h"
+#include "core/node/Negate.h"
+#include "core/node/Power.h"
+#include "core/node/Sum.h"
+#include "core/node/Product.h"
 
 TEST(DivideNodeTest, DivideCreationTest) {
     auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
@@ -54,7 +57,54 @@ TEST(DivideNodeTest, DivideDerivativeTest) {
     auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
     auto* divide2 = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
 
-    // TODO - add derivative test
+    EXPECT_TRUE(divide->derivative('x')->equals(divide2->derivative('x')));
+    EXPECT_TRUE(divide->derivative('y')->equals(divide2->derivative('y')));
+
+    EXPECT_FALSE(divide->derivative('x')->equals(divide2->derivative('y')));
+
+    EXPECT_TRUE(divide->derivative('x')->equals(
+            new cas::Divide( // quotient rule
+                    new cas::Sum({ // f'g - fg'
+                            new cas::Product({ // f'g
+                                new cas::Constant(1), // f'
+                                new cas::Variable('y') // g
+                            }), // end f'*g
+                            new cas::Negate(new cas::Product({ // -fg'
+                                new cas::Variable('x'), // f
+                                new cas::Constant(0) // g'
+                            })) // end -fg'
+                    }), // end f'g - fg'
+                    new cas::Power( // g^2
+                            new cas::Variable('y'), // g
+                            new cas::Constant(2) // 2
+                    ) // end g^2
+            ) // end quotient rule
+    ));
+    EXPECT_TRUE(divide->derivative('y')->equals(
+            new cas::Divide( // quotient rule
+                    new cas::Sum({ // f'g - fg'
+                            new cas::Product({ // f'g
+                                new cas::Constant(0), // f'
+                                new cas::Variable('y') // g
+                            }), // end f'*g
+                            new cas::Negate(new cas::Product({ // -fg'
+                                new cas::Variable('x'), // f
+                                new cas::Constant(1) // g'
+                            })) // end -fg'
+                    }), // end f'g - fg'
+                    new cas::Power( // g^2
+                            new cas::Variable('y'), // g
+                            new cas::Constant(2) // 2
+                    ) // end g^2
+            ) // end quotient rule
+    ));
+}
+
+TEST(DivideNodeTest, DivideSimplifiedTest) {
+    auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
+    auto* divide2 = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
+
+    // TODO - add simplified test
 }
 
 TEST(DivideNodeTest, DivideLatexTest) {
@@ -74,6 +124,6 @@ TEST(DivideNodeTest, DivideTextTest) {
 
 TEST(DivideNodeTest, DivideExplicitTextTest) {
     auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
-    EXPECT_EQ("div(x, y)", divide->explicitText());
+    EXPECT_EQ("div(var(x), var(y))", divide->explicitText());
 }
 

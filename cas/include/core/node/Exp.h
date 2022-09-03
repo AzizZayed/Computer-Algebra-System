@@ -1,0 +1,27 @@
+//
+// Created by Abd-El-Aziz Zayed on 2022-09-03.
+//
+
+#ifndef CAS_EXP_H
+#define CAS_EXP_H
+
+#include "core/CAS.h"
+#include "Power.h"
+#include "Constant.h"
+
+CAS_NAMESPACE
+
+class Exp : public Power {
+private:
+    explicit Exp(Expression* exponent);
+    Exp() = delete;
+    ~Exp() override;
+
+    Exp* clone() override;
+    Expression* derivative(char var) override;
+    Expression* simplified() override;
+};
+
+CAS_NAMESPACE_END
+
+#endif //CAS_EXP_H

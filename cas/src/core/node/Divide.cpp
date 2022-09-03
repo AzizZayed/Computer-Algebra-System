@@ -9,6 +9,7 @@
 #include "core/node/Product.h"
 #include "core/node/Constant.h"
 #include "core/node/Power.h"
+#include "core/node/Negate.h"
 
 CAS_NAMESPACE
 
@@ -57,14 +58,13 @@ Divide* Divide::derivative(char var)
                     dividend->derivative(var), // f'g
                     divisor->clone() // g
                 }), // end f'*g
-                new Product({ // -fg' // TODO negate this instead
-                    new Constant(-1), // -1
+                new Negate(new Product({ // -fg'
                     dividend->clone(), // f
                     divisor->derivative(var) // g'
-                }) // end -fg'
+                })) // end -fg'
             }), // end f'g - fg'
             new Power( // g^2
-                    divisor, // g
+                    divisor->clone(), // g
                     new Constant(2) // 2
             ) // end g^2
     ); // end quotient rule

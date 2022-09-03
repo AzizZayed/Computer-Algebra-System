@@ -56,12 +56,12 @@ TEST(SumNodeTest, SumEqualsTest) {
 
 TEST(SumNodeTest, SumDerivativeTest) {
     auto* sum = new cas::Sum({new cas::Variable('x'), new cas::Variable('y')});
-    cas::Sum* derivative = sum->derivative(nullptr, 'x');
+    cas::Sum* derivative = sum->derivative('x');
     EXPECT_EQ(cas::ExpressionType::SUM, derivative->getProperties().getType());
     EXPECT_EQ(2, derivative->getExpressions().size());
     // TODO test deeper
 
-    cas::Sum* derivative2 = sum->derivative(nullptr, 'z');
+    cas::Sum* derivative2 = sum->derivative('z');
     // TODO test deeper
 }
 

@@ -12,7 +12,11 @@ set(CAS_SRC_HEADERS
         ../include/core/node/Sum.h
         ../include/core/node/Product.h
         ../include/core/node/Divide.h
-        ../include/core/node/Power.h ../include/core/node/Negate.h)
+        ../include/core/node/Power.h
+        ../include/core/node/Negate.h
+        ../include/core/node/Log.h
+        ../include/core/node/Ln.h
+        ../include/core/node/Exp.h)
 
 set(CAS_SRC_SOURCES
         core/node/Constant.cpp
@@ -21,7 +25,9 @@ set(CAS_SRC_SOURCES
         core/node/Sum.cpp
         core/node/Product.cpp
         core/node/Divide.cpp
-        core/node/Power.cpp core/node/Expression.cpp)
+        core/node/Power.cpp
+        core/node/Expression.cpp
+        core/node/Negate.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)

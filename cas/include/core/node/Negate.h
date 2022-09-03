@@ -19,13 +19,15 @@ public:
     double evaluate(const std::unordered_map<char, double>& variables) override;
     bool equals(Expression* expression) override;
     Negate* clone() override;
-    Expression *derivative(char var) override;
+    Negate* derivative(char var) override;
     Expression* simplified() override;
 
     std::string latex() override;
     std::string stringify() override;
     std::string text() override;
     std::string explicitText() override;
+
+    Expression* getExpression() const { return expression; }
 
 private:
     Expression* expression;

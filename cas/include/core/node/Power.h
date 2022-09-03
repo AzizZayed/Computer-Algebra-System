@@ -28,6 +28,10 @@ public:
     std::string explicitText() override;
 
 private:
+    bool baseNeedsParentheses();
+    bool exponentNeedsParentheses();
+
+private:
     Expression* base;
     Expression* exponent;
 };

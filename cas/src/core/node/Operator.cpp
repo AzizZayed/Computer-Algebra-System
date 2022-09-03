@@ -37,7 +37,7 @@ double Operator::evaluate(const std::unordered_map<char, double>& variables)
 
 bool Operator::equals(Expression* expression)
 {
-    if (expression->isOfType(properties.getType()))
+    if (!isOfSameType(expression))
         return false;
 
     auto* op = dynamic_cast<Operator*>(expression);

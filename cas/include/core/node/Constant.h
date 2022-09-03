@@ -37,9 +37,9 @@ public:
 
     double getValue() const { return value; }
 
-    static Constant* PI(Expression* parent) { return new Constant{math::PI}; }
-    static Constant* E(Expression* parent) { return new Constant{math::E}; }
-    static Constant* PHI(Expression* parent) { return new Constant{math::PHI}; }
+    static Constant* PI() { return new Constant{math::PI}; }
+    static Constant* E() { return new Constant{math::E}; }
+    static Constant* PHI() { return new Constant{math::PHI}; }
 
 private:
     double value;

@@ -3,7 +3,6 @@
 //
 
 #include "gtest/gtest.h"
-#include "core/CAS.h"
 #include "core/node/Product.h"
 #include "core/node/Constant.h"
 #include "core/node/Variable.h"
@@ -122,7 +121,7 @@ TEST(ProductNodeTest, ProductTextTest) {
     EXPECT_EQ("((x) * (y) * (w) * (a))", product->text());
 }
 
-TEST(ProductNodeTest, ProductFullTextTest) {
+TEST(ProductNodeTest, ProductExplicitTextTest) {
     auto* product = new cas::Product{
             {
                     new cas::Variable('x'),
@@ -131,5 +130,5 @@ TEST(ProductNodeTest, ProductFullTextTest) {
                     new cas::Variable('a'),
             }
     };
-    EXPECT_EQ("prod(x, y, w, a)", product->explicitText());
+    EXPECT_EQ("prod(var(x), var(y), var(w), var(a))", product->explicitText());
 }

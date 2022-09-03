@@ -35,6 +35,15 @@ TEST(VariableNodeTest, VariableEvaluationTest) {
 
     EXPECT_NE(0, variable->evaluate(map));
     EXPECT_EQ(1, variable->evaluate(map));
+
+    EXPECT_THROW({
+        try { variable->evaluate({}); }
+        catch(std::runtime_error& e)
+        {
+            EXPECT_STREQ("Variable not found for evaluation", e.what());
+            throw;
+        }
+    }, std::runtime_error);
 }
 
 TEST(VariableNodeTest, VariableEqualsTest) {
@@ -49,16 +58,16 @@ TEST(VariableNodeTest, VariableEqualsTest) {
 
 TEST(VariableNodeTest, VariableDerivativeTest) {
     auto* variable = new cas::Variable('x');
-    cas::Constant* derivative = variable->derivative(nullptr, 'x');
+    cas::Constant* derivative = variable->derivative('x');
     EXPECT_EQ(1, derivative->getValue());
 
-    cas::Constant* derivative2 = variable->derivative(nullptr, 'y');
+    cas::Constant* derivative2 = variable->derivative('y');
     EXPECT_EQ(0, derivative2->getValue());
 }
 
 TEST(VariableNodeTest, VariableSimplifiedTest) {
     auto* variable = new cas::Variable('x');
-    EXPECT_TRUE(variable->equals(variable->simplified(nullptr)));
+    EXPECT_TRUE(variable->equals(variable->simplified()));
 }
 
 TEST(VariableNodeTest, VariableLatexTest) {
