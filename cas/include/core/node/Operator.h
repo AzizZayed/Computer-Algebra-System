@@ -34,7 +34,7 @@ protected:
 protected:
     const double neutral;
     const char symbol;
-    const std::vector<Expression*> expressions;
+    std::vector<Expression*> expressions;
 };
 
 CAS_NAMESPACE_END

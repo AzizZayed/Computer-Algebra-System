@@ -12,19 +12,9 @@ CAS_NAMESPACE
 
 class Log : public Expression {
 public:
-    explicit Log(Expression* base, Expression* argument)
-    : base(base), argument(argument), Expression({ExpressionType::LOGARITHM, "logarithm", "log"})
-    {
-        base->setParent(this);
-        argument->setParent(this);
-    }
-
+    explicit Log(Expression* base, Expression* argument);
     Log() = delete;
-    ~Log() override
-    {
-        delete base;
-        delete argument;
-    }
+    ~Log() override;
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
     bool equals(Expression* expression) override;
@@ -37,9 +27,15 @@ public:
     std::string text() override;
     std::string explicitText() override;
 
-private:
-    const Expression* base;
-    const Expression* argument;
+    Expression* getBase() const { return base; }
+    Expression* getArgument() const { return argument; }
+
+protected:
+    bool argumentNeedsParentheses();
+
+protected:
+    Expression* base;
+    Expression* argument;
 };
 
 CAS_NAMESPACE_END

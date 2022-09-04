@@ -28,14 +28,23 @@ Power::~Power()
 
     delete base;
     delete exponent;
+
+    base = nullptr;
+    exponent = nullptr;
 }
 
-double Power::evaluate(const std::unordered_map<char, double>& variables) {
+double Power::evaluate(const std::unordered_map<char, double>& variables)
+{
     return pow(base->evaluate(variables), exponent->evaluate(variables));
 }
 
-bool Power::equals(Expression* expression) {
-    if (expression->isOfType(ExpressionType::POWER)) {
+bool Power::equals(Expression* expression)
+{
+    if (this == expression)
+        return true;
+
+    if (expression->isOfType(ExpressionType::POWER))
+    {
         auto* power = dynamic_cast<Power*>(expression);
         return base->equals(power->base) && exponent->equals(power->exponent);
     }
@@ -43,11 +52,13 @@ bool Power::equals(Expression* expression) {
     return false;
 }
 
-Power* Power::clone() {
+Power* Power::clone()
+{
     return new Power(base->clone(), exponent->clone());
 }
 
-Expression * Power::derivative(char var) {
+Expression * Power::derivative(char var)
+{
     bool baseIsNumber = base->isOfType(ExpressionType::CONSTANT);
     bool exponentIsNumber = exponent->isOfType(ExpressionType::CONSTANT);
 
@@ -73,7 +84,7 @@ Expression * Power::derivative(char var) {
         return new Product({ // k^f * lnk * f'
             this->clone(), // a^f
             exponent->derivative(var), // f'
-            new Negate(base) // lnk // TODO replace negate with ln
+            new Ln(base) // lnk
         }); // end k^f * lnk * f'
     }
 
@@ -83,7 +94,7 @@ Expression * Power::derivative(char var) {
         new Sum({ // g'*lnf + g*f'/f
             new Product({ // g' * lnf
                 exponent->derivative(var), // g'
-                new Negate(base) // lnf // TODO replace negate with ln
+                new Ln(base) // lnf
             }), // end g' * lnf
             new Product({ // g * f' * 1/f
                 exponent->clone(), // g
@@ -96,15 +107,18 @@ Expression * Power::derivative(char var) {
     }); // end [f(x)]^[g(x)] * ( g'*lnf + g*f'/f)
 }
 
-Expression* Power::simplified() {
+Expression* Power::simplified()
+{
     return clone(); // TODO implement simplified
 }
 
-bool Power::baseNeedsParentheses() {
+bool Power::baseNeedsParentheses()
+{
     return !(base->isOfType(ExpressionType::CONSTANT) || base->isOfType(ExpressionType::VARIABLE));
 }
 
-bool Power::exponentNeedsParentheses() {
+bool Power::exponentNeedsParentheses()
+{
     return exponent->isOfType(ExpressionType::DIVIDE)
     || exponent->isOfType(ExpressionType::POWER)
     || instanceof<Operator>(exponent);
@@ -132,11 +146,13 @@ std::string Power::stringify()
     }
 }
 
-std::string Power::text() {
+std::string Power::text()
+{
     return "(" + base->text() + ")^(" + exponent->text() + ")";
 }
 
-std::string Power::explicitText() {
+std::string Power::explicitText()
+{
     return properties.getShortName() + "(" + base->explicitText() + ", " + exponent->explicitText() + ")";
 }
 

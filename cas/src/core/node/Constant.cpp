@@ -42,6 +42,9 @@ double Constant::evaluate(const std::unordered_map<char, double>& variables)
 
 bool Constant::equals(Expression* expression)
 {
+    if (this == expression)
+        return true;
+
     if (expression->getProperties().getType() == ExpressionType::CONSTANT)
     {
         auto* constant = dynamic_cast<Constant*>(expression);

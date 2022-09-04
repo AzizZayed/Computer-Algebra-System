@@ -27,7 +27,10 @@ set(CAS_SRC_SOURCES
         core/node/Divide.cpp
         core/node/Power.cpp
         core/node/Expression.cpp
-        core/node/Negate.cpp)
+        core/node/Negate.cpp
+        core/node/Exp.cpp
+        core/node/Log.cpp
+        core/node/Ln.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)

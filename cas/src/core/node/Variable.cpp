@@ -36,6 +36,9 @@ double Variable::evaluate(const std::unordered_map<char, double>& variables)
 
 bool Variable::equals(Expression* expression)
 {
+    if (this == expression)
+        return true;
+
     if (expression->getProperties().getType() == ExpressionType::VARIABLE)
     {
         auto* var = dynamic_cast<Variable*>(expression);

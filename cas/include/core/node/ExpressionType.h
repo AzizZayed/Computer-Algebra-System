@@ -18,7 +18,6 @@ enum class ExpressionType : uint16_t {
     SIN, COS, TAN, COT, SEC, CSC, ARC_SIN, ARC_COS, ARC_TAN, ARC_COT, ARC_SEC, ARC_CSC,
     MIN, MAX,
     PRODUCT, SUM, DIVIDE, NEGATE,
-
 };
 
 CAS_NAMESPACE_END

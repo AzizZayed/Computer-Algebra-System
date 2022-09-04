@@ -15,7 +15,8 @@ set(TEST_SOURCE
         core/node/VariableNodeTest.cpp
         core/node/SumNodeTest.cpp
         core/node/ProductNodeTest.cpp
-        core/node/DivideNodeTest.cpp)
+        core/node/DivideNodeTest.cpp
+        core/node/NegateNodeTest.cpp)
 
 add_executable(tests ${TEST_SOURCE})
 target_link_libraries(tests GTest::gtest_main src)

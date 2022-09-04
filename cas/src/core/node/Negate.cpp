@@ -3,6 +3,7 @@
 //
 
 #include "core/node/Negate.h"
+#include "core/node/Operator.h"
 
 CAS_NAMESPACE
 
@@ -24,6 +25,7 @@ Negate::~Negate()
 #endif
 
     delete expression;
+    expression = nullptr;
 }
 
 double Negate::evaluate(const std::unordered_map<char, double>& variables)
@@ -33,6 +35,9 @@ double Negate::evaluate(const std::unordered_map<char, double>& variables)
 
 bool Negate::equals(Expression* expr)
 {
+    if (this == expression)
+        return true;
+
     if (expr->isOfType(ExpressionType::NEGATE)) {
         auto* negate = dynamic_cast<Negate*>(expr);
         return this->expression->equals(negate->getExpression());
@@ -51,7 +56,7 @@ Negate* Negate::derivative(char var)
     return new Negate(expression->derivative(var));
 }
 
-Expression* Negate::simplified()
+Expression* Negate::simplified() // TODO: Simplify
 {
     auto* simplified = expression->simplified();
 
@@ -63,6 +68,11 @@ Expression* Negate::simplified()
     return new Negate(simplified);
 }
 
+bool Negate::needsParentheses()
+{
+    return expression->isOfType(ExpressionType::SUM);
+}
+
 std::string Negate::latex()
 {
     return "-" + expression->latex();
@@ -70,7 +80,9 @@ std::string Negate::latex()
 
 std::string Negate::stringify()
 {
-    return "-(" + expression->stringify() + ")";
+    if (needsParentheses())
+        return "-(" + expression->stringify() + ")";
+    return "-" + expression->stringify();
 }
 
 std::string Negate::text()

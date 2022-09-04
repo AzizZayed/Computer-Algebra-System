@@ -22,8 +22,10 @@ Operator::Operator(const ExpressionProperties& props, double neutral, char symbo
 
 Operator::~Operator()
 {
-    for (auto* expression: expressions)
-        delete expression;
+    for (size_t i = 0; i < expressions.size(); i++) {
+        delete expressions[i];
+        expressions[i] = nullptr;
+    }
 }
 
 double Operator::evaluate(const std::unordered_map<char, double>& variables)
@@ -37,6 +39,9 @@ double Operator::evaluate(const std::unordered_map<char, double>& variables)
 
 bool Operator::equals(Expression* expression)
 {
+    if (this == expression)
+        return true;
+
     if (!isOfSameType(expression))
         return false;
 

@@ -8,13 +8,20 @@
 #include "core/node/Variable.h"
 
 TEST(SumNodeTest, SumCreationTest) {
-    auto* sum = new cas::Sum({new cas::Variable('x'), new cas::Variable('y')});
+    std::vector<cas::Expression*> expressions = {new cas::Variable('x'), new cas::Variable('y')};
+    auto* sum = new cas::Sum(expressions);
     EXPECT_EQ(cas::ExpressionType::SUM, sum->getProperties().getType());
     EXPECT_EQ("summation", sum->getProperties().getName());
     EXPECT_EQ("sum", sum->getProperties().getShortName());
     EXPECT_EQ('+', sum->getSymbol());
     EXPECT_EQ(2, sum->getExpressions().size());
     EXPECT_EQ(nullptr, sum->getParent());
+
+    for (cas::Expression* exp : expressions) {
+        EXPECT_EQ(sum, exp->getParent());
+    }
+
+    delete sum;
 }
 
 TEST(SumNodeTest, SumDestroyTest) {

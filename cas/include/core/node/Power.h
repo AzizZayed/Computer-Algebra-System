@@ -27,11 +27,14 @@ public:
     std::string text() override;
     std::string explicitText() override;
 
+    Expression* getBase() const { return base; }
+    Expression* getExponent() const { return exponent; }
+
 private:
     bool baseNeedsParentheses();
     bool exponentNeedsParentheses();
 
-private:
+protected:
     Expression* base;
     Expression* exponent;
 };

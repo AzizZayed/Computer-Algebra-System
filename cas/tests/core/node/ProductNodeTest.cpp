@@ -9,13 +9,20 @@
 #include "core/node/Sum.h"
 
 TEST(ProductNodeTest, ProductCreationTest) {
-    auto product = new cas::Product{{new cas::Constant{1}, new cas::Constant{2}, new cas::Constant{4}}};
+    std::vector<cas::Expression*> expressions = {new cas::Constant{1}, new cas::Constant{2}, new cas::Constant{4}};
+    auto product = new cas::Product{expressions};
     EXPECT_EQ(cas::ExpressionType::PRODUCT, product->getProperties().getType());
     EXPECT_EQ("product", product->getProperties().getName());
     EXPECT_EQ("prod", product->getProperties().getShortName());
     EXPECT_EQ('*', product->getSymbol());
     EXPECT_EQ(3, product->getExpressions().size());
     EXPECT_EQ(nullptr, product->getParent());
+
+    for (cas::Expression* exp : expressions) {
+        EXPECT_EQ(product, exp->getParent());
+    }
+
+    delete product;
 }
 
 TEST(ProductNodeTest, ProductDestroyTest) {

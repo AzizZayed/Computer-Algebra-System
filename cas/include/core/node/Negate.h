@@ -28,6 +28,7 @@ public:
     std::string explicitText() override;
 
     Expression* getExpression() const { return expression; }
+    bool needsParentheses();
 
 private:
     Expression* expression;

@@ -11,11 +11,18 @@
 #include "core/node/Product.h"
 
 TEST(DivideNodeTest, DivideCreationTest) {
-    auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
+    auto* numerator = new cas::Variable('x');
+    auto* denominator = new cas::Variable('y');
+    auto* divide = new cas::Divide(numerator, denominator);
     EXPECT_EQ(cas::ExpressionType::DIVIDE, divide->getProperties().getType());
     EXPECT_EQ("divide", divide->getProperties().getName());
     EXPECT_EQ("div", divide->getProperties().getShortName());
     EXPECT_EQ(nullptr, divide->getParent());
+
+    EXPECT_EQ(numerator->getParent(), divide);
+    EXPECT_EQ(denominator->getParent(), divide);
+
+    delete divide;
 }
 
 TEST(DivideNodeTest, DivideDestroyTest) {

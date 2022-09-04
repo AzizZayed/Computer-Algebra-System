@@ -28,6 +28,9 @@ Divide::~Divide()
 
     delete dividend;
     delete divisor;
+
+    dividend = nullptr;
+    divisor = nullptr;
 }
 
 double Divide::evaluate(const std::unordered_map<char, double>& variables)
@@ -37,6 +40,9 @@ double Divide::evaluate(const std::unordered_map<char, double>& variables)
 
 bool Divide::equals(Expression* expression)
 {
+    if (this == expression)
+        return true;
+
     if (expression->isOfType(ExpressionType::DIVIDE)) {
         auto* divide = dynamic_cast<Divide*>(expression);
         return dividend->equals(divide->dividend) && divisor->equals(divide->divisor);

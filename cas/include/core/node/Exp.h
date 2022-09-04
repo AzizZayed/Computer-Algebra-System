@@ -12,11 +12,12 @@
 CAS_NAMESPACE
 
 class Exp : public Power {
-private:
+public:
     explicit Exp(Expression* exponent);
     Exp() = delete;
-    ~Exp() override;
+    ~Exp() override = default;
 
+    double evaluate(const std::unordered_map<char, double>& variables) override;
     Exp* clone() override;
     Expression* derivative(char var) override;
     Expression* simplified() override;
