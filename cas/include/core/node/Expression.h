@@ -24,6 +24,7 @@ public:
     Expression(const Expression& expression) = delete;
 
     virtual double evaluate(const std::unordered_map<char, double>& variables);
+    double evaluate();
 
     virtual bool equals(Expression* expression);
 

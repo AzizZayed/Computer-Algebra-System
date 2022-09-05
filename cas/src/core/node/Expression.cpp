@@ -35,6 +35,10 @@ Expression* Expression::simplified() {
     throw std::runtime_error("Expression::simplified() is not implemented for " + properties.getName());
 }
 
+double Expression::evaluate() {
+    return evaluate({});
+}
+
 ExpressionProperties Expression::getProperties() const { return properties; }
 
 Expression* Expression::getParent() const { return parent; }

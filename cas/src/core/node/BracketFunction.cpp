@@ -3,6 +3,7 @@
 //
 
 #include "core/node/BracketFunction.h"
+#include <cstring>
 #include <sstream>
 
 CAS_NAMESPACE

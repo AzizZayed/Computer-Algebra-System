@@ -25,7 +25,7 @@ set(CAS_SRC_HEADERS
         ../include/core/node/Abs.h
         ../include/core/node/Floor.h
         ../include/core/node/Ceil.h
-        ../include/core/node/Round.h)
+        ../include/core/node/Round.h ../include/core/node/Mod.h ../include/core/node/Sign.h)
 
 set(CAS_SRC_SOURCES
         core/node/Constant.cpp
@@ -48,7 +48,7 @@ set(CAS_SRC_SOURCES
         core/node/Floor.cpp
         core/node/Ceil.cpp
         core/node/Round.cpp
-        core/node/FixedInputFunction.cpp)
+        core/node/FixedInputFunction.cpp core/node/Mod.cpp core/node/Sign.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)
