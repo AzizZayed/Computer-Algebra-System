@@ -7,7 +7,7 @@
 
 CAS_NAMESPACE
 
-Negate::Negate(Expression *expression)
+Negate::Negate(Expression* expression)
     : FixedInputFunction({ExpressionType::NEGATE, "negate", "neg"}, expression) {
 #if DEBUG_CAS
     std::string str = properties.getName();
@@ -21,36 +21,36 @@ Negate::~Negate() {
 #endif
 }
 
-double Negate::evaluate(const std::unordered_map<char, double> &variables) {
+double Negate::evaluate(const std::unordered_map<char, double>& variables) {
     return -argument->evaluate(variables);
 }
 
-bool Negate::equals(Expression *expr) {
+bool Negate::equals(Expression* expr) {
     if (this == argument)
         return true;
 
     if (expr->isOfType(ExpressionType::NEGATE)) {
-        auto *negate = dynamic_cast<Negate *>(expr);
+        auto* negate = dynamic_cast<Negate*>(expr);
         return this->argument->equals(negate->argument);
     }
 
     return false;
 }
 
-Negate *Negate::clone() {
+Negate* Negate::clone() {
     return new Negate(argument->clone());
 }
 
-Negate *Negate::derivative(char var) {
+Negate* Negate::derivative(char var) {
     return new Negate(argument->derivative(var));
 }
 
-Expression *Negate::simplified()// TODO: Simplify
+Expression* Negate::simplified()// TODO: Simplify
 {
-    auto *simplified = argument->simplified();
+    auto* simplified = argument->simplified();
 
     if (simplified->isOfType(ExpressionType::NEGATE)) {
-        auto *negate = dynamic_cast<Negate *>(simplified);
+        auto* negate = dynamic_cast<Negate*>(simplified);
         return negate->argument->clone();
     }
 

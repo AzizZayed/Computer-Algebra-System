@@ -12,17 +12,17 @@ CAS_NAMESPACE
 
 class Abs : public BracketFunction {
 public:
-    explicit Abs(Expression *argument);
+    explicit Abs(Expression* argument);
 
     Abs() = delete;
 
     ~Abs() override = default;
 
-    double evaluate(const std::unordered_map<char, double> &variables) override;
+    double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    Abs *clone() override;
+    Abs* clone() override;
 
-    Expression *simplified() override;
+    Expression* simplified() override;
 };
 
 CAS_NAMESPACE_END

@@ -7,8 +7,8 @@
 
 CAS_NAMESPACE
 
-BracketFunction::BracketFunction(const ExpressionProperties &properties, Expression *argument,
-                                 const char *openBracket, const char *closeBracket)
+BracketFunction::BracketFunction(const ExpressionProperties& properties, Expression* argument,
+                                 const char* openBracket, const char* closeBracket)
     : FixedInputFunction(properties, argument), openBracket(openBracket), closeBracket(closeBracket) {}
 
 BracketFunction::~BracketFunction() {
@@ -18,14 +18,14 @@ BracketFunction::~BracketFunction() {
     closeBracket = nullptr;
 }
 
-bool BracketFunction::equals(Expression *other) {
+bool BracketFunction::equals(Expression* other) {
     if (this == other)
         return true;
 
     if (other->getProperties().getType() != properties.getType())
         return false;
 
-    auto *otherBracketFunction = dynamic_cast<BracketFunction *>(other);
+    auto* otherBracketFunction = dynamic_cast<BracketFunction*>(other);
     return argument->equals(otherBracketFunction->argument) && strcmp(openBracket, otherBracketFunction->openBracket) == 0 && strcmp(closeBracket, otherBracketFunction->closeBracket) == 0;
 }
 

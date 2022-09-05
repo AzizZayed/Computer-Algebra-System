@@ -9,7 +9,7 @@
 
 CAS_NAMESPACE
 
-Sum::Sum(const std::vector<Expression *> &expressions)
+Sum::Sum(const std::vector<Expression*>& expressions)
     : Operator({ExpressionType::SUM, "summation", "sum"}, 0.0, '+', expressions) {}
 
 Sum::~Sum() {
@@ -18,32 +18,32 @@ Sum::~Sum() {
 #endif
 }
 
-Sum *Sum::clone() {
-    std::vector<Expression *> clonedExpressions;
+Sum* Sum::clone() {
+    std::vector<Expression*> clonedExpressions;
     clonedExpressions.reserve(expressions.size());
 
-    for (auto &expression: expressions)
+    for (auto& expression: expressions)
         clonedExpressions.push_back(expression->clone());
 
     return new Sum{clonedExpressions};
 }
 
-Sum *Sum::derivative(char var) {
-    std::vector<Expression *> differentiatedExpressions;
+Sum* Sum::derivative(char var) {
+    std::vector<Expression*> differentiatedExpressions;
     differentiatedExpressions.reserve(expressions.size());
 
-    for (auto &expression: expressions)
+    for (auto& expression: expressions)
         differentiatedExpressions.push_back(expression->derivative(var));
 
     return new Sum{differentiatedExpressions};
 }
 
-Expression *Sum::simplified() {
+Expression* Sum::simplified() {
     // TODO: simplify
-    std::vector<Expression *> simplifiedExpressions;
+    std::vector<Expression*> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
 
-    for (auto &expression: expressions)
+    for (auto& expression: expressions)
         simplifiedExpressions.push_back(expression->simplified());
 
     return new Sum{simplifiedExpressions};
@@ -56,7 +56,7 @@ std::string Sum::latex() {
     std::stringstream ss;
 
     for (size_t i = 0; i < expressions.size(); i++) {
-        Expression *exp = expressions[i];
+        Expression* exp = expressions[i];
         bool needsParens = needsParentheses(exp);
 
         if (needsParens)
@@ -80,7 +80,7 @@ std::string Sum::stringify() {
     std::stringstream ss;
 
     for (size_t i = 0; i < expressions.size(); i++) {
-        Expression *exp = expressions[i];
+        Expression* exp = expressions[i];
         bool needsParens = needsParentheses(exp);
 
         if (needsParens)

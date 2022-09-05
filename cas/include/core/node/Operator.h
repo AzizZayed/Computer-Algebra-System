@@ -14,16 +14,16 @@ CAS_NAMESPACE
 
 class Operator : public Expression {
 public:
-    explicit Operator(const ExpressionProperties &props, double neutral, char symbol,
-                      std::vector<Expression *> expressions);
+    explicit Operator(const ExpressionProperties& props, double neutral, char symbol,
+                      std::vector<Expression*> expressions);
 
     Operator() = delete;
 
     ~Operator() override;
 
-    double evaluate(const std::unordered_map<char, double> &variables) override;
+    double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    bool equals(Expression *expression) override;
+    bool equals(Expression* expression) override;
 
     std::string text() override;
 
@@ -31,17 +31,17 @@ public:
 
     char getSymbol() const { return symbol; }
 
-    std::vector<Expression *> getExpressions() const { return {expressions}; }
+    std::vector<Expression*> getExpressions() const { return {expressions}; }
 
 protected:
     virtual double operate(double a, double b) = 0;
 
-    virtual bool needsParentheses(Expression *expression) = 0;
+    virtual bool needsParentheses(Expression* expression) = 0;
 
 protected:
     const double neutral;
     const char symbol;
-    std::vector<Expression *> expressions;
+    std::vector<Expression*> expressions;
 };
 
 CAS_NAMESPACE_END

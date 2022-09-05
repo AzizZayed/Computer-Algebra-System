@@ -12,21 +12,21 @@ CAS_NAMESPACE
 
 class Divide : public Expression {
 public:
-    explicit Divide(Expression *dividend, Expression *divisor);
+    explicit Divide(Expression* dividend, Expression* divisor);
 
     Divide() = delete;
 
     ~Divide() override;
 
-    double evaluate(const std::unordered_map<char, double> &variables) override;
+    double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    bool equals(Expression *expression) override;
+    bool equals(Expression* expression) override;
 
-    Divide *clone() override;
+    Divide* clone() override;
 
-    Divide *derivative(char var) override;
+    Divide* derivative(char var) override;
 
-    Expression *simplified() override;
+    Expression* simplified() override;
 
     std::string latex() override;
 
@@ -37,8 +37,8 @@ public:
     std::string explicitText() override;
 
 private:
-    Expression *dividend;
-    Expression *divisor;
+    Expression* dividend;
+    Expression* divisor;
 };
 
 CAS_NAMESPACE_END

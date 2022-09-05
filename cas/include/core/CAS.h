@@ -11,7 +11,7 @@
 
 template<typename Base, typename T>
 inline bool instanceof (T * ptr) {
-    return dynamic_cast<Base *>(ptr) != nullptr;
+    return dynamic_cast<Base*>(ptr) != nullptr;
 }
 
 #endif//CAS_CAS_H

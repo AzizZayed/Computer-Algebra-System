@@ -12,17 +12,17 @@ CAS_NAMESPACE
 
 class Ceil : public BracketFunction {
 public:
-    explicit Ceil(Expression *argument);
+    explicit Ceil(Expression* argument);
 
     Ceil() = delete;
 
     ~Ceil() override = default;
 
-    double evaluate(const std::unordered_map<char, double> &variables) override;
+    double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    Ceil *clone() override;
+    Ceil* clone() override;
 
-    Expression *simplified() override;
+    Expression* simplified() override;
 };
 
 CAS_NAMESPACE_END

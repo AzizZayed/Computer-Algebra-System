@@ -12,7 +12,7 @@
 
 CAS_NAMESPACE
 
-Log::Log(const ExpressionProperties &props, Expression *base, Expression *argument)
+Log::Log(const ExpressionProperties& props, Expression* base, Expression* argument)
     : base(base), argument(argument), Expression(props) {
     base->setParent(this);
     argument->setParent(this);
@@ -26,26 +26,26 @@ Log::~Log() {
     argument = nullptr;
 }
 
-double Log::evaluate(const std::unordered_map<char, double> &variables) {
+double Log::evaluate(const std::unordered_map<char, double>& variables) {
     return log(argument->evaluate(variables)) / log(base->evaluate(variables));
 }
 
-bool Log::equals(Expression *expression) {
+bool Log::equals(Expression* expression) {
     if (this == expression)
         return true;
 
     if (expression->isOfType(ExpressionType::LOGARITHM)) {
-        auto *log = dynamic_cast<Log *>(expression);
+        auto* log = dynamic_cast<Log*>(expression);
         return base->equals(log->base) && argument->equals(log->argument);
     }
     return false;
 }
 
-Log *Log::clone() {
+Log* Log::clone() {
     return new Log(base->clone(), argument->clone());
 }
 
-Expression *Log::derivative(char var) {
+Expression* Log::derivative(char var) {
     bool baseIsConstant = base->isOfType(ExpressionType::CONSTANT);
     bool argumentIsConstant = argument->isOfType(ExpressionType::CONSTANT);
 
@@ -59,15 +59,15 @@ Expression *Log::derivative(char var) {
                              new Ln(base->clone())}));
     }
 
-    Expression *exp = new Divide(new Ln(base->clone()), new Ln(argument->clone()));
-    Expression *derivative = exp->derivative(var);
+    Expression* exp = new Divide(new Ln(base->clone()), new Ln(argument->clone()));
+    Expression* derivative = exp->derivative(var);
 
     delete exp;
 
     return derivative;
 }
 
-Expression *Log::simplified() {
+Expression* Log::simplified() {
     return new Log(base->simplified(), argument->simplified());// TODO: Simplify
 }
 

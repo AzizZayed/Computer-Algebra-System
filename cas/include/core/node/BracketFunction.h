@@ -16,7 +16,7 @@ public:
 
     ~BracketFunction() override;
 
-    bool equals(Expression *other) override;
+    bool equals(Expression* other) override;
 
     std::string latex() override;
 
@@ -27,12 +27,12 @@ public:
     std::string explicitText() override;
 
 protected:
-    explicit BracketFunction(const ExpressionProperties &properties, Expression *argument, const char *openBracket,
-                             const char *closeBracket);
+    explicit BracketFunction(const ExpressionProperties& properties, Expression* argument, const char* openBracket,
+                             const char* closeBracket);
 
 private:
-    const char *openBracket;
-    const char *closeBracket;
+    const char* openBracket;
+    const char* closeBracket;
 };
 
 CAS_NAMESPACE_END

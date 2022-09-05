@@ -9,22 +9,22 @@
 
 CAS_NAMESPACE
 
-Ln::Ln(Expression *argument)
+Ln::Ln(Expression* argument)
     : Log({ExpressionType::NATURAL_LOGARITHM, "natural_logarithm", "ln"}, Constant::E(), argument) {}
 
-double Ln::evaluate(const std::unordered_map<char, double> &variables) {
+double Ln::evaluate(const std::unordered_map<char, double>& variables) {
     return log(argument->evaluate(variables));
 }
 
-Ln *Ln::clone() {
+Ln* Ln::clone() {
     return new Ln(argument->clone());
 }
 
-Expression *Ln::derivative(char var) {
+Expression* Ln::derivative(char var) {
     return new Divide(argument->derivative(var), argument->clone());
 }
 
-Expression *Ln::simplified() {
+Expression* Ln::simplified() {
     return new Ln(argument->simplified());// TODO: Simplify
 }
 

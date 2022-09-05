@@ -12,17 +12,17 @@ CAS_NAMESPACE
 
 class Floor : public BracketFunction {
 public:
-    explicit Floor(Expression *argument);
+    explicit Floor(Expression* argument);
 
     Floor() = delete;
 
     ~Floor() override = default;
 
-    double evaluate(const std::unordered_map<char, double> &variables) override;
+    double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    Floor *clone() override;
+    Floor* clone() override;
 
-    Expression *simplified() override;
+    Expression* simplified() override;
 };
 
 CAS_NAMESPACE_END

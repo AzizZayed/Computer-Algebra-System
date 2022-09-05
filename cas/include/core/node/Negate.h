@@ -13,21 +13,21 @@ CAS_NAMESPACE
 
 class Negate : public FixedInputFunction {
 public:
-    explicit Negate(Expression *expression);
+    explicit Negate(Expression* expression);
 
     Negate() = delete;
 
     ~Negate() override;
 
-    double evaluate(const std::unordered_map<char, double> &variables) override;
+    double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    bool equals(Expression *expression) override;
+    bool equals(Expression* expression) override;
 
-    Negate *clone() override;
+    Negate* clone() override;
 
-    Negate *derivative(char var) override;
+    Negate* derivative(char var) override;
 
-    Expression *simplified() override;
+    Expression* simplified() override;
 
     std::string latex() override;
 

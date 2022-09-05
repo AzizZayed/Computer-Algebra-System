@@ -20,15 +20,15 @@ public:
 
     ~Variable() override;
 
-    double evaluate(const std::unordered_map<char, double> &variables) override;
+    double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    bool equals(Expression *expression) override;
+    bool equals(Expression* expression) override;
 
-    Variable *clone() override;
+    Variable* clone() override;
 
-    Constant *derivative(char var) override;
+    Constant* derivative(char var) override;
 
-    Variable *simplified() override;
+    Variable* simplified() override;
 
     std::string latex() override;
 

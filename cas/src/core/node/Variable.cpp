@@ -20,33 +20,33 @@ Variable::~Variable() {
 #endif
 }
 
-Variable *Variable::clone() {
+Variable* Variable::clone() {
     return new Variable(symbol);
 }
 
-double Variable::evaluate(const std::unordered_map<char, double> &variables) {
+double Variable::evaluate(const std::unordered_map<char, double>& variables) {
     if (variables.find(symbol) == variables.end())
         throw std::runtime_error("Variable not found for evaluation");
     return variables.at(symbol);
 }
 
-bool Variable::equals(Expression *expression) {
+bool Variable::equals(Expression* expression) {
     if (this == expression)
         return true;
 
     if (expression->getProperties().getType() == ExpressionType::VARIABLE) {
-        auto *var = dynamic_cast<Variable *>(expression);
+        auto* var = dynamic_cast<Variable*>(expression);
         return var->getSymbol() == symbol;
     }
     return false;
 }
 
-Constant *Variable::derivative(char var) {
+Constant* Variable::derivative(char var) {
     double derivative = symbol == var ? 1.0 : 0.0;
     return new Constant{derivative};
 }
 
-Variable *Variable::simplified() {
+Variable* Variable::simplified() {
     return clone();
 }
 

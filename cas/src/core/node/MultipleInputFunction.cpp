@@ -9,27 +9,27 @@
 
 CAS_NAMESPACE
 
-MultipleInputFunction::MultipleInputFunction(const ExpressionProperties &props,
-                                             std::vector<Expression *> expressions)
+MultipleInputFunction::MultipleInputFunction(const ExpressionProperties& props,
+                                             std::vector<Expression*> expressions)
     : Expression(props), expressions(std::move(expressions)) {
-    for (auto &expression: this->expressions) {
+    for (auto& expression: this->expressions) {
         expression->setParent(this);
     }
 }
 
 MultipleInputFunction::~MultipleInputFunction() {
-    for (auto &expression: expressions) {
+    for (auto& expression: expressions) {
         delete expression;
         expression = nullptr;
     }
 }
 
-bool MultipleInputFunction::equals(Expression *expression) {
+bool MultipleInputFunction::equals(Expression* expression) {
     if (this == expression)
         return true;
 
     if (expression->isOfType(properties.getType())) {
-        auto *function = dynamic_cast<MultipleInputFunction *>(expression);
+        auto* function = dynamic_cast<MultipleInputFunction*>(expression);
         if (expressions.size() != function->expressions.size())
             return false;
 

@@ -12,7 +12,7 @@
 
 CAS_NAMESPACE
 
-Power::Power(const ExpressionProperties &props, Expression *base, Expression *exponent)
+Power::Power(const ExpressionProperties& props, Expression* base, Expression* exponent)
     : Expression(props), base(base), exponent(exponent) {
     this->base->setParent(this);
     this->exponent->setParent(this);
@@ -30,27 +30,27 @@ Power::~Power() {
     exponent = nullptr;
 }
 
-double Power::evaluate(const std::unordered_map<char, double> &variables) {
+double Power::evaluate(const std::unordered_map<char, double>& variables) {
     return pow(base->evaluate(variables), exponent->evaluate(variables));
 }
 
-bool Power::equals(Expression *expression) {
+bool Power::equals(Expression* expression) {
     if (this == expression)
         return true;
 
     if (expression->isOfType(ExpressionType::POWER)) {
-        auto *power = dynamic_cast<Power *>(expression);
+        auto* power = dynamic_cast<Power*>(expression);
         return base->equals(power->base) && exponent->equals(power->exponent);
     }
 
     return false;
 }
 
-Power *Power::clone() {
+Power* Power::clone() {
     return new Power(base->clone(), exponent->clone());
 }
 
-Expression *Power::derivative(char var) {
+Expression* Power::derivative(char var) {
     bool baseIsNumber = base->isOfType(ExpressionType::CONSTANT);
     bool exponentIsNumber = exponent->isOfType(ExpressionType::CONSTANT);
 
@@ -59,7 +59,7 @@ Expression *Power::derivative(char var) {
 
     if (!baseIsNumber && exponentIsNumber)// case [ f(x) ]^k, where k is a constant
     {
-        auto *k = dynamic_cast<Constant *>(exponent);
+        auto* k = dynamic_cast<Constant*>(exponent);
 
         return new Product({
                 // k*f^(k-1)*f'
@@ -105,7 +105,7 @@ Expression *Power::derivative(char var) {
     });                                                   // end [f(x)]^[g(x)] * ( g'*lnf + g*f'/f)
 }
 
-Expression *Power::simplified() {
+Expression* Power::simplified() {
     return clone();// TODO implement simplified
 }
 

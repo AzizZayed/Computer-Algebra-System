@@ -12,17 +12,17 @@ CAS_NAMESPACE
 
 class Min : public MultipleInputFunction {
 public:
-    explicit Min(std::vector<Expression *> expressions);
+    explicit Min(std::vector<Expression*> expressions);
 
     Min() = delete;
 
     ~Min() override = default;
 
-    double evaluate(const std::unordered_map<char, double> &variables) override;
+    double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    Min *clone() override;
+    Min* clone() override;
 
-    Expression *simplified() override;
+    Expression* simplified() override;
 };
 
 CAS_NAMESPACE_END

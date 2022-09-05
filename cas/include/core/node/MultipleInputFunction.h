@@ -17,7 +17,7 @@ public:
 
     ~MultipleInputFunction() override;
 
-    bool equals(Expression *expression) override;
+    bool equals(Expression* expression) override;
 
     std::string latex() override;
 
@@ -27,13 +27,13 @@ public:
 
     std::string explicitText() override;
 
-    std::vector<Expression *> getExpressions() const { return {expressions}; }
+    std::vector<Expression*> getExpressions() const { return {expressions}; }
 
 protected:
-    explicit MultipleInputFunction(const ExpressionProperties &props, std::vector<Expression *> expressions);
+    explicit MultipleInputFunction(const ExpressionProperties& props, std::vector<Expression*> expressions);
 
 protected:
-    std::vector<Expression *> expressions;
+    std::vector<Expression*> expressions;
 };
 
 CAS_NAMESPACE_END

@@ -28,30 +28,30 @@ Constant::~Constant() {
 #endif
 }
 
-Constant *Constant::clone() {
+Constant* Constant::clone() {
     return new Constant{value};
 }
 
-double Constant::evaluate(const std::unordered_map<char, double> &variables) {
+double Constant::evaluate(const std::unordered_map<char, double>& variables) {
     return value;
 }
 
-bool Constant::equals(Expression *expression) {
+bool Constant::equals(Expression* expression) {
     if (this == expression)
         return true;
 
     if (expression->getProperties().getType() == ExpressionType::CONSTANT) {
-        auto *constant = dynamic_cast<Constant *>(expression);
+        auto* constant = dynamic_cast<Constant*>(expression);
         return value == constant->getValue();
     }
     return false;
 }
 
-Constant *Constant::derivative(char var) {
+Constant* Constant::derivative(char var) {
     return new Constant{0.0};
 }
 
-Constant *Constant::simplified() {
+Constant* Constant::simplified() {
     return clone();
 }
 

@@ -6,7 +6,7 @@
 
 CAS_NAMESPACE
 
-FixedInputFunction::FixedInputFunction(const ExpressionProperties &properties, Expression *argument)
+FixedInputFunction::FixedInputFunction(const ExpressionProperties& properties, Expression* argument)
     : Expression(properties), argument(argument) {
     this->argument->setParent(this);
 }

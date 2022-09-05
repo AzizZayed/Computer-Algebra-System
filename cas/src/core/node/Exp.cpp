@@ -10,22 +10,22 @@
 
 CAS_NAMESPACE
 
-Exp::Exp(Expression *exponent)
+Exp::Exp(Expression* exponent)
     : Power({ExpressionType::EXPONENTIAL, "exponential", "exp"}, Constant::E(), exponent) {}
 
-double Exp::evaluate(const std::unordered_map<char, double> &variables) {
+double Exp::evaluate(const std::unordered_map<char, double>& variables) {
     return exp(exponent->evaluate(variables));
 }
 
-Exp *Exp::clone() {
+Exp* Exp::clone() {
     return new Exp(exponent->clone());
 }
 
-Expression *Exp::derivative(char var) {
+Expression* Exp::derivative(char var) {
     return new Product({clone(), exponent->derivative(var)});
 }
 
-Expression *Exp::simplified() {
+Expression* Exp::simplified() {
     return new Exp(exponent->simplified());// TODO: Simplify
 }
 

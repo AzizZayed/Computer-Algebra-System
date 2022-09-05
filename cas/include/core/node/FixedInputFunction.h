@@ -16,7 +16,7 @@ public:
 
     ~FixedInputFunction() override;
 
-    Expression *getArgument() const { return argument; }
+    Expression* getArgument() const { return argument; }
 
     std::string latex() override;
 
@@ -27,10 +27,10 @@ public:
     std::string explicitText() override;
 
 protected:
-    explicit FixedInputFunction(const ExpressionProperties &properties, Expression *argument);
+    explicit FixedInputFunction(const ExpressionProperties& properties, Expression* argument);
 
 protected:
-    Expression *argument;
+    Expression* argument;
 };
 
 CAS_NAMESPACE_END

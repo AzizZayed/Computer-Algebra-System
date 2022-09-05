@@ -12,17 +12,17 @@ CAS_NAMESPACE
 
 class Product : public Operator {
 public:
-    explicit Product(const std::vector<Expression *> &expressions);
+    explicit Product(const std::vector<Expression*>& expressions);
 
     Product() = delete;
 
     ~Product() override;
 
-    Product *clone() override;
+    Product* clone() override;
 
-    Expression *derivative(char var) override;
+    Expression* derivative(char var) override;
 
-    Expression *simplified() override;
+    Expression* simplified() override;
 
     std::string latex() override;
 
@@ -31,7 +31,7 @@ public:
 protected:
     double operate(double a, double b) override { return a * b; };
 
-    bool needsParentheses(Expression *expression) override;
+    bool needsParentheses(Expression* expression) override;
 };
 
 CAS_NAMESPACE_END

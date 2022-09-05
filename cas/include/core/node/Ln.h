@@ -12,19 +12,19 @@ CAS_NAMESPACE
 
 class Ln : public Log {
 public:
-    explicit Ln(Expression *argument);
+    explicit Ln(Expression* argument);
 
     Ln() = delete;
 
     ~Ln() override = default;
 
-    double evaluate(const std::unordered_map<char, double> &variables) override;
+    double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    Ln *clone() override;
+    Ln* clone() override;
 
-    Expression *derivative(char var) override;
+    Expression* derivative(char var) override;
 
-    Expression *simplified() override;
+    Expression* simplified() override;
 
     std::string latex() override;
 

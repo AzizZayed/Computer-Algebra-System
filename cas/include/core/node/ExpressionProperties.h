@@ -18,7 +18,7 @@ public:
     ExpressionProperties(ExpressionType type, std::string name, std::string shortName)
         : type(type), order(uint16_t(type)), name(std::move(name)), shortName(std::move(shortName)) {}
 
-    bool operator==(const ExpressionProperties &other) const {
+    bool operator==(const ExpressionProperties& other) const {
         return type == other.type && order == other.order && name == other.name && shortName == other.shortName;
     }
 

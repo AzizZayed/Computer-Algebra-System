@@ -13,7 +13,7 @@
 
 CAS_NAMESPACE
 
-Divide::Divide(Expression *dividend, Expression *divisor)
+Divide::Divide(Expression* dividend, Expression* divisor)
     : Expression({ExpressionType::DIVIDE, "divide", "div"}), dividend(dividend), divisor(divisor) {
     this->dividend->setParent(this);
     this->divisor->setParent(this);
@@ -31,27 +31,27 @@ Divide::~Divide() {
     divisor = nullptr;
 }
 
-double Divide::evaluate(const std::unordered_map<char, double> &variables) {
+double Divide::evaluate(const std::unordered_map<char, double>& variables) {
     return dividend->evaluate(variables) / divisor->evaluate(variables);
 }
 
-bool Divide::equals(Expression *expression) {
+bool Divide::equals(Expression* expression) {
     if (this == expression)
         return true;
 
     if (expression->isOfType(ExpressionType::DIVIDE)) {
-        auto *divide = dynamic_cast<Divide *>(expression);
+        auto* divide = dynamic_cast<Divide*>(expression);
         return dividend->equals(divide->dividend) && divisor->equals(divide->divisor);
     }
 
     return false;
 }
 
-Divide *Divide::clone() {
+Divide* Divide::clone() {
     return new Divide(dividend->clone(), divisor->clone());
 }
 
-Divide *Divide::derivative(char var) {
+Divide* Divide::derivative(char var) {
     return new Divide(// quotient rule
             new Sum({
                     // f'g - fg'
@@ -73,9 +73,9 @@ Divide *Divide::derivative(char var) {
     );                                              // end quotient rule
 }
 
-Expression *Divide::simplified() {
-    Expression *dividendSimplified = dividend->simplified();
-    Expression *divisorSimplified = divisor->simplified();
+Expression* Divide::simplified() {
+    Expression* dividendSimplified = dividend->simplified();
+    Expression* divisorSimplified = divisor->simplified();
 
     // TODO simplify
 

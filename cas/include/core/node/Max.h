@@ -12,17 +12,17 @@ CAS_NAMESPACE
 
 class Max : public MultipleInputFunction {
 public:
-    explicit Max(std::vector<Expression *> expressions);
+    explicit Max(std::vector<Expression*> expressions);
 
     Max() = delete;
 
     ~Max() override = default;
 
-    double evaluate(const std::unordered_map<char, double> &variables) override;
+    double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    Max *clone() override;
+    Max* clone() override;
 
-    Expression *simplified() override;
+    Expression* simplified() override;
 };
 
 CAS_NAMESPACE_END

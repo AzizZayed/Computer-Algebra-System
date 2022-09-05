@@ -26,15 +26,15 @@ public:
 
     ~Constant() override;
 
-    double evaluate(const std::unordered_map<char, double> &variables) override;
+    double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    bool equals(Expression *expression) override;
+    bool equals(Expression* expression) override;
 
-    Constant *clone() override;
+    Constant* clone() override;
 
-    Constant *derivative(char var) override;
+    Constant* derivative(char var) override;
 
-    Constant *simplified() override;
+    Constant* simplified() override;
 
     std::string latex() override;
 
@@ -44,11 +44,11 @@ public:
 
     double getValue() const { return value; }
 
-    static Constant *PI() { return new Constant{math::PI}; }
+    static Constant* PI() { return new Constant{math::PI}; }
 
-    static Constant *E() { return new Constant{math::E}; }
+    static Constant* E() { return new Constant{math::E}; }
 
-    static Constant *PHI() { return new Constant{math::PHI}; }
+    static Constant* PHI() { return new Constant{math::PHI}; }
 
 private:
     double value;
