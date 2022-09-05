@@ -6,6 +6,41 @@
 
 CAS_NAMESPACE
 
+Expression::Expression(const ExpressionProperties& properties)
+: properties{properties} {}
+
+Expression::~Expression()
+{
+#if DEBUG_CAS
+    printf("Destroy cas::Expression");
+#endif
+}
+
+double Expression::evaluate(const std::unordered_map<char, double>& variables)
+{
+    throw std::runtime_error("Expression::evaluate() is not implemented for " + properties.getName());
+}
+
+bool Expression::equals(Expression* expression)
+{
+    throw std::runtime_error("Expression::equals() is not implemented for " + properties.getName());
+}
+
+Expression* Expression::clone()
+{
+    throw std::runtime_error("Expression::clone() is not implemented for " + properties.getName());
+}
+
+Expression* Expression::derivative(char var)
+{
+    throw std::runtime_error("Expression::derivative() is not implemented for " + properties.getName());
+}
+
+Expression* Expression::simplified()
+{
+    throw std::runtime_error("Expression::simplified() is not implemented for " + properties.getName());
+}
+
 ExpressionProperties Expression::getProperties() const { return properties; }
 Expression* Expression::getParent() const { return parent; }
 void Expression::setParent(Expression* newParent) { this->parent = newParent; }

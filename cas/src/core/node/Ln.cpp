@@ -9,10 +9,8 @@
 
 CAS_NAMESPACE
 
-Ln::Ln(Expression* argument) : Log(Constant::E(), argument)
-{
-    properties = {ExpressionType::NATURAL_LOGARITHM, "natural_logarithm", "ln"};
-}
+Ln::Ln(Expression* argument)
+: Log({ExpressionType::NATURAL_LOGARITHM, "natural_logarithm", "ln"}, Constant::E(), argument) {}
 
 double Ln::evaluate(const std::unordered_map<char, double>& variables)
 {

@@ -33,7 +33,6 @@ public:
     std::string latex() override;
     std::string stringify() override;
     std::string text() override;
-    std::string explicitText() override;
 
     double getValue() const { return value; }
 

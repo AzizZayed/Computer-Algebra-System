@@ -17,16 +17,16 @@ CAS_NAMESPACE
 
 class Expression : public IMathNode {
 public:
-    explicit Expression(const ExpressionProperties &properties) : properties{properties} {}
-    virtual ~Expression() = default;
+    explicit Expression(const ExpressionProperties& properties);
+    virtual ~Expression();
 
     Expression(const Expression& expression) = delete;
 
-    virtual double evaluate(const std::unordered_map<char, double>& variables) = 0;
-    virtual bool equals(Expression* expression) = 0;
-    virtual Expression* clone() = 0;
-    virtual Expression* derivative(char var) = 0;
-    virtual Expression* simplified() = 0;
+    virtual double evaluate(const std::unordered_map<char, double>& variables);
+    virtual bool equals(Expression* expression);
+    virtual Expression* clone();
+    virtual Expression* derivative(char var);
+    virtual Expression* simplified();
 
     ExpressionProperties getProperties() const;
     Expression* getParent() const;
@@ -39,7 +39,7 @@ public:
     std::string explicitText() override;
 
 protected:
-    ExpressionProperties properties;
+    const ExpressionProperties properties;
     Expression* parent = nullptr;
 };
 

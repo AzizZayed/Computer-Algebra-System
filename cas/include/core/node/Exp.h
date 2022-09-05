@@ -7,7 +7,6 @@
 
 #include "core/CAS.h"
 #include "Power.h"
-#include "Constant.h"
 
 CAS_NAMESPACE
 

@@ -8,14 +8,12 @@
 CAS_NAMESPACE
 
 Negate::Negate(Expression* expression)
-: Expression({ExpressionType::NEGATE, "negate", "neg"}), expression(expression)
+: FixedInputFunction({ExpressionType::NEGATE, "negate", "neg"}, expression)
 {
 #if DEBUG_CAS
     std::string str = properties.getName();
     printf("%s(...)\n", str.c_str());
 #endif
-
-    this->expression->setParent(this);
 }
 
 Negate::~Negate()
@@ -23,24 +21,21 @@ Negate::~Negate()
 #if DEBUG_CAS
     printf("Destroy cas::Negate\n");
 #endif
-
-    delete expression;
-    expression = nullptr;
 }
 
 double Negate::evaluate(const std::unordered_map<char, double>& variables)
 {
-    return -expression->evaluate(variables);
+    return -argument->evaluate(variables);
 }
 
 bool Negate::equals(Expression* expr)
 {
-    if (this == expression)
+    if (this == argument)
         return true;
 
     if (expr->isOfType(ExpressionType::NEGATE)) {
         auto* negate = dynamic_cast<Negate*>(expr);
-        return this->expression->equals(negate->getExpression());
+        return this->argument->equals(negate->argument);
     }
 
     return false;
@@ -48,21 +43,21 @@ bool Negate::equals(Expression* expr)
 
 Negate* Negate::clone()
 {
-    return new Negate(expression->clone());
+    return new Negate(argument->clone());
 }
 
 Negate* Negate::derivative(char var)
 {
-    return new Negate(expression->derivative(var));
+    return new Negate(argument->derivative(var));
 }
 
 Expression* Negate::simplified() // TODO: Simplify
 {
-    auto* simplified = expression->simplified();
+    auto* simplified = argument->simplified();
 
     if (simplified->isOfType(ExpressionType::NEGATE)) {
         auto* negate = dynamic_cast<Negate*>(simplified);
-        return negate->getExpression()->clone();
+        return negate->argument->clone();
     }
 
     return new Negate(simplified);
@@ -70,29 +65,29 @@ Expression* Negate::simplified() // TODO: Simplify
 
 bool Negate::needsParentheses()
 {
-    return expression->isOfType(ExpressionType::SUM);
+    return argument->isOfType(ExpressionType::SUM);
 }
 
 std::string Negate::latex()
 {
-    return "-" + expression->latex();
+    return "-" + argument->latex();
 }
 
 std::string Negate::stringify()
 {
     if (needsParentheses())
-        return "-(" + expression->stringify() + ")";
-    return "-" + expression->stringify();
+        return "-(" + argument->stringify() + ")";
+    return "-" + argument->stringify();
 }
 
 std::string Negate::text()
 {
-    return "(-(" + expression->text() + "))";
+    return "(-(" + argument->text() + "))";
 }
 
 std::string Negate::explicitText()
 {
-    return properties.getShortName() + "(" + expression->explicitText() + ")";
+    return properties.getShortName() + "(" + argument->explicitText() + ")";
 }
 
 CAS_NAMESPACE_END

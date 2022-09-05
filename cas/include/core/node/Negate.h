@@ -7,10 +7,11 @@
 
 #include "core/CAS.h"
 #include "Expression.h"
+#include "FixedInputFunction.h"
 
 CAS_NAMESPACE
 
-class Negate : public Expression {
+class Negate : public FixedInputFunction {
 public:
     explicit Negate(Expression* expression);
     Negate() = delete;
@@ -27,11 +28,8 @@ public:
     std::string text() override;
     std::string explicitText() override;
 
-    Expression* getExpression() const { return expression; }
+protected:
     bool needsParentheses();
-
-private:
-    Expression* expression;
 };
 
 CAS_NAMESPACE_END

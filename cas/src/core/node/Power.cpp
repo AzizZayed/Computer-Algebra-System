@@ -13,8 +13,8 @@
 
 CAS_NAMESPACE
 
-Power::Power(Expression* base, Expression* exponent)
-: Expression({ExpressionType::POWER, "power", "pow"}), base(base), exponent(exponent)
+Power::Power(const ExpressionProperties& props, Expression* base, Expression* exponent)
+: Expression(props), base(base), exponent(exponent)
 {
     this->base->setParent(this);
     this->exponent->setParent(this);
@@ -22,7 +22,7 @@ Power::Power(Expression* base, Expression* exponent)
 
 Power::~Power()
 {
-#if CAS_DEBUG
+#if DEBUG_CAS
     printf("Destroy Power\n");
 #endif
 

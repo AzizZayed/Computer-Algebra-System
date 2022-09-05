@@ -16,7 +16,16 @@ set(CAS_SRC_HEADERS
         ../include/core/node/Negate.h
         ../include/core/node/Log.h
         ../include/core/node/Ln.h
-        ../include/core/node/Exp.h)
+        ../include/core/node/Exp.h
+        ../include/core/node/FixedInputFunction.h
+        ../include/core/node/MultipleInputFunction.h
+        ../include/core/node/Min.h
+        ../include/core/node/Max.h
+        ../include/core/node/BracketFunction.h
+        ../include/core/node/Abs.h
+        ../include/core/node/Floor.h
+        ../include/core/node/Ceil.h
+        ../include/core/node/Round.h)
 
 set(CAS_SRC_SOURCES
         core/node/Constant.cpp
@@ -30,7 +39,15 @@ set(CAS_SRC_SOURCES
         core/node/Negate.cpp
         core/node/Exp.cpp
         core/node/Log.cpp
-        core/node/Ln.cpp)
+        core/node/Ln.cpp
+        core/node/MultipleInputFunction.cpp
+        core/node/Min.cpp
+        core/node/Max.cpp
+        core/node/BracketFunction.cpp
+        core/node/Abs.cpp
+        core/node/Floor.cpp
+        core/node/Ceil.cpp
+        core/node/Round.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)

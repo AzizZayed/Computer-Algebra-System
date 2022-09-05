@@ -15,8 +15,8 @@ TEST(NegateNodeTest, NegateCreationTest) {
     EXPECT_EQ(negate->getProperties().getType(), cas::ExpressionType::NEGATE);
     EXPECT_EQ(negate->getProperties().getName(), "negate");
     EXPECT_EQ(negate->getProperties().getShortName(), "neg");
-    EXPECT_EQ(negate->getProperties().getOrder(), 30);
-    EXPECT_EQ(negate->getExpression()->equals(expression), true);
+    EXPECT_EQ(negate->getProperties().getOrder(), uint16_t(cas::ExpressionType::NEGATE));
+    EXPECT_EQ(negate->getArgument()->equals(expression), true);
     EXPECT_EQ(negate->getParent(), nullptr);
     EXPECT_EQ(expression->getParent(), negate);
 
@@ -38,7 +38,7 @@ TEST(NegateNodeTest, NegateCloneTest) {
     auto* negate2 = negate->clone();
 
     EXPECT_EQ(negate->getProperties(), negate2->getProperties());
-    EXPECT_TRUE(negate->getExpression()->equals(negate2->getExpression()));
+    EXPECT_TRUE(negate->getArgument()->equals(negate2->getArgument()));
     EXPECT_EQ(negate->getParent(), negate2->getParent());
     EXPECT_EQ(negate->getParent(), nullptr);
 

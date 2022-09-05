@@ -13,8 +13,8 @@
 
 CAS_NAMESPACE
 
-Log::Log(Expression* base, Expression* argument)
-: base(base), argument(argument), Expression({ExpressionType::LOGARITHM, "logarithm", "log"})
+Log::Log(const ExpressionProperties& props, Expression* base, Expression* argument)
+: base(base), argument(argument), Expression(props)
 {
     base->setParent(this);
     argument->setParent(this);
@@ -24,6 +24,9 @@ Log::~Log()
 {
     delete base;
     delete argument;
+
+    base = nullptr;
+    argument = nullptr;
 }
 
 double Log::evaluate(const std::unordered_map<char, double>& variables)

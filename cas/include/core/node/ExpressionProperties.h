@@ -32,10 +32,10 @@ public:
     std::string getShortName() const { return shortName; }
 
 private:
-    uint16_t order;
-    ExpressionType type;
-    std::string name;
-    std::string shortName;
+    const uint16_t order;
+    const ExpressionType type;
+    const std::string name;
+    const std::string shortName;
 };
 
 CAS_NAMESPACE_END

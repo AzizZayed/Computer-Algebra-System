@@ -12,7 +12,8 @@ CAS_NAMESPACE
 
 class Power : public Expression {
 public:
-    explicit Power(Expression* base, Expression* exponent);
+    explicit Power(Expression* base, Expression* exponent)
+    : Power({ExpressionType::POWER, "power", "pow"}, base, exponent) {}
     Power() = delete;
     ~Power() override;
 
@@ -30,7 +31,8 @@ public:
     Expression* getBase() const { return base; }
     Expression* getExponent() const { return exponent; }
 
-private:
+protected:
+    explicit Power(const ExpressionProperties& props, Expression* base, Expression* exponent);
     bool baseNeedsParentheses();
     bool exponentNeedsParentheses();
 

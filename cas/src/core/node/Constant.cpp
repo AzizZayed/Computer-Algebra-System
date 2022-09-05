@@ -104,9 +104,4 @@ std::string Constant::text()
     return std::to_string(value);
 }
 
-std::string Constant::explicitText()
-{
-    return properties.getShortName() + "(" + text() + ")";
-}
-
 CAS_NAMESPACE_END
