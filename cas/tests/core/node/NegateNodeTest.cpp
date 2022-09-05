@@ -3,7 +3,6 @@
 //
 
 #include "gtest/gtest.h"
-#include "core/CAS.h"
 #include "core/node/Negate.h"
 #include "core/node/Constant.h"
 #include "core/node/Variable.h"

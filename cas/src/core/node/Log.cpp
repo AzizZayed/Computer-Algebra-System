@@ -9,7 +9,6 @@
 #include "core/node/Product.h"
 #include "core/node/Ln.h"
 #include "core/node/Constant.h"
-#include "core/node/Power.h"
 
 CAS_NAMESPACE
 

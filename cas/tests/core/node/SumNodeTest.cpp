@@ -3,7 +3,6 @@
 //
 
 #include "gtest/gtest.h"
-#include "core/CAS.h"
 #include "core/node/Sum.h"
 #include "core/node/Variable.h"
 
@@ -68,7 +67,6 @@ TEST(SumNodeTest, SumDerivativeTest) {
     EXPECT_EQ(2, derivative->getExpressions().size());
     // TODO test deeper
 
-    cas::Sum* derivative2 = sum->derivative('z');
     // TODO test deeper
 }
 

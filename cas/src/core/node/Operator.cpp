@@ -22,9 +22,8 @@ Operator::Operator(const ExpressionProperties& props, double neutral, char symbo
 
 Operator::~Operator()
 {
-    for (size_t i = 0; i < expressions.size(); i++) {
-        delete expressions[i];
-        expressions[i] = nullptr;
+    for (auto* expression : expressions) {
+        delete expression;
     }
 }
 

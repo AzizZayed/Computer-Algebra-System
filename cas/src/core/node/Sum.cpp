@@ -22,6 +22,7 @@ Sum::~Sum()
 Sum* Sum::clone()
 {
     std::vector<Expression*> clonedExpressions;
+    clonedExpressions.reserve(expressions.size());
 
     for (auto& expression: expressions)
         clonedExpressions.push_back(expression->clone());
@@ -32,6 +33,7 @@ Sum* Sum::clone()
 Sum* Sum::derivative(char var)
 {
     std::vector<Expression*> differentiatedExpressions;
+    differentiatedExpressions.reserve(expressions.size());
 
     for (auto& expression: expressions)
         differentiatedExpressions.push_back(expression->derivative(var));
@@ -43,6 +45,7 @@ Expression* Sum::simplified()
 {
     // TODO: simplify
     std::vector<Expression*> simplifiedExpressions;
+    simplifiedExpressions.reserve(expressions.size());
 
     for (auto& expression: expressions)
         simplifiedExpressions.push_back(expression->simplified());

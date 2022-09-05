@@ -108,9 +108,6 @@ TEST(DivideNodeTest, DivideDerivativeTest) {
 }
 
 TEST(DivideNodeTest, DivideSimplifiedTest) {
-    auto* divide = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
-    auto* divide2 = new cas::Divide(new cas::Variable('x'), new cas::Variable('y'));
-
     // TODO - add simplified test
 }
 

@@ -9,7 +9,6 @@
 #include "core/node/Ln.h"
 #include "core/node/Sum.h"
 #include "core/node/Divide.h"
-#include "core/node/Negate.h"
 
 CAS_NAMESPACE
 

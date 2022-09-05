@@ -47,7 +47,8 @@ set(CAS_SRC_SOURCES
         core/node/Abs.cpp
         core/node/Floor.cpp
         core/node/Ceil.cpp
-        core/node/Round.cpp)
+        core/node/Round.cpp
+        core/node/FixedInputFunction.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)

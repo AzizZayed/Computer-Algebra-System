@@ -22,8 +22,9 @@ double Max::evaluate(const std::unordered_map<char, double>& variables)
 Max* Max::clone()
 {
     std::vector<Expression*> clonedExpressions;
+    clonedExpressions.reserve(expressions.size());
 
-    for (auto &expression: expressions)
+    for (auto& expression: expressions)
         clonedExpressions.push_back(expression->clone());
 
     return new Max(clonedExpressions);
@@ -31,6 +32,7 @@ Max* Max::clone()
 
 Expression* Max::simplified() {
     std::vector<Expression*> simplifiedExpressions;
+    simplifiedExpressions.reserve(expressions.size());
 
     for (auto& expression: expressions)
         simplifiedExpressions.push_back(expression->simplified());

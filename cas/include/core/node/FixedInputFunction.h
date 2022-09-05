@@ -13,21 +13,17 @@ CAS_NAMESPACE
 class FixedInputFunction : public Expression {
 public:
     FixedInputFunction() = delete;
-    ~FixedInputFunction() override {
-        delete argument;
-        argument = nullptr;
-    };
+    ~FixedInputFunction() override;
 
     Expression* getArgument() const { return argument; }
 
-    // TODO default implementation of string methods
+    std::string latex() override;
+    std::string stringify() override;
+    std::string text() override;
+    std::string explicitText() override;
 
 protected:
-    explicit FixedInputFunction(const ExpressionProperties& properties, Expression* argument)
-    : Expression(properties), argument(argument)
-    {
-        this->argument->setParent(this);
-    }
+    explicit FixedInputFunction(const ExpressionProperties& properties, Expression* argument);
 
 protected:
     Expression* argument;

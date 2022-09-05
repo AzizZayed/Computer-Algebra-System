@@ -21,6 +21,7 @@ Product::~Product()
 Product* Product::clone()
 {
     std::vector<Expression*> clonedExpressions;
+    clonedExpressions.reserve(expressions.size());
 
     for (auto& expression: expressions)
         clonedExpressions.push_back(expression->clone());
@@ -31,10 +32,12 @@ Product* Product::clone()
 Expression * Product::derivative(char var)
 {
     std::vector<Expression*> differentiatedExpressions;
+    differentiatedExpressions.reserve(expressions.size());
     
     for (size_t i = 0; i < expressions.size(); i++)
     {
         std::vector<Expression*> products;
+        products.reserve(expressions.size());
         for (size_t j = 0; j < expressions.size(); j++) {
             Expression* exp = expressions[j];
             Expression* prod = i == j ? exp->derivative(var) : exp->clone();
@@ -50,6 +53,7 @@ Expression* Product::simplified()
 {
     // TODO: simplify
     std::vector<Expression*> simplifiedExpressions;
+    simplifiedExpressions.reserve(expressions.size());
 
     for (auto& expression: expressions)
         simplifiedExpressions.push_back(expression->simplified());
