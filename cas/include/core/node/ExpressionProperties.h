@@ -5,8 +5,8 @@
 #ifndef CAS_EXPRESSIONPROPERTIES_H
 #define CAS_EXPRESSIONPROPERTIES_H
 
-#include "core/CAS.h"
 #include "ExpressionType.h"
+#include "core/CAS.h"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -16,19 +16,18 @@ CAS_NAMESPACE
 class ExpressionProperties {
 public:
     ExpressionProperties(ExpressionType type, std::string name, std::string shortName)
-    : type(type), order(uint16_t(type)), name(std::move(name)), shortName(std::move(shortName)) {}
+        : type(type), order(uint16_t(type)), name(std::move(name)), shortName(std::move(shortName)) {}
 
-    bool operator==(const ExpressionProperties& other) const
-    {
-        return type == other.type
-        && order == other.order
-        && name == other.name
-        && shortName == other.shortName;
+    bool operator==(const ExpressionProperties &other) const {
+        return type == other.type && order == other.order && name == other.name && shortName == other.shortName;
     }
 
     uint16_t getOrder() const { return order; }
+
     ExpressionType getType() const { return type; }
+
     std::string getName() const { return name; }
+
     std::string getShortName() const { return shortName; }
 
 private:
@@ -40,4 +39,4 @@ private:
 
 CAS_NAMESPACE_END
 
-#endif //CAS_EXPRESSIONPROPERTIES_H
+#endif//CAS_EXPRESSIONPROPERTIES_H

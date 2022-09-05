@@ -4,47 +4,44 @@
 
 #include "core/node/Operator.h"
 
-#include <utility>
 #include <sstream>
+#include <utility>
 
 CAS_NAMESPACE
 
-Operator::Operator(const ExpressionProperties& props, double neutral, char symbol, std::vector<Expression*> expressions)
-: neutral(neutral), symbol(symbol), expressions(std::move(expressions)), Expression(props)
-{
+Operator::Operator(const ExpressionProperties &props, double neutral, char symbol,
+                   std::vector<Expression *> expressions)
+    : neutral(neutral), symbol(symbol), expressions(std::move(expressions)), Expression(props) {
 #if DEBUG_CAS
     printf("%s(%c...)\n", properties.getName().c_str(), symbol);
 #endif
 
-    for (auto& expression: this->expressions)
+    for (auto &expression: this->expressions)
         expression->setParent(this);
 }
 
-Operator::~Operator()
-{
-    for (auto* expression : expressions) {
+Operator::~Operator() {
+    for (auto *expression: expressions) {
         delete expression;
     }
 }
 
-double Operator::evaluate(const std::unordered_map<char, double>& variables)
-{
+double Operator::evaluate(const std::unordered_map<char, double> &variables) {
     double result = neutral;
-    for (auto* expression: expressions)
+    for (auto *expression: expressions)
         result = operate(result, expression->evaluate(variables));
 
     return result;
 }
 
-bool Operator::equals(Expression* expression)
-{
+bool Operator::equals(Expression *expression) {
     if (this == expression)
         return true;
 
     if (!isOfSameType(expression))
         return false;
 
-    auto* op = dynamic_cast<Operator*>(expression);
+    auto *op = dynamic_cast<Operator *>(expression);
 
     if (expressions.size() != op->expressions.size() || symbol != op->getSymbol())
         return false;
@@ -56,8 +53,7 @@ bool Operator::equals(Expression* expression)
     return equalExpressions;
 }
 
-std::string Operator::text()
-{
+std::string Operator::text() {
     if (expressions.empty())
         return "";
 
@@ -71,8 +67,7 @@ std::string Operator::text()
     return ss.str();
 }
 
-std::string Operator::explicitText()
-{
+std::string Operator::explicitText() {
     if (expressions.empty())
         return "";
 

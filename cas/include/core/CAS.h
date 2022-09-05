@@ -10,8 +10,8 @@
 #define DEBUG_CAS 1
 
 template<typename Base, typename T>
-inline bool instanceof(T *ptr) {
-    return dynamic_cast<Base*>(ptr) != nullptr;
+inline bool instanceof (T * ptr) {
+    return dynamic_cast<Base *>(ptr) != nullptr;
 }
 
-#endif //CAS_CAS_H
+#endif//CAS_CAS_H

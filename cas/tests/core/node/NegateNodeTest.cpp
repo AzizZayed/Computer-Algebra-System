@@ -2,14 +2,14 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-03.
 //
 
-#include "gtest/gtest.h"
-#include "core/node/Negate.h"
 #include "core/node/Constant.h"
+#include "core/node/Negate.h"
 #include "core/node/Variable.h"
+#include "gtest/gtest.h"
 
 TEST(NegateNodeTest, NegateCreationTest) {
-    auto* expression = new cas::Constant(5);
-    auto* negate = new cas::Negate(expression);
+    auto *expression = new cas::Constant(5);
+    auto *negate = new cas::Negate(expression);
 
     EXPECT_EQ(negate->getProperties().getType(), cas::ExpressionType::NEGATE);
     EXPECT_EQ(negate->getProperties().getName(), "negate");
@@ -23,8 +23,8 @@ TEST(NegateNodeTest, NegateCreationTest) {
 }
 
 TEST(NegateNodeTest, NegateDestroyTest) {
-    auto* expression = new cas::Constant(5);
-    auto* negate = new cas::Negate(expression);
+    auto *expression = new cas::Constant(5);
+    auto *negate = new cas::Negate(expression);
 
     delete negate;
 
@@ -32,9 +32,9 @@ TEST(NegateNodeTest, NegateDestroyTest) {
 }
 
 TEST(NegateNodeTest, NegateCloneTest) {
-    auto* expression = new cas::Constant(5);
-    auto* negate = new cas::Negate(expression);
-    auto* negate2 = negate->clone();
+    auto *expression = new cas::Constant(5);
+    auto *negate = new cas::Negate(expression);
+    auto *negate2 = negate->clone();
 
     EXPECT_EQ(negate->getProperties(), negate2->getProperties());
     EXPECT_TRUE(negate->getArgument()->equals(negate2->getArgument()));
@@ -46,8 +46,8 @@ TEST(NegateNodeTest, NegateCloneTest) {
 }
 
 TEST(NegateNodeTest, NegateEvaluationTest) {
-    auto* expression = new cas::Constant(5);
-    auto* negate = new cas::Negate(expression);
+    auto *expression = new cas::Constant(5);
+    auto *negate = new cas::Negate(expression);
 
     EXPECT_EQ(negate->evaluate({}), -5);
 
@@ -55,10 +55,10 @@ TEST(NegateNodeTest, NegateEvaluationTest) {
 }
 
 TEST(NegateNodeTest, NegateEqualsTest) {
-    auto* expression = new cas::Constant(5);
-    auto* negate = new cas::Negate(expression);
-    auto* negate2 = new cas::Negate(expression);
-    auto* negate3 = new cas::Negate(new cas::Constant(6));
+    auto *expression = new cas::Constant(5);
+    auto *negate = new cas::Negate(expression);
+    auto *negate2 = new cas::Negate(expression);
+    auto *negate3 = new cas::Negate(new cas::Constant(6));
 
     EXPECT_TRUE(negate->equals(negate));
     EXPECT_TRUE(negate->equals(negate2));
@@ -70,7 +70,7 @@ TEST(NegateNodeTest, NegateEqualsTest) {
 }
 
 TEST(NegateNodeTest, NegateDerivativeTest) {
-    auto* negate = new cas::Negate(new cas::Variable('x'));
+    auto *negate = new cas::Negate(new cas::Variable('x'));
 
     EXPECT_TRUE(negate->derivative('x')->equals(new cas::Negate(new cas::Constant(1))));
 
@@ -78,8 +78,8 @@ TEST(NegateNodeTest, NegateDerivativeTest) {
 }
 
 TEST(NegateNodeTest, NegateStringifyTest) {
-    auto* expression = new cas::Constant(5);
-    auto* negate = new cas::Negate(expression);
+    auto *expression = new cas::Constant(5);
+    auto *negate = new cas::Negate(expression);
 
     EXPECT_EQ(negate->stringify(), "-5.000000");
 
@@ -87,8 +87,8 @@ TEST(NegateNodeTest, NegateStringifyTest) {
 }
 
 TEST(NegateNodeTest, NegateSimplifiedTest) {
-    auto* expression = new cas::Constant(5);
-    auto* negate = new cas::Negate(expression);
+    auto *expression = new cas::Constant(5);
+    auto *negate = new cas::Negate(expression);
 
     EXPECT_TRUE(negate->simplified()->equals(negate));
 
@@ -96,12 +96,11 @@ TEST(NegateNodeTest, NegateSimplifiedTest) {
 }
 
 TEST(NegateNodeTest, NegateSimplified2Test) {
-    auto* expression = new cas::Constant(5);
-    auto* negate = new cas::Negate(expression);
-    auto* negate2 = new cas::Negate(negate);
+    auto *expression = new cas::Constant(5);
+    auto *negate = new cas::Negate(expression);
+    auto *negate2 = new cas::Negate(negate);
 
     EXPECT_EQ(negate2->simplified()->equals(new cas::Constant(5)), true);
 
     delete negate;
 }
-

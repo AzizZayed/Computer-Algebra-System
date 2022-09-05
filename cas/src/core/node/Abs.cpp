@@ -7,27 +7,23 @@
 
 CAS_NAMESPACE
 
-Abs::Abs(Expression* argument)
-: BracketFunction({ExpressionType::ABSOLUTE_VALUE, "absolute_value", "abs"}, argument, "|", "|") {}
+Abs::Abs(Expression *argument)
+    : BracketFunction({ExpressionType::ABSOLUTE_VALUE, "absolute_value", "abs"}, argument, "|", "|") {}
 
-double Abs::evaluate(const std::unordered_map<char, double>& variables)
-{
+double Abs::evaluate(const std::unordered_map<char, double> &variables) {
     return std::abs(argument->evaluate(variables));
 }
 
-Abs* Abs::clone()
-{
+Abs *Abs::clone() {
     return new Abs(argument->clone());
 }
 
-Expression* Abs::simplified()
-{
-    if (argument->isOfType(ExpressionType::CONSTANT))
-    {
-        auto* constant = dynamic_cast<Constant*>(argument);
+Expression *Abs::simplified() {
+    if (argument->isOfType(ExpressionType::CONSTANT)) {
+        auto *constant = dynamic_cast<Constant *>(argument);
         return new Constant(std::abs(constant->getValue()));
     }
-    return clone(); // TODO: simplify
+    return clone();// TODO: simplify
 }
 
 CAS_NAMESPACE_END

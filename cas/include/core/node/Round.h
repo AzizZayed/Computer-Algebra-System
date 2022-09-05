@@ -5,22 +5,26 @@
 #ifndef CAS_ROUND_H
 #define CAS_ROUND_H
 
-#include "core/CAS.h"
 #include "BracketFunction.h"
+#include "core/CAS.h"
 
 CAS_NAMESPACE
 
 class Round : public BracketFunction {
 public:
-    explicit Round(Expression* argument);
+    explicit Round(Expression *argument);
+
     Round() = delete;
+
     ~Round() override = default;
 
-    double evaluate(const std::unordered_map<char, double>& variables) override;
-    Round* clone() override;
-    Expression* simplified() override;
+    double evaluate(const std::unordered_map<char, double> &variables) override;
+
+    Round *clone() override;
+
+    Expression *simplified() override;
 };
 
 CAS_NAMESPACE_END
 
-#endif //CAS_ROUND_H
+#endif//CAS_ROUND_H

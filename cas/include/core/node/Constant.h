@@ -5,10 +5,10 @@
 #ifndef CAS_CONSTANT_H
 #define CAS_CONSTANT_H
 
-#include "core/CAS.h"
 #include "Expression.h"
-#include <string>
+#include "core/CAS.h"
 #include <cmath>
+#include <string>
 
 CAS_NAMESPACE
 
@@ -16,29 +16,39 @@ namespace math {
     const double PI = M_PI;
     const double E = M_E;
     const double PHI = 1.6180339887498948482045868343656381;
-}
+}// namespace math
 
 class Constant : public Expression {
 public:
     explicit Constant(double value);
-    explicit Constant() : Constant(0.0) {};
+
+    explicit Constant() : Constant(0.0){};
+
     ~Constant() override;
 
-    double evaluate(const std::unordered_map<char, double>& variables) override;
-    bool equals(Expression* expression) override;
-    Constant* clone() override;
-    Constant* derivative(char var) override;
-    Constant* simplified() override;
+    double evaluate(const std::unordered_map<char, double> &variables) override;
+
+    bool equals(Expression *expression) override;
+
+    Constant *clone() override;
+
+    Constant *derivative(char var) override;
+
+    Constant *simplified() override;
 
     std::string latex() override;
+
     std::string stringify() override;
+
     std::string text() override;
 
     double getValue() const { return value; }
 
-    static Constant* PI() { return new Constant{math::PI}; }
-    static Constant* E() { return new Constant{math::E}; }
-    static Constant* PHI() { return new Constant{math::PHI}; }
+    static Constant *PI() { return new Constant{math::PI}; }
+
+    static Constant *E() { return new Constant{math::E}; }
+
+    static Constant *PHI() { return new Constant{math::PHI}; }
 
 private:
     double value;
@@ -55,4 +65,4 @@ public:
 
 CAS_NAMESPACE_END
 
-#endif //CAS_CONSTANT_H
+#endif//CAS_CONSTANT_H

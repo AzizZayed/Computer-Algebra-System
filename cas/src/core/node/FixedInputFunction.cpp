@@ -6,35 +6,29 @@
 
 CAS_NAMESPACE
 
-FixedInputFunction::FixedInputFunction(const ExpressionProperties& properties, Expression* argument)
-: Expression(properties), argument(argument)
-{
+FixedInputFunction::FixedInputFunction(const ExpressionProperties &properties, Expression *argument)
+    : Expression(properties), argument(argument) {
     this->argument->setParent(this);
 }
 
-FixedInputFunction::~FixedInputFunction()
-{
+FixedInputFunction::~FixedInputFunction() {
     delete argument;
     argument = nullptr;
 }
 
-std::string FixedInputFunction::latex()
-{
+std::string FixedInputFunction::latex() {
     return properties.getShortName() + "(" + argument->latex() + ")";
 }
 
-std::string FixedInputFunction::stringify()
-{
+std::string FixedInputFunction::stringify() {
     return properties.getShortName() + "(" + argument->stringify() + ")";
 }
 
-std::string FixedInputFunction::text()
-{
+std::string FixedInputFunction::text() {
     return properties.getShortName() + "(" + argument->text() + ")";
 }
 
-std::string FixedInputFunction::explicitText()
-{
+std::string FixedInputFunction::explicitText() {
     return properties.getShortName() + "(" + argument->explicitText() + ")";
 }
 
