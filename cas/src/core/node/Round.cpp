@@ -3,7 +3,7 @@
 //
 
 #include "core/node/Round.h"
-#include "core/node/Constant.h"
+#include "core/node/Const.h"
 
 CAS_NAMESPACE
 
@@ -20,8 +20,8 @@ Round* Round::clone() {
 
 Expression* Round::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        auto* constant = dynamic_cast<Constant*>(argument);
-        return new Constant(std::round(constant->getValue()));
+        auto* constant = dynamic_cast<Const*>(argument);
+        return new Const(std::round(constant->getValue()));
     }
     return clone();// TODO: simplify
 }

@@ -34,6 +34,29 @@ public:
 
     virtual Expression* simplified();
 
+    Expression* multiply(Expression* expression);
+    Expression* add(Expression* expression);
+    Expression* negate();
+    Expression* subtract(Expression* expression);
+    Expression* power(Expression* expression);
+    Expression* power(double exponent);
+    Expression* sqrt();
+    Expression* abs();
+
+    Expression* cos();
+    Expression* sin();
+    Expression* tan();
+    Expression* atan();
+    Expression* acos();
+    Expression* asin();
+    Expression* csc();
+    Expression* sec();
+    Expression* cot();
+    Expression* acsc();
+    Expression* asec();
+    Expression* acot();
+
+
     ExpressionProperties getProperties() const;
 
     Expression* getParent() const;

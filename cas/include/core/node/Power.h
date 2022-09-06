@@ -5,6 +5,7 @@
 #ifndef CAS_POWER_H
 #define CAS_POWER_H
 
+#include "Const.h"
 #include "core/CAS.h"
 #include "core/node/Expression.h"
 
@@ -14,6 +15,9 @@ class Power : public Expression {
 public:
     explicit Power(Expression* base, Expression* exponent)
         : Power({ExpressionType::POWER, "power", "pow"}, base, exponent) {}
+
+    explicit Power(Expression* base, double exponent)
+        : Power({ExpressionType::POWER, "power", "pow"}, base, new Const(exponent)) {}
 
     Power() = delete;
 

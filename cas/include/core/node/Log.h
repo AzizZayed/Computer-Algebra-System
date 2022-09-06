@@ -5,6 +5,7 @@
 #ifndef CAS_LOG_H
 #define CAS_LOG_H
 
+#include "Const.h"
 #include "Expression.h"
 #include "core/CAS.h"
 
@@ -14,6 +15,9 @@ class Log : public Expression {
 public:
     explicit Log(Expression* base, Expression* argument)
         : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, base, argument) {}
+
+    explicit Log(double base, Expression* argument)
+        : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, new Const(base), argument) {}
 
     Log() = delete;
 

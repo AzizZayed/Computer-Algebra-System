@@ -4,7 +4,7 @@
 
 #include "core/node/Sum.h"
 #include "core/CAS.h"
-#include "core/node/Constant.h"
+#include "core/node/Const.h"
 #include <sstream>
 
 CAS_NAMESPACE

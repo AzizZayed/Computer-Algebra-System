@@ -4,7 +4,7 @@
 
 #include "core/node/Divide.h"
 #include "core/CAS.h"
-#include "core/node/Constant.h"
+#include "core/node/Const.h"
 #include "core/node/Expression.h"
 #include "core/node/Negate.h"
 #include "core/node/Power.h"
@@ -68,7 +68,7 @@ Divide* Divide::derivative(char var) {
             }),                                     // end f'g - fg'
             new Power(                              // g^2
                     divisor->clone(),               // g
-                    new Constant(2)                 // 2
+                    new Const(2)                    // 2
                     )                               // end g^2
     );                                              // end quotient rule
 }

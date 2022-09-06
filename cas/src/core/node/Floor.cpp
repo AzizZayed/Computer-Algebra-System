@@ -3,7 +3,7 @@
 //
 
 #include "core/node/Floor.h"
-#include "core/node/Constant.h"
+#include "core/node/Const.h"
 
 CAS_NAMESPACE
 
@@ -20,8 +20,8 @@ Floor* Floor::clone() {
 
 Expression* Floor::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        auto* constant = dynamic_cast<Constant*>(argument);
-        return new Constant(std::floor(constant->getValue()));
+        auto* constant = dynamic_cast<Const*>(argument);
+        return new Const(std::floor(constant->getValue()));
     }
     return clone();// TODO: simplify
 }

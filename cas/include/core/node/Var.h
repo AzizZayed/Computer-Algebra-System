@@ -5,30 +5,29 @@
 #ifndef CAS_VARIABLE_H
 #define CAS_VARIABLE_H
 
-#include "Constant.h"
+#include "Const.h"
 #include "Expression.h"
 #include "core/CAS.h"
 #include <string>
 
 CAS_NAMESPACE
 
-class Variable : public Expression {
+class Var : public Expression {
 public:
-    explicit Variable(char variable);
+    Var(char variable);
+    explicit Var() : Var(VAR_X) {}
 
-    explicit Variable() : Variable(VAR_X) {}
-
-    ~Variable() override;
+    ~Var() override;
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
 
     bool equals(Expression* expression) override;
 
-    Variable* clone() override;
+    Var* clone() override;
 
-    Constant* derivative(char var) override;
+    Const* derivative(char var) override;
 
-    Variable* simplified() override;
+    Var* simplified() override;
 
     std::string latex() override;
 

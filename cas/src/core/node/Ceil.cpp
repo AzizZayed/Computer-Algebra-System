@@ -3,7 +3,7 @@
 //
 
 #include "core/node/Ceil.h"
-#include "core/node/Constant.h"
+#include "core/node/Const.h"
 
 CAS_NAMESPACE
 
@@ -20,8 +20,8 @@ Ceil* Ceil::clone() {
 
 Expression* Ceil::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        auto* constant = dynamic_cast<Constant*>(argument);
-        return new Constant(std::ceil(constant->getValue()));
+        auto* constant = dynamic_cast<Const*>(argument);
+        return new Const(std::ceil(constant->getValue()));
     }
     return clone();// TODO: simplify
 }

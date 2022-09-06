@@ -4,13 +4,13 @@
 
 #include "core/node/Ln.h"
 #include "core/CAS.h"
-#include "core/node/Constant.h"
+#include "core/node/Const.h"
 #include "core/node/Divide.h"
 
 CAS_NAMESPACE
 
 Ln::Ln(Expression* argument)
-    : Log({ExpressionType::NATURAL_LOGARITHM, "natural_logarithm", "ln"}, Constant::E(), argument) {}
+    : Log({ExpressionType::NATURAL_LOGARITHM, "natural_logarithm", "ln"}, Const::E(), argument) {}
 
 double Ln::evaluate(const std::unordered_map<char, double>& variables) {
     return log(argument->evaluate(variables));

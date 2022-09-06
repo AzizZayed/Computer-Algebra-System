@@ -4,7 +4,7 @@
 
 #include "core/node/Log.h"
 #include "core/CAS.h"
-#include "core/node/Constant.h"
+#include "core/node/Const.h"
 #include "core/node/Divide.h"
 #include "core/node/Expression.h"
 #include "core/node/Ln.h"
@@ -50,7 +50,7 @@ Expression* Log::derivative(char var) {
     bool argumentIsConstant = argument->isOfType(ExpressionType::CONSTANT);
 
     if (baseIsConstant && argumentIsConstant)
-        return new Constant(0);
+        return new Const(0);
 
     if (baseIsConstant) {
         return new Divide(

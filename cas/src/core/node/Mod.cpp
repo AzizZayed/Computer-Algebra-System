@@ -3,14 +3,14 @@
 //
 
 #include "core/node/Mod.h"
-#include "core/node/Constant.h"
+#include "core/node/Const.h"
 
 CAS_NAMESPACE
 
 Mod::Mod(Expression* dividend, Expression* divisor)
     : Expression({ExpressionType::MODULO, "modulo", "mod"}), dividend(dividend), divisor(divisor) {
     if (divisor->isOfType(ExpressionType::CONSTANT)) {
-        auto* constant = dynamic_cast<Constant*>(divisor);
+        auto* constant = dynamic_cast<Const*>(divisor);
         if (constant->getValue() == 0) {
             throw std::invalid_argument("Divisor cannot be zero");
         }
@@ -54,7 +54,7 @@ Mod* Mod::clone() {
 
 Expression* Mod::simplified() {
     if (dividend->isOfType(ExpressionType::CONSTANT) && divisor->isOfType(ExpressionType::CONSTANT)) {
-        return new Constant(Expression::evaluate());
+        return new Const(Expression::evaluate());
     }
     return new Mod(dividend->simplified(), divisor->simplified());// TODO: simplify
 }

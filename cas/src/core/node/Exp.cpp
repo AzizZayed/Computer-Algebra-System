@@ -4,14 +4,14 @@
 
 #include "core/node/Exp.h"
 #include "core/CAS.h"
-#include "core/node/Constant.h"
+#include "core/node/Const.h"
 #include "core/node/Expression.h"
 #include "core/node/Product.h"
 
 CAS_NAMESPACE
 
 Exp::Exp(Expression* exponent)
-    : Power({ExpressionType::EXPONENTIAL, "exponential", "exp"}, Constant::E(), exponent) {}
+    : Power({ExpressionType::EXPONENTIAL, "exponential", "exp"}, Const::E(), exponent) {}
 
 double Exp::evaluate(const std::unordered_map<char, double>& variables) {
     return exp(exponent->evaluate(variables));

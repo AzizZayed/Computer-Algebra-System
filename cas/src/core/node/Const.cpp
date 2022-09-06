@@ -2,19 +2,19 @@
 // Created by Abd-El-Aziz Zayed on 2022-08-26.
 //
 
-#include "core/node/Constant.h"
+#include "core/node/Const.h"
 
 CAS_NAMESPACE
 
-const std::string Constant::PI_UNICODE = "\u03C0";
-const std::string Constant::E_UNICODE = "e";
-const std::string Constant::PHI_UNICODE = "\u03D5";
+const std::string Const::PI_UNICODE = "\u03C0";
+const std::string Const::E_UNICODE = "e";
+const std::string Const::PHI_UNICODE = "\u03D5";
 
-const std::string Constant::PI_LATEX = "\\pi";
-const std::string Constant::E_LATEX = "e";
-const std::string Constant::PHI_LATEX = "\\varphi";
+const std::string Const::PI_LATEX = "\\pi";
+const std::string Const::E_LATEX = "e";
+const std::string Const::PHI_LATEX = "\\varphi";
 
-Constant::Constant(double value)
+Const::Const(double value)
     : value{value}, Expression{{ExpressionType::CONSTANT, "constant", "const"}} {
 #if DEBUG_CAS
     std::string str = properties.getName();
@@ -22,40 +22,40 @@ Constant::Constant(double value)
 #endif
 }
 
-Constant::~Constant() {
+Const::~Const() {
 #if DEBUG_CAS
-    printf("Destroy cas::Constant\n");
+    printf("Destroy cas::Const\n");
 #endif
 }
 
-Constant* Constant::clone() {
-    return new Constant{value};
+Const* Const::clone() {
+    return new Const{value};
 }
 
-double Constant::evaluate(const std::unordered_map<char, double>& variables) {
+double Const::evaluate(const std::unordered_map<char, double>& variables) {
     return value;
 }
 
-bool Constant::equals(Expression* expression) {
+bool Const::equals(Expression* expression) {
     if (this == expression)
         return true;
 
     if (expression->getProperties().getType() == ExpressionType::CONSTANT) {
-        auto* constant = dynamic_cast<Constant*>(expression);
+        auto* constant = dynamic_cast<Const*>(expression);
         return value == constant->getValue();
     }
     return false;
 }
 
-Constant* Constant::derivative(char var) {
-    return new Constant{0.0};
+Const* Const::derivative(char var) {
+    return new Const{0.0};
 }
 
-Constant* Constant::simplified() {
+Const* Const::simplified() {
     return clone();
 }
 
-std::string Constant::latex() {
+std::string Const::latex() {
     if (value == math::PI) {
         return PI_LATEX;
     }
@@ -69,7 +69,7 @@ std::string Constant::latex() {
     return text();
 }
 
-std::string Constant::stringify() {
+std::string Const::stringify() {
     if (value == math::PI) {
         return PI_UNICODE;
     }
@@ -83,7 +83,7 @@ std::string Constant::stringify() {
     return text();
 }
 
-std::string Constant::text() {
+std::string Const::text() {
     return std::to_string(value);
 }
 

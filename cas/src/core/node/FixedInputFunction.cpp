@@ -17,7 +17,7 @@ FixedInputFunction::~FixedInputFunction() {
 }
 
 std::string FixedInputFunction::latex() {
-    return properties.getShortName() + "\\left(" + argument->latex() + "\\right)";
+    return "\\" + properties.getShortName() + "\\left(" + argument->latex() + "\\right)";
 }
 
 std::string FixedInputFunction::stringify() {

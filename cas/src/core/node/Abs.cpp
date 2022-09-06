@@ -3,7 +3,7 @@
 //
 
 #include "core/node/Abs.h"
-#include "core/node/Constant.h"
+#include "core/node/Const.h"
 
 CAS_NAMESPACE
 
@@ -20,8 +20,8 @@ Abs* Abs::clone() {
 
 Expression* Abs::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        auto* constant = dynamic_cast<Constant*>(argument);
-        return new Constant(std::abs(constant->getValue()));
+        auto* constant = dynamic_cast<Const*>(argument);
+        return new Const(std::abs(constant->getValue()));
     }
     return clone();// TODO: simplify
 }

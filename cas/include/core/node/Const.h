@@ -18,23 +18,23 @@ namespace math {
     const double PHI = 1.6180339887498948482045868343656381;
 }// namespace math
 
-class Constant : public Expression {
+class Const : public Expression {
 public:
-    explicit Constant(double value);
+    Const(double value);
 
-    explicit Constant() : Constant(0.0){};
+    explicit Const() : Const(0.0){};
 
-    ~Constant() override;
+    ~Const() override;
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
 
     bool equals(Expression* expression) override;
 
-    Constant* clone() override;
+    Const* clone() override;
 
-    Constant* derivative(char var) override;
+    Const* derivative(char var) override;
 
-    Constant* simplified() override;
+    Const* simplified() override;
 
     std::string latex() override;
 
@@ -44,11 +44,11 @@ public:
 
     double getValue() const { return value; }
 
-    static Constant* PI() { return new Constant{math::PI}; }
+    static Const* PI() { return new Const{math::PI}; }
 
-    static Constant* E() { return new Constant{math::E}; }
+    static Const* E() { return new Const{math::E}; }
 
-    static Constant* PHI() { return new Constant{math::PHI}; }
+    static Const* PHI() { return new Const{math::PHI}; }
 
 private:
     double value;
