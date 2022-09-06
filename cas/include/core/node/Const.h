@@ -1,6 +1,7 @@
 //
 // Created by Abd-El-Aziz Zayed on 2022-08-26.
 //
+#define _USE_MATH_DEFINES
 
 #ifndef CAS_CONSTANT_H
 #define CAS_CONSTANT_H
@@ -11,6 +12,7 @@
 #include <string>
 
 CAS_NAMESPACE
+
 
 namespace math {
     const double PI = M_PI;

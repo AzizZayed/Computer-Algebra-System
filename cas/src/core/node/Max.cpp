@@ -4,6 +4,7 @@
 
 #include "core/node/Max.h"
 #include <utility>
+#include <algorithm>
 
 CAS_NAMESPACE
 
