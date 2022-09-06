@@ -6,13 +6,16 @@
 #ifndef CAS_CONSTANT_H
 #define CAS_CONSTANT_H
 
-#include "Expression.h"
-#include "core/CAS.h"
+#ifdef WIN32
+#include <corecrt_math_defines.h>
+#endif
+
 #include <cmath>
 #include <string>
+#include "core/CAS.h"
+#include "Expression.h"
 
 CAS_NAMESPACE
-
 
 namespace math {
     const double PI = M_PI;
