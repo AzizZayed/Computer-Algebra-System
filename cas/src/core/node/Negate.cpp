@@ -65,10 +65,10 @@ std::string Negate::latex() {
     return "-" + argument->latex();
 }
 
-std::string Negate::stringify() {
+std::wstring Negate::stringify() {
     if (needsParentheses())
-        return "-(" + argument->stringify() + ")";
-    return "-" + argument->stringify();
+        return L"-(" + argument->stringify() + L")";
+    return L"-" + argument->stringify();
 }
 
 std::string Negate::text() {

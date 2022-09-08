@@ -35,7 +35,16 @@ set(CAS_SRC_HEADERS
         ../include/core/node/trig/Sec.h
         ../include/core/node/trig/Csc.h
         ../include/core/node/trig/Cot.h
-        ../include/core/node/trig/InverseTrigFunction.h ../include/core/node/trig/ArcCos.h ../include/core/node/Sqrt.h ../include/core/node/Root.h ../include/core/node/Cbrt.h ../include/core/node/trig/ArcSin.h ../include/core/node/trig/ArcTan.h ../include/core/node/trig/ArcSec.h ../include/core/node/trig/ArcCot.h ../include/core/node/trig/ArcCsc.h)
+        ../include/core/node/trig/InverseTrigFunction.h
+        ../include/core/node/trig/ArcCos.h
+        ../include/core/node/Sqrt.h
+        ../include/core/node/Root.h
+        ../include/core/node/Cbrt.h
+        ../include/core/node/trig/ArcSin.h
+        ../include/core/node/trig/ArcTan.h
+        ../include/core/node/trig/ArcSec.h
+        ../include/core/node/trig/ArcCot.h
+        ../include/core/node/trig/ArcCsc.h)
 
 set(CAS_SRC_SOURCES
         core/node/Const.cpp
@@ -67,7 +76,17 @@ set(CAS_SRC_SOURCES
         core/node/trig/Tan.cpp
         core/node/trig/Sec.cpp
         core/node/trig/Csc.cpp
-        core/node/trig/Cot.cpp core/node/Root.cpp core/node/Sqrt.cpp core/node/Cbrt.cpp core/node/trig/ArcCos.cpp core/node/trig/ArcSin.cpp core/node/trig/ArcTan.cpp core/node/trig/ArcSec.cpp core/node/trig/ArcCot.cpp core/node/trig/ArcCsc.cpp)
+        core/node/trig/Cot.cpp
+        core/node/Root.cpp
+        core/node/Sqrt.cpp
+        core/node/Cbrt.cpp
+        core/node/trig/ArcCos.cpp
+        core/node/trig/ArcSin.cpp
+        core/node/trig/ArcTan.cpp
+        core/node/trig/ArcSec.cpp
+        core/node/trig/ArcCot.cpp
+        core/node/trig/ArcCsc.cpp
+        util/StringUtils.h)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)

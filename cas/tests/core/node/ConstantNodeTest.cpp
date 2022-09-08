@@ -77,16 +77,20 @@ TEST(ConstantNodeTest, ConstantLatexTest) {
 
 TEST(ConstantNodeTest, ConstantStringifyTest) {
     cas::Const* constant = cas::Const::PI();
-    EXPECT_EQ("π", constant->stringify());
+//    EXPECT_EQ(L"π", constant->stringify());
+    EXPECT_TRUE(wcscmp(cas::Const::PI_UNICODE, constant->stringify().c_str()) == 0);
 
     constant = cas::Const::E();
-    EXPECT_EQ("e", constant->stringify());
+//    EXPECT_EQ(L"e", constant->stringify());
+    EXPECT_TRUE(wcscmp(cas::Const::E_UNICODE, constant->stringify().c_str()) == 0);
 
     constant = cas::Const::PHI();
-    EXPECT_EQ("ϕ", constant->stringify());
+//    EXPECT_EQ(L"ϕ", constant->stringify());
+    EXPECT_TRUE(wcscmp(cas::Const::PHI_UNICODE, constant->stringify().c_str()) == 0);
 
     constant = new cas::Const(1);
-    EXPECT_EQ("1.000000", constant->stringify());
+//    EXPECT_EQ(L"1.000000", constant->stringify());
+    EXPECT_TRUE(wcscmp(L"1.000000", constant->stringify().c_str()) == 0);
 }
 
 TEST(ConstantNodeTest, ConstantTextTest) {

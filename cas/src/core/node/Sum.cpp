@@ -73,11 +73,11 @@ std::string Sum::latex() {
     return ss.str();
 }
 
-std::string Sum::stringify() {
+std::wstring Sum::stringify() {
     if (expressions.empty())
-        return "";
+        return L"";
 
-    std::stringstream ss;
+    std::wstringstream ss;
 
     for (size_t i = 0; i < expressions.size(); i++) {
         Expression* exp = expressions[i];

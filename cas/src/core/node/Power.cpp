@@ -123,17 +123,17 @@ std::string Power::latex() {
     return base->latex() + "^{" + exponent->latex() + "}";
 }
 
-std::string Power::stringify() {
+std::wstring Power::stringify() {
     if (baseNeedsParentheses()) {
         if (exponentNeedsParentheses())
-            return "(" + base->stringify() + ")^(" + exponent->stringify() + ")";
+            return L"(" + base->stringify() + L")^(" + exponent->stringify() + L")";
         else
-            return "(" + base->stringify() + ")^" + exponent->stringify();
+            return L"(" + base->stringify() + L")^" + exponent->stringify();
     } else {
         if (exponentNeedsParentheses())
-            return base->stringify() + "^(" + exponent->stringify() + ")";
+            return base->stringify() + L"^(" + exponent->stringify() + L")";
         else
-            return base->stringify() + "^" + exponent->stringify();
+            return base->stringify() + L"^" + exponent->stringify();
     }
 }
 

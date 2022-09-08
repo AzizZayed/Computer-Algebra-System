@@ -9,15 +9,11 @@
 CAS_NAMESPACE
 
 BracketFunction::BracketFunction(const ExpressionProperties& properties, Expression* argument,
-                                 const char* openBracket, const char* closeBracket)
-    : FixedInputFunction(properties, argument), openBracket(openBracket), closeBracket(closeBracket) {}
-
-BracketFunction::~BracketFunction() {
-    delete openBracket;
-    delete closeBracket;
-    openBracket = nullptr;
-    closeBracket = nullptr;
-}
+                                 const wchar_t* openBracket, const wchar_t* closeBracket,
+                                 const char* openBracketLatex, const char* closeBracketLatex)
+    : FixedInputFunction(properties, argument),
+      openBracket(openBracket), closeBracket(closeBracket),
+      openBracketLatex(openBracketLatex), closeBracketLatex(closeBracketLatex) {}
 
 bool BracketFunction::equals(Expression* other) {
     if (this == other)
@@ -27,19 +23,21 @@ bool BracketFunction::equals(Expression* other) {
         return false;
 
     auto* otherBracketFunction = dynamic_cast<BracketFunction*>(other);
-    return argument->equals(otherBracketFunction->argument) && strcmp(openBracket, otherBracketFunction->openBracket) == 0 && strcmp(closeBracket, otherBracketFunction->closeBracket) == 0;
+    return argument->equals(otherBracketFunction->argument)
+           && wcscmp(openBracket, otherBracketFunction->openBracket) == 0
+           && wcscmp(closeBracket, otherBracketFunction->closeBracket) == 0;
 }
 
 std::string BracketFunction::latex() {
-    return openBracket + argument->latex() + closeBracket;
+    return openBracketLatex + argument->latex() + closeBracketLatex;
 }
 
-std::string BracketFunction::stringify() {
+std::wstring BracketFunction::stringify() {
     return openBracket + argument->stringify() + closeBracket;
 }
 
 std::string BracketFunction::text() {
-    return openBracket + argument->text() + closeBracket;
+    return properties.getShortName() + "[" + argument->text() + "]";
 }
 
 std::string BracketFunction::explicitText() {

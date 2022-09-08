@@ -3,6 +3,7 @@
 //
 
 #include "core/node/Sqrt.h"
+#include "../../util/StringUtils.h"
 #include "core/node/Divide.h"
 #include "core/node/Product.h"
 
@@ -38,8 +39,8 @@ std::string Sqrt::latex() {
     return "\\sqrt{" + base->latex() + "}";
 }
 
-std::string Sqrt::stringify() {
-    return properties.getShortName() + "(" + base->stringify() + ")";
+std::wstring Sqrt::stringify() {
+    return toWstring(properties.getShortName()) + L"(" + base->stringify() + L")";
 }
 
 std::string Sqrt::text() {

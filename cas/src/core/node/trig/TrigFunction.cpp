@@ -3,6 +3,7 @@
 //
 
 #include "core/node/trig/TrigFunction.h"
+#include "../../../util/StringUtils.h"
 #include "core/node/Log.h"
 #include "core/node/Operator.h"
 
@@ -33,10 +34,10 @@ std::string TrigFunction::latex() {
     return "\\" + properties.getShortName() + "{" + argument->latex() + "}";
 }
 
-std::string TrigFunction::stringify() {
+std::wstring TrigFunction::stringify() {
     if (needsParentheses())
-        return properties.getShortName() + "(" + argument->stringify() + ")";
-    return properties.getShortName() + argument->stringify();
+        return toWstring(properties.getShortName()) + L" (" + argument->stringify() + L")";
+    return toWstring(properties.getShortName()) + L" " +  argument->stringify();
 }
 
 CAS_NAMESPACE_END

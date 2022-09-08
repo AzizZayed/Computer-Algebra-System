@@ -3,16 +3,17 @@
 //
 
 #include "core/node/Const.h"
+#include "../../util/StringUtils.h"
 
 CAS_NAMESPACE
 
-const std::string Const::PI_UNICODE = "\u03C0";
-const std::string Const::E_UNICODE = "e";
-const std::string Const::PHI_UNICODE = "\u03D5";
+const wchar_t* Const::PI_UNICODE = L"\u03C0";
+const wchar_t* Const::E_UNICODE = L"e";
+const wchar_t* Const::PHI_UNICODE = L"\u03D5";
 
-const std::string Const::PI_LATEX = "\\pi";
-const std::string Const::E_LATEX = "e";
-const std::string Const::PHI_LATEX = "\\varphi";
+const char* Const::PI_LATEX = "\\pi";
+const char* Const::E_LATEX = "e";
+const char* Const::PHI_LATEX = "\\varphi";
 
 Const::Const(double value)
     : value{value}, Expression{{ExpressionType::CONSTANT, "constant", "const"}} {
@@ -69,7 +70,7 @@ std::string Const::latex() {
     return text();
 }
 
-std::string Const::stringify() {
+std::wstring Const::stringify() {
     if (value == math::PI) {
         return PI_UNICODE;
     }
@@ -80,7 +81,7 @@ std::string Const::stringify() {
         return PHI_UNICODE;
     }
 
-    return text();
+    return toWstring(text());
 }
 
 std::string Const::text() {

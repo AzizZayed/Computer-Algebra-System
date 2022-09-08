@@ -34,10 +34,10 @@ std::string Ln::latex() {
     return "\\ln" + argument->latex();
 }
 
-std::string Ln::stringify() {
+std::wstring Ln::stringify() {
     if (argumentNeedsParentheses())
-        return "ln(" + argument->stringify() + ")";
-    return "ln" + argument->stringify();
+        return L"ln(" + argument->stringify() + L")";
+    return L"ln" + argument->stringify();
 }
 
 std::string Ln::text() {

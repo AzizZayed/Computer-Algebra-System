@@ -3,6 +3,7 @@
 //
 
 #include "core/node/Mod.h"
+#include "../../util/StringUtils.h"
 #include "core/node/Const.h"
 
 CAS_NAMESPACE
@@ -63,8 +64,8 @@ std::string Mod::latex() {
     return "\\operatorname{mod}\\left(" + dividend->latex() + ", " + divisor->latex() + "\\right)";
 }
 
-std::string Mod::stringify() {
-    return properties.getShortName() + "(" + dividend->stringify() + ", " + divisor->stringify() + ")";
+std::wstring Mod::stringify() {
+    return toWstring(properties.getShortName()) + L"(" + dividend->stringify() + L", " + divisor->stringify() + L")";
 }
 
 std::string Mod::text() {

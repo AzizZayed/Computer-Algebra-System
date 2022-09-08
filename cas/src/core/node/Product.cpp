@@ -84,11 +84,11 @@ std::string Product::latex() {
     return ss.str();
 }
 
-std::string Product::stringify() {
+std::wstring Product::stringify() {
     if (expressions.empty())
-        return "";
+        return L"";
 
-    std::stringstream ss;
+    std::wstringstream ss;
 
     for (size_t i = 0; i < expressions.size(); i++) {
         Expression* exp = expressions[i];

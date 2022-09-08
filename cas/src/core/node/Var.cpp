@@ -3,6 +3,7 @@
 //
 
 #include "core/node/Var.h"
+#include "../../util/StringUtils.h"
 #include "core/CAS.h"
 
 CAS_NAMESPACE
@@ -54,8 +55,8 @@ std::string Var::latex() {
     return text();
 }
 
-std::string Var::stringify() {
-    return text();
+std::wstring Var::stringify() {
+    return toWstring(text());
 }
 
 std::string Var::text() {

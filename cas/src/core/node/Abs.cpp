@@ -8,7 +8,7 @@
 CAS_NAMESPACE
 
 Abs::Abs(Expression* argument)
-    : BracketFunction({ExpressionType::ABSOLUTE_VALUE, "absolute_value", "abs"}, argument, "|", "|") {}
+    : BracketFunction({ExpressionType::ABSOLUTE_VALUE, "absolute_value", "abs"}, argument, L"|", L"|", "\\left|", "\\right|") {}
 
 double Abs::evaluate(const std::unordered_map<char, double>& variables) {
     return std::abs(argument->evaluate(variables));

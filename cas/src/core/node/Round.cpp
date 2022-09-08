@@ -8,7 +8,7 @@
 CAS_NAMESPACE
 
 Round::Round(Expression* argument)
-    : BracketFunction({ExpressionType::ROUND, "round", "round"}, argument, "[", "]") {}
+    : BracketFunction({ExpressionType::ROUND, "round", "round"}, argument, L"\u230A", L"\u2309", "\\lfloor", "\\rceil") {}
 
 double Round::evaluate(const std::unordered_map<char, double>& variables) {
     return std::round(argument->evaluate(variables));

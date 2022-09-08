@@ -3,6 +3,7 @@
 //
 
 #include "core/node/MultipleInputFunction.h"
+#include "../../util/StringUtils.h"
 #include "core/CAS.h"
 #include "core/node/Expression.h"
 #include <sstream>
@@ -54,15 +55,15 @@ std::string MultipleInputFunction::latex() {
     return ss.str();
 }
 
-std::string MultipleInputFunction::stringify() {
-    std::stringstream ss;
-    ss << properties.getShortName() << "(";
+std::wstring MultipleInputFunction::stringify() {
+    std::wstringstream ss;
+    ss << toWstring(properties.getShortName()) << L"(";
     for (size_t i = 0; i < expressions.size(); i++) {
         ss << expressions[i]->stringify();
         if (i < expressions.size() - 1)
             ss << ", ";
     }
-    ss << ")";
+    ss << L")";
     return ss.str();
 }
 

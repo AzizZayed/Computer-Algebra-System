@@ -2,9 +2,9 @@
 // Created by Abd-El-Aziz Zayed on 2022-08-31.
 //
 
+#include "gtest/gtest.h"
 #include "core/node/Const.h"
 #include "core/node/Var.h"
-#include "gtest/gtest.h"
 
 TEST(VariableNodeTest, VariableCreationTest) {
     auto* variable = new cas::Var('x');
@@ -78,7 +78,8 @@ TEST(VariableNodeTest, VariableLatexTest) {
 
 TEST(VariableNodeTest, VariableStringifyTest) {
     auto* variable = new cas::Var('x');
-    EXPECT_EQ("x", variable->stringify());
+//    EXPECT_EQ("x", variable->stringify());
+    EXPECT_TRUE(L"x" == variable->stringify());
 }
 
 TEST(VariableNodeTest, VariableTextTest) {

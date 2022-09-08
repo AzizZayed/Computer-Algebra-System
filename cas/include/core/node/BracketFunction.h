@@ -14,25 +14,29 @@ class BracketFunction : public FixedInputFunction {
 public:
     BracketFunction() = delete;
 
-    ~BracketFunction() override;
+    ~BracketFunction() override = default;
 
     bool equals(Expression* other) override;
 
     std::string latex() override;
 
-    std::string stringify() override;
+    std::wstring stringify() override;
 
     std::string text() override;
 
     std::string explicitText() override;
 
 protected:
-    explicit BracketFunction(const ExpressionProperties& properties, Expression* argument, const char* openBracket,
-                             const char* closeBracket);
+    explicit BracketFunction(const ExpressionProperties& properties, Expression* argument,
+                             const wchar_t* openBracket, const wchar_t* closeBracket,
+                             const char* openBracketLatex, const char* closeBracketLatex);
 
 private:
-    const char* openBracket;
-    const char* closeBracket;
+    const wchar_t* openBracket;
+    const wchar_t* closeBracket;
+
+    const char* openBracketLatex;
+    const char* closeBracketLatex;
 };
 
 CAS_NAMESPACE_END

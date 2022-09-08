@@ -26,7 +26,7 @@ public:
 
     std::string latex() override;
 
-    std::string stringify() override;
+    std::wstring stringify() override;
 
 protected:
     double operate(double a, double b) override { return a + b; };

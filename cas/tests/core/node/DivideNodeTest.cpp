@@ -125,7 +125,8 @@ TEST(DivideNodeTest, DivideLatexTest) {
 
 TEST(DivideNodeTest, DivideStringifyTest) {
     auto* divide = new cas::Divide(new cas::Var('x'), new cas::Var('y'));
-    EXPECT_EQ("(x/y)", divide->stringify());
+//    EXPECT_EQ("(x/y)", divide->stringify());
+    EXPECT_TRUE(divide->stringify() == L"(x/y)");
 }
 
 TEST(DivideNodeTest, DivideTextTest) {

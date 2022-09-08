@@ -3,6 +3,7 @@
 //
 
 #include "core/node/FixedInputFunction.h"
+#include "../../util/StringUtils.h"
 
 CAS_NAMESPACE
 
@@ -20,8 +21,8 @@ std::string FixedInputFunction::latex() {
     return "\\" + properties.getShortName() + "\\left(" + argument->latex() + "\\right)";
 }
 
-std::string FixedInputFunction::stringify() {
-    return properties.getShortName() + "(" + argument->stringify() + ")";
+std::wstring FixedInputFunction::stringify() {
+    return toWstring(properties.getShortName()) + L"(" + argument->stringify() + L")";
 }
 
 std::string FixedInputFunction::text() {

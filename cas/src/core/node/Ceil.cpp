@@ -8,7 +8,7 @@
 CAS_NAMESPACE
 
 Ceil::Ceil(Expression* argument)
-    : BracketFunction({ExpressionType::CEIL, "ceiling", "ceil"}, argument, "\u2308", "\u2309") {}
+    : BracketFunction({ExpressionType::CEIL, "ceiling", "ceil"}, argument, L"\u2308", L"\u2309", "\\lceil", "\\rceil") {}
 
 double Ceil::evaluate(const std::unordered_map<char, double>& variables) {
     return std::ceil(argument->evaluate(variables));

@@ -81,14 +81,14 @@ std::string Log::latex() {
     return "\\log_{" + base->latex() + "}{" + argument->latex() + "}";
 }
 
-std::string Log::stringify() {
+std::wstring Log::stringify() {
     if (argumentNeedsParentheses()) {
         if (base->isOfType(ExpressionType::CONSTANT) || base->isOfType(ExpressionType::VARIABLE)) {
-            return "log_" + base->stringify() + "(" + argument->stringify() + ")";
+            return L"log_" + base->stringify() + L"(" + argument->stringify() + L")";
         }
-        return "log_(" + base->stringify() + ")(" + argument->stringify() + ")";
+        return L"log_(" + base->stringify() + L")(" + argument->stringify() + L")";
     }
-    return "log_" + base->stringify() + " " + argument->stringify();
+    return L"log_" + base->stringify() + L" " + argument->stringify();
 }
 
 std::string Log::text() {

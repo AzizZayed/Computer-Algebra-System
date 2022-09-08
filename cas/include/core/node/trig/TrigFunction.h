@@ -18,7 +18,7 @@ public:
     bool equals(Expression* expression) override;
 
     std::string latex() override;
-    std::string stringify() override;
+    std::wstring stringify() override;
 
 protected:
     explicit TrigFunction(const ExpressionProperties& props, Expression* argument);

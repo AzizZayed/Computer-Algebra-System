@@ -8,7 +8,7 @@
 CAS_NAMESPACE
 
 Floor::Floor(Expression* argument)
-    : BracketFunction({ExpressionType::FLOOR, "floor_value", "floor"}, argument, "\u230A", "\u230B") {}
+    : BracketFunction({ExpressionType::FLOOR, "floor_value", "floor"}, argument, L"\u230A", L"\u230B", "\\lfloor", "\\rfloor") {}
 
 double Floor::evaluate(const std::unordered_map<char, double>& variables) {
     return std::floor(argument->evaluate(variables));

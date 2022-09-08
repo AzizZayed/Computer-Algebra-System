@@ -86,8 +86,8 @@ std::string Divide::latex() {
     return "\\dfrac{" + dividend->latex() + "}{" + divisor->latex() + "}";
 }
 
-std::string Divide::stringify() {
-    return "(" + dividend->stringify() + "/" + divisor->stringify() + ")";
+std::wstring Divide::stringify() {
+    return L"(" + dividend->stringify() + L"/" + divisor->stringify() + L")";
 }
 
 std::string Divide::text() {

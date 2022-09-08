@@ -3,6 +3,7 @@
 //
 
 #include "core/node/Root.h"
+#include "../../util/StringUtils.h"
 #include "core/node/Cbrt.h"
 #include "core/node/Sqrt.h"
 
@@ -52,8 +53,8 @@ std::string Root::latex() {
     return "\\sqrt[" + exponent->latex() + "]{" + base->latex() + "}";
 }
 
-std::string Root::stringify() {
-    return properties.getShortName() + "(" + base->stringify() + ", " + exponent->stringify() + ")";
+std::wstring Root::stringify() {
+    return toWstring(properties.getShortName()) + L"(" + base->stringify() + L", " + exponent->stringify() + L")";
 }
 
 std::string Root::text() {

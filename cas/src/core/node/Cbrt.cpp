@@ -3,6 +3,7 @@
 //
 
 #include "core/node/Cbrt.h"
+#include "../../util/StringUtils.h"
 #include "core/node/Divide.h"
 #include "core/node/Product.h"
 
@@ -38,8 +39,8 @@ std::string Cbrt::latex() {
     return "\\sqrt[3]{" + base->latex() + "}";
 }
 
-std::string Cbrt::stringify() {
-    return properties.getShortName() + "(" + base->stringify() + ")";
+std::wstring Cbrt::stringify() {
+    return toWstring(properties.getShortName()) + L"(" + base->stringify() + L")";
 }
 
 std::string Cbrt::text() {

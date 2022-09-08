@@ -35,7 +35,7 @@ public:
 
     std::string latex() override;
 
-    std::string stringify() override;
+    std::wstring stringify() override;
 
     std::string text() override;
 
