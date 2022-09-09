@@ -5,12 +5,12 @@
 #ifndef CAS_SIGN_H
 #define CAS_SIGN_H
 
-#include "FixedInputFunction.h"
+#include "UnaryFunction.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class Sign : public FixedInputFunction {
+class Sign : public UnaryFunction {
 public:
     explicit Sign(Expression* argument);
     Sign() = delete;

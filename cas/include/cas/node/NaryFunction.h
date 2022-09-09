@@ -2,8 +2,8 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-04.
 //
 
-#ifndef CAS_MULTIPLEINPUTFUNCTION_H
-#define CAS_MULTIPLEINPUTFUNCTION_H
+#ifndef CAS_NARYFUNCTION_H
+#define CAS_NARYFUNCTION_H
 
 #include "Expression.h"
 #include "cas/CAS.h"
@@ -11,11 +11,11 @@
 
 CAS_NAMESPACE
 
-class MultipleInputFunction : public Expression {
+class NaryFunction : public Expression {
 public:
-    MultipleInputFunction() = delete;
+    NaryFunction() = delete;
 
-    ~MultipleInputFunction() override;
+    ~NaryFunction() override;
 
     bool equals(Expression* expression) override;
 
@@ -30,7 +30,7 @@ public:
     std::vector<Expression*> getExpressions() const { return {expressions}; }
 
 protected:
-    explicit MultipleInputFunction(const ExpressionProperties& props, std::vector<Expression*> expressions);
+    explicit NaryFunction(const ExpressionProperties& props, std::vector<Expression*> expressions);
 
 protected:
     std::vector<Expression*> expressions;
@@ -38,4 +38,4 @@ protected:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_MULTIPLEINPUTFUNCTION_H
+#endif//CAS_NARYFUNCTION_H

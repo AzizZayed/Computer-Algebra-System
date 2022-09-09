@@ -3,10 +3,10 @@
 //
 
 #include "cas/node/Cbrt.h"
-#include "cas/util/StringUtils.h"
+#include "cas/node/Const.h"
 #include "cas/node/Divide.h"
 #include "cas/node/Product.h"
-#include "cas/node/Const.h"
+#include "cas/util/StringUtils.h"
 
 
 CAS_NAMESPACE
@@ -15,7 +15,7 @@ Cbrt::Cbrt(Expression* base)
     : Root({ExpressionType::CUBE_ROOT, "cube_root", "cbrt"}, base, new Const(3)) {}
 
 double Cbrt::evaluate(const std::unordered_map<char, double>& variables) {
-    return cbrt(base->evaluate(variables));
+    return std::cbrt(base->evaluate(variables));
 }
 
 Cbrt* Cbrt::clone() {

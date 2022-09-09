@@ -3,8 +3,8 @@
 //
 
 #include "cas/node/Mod.h"
-#include "cas/util/StringUtils.h"
 #include "cas/node/Const.h"
+#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 
@@ -23,7 +23,7 @@ Mod::Mod(Expression* dividend, Expression* divisor)
 
 Mod::~Mod() {
 #if DEBUG_CAS
-    printf("Destroy cas::Mod\n");
+    wPrint(L"Destroy cas::Mod\n");
 #endif
 
     delete dividend;

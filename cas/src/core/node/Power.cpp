@@ -8,6 +8,7 @@
 #include "cas/node/Ln.h"
 #include "cas/node/Product.h"
 #include "cas/node/Sum.h"
+#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 
@@ -25,7 +26,7 @@ Power::Power(Expression* base, double exponent)
 
 Power::~Power() {
 #if DEBUG_CAS
-    printf("Destroy Power\n");
+    wPrint(L"Destroy Power\n");
 #endif
 
     delete base;

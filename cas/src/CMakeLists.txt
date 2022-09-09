@@ -17,8 +17,8 @@ set(CAS_SRC_HEADERS
         ../include/cas/node/Log.h
         ../include/cas/node/Ln.h
         ../include/cas/node/Exp.h
-        ../include/cas/node/FixedInputFunction.h
-        ../include/cas/node/MultipleInputFunction.h
+        ../include/cas/node/UnaryFunction.h
+        ../include/cas/node/NaryFunction.h
         ../include/cas/node/Min.h
         ../include/cas/node/Max.h
         ../include/cas/node/BracketFunction.h
@@ -60,7 +60,7 @@ set(CAS_SRC_SOURCES
         core/node/Exp.cpp
         core/node/Log.cpp
         core/node/Ln.cpp
-        core/node/MultipleInputFunction.cpp
+        core/node/NaryFunction.cpp
         core/node/Min.cpp
         core/node/Max.cpp
         core/node/BracketFunction.cpp
@@ -68,7 +68,7 @@ set(CAS_SRC_SOURCES
         core/node/Floor.cpp
         core/node/Ceil.cpp
         core/node/Round.cpp
-        core/node/FixedInputFunction.cpp
+        core/node/UnaryFunction.cpp
         core/node/Mod.cpp
         core/node/Sign.cpp
         core/node/trig/TrigFunction.cpp

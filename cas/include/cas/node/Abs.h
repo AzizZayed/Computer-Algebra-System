@@ -6,7 +6,7 @@
 #define CAS_ABS_H
 
 #include "BracketFunction.h"
-#include "cas/CAS.h"
+#include "Expression.h"
 
 CAS_NAMESPACE
 

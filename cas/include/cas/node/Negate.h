@@ -6,12 +6,12 @@
 #define CAS_NEGATE_H
 
 #include "Expression.h"
-#include "FixedInputFunction.h"
+#include "UnaryFunction.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class Negate : public FixedInputFunction {
+class Negate : public UnaryFunction {
 public:
     explicit Negate(Expression* expression);
 

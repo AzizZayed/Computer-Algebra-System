@@ -104,7 +104,7 @@ TEST(ProductNodeTest, ProductStringifyTest) {
                     new cas::Var('w'),
                     new cas::Var('a'),
             }};
-//    EXPECT_EQ("x * y * w * a", product2->stringify());
+    //    EXPECT_EQ("x * y * w * a", product2->stringify());
     EXPECT_TRUE(L"x * y * w * a" == product2->stringify());
 }
 

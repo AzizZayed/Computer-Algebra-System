@@ -2,34 +2,34 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "cas/node/FixedInputFunction.h"
+#include "cas/node/UnaryFunction.h"
 #include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 
-FixedInputFunction::FixedInputFunction(const ExpressionProperties& properties, Expression* argument)
+UnaryFunction::UnaryFunction(const ExpressionProperties& properties, Expression* argument)
     : Expression(properties), argument(argument) {
     this->argument->setParent(this);
 }
 
-FixedInputFunction::~FixedInputFunction() {
+UnaryFunction::~UnaryFunction() {
     delete argument;
     argument = nullptr;
 }
 
-std::string FixedInputFunction::latex() {
+std::string UnaryFunction::latex() {
     return "\\" + properties.getShortName() + "\\left(" + argument->latex() + "\\right)";
 }
 
-std::wstring FixedInputFunction::stringify() {
+std::wstring UnaryFunction::stringify() {
     return toWstring(properties.getShortName()) + L"(" + argument->stringify() + L")";
 }
 
-std::string FixedInputFunction::text() {
+std::string UnaryFunction::text() {
     return properties.getShortName() + "(" + argument->text() + ")";
 }
 
-std::string FixedInputFunction::explicitText() {
+std::string UnaryFunction::explicitText() {
     return properties.getShortName() + "(" + argument->explicitText() + ")";
 }
 

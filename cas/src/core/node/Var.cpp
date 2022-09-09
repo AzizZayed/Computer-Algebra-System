@@ -2,23 +2,23 @@
 // Created by Abd-El-Aziz Zayed on 2022-08-31.
 //
 
-#include "cas/node/Const.h"
 #include "cas/node/Var.h"
-#include "cas/util/StringUtils.h"
 #include "cas/CAS.h"
+#include "cas/node/Const.h"
+#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 
 Var::Var(char variable)
     : symbol(variable), Expression({ExpressionType::VARIABLE, "variable", "var"}) {
 #if DEBUG_CAS
-    printf("%s(%c)\n", properties.getName().c_str(), variable);
+    wprintf(L"%s(%c)\n", properties.getName().c_str(), variable);
 #endif
 }
 
 Var::~Var() {
 #if DEBUG_CAS
-    printf("Destroy cas::Var\n");
+    wPrint(L"Destroy cas::Var\n");
 #endif
 }
 

@@ -3,10 +3,12 @@
 //
 
 #include "cas/node/trig/ArcSin.h"
+#include "cas/node/Const.h"
 #include "cas/node/Divide.h"
+#include "cas/node/Negate.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
-#include "cas/node/Const.h"
+#include <vector>
 
 CAS_NAMESPACE
 
@@ -22,10 +24,8 @@ ArcSin* ArcSin::clone() {
 }
 
 Expression* ArcSin::derivative(char var) {
-    return new Divide(
-            argument->derivative(var),
-            new Sqrt(new Sum({new Const(1),
-                              argument->clone()->power(2)->negate()})));
+    std::vector<Expression*> terms = {new Const(1), argument->clone()->power(2)->negate()};
+    return new Divide(argument->derivative(var), new Sqrt(new Sum(terms)));
 }
 
 Expression* ArcSin::simplified() {

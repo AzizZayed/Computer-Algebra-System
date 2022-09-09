@@ -5,12 +5,12 @@
 #ifndef CAS_BRACKETFUNCTION_H
 #define CAS_BRACKETFUNCTION_H
 
-#include "FixedInputFunction.h"
+#include "UnaryFunction.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class BracketFunction : public FixedInputFunction {
+class BracketFunction : public UnaryFunction {
 public:
     BracketFunction() = delete;
 

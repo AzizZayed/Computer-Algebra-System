@@ -10,7 +10,7 @@ CAS_NAMESPACE
 BracketFunction::BracketFunction(const ExpressionProperties& properties, Expression* argument,
                                  const wchar_t* openBracket, const wchar_t* closeBracket,
                                  const char* openBracketLatex, const char* closeBracketLatex)
-    : FixedInputFunction(properties, argument),
+    : UnaryFunction(properties, argument),
       openBracket(openBracket), closeBracket(closeBracket),
       openBracketLatex(openBracketLatex), closeBracketLatex(closeBracketLatex) {}
 
@@ -22,9 +22,7 @@ bool BracketFunction::equals(Expression* other) {
         return false;
 
     auto* otherBracketFunction = dynamic_cast<BracketFunction*>(other);
-    return argument->equals(otherBracketFunction->argument)
-           && wcscmp(openBracket, otherBracketFunction->openBracket) == 0
-           && wcscmp(closeBracket, otherBracketFunction->closeBracket) == 0;
+    return argument->equals(otherBracketFunction->argument) && wcscmp(openBracket, otherBracketFunction->openBracket) == 0 && wcscmp(closeBracket, otherBracketFunction->closeBracket) == 0;
 }
 
 std::string BracketFunction::latex() {

@@ -3,11 +3,11 @@
 //
 
 #include "cas/node/trig/ArcCos.h"
+#include "cas/node/Const.h"
 #include "cas/node/Divide.h"
 #include "cas/node/Negate.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
-#include "cas/node/Const.h"
 
 CAS_NAMESPACE
 

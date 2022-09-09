@@ -13,7 +13,7 @@ Ln::Ln(Expression* argument)
     : Log({ExpressionType::NATURAL_LOGARITHM, "natural_logarithm", "ln"}, Const::E(), argument) {}
 
 double Ln::evaluate(const std::unordered_map<char, double>& variables) {
-    return log(argument->evaluate(variables));
+    return std::log(argument->evaluate(variables));
 }
 
 Ln* Ln::clone() {

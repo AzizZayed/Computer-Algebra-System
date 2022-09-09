@@ -3,8 +3,10 @@
 //
 
 #include "cas/node/trig/Tan.h"
-#include "cas/node/Product.h"
 #include "cas/node/Const.h"
+#include "cas/node/Power.h"
+#include "cas/node/Product.h"
+#include "cas/node/trig/Sec.h"
 
 CAS_NAMESPACE
 

@@ -10,6 +10,7 @@
 #include "cas/node/Power.h"
 #include "cas/node/Product.h"
 #include "cas/node/Sum.h"
+#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 
@@ -21,7 +22,7 @@ Divide::Divide(Expression* dividend, Expression* divisor)
 
 Divide::~Divide() {
 #if DEBUG_CAS
-    printf("Destroy cas::Divide\n");
+    wPrint(L"Destroy cas::Divide\n");
 #endif
 
     delete dividend;

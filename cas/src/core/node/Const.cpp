@@ -19,13 +19,13 @@ Const::Const(double value)
     : value{value}, Expression{{ExpressionType::CONSTANT, "constant", "const"}} {
 #if DEBUG_CAS
     std::string str = properties.getName();
-    printf("%s(%f)\n", str.c_str(), value);
+    wprintf(L"%s(%f)\n", str.c_str(), value);
 #endif
 }
 
 Const::~Const() {
 #if DEBUG_CAS
-    printf("Destroy cas::Const\n");
+    wPrint(L"Destroy cas::Const\n");
 #endif
 }
 

@@ -4,6 +4,7 @@
 
 #include "cas/node/Product.h"
 #include "cas/node/Sum.h"
+#include "cas/util/StringUtils.h"
 #include <sstream>
 
 CAS_NAMESPACE
@@ -13,7 +14,7 @@ Product::Product(const std::vector<Expression*>& expressions)
 
 Product::~Product() {
 #if DEBUG_CAS
-    printf("Destroy cas::Product\n");
+    wPrint(L"Destroy cas::Product\n");
 #endif
 }
 

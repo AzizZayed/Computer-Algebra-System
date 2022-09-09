@@ -5,6 +5,7 @@
 #include "cas/node/trig/ArcTan.h"
 #include "cas/node/Const.h"
 #include "cas/node/Divide.h"
+#include "cas/node/Power.h"
 #include "cas/node/Sum.h"
 
 CAS_NAMESPACE

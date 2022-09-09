@@ -31,7 +31,7 @@ Log::~Log() {
 }
 
 double Log::evaluate(const std::unordered_map<char, double>& variables) {
-    return log(argument->evaluate(variables)) / log(base->evaluate(variables));
+    return std::log(argument->evaluate(variables)) / std::log(base->evaluate(variables));
 }
 
 bool Log::equals(Expression* expression) {

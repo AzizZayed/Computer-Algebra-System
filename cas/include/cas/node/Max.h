@@ -5,12 +5,12 @@
 #ifndef CAS_MAX_H
 #define CAS_MAX_H
 
-#include "MultipleInputFunction.h"
+#include "NaryFunction.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class Max : public MultipleInputFunction {
+class Max : public NaryFunction {
 public:
     explicit Max(std::vector<Expression*> expressions);
 

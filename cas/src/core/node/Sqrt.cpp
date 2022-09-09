@@ -3,10 +3,10 @@
 //
 
 #include "cas/node/Sqrt.h"
-#include "cas/util/StringUtils.h"
+#include "cas/node/Const.h"
 #include "cas/node/Divide.h"
 #include "cas/node/Product.h"
-#include "cas/node/Const.h"
+#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 

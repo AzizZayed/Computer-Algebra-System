@@ -17,6 +17,40 @@ CAS_NAMESPACE
 
 class Product;
 class Sum;
+class Divide;
+class Negate;
+
+class Power;
+class Exp;
+class Log;
+class Ln;
+
+class Root;
+class Sqrt;
+class Cbrt;
+
+class Sin;
+class Cos;
+class Tan;
+class Cot;
+class Csc;
+class Sec;
+class ArcSin;
+class ArcCos;
+class ArcTan;
+class ArcCot;
+class ArcCsc;
+class ArcSec;
+
+class Abs;
+class Floor;
+class Ceil;
+class Round;
+class Sign;
+
+CAS_NAMESPACE_END
+
+CAS_NAMESPACE
 
 class Expression : public IMathNode {
 public:
@@ -39,26 +73,40 @@ public:
 
     Product* multiply(Expression* expression);
     Sum* add(Expression* expression);
-    Expression* negate();
-    Expression* subtract(Expression* expression);
-    Expression* power(Expression* expression);
-    Expression* power(double exponent);
-    Expression* sqrt();
-    Expression* abs();
+    Sum* subtract(Expression* expression);
+    Divide* divide(Expression* expression);
+    Negate* negate();
 
-    Expression* cos();
-    Expression* sin();
-    Expression* tan();
-    Expression* atan();
-    Expression* acos();
-    Expression* asin();
-    Expression* csc();
-    Expression* sec();
-    Expression* cot();
-    Expression* acsc();
-    Expression* asec();
-    Expression* acot();
+    Power* power(Expression* expression);
+    Power* power(double exponent);
+    Exp* exp();
+    Log* log(Expression* base);
+    Log* log(double base);
+    Ln* ln();
 
+    Root* root(Expression* root);
+    Root* root(double root);
+    Sqrt* sqrt();
+    Cbrt* cbrt();
+
+    Cos* cos();
+    Sin* sin();
+    Tan* tan();
+    ArcTan* atan();
+    ArcCos* acos();
+    ArcSin* asin();
+    Csc* csc();
+    Sec* sec();
+    Cot* cot();
+    ArcCsc* acsc();
+    ArcSec* asec();
+    ArcCot* acot();
+
+    Abs* abs();
+    Floor* floor();
+    Ceil* ceil();
+    Round* round();
+    Sign* sign();
 
     ExpressionProperties getProperties() const;
 

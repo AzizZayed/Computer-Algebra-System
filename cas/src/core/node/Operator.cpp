@@ -13,7 +13,7 @@ Operator::Operator(const ExpressionProperties& props, double neutral, char symbo
                    std::vector<Expression*> expressions)
     : neutral(neutral), symbol(symbol), expressions(std::move(expressions)), Expression(props) {
 #if DEBUG_CAS
-    printf("%s(%c...)\n", properties.getName().c_str(), symbol);
+    wprintf(L"%s(%c...)\n", properties.getName().c_str(), symbol);
 #endif
 
     for (auto& expression: this->expressions)

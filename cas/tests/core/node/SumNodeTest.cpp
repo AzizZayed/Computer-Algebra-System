@@ -83,6 +83,6 @@ TEST(SumNodeTest, SumLatexTest) {
 
 TEST(SumNodeTest, SumStringifyTest) {
     auto* sum = new cas::Sum({new cas::Var('x'), new cas::Var('y'), cas::Const::PI()});
-//    EXPECT_EQ("x + y + π", sum->stringify());
+    //    EXPECT_EQ("x + y + π", sum->stringify());
     EXPECT_TRUE(std::wstring(L"x + y + ") + cas::Const::PI_UNICODE == sum->stringify());
 }

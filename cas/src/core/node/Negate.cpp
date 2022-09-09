@@ -4,20 +4,21 @@
 
 #include "cas/node/Negate.h"
 #include "cas/node/Operator.h"
+#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 
 Negate::Negate(Expression* expression)
-    : FixedInputFunction({ExpressionType::NEGATE, "negate", "neg"}, expression) {
+    : UnaryFunction({ExpressionType::NEGATE, "negate", "neg"}, expression) {
 #if DEBUG_CAS
     std::string str = properties.getName();
-    printf("%s(...)\n", str.c_str());
+    wprintf(L"%s(...)\n", str.c_str());
 #endif
 }
 
 Negate::~Negate() {
 #if DEBUG_CAS
-    printf("Destroy cas::Negate\n");
+    wPrint(L"Destroy cas::Negate\n");
 #endif
 }
 

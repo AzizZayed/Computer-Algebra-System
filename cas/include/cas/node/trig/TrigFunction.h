@@ -6,11 +6,11 @@
 #define CAS_TRIGFUNCTIONS_H
 
 #include "cas/CAS.h"
-#include "cas/node/FixedInputFunction.h"
+#include "cas/node/UnaryFunction.h"
 
 CAS_NAMESPACE
 
-class TrigFunction : public FixedInputFunction {
+class TrigFunction : public UnaryFunction {
 public:
     TrigFunction() = delete;
     ~TrigFunction() override = default;

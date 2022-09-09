@@ -12,7 +12,7 @@ CAS_NAMESPACE
 
 class Var : public Expression {
 public:
-    Var(char variable);
+    explicit Var(char variable);
     explicit Var() : Var(VAR_X) {}
 
     ~Var() override;

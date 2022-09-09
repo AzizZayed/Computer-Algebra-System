@@ -10,10 +10,10 @@
 #include <corecrt_math_defines.h>
 #endif
 
+#include "Expression.h"
+#include "cas/CAS.h"
 #include <cmath>
 #include <string>
-#include "cas/CAS.h"
-#include "Expression.h"
 
 CAS_NAMESPACE
 
@@ -25,7 +25,7 @@ namespace math {
 
 class Const : public Expression {
 public:
-    Const(double value);
+    explicit Const(double value);
 
     explicit Const() : Const(0.0){};
 

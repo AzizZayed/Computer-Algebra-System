@@ -4,9 +4,17 @@
 
 #include "cas/node/Expression.h"
 #include "cas/node/Abs.h"
+#include "cas/node/Cbrt.h"
+#include "cas/node/Ceil.h"
+#include "cas/node/Divide.h"
+#include "cas/node/Exp.h"
+#include "cas/node/Floor.h"
+#include "cas/node/Ln.h"
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
 #include "cas/node/Product.h"
+#include "cas/node/Round.h"
+#include "cas/node/Sign.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
 #include "cas/node/trig/ArcCos.h"
@@ -21,6 +29,7 @@
 #include "cas/node/trig/Sec.h"
 #include "cas/node/trig/Sin.h"
 #include "cas/node/trig/Tan.h"
+#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 
@@ -29,7 +38,7 @@ Expression::Expression(const ExpressionProperties& properties)
 
 Expression::~Expression() {
 #if DEBUG_CAS
-    printf("Destroy cas::Expression");
+    wPrint(L"Destroy cas::Expression");
 #endif
 }
 
@@ -61,65 +70,112 @@ Sum* Expression::add(Expression* expression) {
     return new Sum({this, expression});
 }
 
-Expression* Expression::subtract(Expression* expression) {
+Sum* Expression::subtract(Expression* expression) {
     return new Sum({this, new Negate(expression)});
 }
 
-Expression* Expression::negate() {
+Divide* Expression::divide(Expression* expression) {
+    return new Divide(this, expression);
+}
+
+Negate* Expression::negate() {
     return new Negate(this);
 }
 
-Expression* Expression::power(Expression* expression) {
+Power* Expression::power(Expression* expression) {
     return new Power(this, expression);
 }
 
-Expression* Expression::power(double exponent) {
+Power* Expression::power(double exponent) {
     return new Power(this, exponent);
 }
 
-Expression* Expression::sqrt() {
+Exp* Expression::exp() {
+    return new Exp(this);
+}
+
+Log* Expression::log(Expression* base) {
+    return new Log(base, this);
+}
+Log* Expression::log(double base) {
+    return new Log(base, this);
+}
+
+Ln* Expression::ln() {
+    return new Ln(this);
+}
+
+Root* Expression::root(Expression* root) {
+    return new Root(this, root);
+}
+
+Root* Expression::root(double root) {
+    return new Root(this, root);
+}
+
+Sqrt* Expression::sqrt() {
     return new Sqrt(this);
 }
 
-Expression* Expression::abs() {
+Cbrt* Expression::cbrt() {
+    return new Cbrt(this);
+}
+
+Abs* Expression::abs() {
     return new Abs(this);
 }
 
-Expression* Expression::cos() {
+Cos* Expression::cos() {
     return new Cos(this);
 }
-Expression* Expression::sin() {
+Sin* Expression::sin() {
     return new Sin(this);
 }
-Expression* Expression::tan() {
+Tan* Expression::tan() {
     return new Tan(this);
 }
-Expression* Expression::atan() {
+ArcTan* Expression::atan() {
     return new ArcTan(this);
 }
-Expression* Expression::acos() {
+ArcCos* Expression::acos() {
     return new ArcCos(this);
 }
-Expression* Expression::asin() {
+ArcSin* Expression::asin() {
     return new ArcSin(this);
 }
-Expression* Expression::csc() {
+Csc* Expression::csc() {
     return new Csc(this);
 }
-Expression* Expression::sec() {
+Sec* Expression::sec() {
     return new Sec(this);
 }
-Expression* Expression::cot() {
+Cot* Expression::cot() {
     return new Cot(this);
 }
-Expression* Expression::acsc() {
+ArcCsc* Expression::acsc() {
     return new ArcCsc(this);
 }
-Expression* Expression::asec() {
+ArcSec* Expression::asec() {
     return new ArcSec(this);
 }
-Expression* Expression::acot() {
+ArcCot* Expression::acot() {
     return new ArcCot(this);
+}
+
+Floor* Expression::floor() {
+    return new Floor(this);
+}
+
+Ceil* Expression::ceil() {
+    return new Ceil(this);
+}
+
+Round* Expression::round() {
+    return new Round(this);
+}
+
+Sign* Expression::sign() {
+    return new Sign(this);
 }
 
 double Expression::evaluate() {

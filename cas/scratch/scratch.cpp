@@ -2,9 +2,9 @@
 // Created by Abd-El-Aziz Zayed on 2022-08-29.
 //
 
-#include <iostream>
+#include "cas/util/StringUtils.h"
 
 int main() {
-    printf("Scratch work here!\n");
+    wPrint(L"Scratch work here!\n");
     return 0;
 }

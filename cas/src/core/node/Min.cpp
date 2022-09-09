@@ -3,13 +3,13 @@
 //
 
 #include "cas/node/Min.h"
-#include <utility>
 #include <algorithm>
+#include <utility>
 
 CAS_NAMESPACE
 
 Min::Min(std::vector<Expression*> expressions)
-    : MultipleInputFunction({ExpressionType::MIN, "minimum", "min"}, std::move(expressions)) {}
+    : NaryFunction({ExpressionType::MIN, "minimum", "min"}, std::move(expressions)) {}
 
 double Min::evaluate(const std::unordered_map<char, double>& variables) {
     auto functor = [variables](Expression* a, Expression* b) {

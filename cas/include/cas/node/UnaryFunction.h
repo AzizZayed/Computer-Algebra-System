@@ -2,19 +2,19 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-04.
 //
 
-#ifndef CAS_SINGLEINPUTFUNCTION_H
-#define CAS_SINGLEINPUTFUNCTION_H
+#ifndef CAS_UNARYFUNCTION_H
+#define CAS_UNARYFUNCTION_H
 
 #include "Expression.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class FixedInputFunction : public Expression {
+class UnaryFunction : public Expression {
 public:
-    FixedInputFunction() = delete;
+    UnaryFunction() = delete;
 
-    ~FixedInputFunction() override;
+    ~UnaryFunction() override;
 
     Expression* getArgument() const { return argument; }
 
@@ -27,7 +27,7 @@ public:
     std::string explicitText() override;
 
 protected:
-    explicit FixedInputFunction(const ExpressionProperties& properties, Expression* argument);
+    explicit UnaryFunction(const ExpressionProperties& properties, Expression* argument);
 
 protected:
     Expression* argument;
@@ -35,4 +35,4 @@ protected:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_SINGLEINPUTFUNCTION_H
+#endif//CAS_UNARYFUNCTION_H

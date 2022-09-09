@@ -3,13 +3,14 @@
 //
 
 #include "cas/node/trig/ArcSec.h"
+#include "cas/node/Abs.h"
+#include "cas/node/Const.h"
 #include "cas/node/Divide.h"
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
 #include "cas/node/Product.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
-#include "cas/node/Const.h"
 
 CAS_NAMESPACE
 

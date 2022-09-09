@@ -2,13 +2,13 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-02.
 //
 
+#include "cas/node/Const.h"
 #include "cas/node/Divide.h"
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
 #include "cas/node/Product.h"
 #include "cas/node/Sum.h"
 #include "cas/node/Var.h"
-#include "cas/node/Const.h"
 #include "gtest/gtest.h"
 
 TEST(DivideNodeTest, DivideCreationTest) {
@@ -126,7 +126,7 @@ TEST(DivideNodeTest, DivideLatexTest) {
 
 TEST(DivideNodeTest, DivideStringifyTest) {
     auto* divide = new cas::Divide(new cas::Var('x'), new cas::Var('y'));
-//    EXPECT_EQ("(x/y)", divide->stringify());
+    //    EXPECT_EQ("(x/y)", divide->stringify());
     EXPECT_TRUE(divide->stringify() == L"(x/y)");
 }
 

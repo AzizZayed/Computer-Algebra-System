@@ -5,6 +5,7 @@
 #include "cas/node/Sum.h"
 #include "cas/CAS.h"
 #include "cas/node/Const.h"
+#include "cas/util/StringUtils.h"
 #include <sstream>
 
 CAS_NAMESPACE
@@ -14,7 +15,7 @@ Sum::Sum(const std::vector<Expression*>& expressions)
 
 Sum::~Sum() {
 #if DEBUG_CAS
-    printf("Destroy cas::Sum\n");
+    wPrint(L"Destroy cas::Sum\n");
 #endif
 }
 

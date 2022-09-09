@@ -2,8 +2,8 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#ifndef CAS_ABS_H
-#define CAS_ABS_H
+#ifndef CAS_FLOOR_H
+#define CAS_FLOOR_H
 
 #include "BracketFunction.h"
 #include "cas/CAS.h"
@@ -27,4 +27,4 @@ public:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_ABS_H
+#endif//CAS_FLOOR_H

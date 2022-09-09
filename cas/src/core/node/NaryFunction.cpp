@@ -2,33 +2,33 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-04.
 //
 
-#include "cas/node/MultipleInputFunction.h"
+#include "cas/node/NaryFunction.h"
 #include "cas/util/StringUtils.h"
 #include <sstream>
 
 CAS_NAMESPACE
 
-MultipleInputFunction::MultipleInputFunction(const ExpressionProperties& props,
-                                             std::vector<Expression*> expressions)
+NaryFunction::NaryFunction(const ExpressionProperties& props,
+                           std::vector<Expression*> expressions)
     : Expression(props), expressions(std::move(expressions)) {
     for (auto& expression: this->expressions) {
         expression->setParent(this);
     }
 }
 
-MultipleInputFunction::~MultipleInputFunction() {
+NaryFunction::~NaryFunction() {
     for (auto& expression: expressions) {
         delete expression;
         expression = nullptr;
     }
 }
 
-bool MultipleInputFunction::equals(Expression* expression) {
+bool NaryFunction::equals(Expression* expression) {
     if (this == expression)
         return true;
 
     if (expression->isOfType(properties.getType())) {
-        auto* function = dynamic_cast<MultipleInputFunction*>(expression);
+        auto* function = dynamic_cast<NaryFunction*>(expression);
         if (expressions.size() != function->expressions.size())
             return false;
 
@@ -41,7 +41,7 @@ bool MultipleInputFunction::equals(Expression* expression) {
     return false;
 }
 
-std::string MultipleInputFunction::latex() {
+std::string NaryFunction::latex() {
     std::stringstream ss;
     ss << "\\" << properties.getShortName() << "\\left(";
     for (size_t i = 0; i < expressions.size(); i++) {
@@ -53,7 +53,7 @@ std::string MultipleInputFunction::latex() {
     return ss.str();
 }
 
-std::wstring MultipleInputFunction::stringify() {
+std::wstring NaryFunction::stringify() {
     std::wstringstream ss;
     ss << toWstring(properties.getShortName()) << L"(";
     for (size_t i = 0; i < expressions.size(); i++) {
@@ -65,7 +65,7 @@ std::wstring MultipleInputFunction::stringify() {
     return ss.str();
 }
 
-std::string MultipleInputFunction::text() {
+std::string NaryFunction::text() {
     std::stringstream ss;
     ss << properties.getShortName() << "(";
     for (size_t i = 0; i < expressions.size(); i++) {
@@ -77,7 +77,7 @@ std::string MultipleInputFunction::text() {
     return ss.str();
 }
 
-std::string MultipleInputFunction::explicitText() {
+std::string NaryFunction::explicitText() {
     std::stringstream ss;
     ss << properties.getShortName() << "(";
     for (size_t i = 0; i < expressions.size(); i++) {

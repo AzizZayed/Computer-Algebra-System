@@ -5,12 +5,12 @@
 #ifndef CAS_MIN_H
 #define CAS_MIN_H
 
-#include "MultipleInputFunction.h"
+#include "NaryFunction.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class Min : public MultipleInputFunction {
+class Min : public NaryFunction {
 public:
     explicit Min(std::vector<Expression*> expressions);
 
