@@ -8,7 +8,6 @@
 #include "cas/node/Ln.h"
 #include "cas/node/Product.h"
 #include "cas/node/Sum.h"
-#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 

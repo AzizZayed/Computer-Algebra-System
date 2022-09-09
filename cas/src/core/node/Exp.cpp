@@ -22,11 +22,27 @@ Exp* Exp::clone() {
 }
 
 Expression* Exp::derivative(char var) {
+    if (exponent->isOfType(ExpressionType::CONSTANT)) {
+        return new Const;
+    }
+
     return new Product({clone(), exponent->derivative(var)});
 }
 
 Expression* Exp::simplified() {
+    if (exponent->isOfType(ExpressionType::CONSTANT)) {
+        auto* constant = dynamic_cast<Const*>(exponent);
+        if (constant->getValue() == 0)
+            return new Const(1);
+        if (constant->getValue() == 1)
+            return Const::E();
+    }
+
     return new Exp(exponent->simplified());// TODO: Simplify
+}
+
+std::string Exp::explicitText() {
+    return properties.getShortName() + "(" + exponent->explicitText() + ")";
 }
 
 CAS_NAMESPACE_END

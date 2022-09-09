@@ -10,6 +10,8 @@ TEST(ConstantNodeTest, ConstantCreationTest) {
     auto* constant = new cas::Const(1);
     EXPECT_EQ(1, constant->getValue());
     EXPECT_EQ(cas::ExpressionType::CONSTANT, constant->getProperties().getType());
+    EXPECT_EQ("constant", constant->getProperties().getName());
+    EXPECT_EQ("const", constant->getProperties().getShortName());
     EXPECT_EQ(nullptr, constant->getParent());
 
     auto* constant2 = new cas::Const(2);
@@ -72,7 +74,7 @@ TEST(ConstantNodeTest, ConstantLatexTest) {
     EXPECT_EQ("\\varphi", constant->latex());
 
     constant = new cas::Const(1);
-    EXPECT_EQ("1.000000", constant->latex());
+    EXPECT_EQ("1", constant->latex());
 }
 
 TEST(ConstantNodeTest, ConstantStringifyTest) {
@@ -90,15 +92,15 @@ TEST(ConstantNodeTest, ConstantStringifyTest) {
 
     constant = new cas::Const(1);
     //    EXPECT_EQ(L"1.000000", constant->stringify());
-    EXPECT_TRUE(wcscmp(L"1.000000", constant->stringify().c_str()) == 0);
+    EXPECT_TRUE(wcscmp(L"1", constant->stringify().c_str()) == 0);
 }
 
 TEST(ConstantNodeTest, ConstantTextTest) {
     auto* constant = new cas::Const(1);
-    EXPECT_EQ("1.000000", constant->text());
+    EXPECT_EQ("1", constant->text());
 }
 
 TEST(ConstantNodeTest, ConstantExplicitTextTest) {
     auto* constant = new cas::Const(1);
-    EXPECT_EQ("const(1.000000)", constant->explicitText());
+    EXPECT_EQ("const(1)", constant->explicitText());
 }

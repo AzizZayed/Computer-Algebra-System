@@ -31,7 +31,7 @@ protected:
                              const wchar_t* openBracket, const wchar_t* closeBracket,
                              const char* openBracketLatex, const char* closeBracketLatex);
 
-private:
+protected:
     const wchar_t* openBracket;
     const wchar_t* closeBracket;
 

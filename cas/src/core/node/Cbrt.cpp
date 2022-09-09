@@ -23,15 +23,19 @@ Cbrt* Cbrt::clone() {
 }
 
 Expression* Cbrt::derivative(char var) {
+    if (base->isOfType(ExpressionType::CONSTANT)) {
+        return new Const(0);
+    }
+
     return new Divide(
             base->derivative(var),
             new Product({new Const(3), new Cbrt(new Power(base->clone(), 2))}));
 }
 
 Expression* Cbrt::simplified() {
-    auto* exp = new Const(0);
-    if (base->equals(exp)) {
-        return exp;
+    if (base->isOfType(ExpressionType::CONSTANT)) {
+        auto* constant = dynamic_cast<Const*>(base);
+        return new Const(std::cbrt(constant->getValue()));
     }
 
     return new Cbrt(base->simplified());

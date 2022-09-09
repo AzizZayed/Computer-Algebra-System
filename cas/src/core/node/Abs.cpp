@@ -4,6 +4,7 @@
 
 #include "cas/node/Abs.h"
 #include "cas/node/Const.h"
+#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 
@@ -24,6 +25,10 @@ Expression* Abs::simplified() {
         return new Const(std::abs(constant->getValue()));
     }
     return clone();// TODO: simplify
+}
+
+std::string Abs::text() {
+    return toString(openBracket) + argument->text() + toString(closeBracket);
 }
 
 CAS_NAMESPACE_END

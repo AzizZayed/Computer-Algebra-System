@@ -82,7 +82,7 @@ TEST(NegateNodeTest, NegateStringifyTest) {
     auto* negate = new cas::Negate(expression);
 
     //    EXPECT_EQ(negate->stringify(), "-5.000000");
-    EXPECT_TRUE(negate->stringify() == L"-5.000000");
+    EXPECT_TRUE(negate->stringify() == L"-5");
 
     delete negate;
 }

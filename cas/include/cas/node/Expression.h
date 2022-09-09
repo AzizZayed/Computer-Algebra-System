@@ -5,10 +5,10 @@
 #ifndef CAS_EXPRESSION_H
 #define CAS_EXPRESSION_H
 
-#include "ExpressionProperties.h"
-#include "ExpressionType.h"
 #include "IMathNode.h"
 #include "cas/CAS.h"
+#include "cas/data/ExpressionProperties.h"
+#include "cas/data/ExpressionType.h"
 #include <cstdlib>
 #include <iostream>
 #include <unordered_map>

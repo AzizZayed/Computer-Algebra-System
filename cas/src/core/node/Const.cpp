@@ -85,6 +85,10 @@ std::wstring Const::stringify() {
 }
 
 std::string Const::text() {
+    if (value == std::floor(value)) {
+        return std::to_string(int64_t(value));
+    }
+
     return std::to_string(value);
 }
 

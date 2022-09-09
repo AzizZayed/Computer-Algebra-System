@@ -6,7 +6,7 @@ set(CAS_SRC_HEADERS
         ../include/cas/node/IMathNode.h
         ../include/cas/node/Expression.h
         ../include/cas/node/Const.h
-        ../include/cas/node/ExpressionType.h
+        ../include/cas/data/ExpressionType.h
         ../include/cas/node/Var.h
         ../include/cas/node/Operator.h
         ../include/cas/node/Sum.h
@@ -45,7 +45,7 @@ set(CAS_SRC_HEADERS
         ../include/cas/node/trig/ArcSec.h
         ../include/cas/node/trig/ArcCot.h
         ../include/cas/node/trig/ArcCsc.h
-        ../include/cas/util/StringUtils.h)
+        ../include/cas/util/StringUtils.h ../include/cas/math/PieceWiseCondition.h)
 
 set(CAS_SRC_SOURCES
         core/node/Const.cpp

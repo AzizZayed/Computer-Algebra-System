@@ -25,6 +25,8 @@ public:
     Expression* derivative(char var) override;
 
     Expression* simplified() override;
+
+    std::string explicitText() override;
 };
 
 CAS_NAMESPACE_END

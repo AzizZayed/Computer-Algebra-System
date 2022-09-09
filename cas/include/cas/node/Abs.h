@@ -23,6 +23,8 @@ public:
     Abs* clone() override;
 
     Expression* simplified() override;
+
+    std::string text() override;
 };
 
 CAS_NAMESPACE_END
