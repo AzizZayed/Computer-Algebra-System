@@ -59,10 +59,10 @@ TEST(VariableNodeTest, VariableEqualsTest) {
 
 TEST(VariableNodeTest, VariableDerivativeTest) {
     auto* variable = new cas::Var('x');
-    cas::Const* derivative = variable->derivative('x');
+    auto* derivative = dynamic_cast<cas::Const*>(variable->derivative('x'));
     EXPECT_EQ(1, derivative->getValue());
 
-    cas::Const* derivative2 = variable->derivative('y');
+    auto* derivative2 = dynamic_cast<cas::Const*>(variable->derivative('y'));
     EXPECT_EQ(0, derivative2->getValue());
 }
 

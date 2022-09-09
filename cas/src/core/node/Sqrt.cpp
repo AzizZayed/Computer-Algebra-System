@@ -6,6 +6,7 @@
 #include "cas/util/StringUtils.h"
 #include "cas/node/Divide.h"
 #include "cas/node/Product.h"
+#include "cas/node/Const.h"
 
 CAS_NAMESPACE
 

@@ -5,9 +5,7 @@
 #ifndef CAS_VARIABLE_H
 #define CAS_VARIABLE_H
 
-#include "Const.h"
 #include "Expression.h"
-#include "cas/CAS.h"
 #include <string>
 
 CAS_NAMESPACE
@@ -25,7 +23,7 @@ public:
 
     Var* clone() override;
 
-    Const* derivative(char var) override;
+    Expression* derivative(char var) override;
 
     Var* simplified() override;
 

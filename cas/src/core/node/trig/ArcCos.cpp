@@ -7,6 +7,7 @@
 #include "cas/node/Negate.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
+#include "cas/node/Const.h"
 
 CAS_NAMESPACE
 

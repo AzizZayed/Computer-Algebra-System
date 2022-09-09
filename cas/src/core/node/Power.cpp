@@ -3,7 +3,6 @@
 //
 
 #include "cas/node/Power.h"
-#include "cas/CAS.h"
 #include "cas/node/Const.h"
 #include "cas/node/Divide.h"
 #include "cas/node/Ln.h"
@@ -17,6 +16,12 @@ Power::Power(const ExpressionProperties& props, Expression* base, Expression* ex
     this->base->setParent(this);
     this->exponent->setParent(this);
 }
+
+Power::Power(Expression* base, Expression* exponent)
+    : Power({ExpressionType::POWER, "power", "pow"}, base, exponent) {}
+
+Power::Power(Expression* base, double exponent)
+    : Power({ExpressionType::POWER, "power", "pow"}, base, new Const(exponent)) {}
 
 Power::~Power() {
 #if DEBUG_CAS

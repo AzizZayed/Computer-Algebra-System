@@ -3,10 +3,8 @@
 //
 
 #include "cas/node/Log.h"
-#include "cas/CAS.h"
 #include "cas/node/Const.h"
 #include "cas/node/Divide.h"
-#include "cas/node/Expression.h"
 #include "cas/node/Ln.h"
 #include "cas/node/Product.h"
 
@@ -17,6 +15,12 @@ Log::Log(const ExpressionProperties& props, Expression* base, Expression* argume
     base->setParent(this);
     argument->setParent(this);
 }
+
+Log::Log(Expression* base, Expression* argument)
+    : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, base, argument) {}
+
+Log::Log(double base, Expression* argument)
+    : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, new Const(base), argument) {}
 
 Log::~Log() {
     delete base;

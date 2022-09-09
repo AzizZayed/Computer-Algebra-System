@@ -5,7 +5,6 @@
 #ifndef CAS_POWER_H
 #define CAS_POWER_H
 
-#include "Const.h"
 #include "cas/CAS.h"
 #include "cas/node/Expression.h"
 
@@ -13,11 +12,9 @@ CAS_NAMESPACE
 
 class Power : public Expression {
 public:
-    explicit Power(Expression* base, Expression* exponent)
-        : Power({ExpressionType::POWER, "power", "pow"}, base, exponent) {}
+    explicit Power(Expression* base, Expression* exponent);
 
-    explicit Power(Expression* base, double exponent)
-        : Power({ExpressionType::POWER, "power", "pow"}, base, new Const(exponent)) {}
+    explicit Power(Expression* base, double exponent);
 
     Power() = delete;
 

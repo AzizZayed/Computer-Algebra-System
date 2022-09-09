@@ -2,6 +2,7 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-01.
 //
 
+#include "cas/node/Const.h"
 #include "cas/node/Sum.h"
 #include "cas/node/Var.h"
 #include "gtest/gtest.h"

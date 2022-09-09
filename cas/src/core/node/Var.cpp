@@ -2,6 +2,7 @@
 // Created by Abd-El-Aziz Zayed on 2022-08-31.
 //
 
+#include "cas/node/Const.h"
 #include "cas/node/Var.h"
 #include "cas/util/StringUtils.h"
 #include "cas/CAS.h"
@@ -42,7 +43,7 @@ bool Var::equals(Expression* expression) {
     return false;
 }
 
-Const* Var::derivative(char var) {
+Expression* Var::derivative(char var) {
     double derivative = symbol == var ? 1.0 : 0.0;
     return new Const{derivative};
 }

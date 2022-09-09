@@ -6,6 +6,7 @@
 #include "cas/util/StringUtils.h"
 #include "cas/node/Cbrt.h"
 #include "cas/node/Sqrt.h"
+#include "cas/node/Const.h"
 
 CAS_NAMESPACE
 

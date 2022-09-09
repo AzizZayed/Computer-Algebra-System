@@ -8,6 +8,7 @@
 #include "cas/node/Product.h"
 #include "cas/node/Sum.h"
 #include "cas/node/Var.h"
+#include "cas/node/Const.h"
 #include "gtest/gtest.h"
 
 TEST(DivideNodeTest, DivideCreationTest) {

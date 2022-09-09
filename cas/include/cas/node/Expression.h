@@ -15,6 +15,9 @@
 
 CAS_NAMESPACE
 
+class Product;
+class Sum;
+
 class Expression : public IMathNode {
 public:
     explicit Expression(const ExpressionProperties& properties);
@@ -34,8 +37,8 @@ public:
 
     virtual Expression* simplified();
 
-    Expression* multiply(Expression* expression);
-    Expression* add(Expression* expression);
+    Product* multiply(Expression* expression);
+    Sum* add(Expression* expression);
     Expression* negate();
     Expression* subtract(Expression* expression);
     Expression* power(Expression* expression);

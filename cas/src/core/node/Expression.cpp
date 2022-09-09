@@ -53,11 +53,11 @@ Expression* Expression::simplified() {
     throw std::runtime_error("Expression::simplified() is not implemented for " + properties.getName());
 }
 
-Expression* Expression::multiply(Expression* expression) {
+Product* Expression::multiply(Expression* expression) {
     return new Product({this, expression});
 }
 
-Expression* Expression::add(Expression* expression) {
+Sum* Expression::add(Expression* expression) {
     return new Sum({this, expression});
 }
 
