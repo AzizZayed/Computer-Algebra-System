@@ -2,9 +2,9 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-03.
 //
 
-#include "core/node/Const.h"
-#include "core/node/Negate.h"
-#include "core/node/Var.h"
+#include "cas/node/Const.h"
+#include "cas/node/Negate.h"
+#include "cas/node/Var.h"
 #include "gtest/gtest.h"
 
 TEST(NegateNodeTest, NegateCreationTest) {

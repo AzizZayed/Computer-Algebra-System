@@ -2,14 +2,14 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/trig/ArcSec.h"
-#include "core/node/Abs.h"
-#include "core/node/Divide.h"
-#include "core/node/Negate.h"
-#include "core/node/Power.h"
-#include "core/node/Product.h"
-#include "core/node/Sqrt.h"
-#include "core/node/Sum.h"
+#include "cas/node/trig/ArcSec.h"
+#include "cas/node/Abs.h"
+#include "cas/node/Divide.h"
+#include "cas/node/Negate.h"
+#include "cas/node/Power.h"
+#include "cas/node/Product.h"
+#include "cas/node/Sqrt.h"
+#include "cas/node/Sum.h"
 
 CAS_NAMESPACE
 

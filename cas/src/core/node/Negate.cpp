@@ -2,8 +2,8 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-03.
 //
 
-#include "core/node/Negate.h"
-#include "core/node/Operator.h"
+#include "cas/node/Negate.h"
+#include "cas/node/Operator.h"
 
 CAS_NAMESPACE
 

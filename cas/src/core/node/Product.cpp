@@ -2,8 +2,8 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-01.
 //
 
-#include "core/node/Product.h"
-#include "core/node/Sum.h"
+#include "cas/node/Product.h"
+#include "cas/node/Sum.h"
 #include <sstream>
 
 CAS_NAMESPACE

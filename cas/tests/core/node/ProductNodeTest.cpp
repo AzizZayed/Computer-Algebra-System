@@ -2,10 +2,10 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-01.
 //
 
-#include "core/node/Const.h"
-#include "core/node/Product.h"
-#include "core/node/Sum.h"
-#include "core/node/Var.h"
+#include "cas/node/Const.h"
+#include "cas/node/Product.h"
+#include "cas/node/Sum.h"
+#include "cas/node/Var.h"
 #include "gtest/gtest.h"
 
 TEST(ProductNodeTest, ProductCreationTest) {

@@ -2,11 +2,11 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/trig/ArcSin.h"
-#include "core/node/Divide.h"
-#include "core/node/Negate.h"
-#include "core/node/Sqrt.h"
-#include "core/node/Sum.h"
+#include "cas/node/trig/ArcSin.h"
+#include "cas/node/Divide.h"
+#include "cas/node/Negate.h"
+#include "cas/node/Sqrt.h"
+#include "cas/node/Sum.h"
 
 CAS_NAMESPACE
 

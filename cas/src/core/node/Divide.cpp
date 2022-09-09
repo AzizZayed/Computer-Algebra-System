@@ -2,14 +2,14 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-02.
 //
 
-#include "core/node/Divide.h"
-#include "core/CAS.h"
-#include "core/node/Const.h"
-#include "core/node/Expression.h"
-#include "core/node/Negate.h"
-#include "core/node/Power.h"
-#include "core/node/Product.h"
-#include "core/node/Sum.h"
+#include "cas/node/Divide.h"
+#include "cas/CAS.h"
+#include "cas/node/Const.h"
+#include "cas/node/Expression.h"
+#include "cas/node/Negate.h"
+#include "cas/node/Power.h"
+#include "cas/node/Product.h"
+#include "cas/node/Sum.h"
 
 CAS_NAMESPACE
 

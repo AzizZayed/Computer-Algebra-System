@@ -2,10 +2,10 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-04.
 //
 
-#include "core/node/Ln.h"
-#include "core/CAS.h"
-#include "core/node/Const.h"
-#include "core/node/Divide.h"
+#include "cas/node/Ln.h"
+#include "cas/CAS.h"
+#include "cas/node/Const.h"
+#include "cas/node/Divide.h"
 
 CAS_NAMESPACE
 

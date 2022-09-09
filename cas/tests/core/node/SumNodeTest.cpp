@@ -2,8 +2,8 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-01.
 //
 
-#include "core/node/Sum.h"
-#include "core/node/Var.h"
+#include "cas/node/Sum.h"
+#include "cas/node/Var.h"
 #include "gtest/gtest.h"
 
 TEST(SumNodeTest, SumCreationTest) {

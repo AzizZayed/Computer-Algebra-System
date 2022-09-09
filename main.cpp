@@ -3,12 +3,14 @@
 #include <fcntl.h>
 #endif
 
-#include "core/node/Ceil.h"
-#include "core/node/Floor.h"
-#include "core/node/Round.h"
-#include <core/node/Const.h>
+#include "cas/util/StringUtils.h"
+#include "cas/node/Ceil.h"
+#include "cas/node/Floor.h"
+#include "cas/node/Round.h"
+#include "cas/node/Const.h"
 
 #include <cstdio>
+#include <iostream>
 #include <cwchar>
 
 int main() {
@@ -32,14 +34,14 @@ int main() {
     auto* expression6  = new cas::Round(cas::Const::PHI());
     auto* expression8 = cas::Const::PHI()->sin();
 
-    std::wcout << expression1->stringify() << ", ";
-    std::wcout << expression2->stringify() << ", ";
-    std::wcout << expression3->stringify() << ", ";
-    std::wcout << expression4->stringify() << ", ";
-    std::wcout << expression5->stringify() << ", ";
-    std::wcout << expression6->stringify() << "\n";
-    std::wcout << expression7->stringify() << "\n";
-    std::wcout << expression8->stringify() << "\n" << std::endl;
+    wPrint(expression1->stringify());
+    wPrint(expression2->stringify());
+    wPrint(expression3->stringify());
+    wPrint(expression4->stringify());
+    wPrint(expression5->stringify());
+    wPrint(expression6->stringify());
+    wPrint(expression7->stringify());
+    wPrint(expression8->stringify());
 
     return 0;
 }

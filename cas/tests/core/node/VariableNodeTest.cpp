@@ -3,8 +3,8 @@
 //
 
 #include "gtest/gtest.h"
-#include "core/node/Const.h"
-#include "core/node/Var.h"
+#include "cas/node/Const.h"
+#include "cas/node/Var.h"
 
 TEST(VariableNodeTest, VariableCreationTest) {
     auto* variable = new cas::Var('x');

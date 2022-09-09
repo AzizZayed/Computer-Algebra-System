@@ -2,11 +2,11 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/trig/Sec.h"
-#include "core/node/Const.h"
-#include "core/node/Negate.h"
-#include "core/node/Product.h"
-#include "core/node/trig/Tan.h"
+#include "cas/node/trig/Sec.h"
+#include "cas/node/Const.h"
+#include "cas/node/Negate.h"
+#include "cas/node/Product.h"
+#include "cas/node/trig/Tan.h"
 
 CAS_NAMESPACE
 

@@ -2,7 +2,7 @@
 // Created by Abd-El-Aziz Zayed on 2022-08-31.
 //
 
-#include "core/node/Operator.h"
+#include "cas/node/Operator.h"
 
 #include <sstream>
 #include <utility>

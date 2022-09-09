@@ -2,8 +2,7 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/BracketFunction.h"
-#include <cstring>
+#include "cas/node/BracketFunction.h"
 #include <sstream>
 
 CAS_NAMESPACE

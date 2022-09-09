@@ -2,10 +2,10 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/Sqrt.h"
-#include "../../util/StringUtils.h"
-#include "core/node/Divide.h"
-#include "core/node/Product.h"
+#include "cas/node/Sqrt.h"
+#include "cas/util/StringUtils.h"
+#include "cas/node/Divide.h"
+#include "cas/node/Product.h"
 
 CAS_NAMESPACE
 

@@ -2,10 +2,10 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/trig/Sin.h"
-#include "core/node/Const.h"
-#include "core/node/Product.h"
-#include "core/node/trig/Cos.h"
+#include "cas/node/trig/Sin.h"
+#include "cas/node/Const.h"
+#include "cas/node/Product.h"
+#include "cas/node/trig/Cos.h"
 
 CAS_NAMESPACE
 

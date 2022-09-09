@@ -2,10 +2,8 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-04.
 //
 
-#include "core/node/MultipleInputFunction.h"
-#include "../../util/StringUtils.h"
-#include "core/CAS.h"
-#include "core/node/Expression.h"
+#include "cas/node/MultipleInputFunction.h"
+#include "cas/util/StringUtils.h"
 #include <sstream>
 
 CAS_NAMESPACE

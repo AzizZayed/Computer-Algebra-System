@@ -2,10 +2,10 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/trig/Tan.h"
-#include "core/node/Power.h"
-#include "core/node/Product.h"
-#include "core/node/trig/Sec.h"
+#include "cas/node/trig/Tan.h"
+#include "cas/node/Power.h"
+#include "cas/node/Product.h"
+#include "cas/node/trig/Sec.h"
 
 CAS_NAMESPACE
 

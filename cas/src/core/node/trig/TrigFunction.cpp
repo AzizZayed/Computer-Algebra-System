@@ -2,10 +2,10 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/trig/TrigFunction.h"
-#include "../../../util/StringUtils.h"
-#include "core/node/Log.h"
-#include "core/node/Operator.h"
+#include "cas/node/trig/TrigFunction.h"
+#include "cas/util/StringUtils.h"
+#include "cas/node/Log.h"
+#include "cas/node/Operator.h"
 
 CAS_NAMESPACE
 

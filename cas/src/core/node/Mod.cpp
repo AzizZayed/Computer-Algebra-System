@@ -2,9 +2,9 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/Mod.h"
-#include "../../util/StringUtils.h"
-#include "core/node/Const.h"
+#include "cas/node/Mod.h"
+#include "cas/util/StringUtils.h"
+#include "cas/node/Const.h"
 
 CAS_NAMESPACE
 

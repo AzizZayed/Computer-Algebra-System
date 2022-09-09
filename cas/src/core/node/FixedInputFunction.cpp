@@ -2,8 +2,8 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/FixedInputFunction.h"
-#include "../../util/StringUtils.h"
+#include "cas/node/FixedInputFunction.h"
+#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 

@@ -2,9 +2,9 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-01.
 //
 
-#include "core/node/Sum.h"
-#include "core/CAS.h"
-#include "core/node/Const.h"
+#include "cas/node/Sum.h"
+#include "cas/CAS.h"
+#include "cas/node/Const.h"
 #include <sstream>
 
 CAS_NAMESPACE

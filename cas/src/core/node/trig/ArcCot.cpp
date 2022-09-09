@@ -2,12 +2,12 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/trig/ArcCot.h"
-#include "core/node/Const.h"
-#include "core/node/Divide.h"
-#include "core/node/Negate.h"
-#include "core/node/Power.h"
-#include "core/node/Sum.h"
+#include "cas/node/trig/ArcCot.h"
+#include "cas/node/Const.h"
+#include "cas/node/Divide.h"
+#include "cas/node/Negate.h"
+#include "cas/node/Power.h"
+#include "cas/node/Sum.h"
 
 CAS_NAMESPACE
 

@@ -2,9 +2,9 @@
 // Created by Abd-El-Aziz Zayed on 2022-08-31.
 //
 
-#include "core/node/Var.h"
-#include "../../util/StringUtils.h"
-#include "core/CAS.h"
+#include "cas/node/Var.h"
+#include "cas/util/StringUtils.h"
+#include "cas/CAS.h"
 
 CAS_NAMESPACE
 

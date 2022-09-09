@@ -2,13 +2,13 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-03.
 //
 
-#include "core/node/Log.h"
-#include "core/CAS.h"
-#include "core/node/Const.h"
-#include "core/node/Divide.h"
-#include "core/node/Expression.h"
-#include "core/node/Ln.h"
-#include "core/node/Product.h"
+#include "cas/node/Log.h"
+#include "cas/CAS.h"
+#include "cas/node/Const.h"
+#include "cas/node/Divide.h"
+#include "cas/node/Expression.h"
+#include "cas/node/Ln.h"
+#include "cas/node/Product.h"
 
 CAS_NAMESPACE
 

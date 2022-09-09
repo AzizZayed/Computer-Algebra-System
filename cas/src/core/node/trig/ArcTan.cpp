@@ -2,10 +2,10 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/trig/ArcTan.h"
-#include "core/node/Const.h"
-#include "core/node/Divide.h"
-#include "core/node/Sum.h"
+#include "cas/node/trig/ArcTan.h"
+#include "cas/node/Const.h"
+#include "cas/node/Divide.h"
+#include "cas/node/Sum.h"
 
 CAS_NAMESPACE
 

@@ -2,11 +2,11 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/trig/Csc.h"
-#include "core/node/Const.h"
-#include "core/node/Negate.h"
-#include "core/node/Product.h"
-#include "core/node/trig/Cot.h"
+#include "cas/node/trig/Csc.h"
+#include "cas/node/Const.h"
+#include "cas/node/Negate.h"
+#include "cas/node/Product.h"
+#include "cas/node/trig/Cot.h"
 #include <cmath>
 
 CAS_NAMESPACE

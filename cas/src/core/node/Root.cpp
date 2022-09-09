@@ -2,10 +2,10 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "core/node/Root.h"
-#include "../../util/StringUtils.h"
-#include "core/node/Cbrt.h"
-#include "core/node/Sqrt.h"
+#include "cas/node/Root.h"
+#include "cas/util/StringUtils.h"
+#include "cas/node/Cbrt.h"
+#include "cas/node/Sqrt.h"
 
 CAS_NAMESPACE
 

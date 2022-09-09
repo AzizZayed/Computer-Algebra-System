@@ -2,49 +2,50 @@ cmake_minimum_required(VERSION 3.23)
 project(src)
 
 set(CAS_SRC_HEADERS
-        ../include/core/CAS.h
-        ../include/core/node/IMathNode.h
-        ../include/core/node/Expression.h
-        ../include/core/node/Const.h
-        ../include/core/node/ExpressionType.h
-        ../include/core/node/Var.h
-        ../include/core/node/Operator.h
-        ../include/core/node/Sum.h
-        ../include/core/node/Product.h
-        ../include/core/node/Divide.h
-        ../include/core/node/Power.h
-        ../include/core/node/Negate.h
-        ../include/core/node/Log.h
-        ../include/core/node/Ln.h
-        ../include/core/node/Exp.h
-        ../include/core/node/FixedInputFunction.h
-        ../include/core/node/MultipleInputFunction.h
-        ../include/core/node/Min.h
-        ../include/core/node/Max.h
-        ../include/core/node/BracketFunction.h
-        ../include/core/node/Abs.h
-        ../include/core/node/Floor.h
-        ../include/core/node/Ceil.h
-        ../include/core/node/Round.h
-        ../include/core/node/Mod.h
-        ../include/core/node/Sign.h
-        ../include/core/node/trig/TrigFunction.h
-        ../include/core/node/trig/Cos.h
-        ../include/core/node/trig/Sin.h
-        ../include/core/node/trig/Tan.h
-        ../include/core/node/trig/Sec.h
-        ../include/core/node/trig/Csc.h
-        ../include/core/node/trig/Cot.h
-        ../include/core/node/trig/InverseTrigFunction.h
-        ../include/core/node/trig/ArcCos.h
-        ../include/core/node/Sqrt.h
-        ../include/core/node/Root.h
-        ../include/core/node/Cbrt.h
-        ../include/core/node/trig/ArcSin.h
-        ../include/core/node/trig/ArcTan.h
-        ../include/core/node/trig/ArcSec.h
-        ../include/core/node/trig/ArcCot.h
-        ../include/core/node/trig/ArcCsc.h)
+        ../include/cas/CAS.h
+        ../include/cas/node/IMathNode.h
+        ../include/cas/node/Expression.h
+        ../include/cas/node/Const.h
+        ../include/cas/node/ExpressionType.h
+        ../include/cas/node/Var.h
+        ../include/cas/node/Operator.h
+        ../include/cas/node/Sum.h
+        ../include/cas/node/Product.h
+        ../include/cas/node/Divide.h
+        ../include/cas/node/Power.h
+        ../include/cas/node/Negate.h
+        ../include/cas/node/Log.h
+        ../include/cas/node/Ln.h
+        ../include/cas/node/Exp.h
+        ../include/cas/node/FixedInputFunction.h
+        ../include/cas/node/MultipleInputFunction.h
+        ../include/cas/node/Min.h
+        ../include/cas/node/Max.h
+        ../include/cas/node/BracketFunction.h
+        ../include/cas/node/Abs.h
+        ../include/cas/node/Floor.h
+        ../include/cas/node/Ceil.h
+        ../include/cas/node/Round.h
+        ../include/cas/node/Mod.h
+        ../include/cas/node/Sign.h
+        ../include/cas/node/trig/TrigFunction.h
+        ../include/cas/node/trig/Cos.h
+        ../include/cas/node/trig/Sin.h
+        ../include/cas/node/trig/Tan.h
+        ../include/cas/node/trig/Sec.h
+        ../include/cas/node/trig/Csc.h
+        ../include/cas/node/trig/Cot.h
+        ../include/cas/node/trig/InverseTrigFunction.h
+        ../include/cas/node/trig/ArcCos.h
+        ../include/cas/node/Sqrt.h
+        ../include/cas/node/Root.h
+        ../include/cas/node/Cbrt.h
+        ../include/cas/node/trig/ArcSin.h
+        ../include/cas/node/trig/ArcTan.h
+        ../include/cas/node/trig/ArcSec.h
+        ../include/cas/node/trig/ArcCot.h
+        ../include/cas/node/trig/ArcCsc.h
+        ../include/cas/util/StringUtils.h)
 
 set(CAS_SRC_SOURCES
         core/node/Const.cpp
@@ -85,8 +86,7 @@ set(CAS_SRC_SOURCES
         core/node/trig/ArcTan.cpp
         core/node/trig/ArcSec.cpp
         core/node/trig/ArcCot.cpp
-        core/node/trig/ArcCsc.cpp
-        util/StringUtils.h)
+        core/node/trig/ArcCsc.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)
