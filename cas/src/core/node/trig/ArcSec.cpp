@@ -11,6 +11,7 @@
 #include "cas/node/Product.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
+#include "cas/node/Var.h"
 
 CAS_NAMESPACE
 
@@ -26,6 +27,15 @@ ArcSec* ArcSec::clone() {
 }
 
 Expression* ArcSec::derivative(char var) {
+    if (argument->isOfType(ExpressionType::CONSTANT))
+        return new Const(0);
+
+    if (argument->isOfType(ExpressionType::VARIABLE)) {
+        auto* variable = dynamic_cast<Var*>(argument);
+        if (variable->getSymbol() != var)
+            return new Const(0);
+    }
+
     return new Divide(
             argument->derivative(var),
             new Product({argument->clone()->abs(),

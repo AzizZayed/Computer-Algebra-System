@@ -5,8 +5,6 @@
 #include "cas/node/Cbrt.h"
 #include "cas/node/Const.h"
 #include "cas/node/Var.h"
-#include "cas/node/Power.h"
-#include "cas/node/Cbrt.h"
 #include "cas/node/Product.h"
 #include "cas/node/Divide.h"
 #include "gtest/gtest.h"

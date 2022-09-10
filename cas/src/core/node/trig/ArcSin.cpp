@@ -8,6 +8,7 @@
 #include "cas/node/Negate.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
+#include "cas/node/Var.h"
 #include <vector>
 
 CAS_NAMESPACE
@@ -24,6 +25,15 @@ ArcSin* ArcSin::clone() {
 }
 
 Expression* ArcSin::derivative(char var) {
+    if (argument->isOfType(ExpressionType::CONSTANT))
+        return new Const(0);
+
+    if (argument->isOfType(ExpressionType::VARIABLE)) {
+        auto* variable = dynamic_cast<Var*>(argument);
+        if (variable->getSymbol() != var)
+            return new Const(0);
+    }
+
     std::vector<Expression*> terms = {new Const(1), argument->clone()->power(2)->negate()};
     return new Divide(argument->derivative(var), new Sqrt(new Sum(terms)));
 }

@@ -14,15 +14,10 @@ public:
     InverseTrigFunction() = delete;
     ~InverseTrigFunction() override = default;
 
-    std::string latex() override {
-        if (needsParentheses())
-            return "\\" + properties.getShortName() + "^{-1}{\\left(" + argument->latex() + "\\right)}";
-        return "\\" + properties.getShortName() + "^{-1}{" + argument->latex() + "}";
-    }
+//    std::string latex() override;
 
 protected:
-    explicit InverseTrigFunction(const ExpressionProperties& props, Expression* argument)
-        : TrigFunction(props, argument) {}
+    explicit InverseTrigFunction(const ExpressionProperties& props, Expression* argument);
 };
 
 CAS_NAMESPACE_END

@@ -8,6 +8,7 @@
 #include "cas/node/Negate.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
+#include "cas/node/Var.h"
 
 CAS_NAMESPACE
 
@@ -23,10 +24,19 @@ ArcCos* ArcCos::clone() {
 }
 
 Expression* ArcCos::derivative(char var) {
-    return new Divide(
-            argument->derivative(var)->negate(),
-            new Sqrt(new Sum({new Const(1),
-                              new Negate(argument->clone()->power(2))})));
+    if (argument->isOfType(ExpressionType::CONSTANT))
+        return new Const(0);
+
+    if (argument->isOfType(ExpressionType::VARIABLE)) {
+        auto* variable = dynamic_cast<Var*>(argument);
+        if (variable->getSymbol() != var)
+            return new Const(0);
+    }
+
+    auto* one = new Const(1);
+    return argument->derivative(var)
+            ->negate()
+            ->divide(one->subtract(argument->clone()->power(2))->sqrt());
 }
 
 Expression* ArcCos::simplified() {

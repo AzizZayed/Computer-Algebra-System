@@ -86,7 +86,7 @@ set(CAS_SRC_SOURCES
         core/node/trig/ArcTan.cpp
         core/node/trig/ArcSec.cpp
         core/node/trig/ArcCot.cpp
-        core/node/trig/ArcCsc.cpp)
+        core/node/trig/ArcCsc.cpp core/node/trig/InverseTrigFunction.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)

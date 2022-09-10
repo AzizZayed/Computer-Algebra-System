@@ -8,7 +8,7 @@ FetchContent_Declare(
         GIT_TAG release-1.12.1
 )
 
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE) # fix windows build issue
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE) # fix windows build
 FetchContent_MakeAvailable(googletest)
 
 set(TEST_SOURCE
@@ -23,7 +23,39 @@ set(TEST_SOURCE
         core/node/CbrtNodeTest.cpp
         core/node/CeilNodeTest.cpp
         core/node/ExpNodeTest.cpp
-        core/node/FloorNodeTest.cpp)
+        core/node/FloorNodeTest.cpp
+        core/node/IMathNodeNodeTest.cpp
+        core/node/SqrtNodeTest.cpp
+        core/node/PowerNodeTest.cpp
+        core/node/MinNodeTest.cpp
+        core/node/OperatorNodeTest.cpp
+        core/node/LnNodeTest.cpp
+        core/node/VarNodeTest.cpp
+        core/node/RoundNodeTest.cpp
+        core/node/NaryFunctionNodeTest.cpp
+        core/node/ExpressionNodeTest.cpp
+        core/node/BracketFunctionNodeTest.cpp
+        core/node/LogNodeTest.cpp
+        core/node/MaxNodeTest.cpp
+        core/node/RootNodeTest.cpp
+        core/node/UnaryFunctionNodeTest.cpp
+        core/node/ModNodeTest.cpp
+        core/node/SignNodeTest.cpp
+        core/node/ConstNodeTest.cpp
+        core/node/SecNodeTest.cpp
+        core/node/ArcCotNodeTest.cpp
+        core/node/ArcCosNodeTest.cpp
+        core/node/ArcSinNodeTest.cpp
+        core/node/TanNodeTest.cpp
+        core/node/CscNodeTest.cpp
+        core/node/TrigFunctionNodeTest.cpp
+        core/node/ArcSecNodeTest.cpp
+        core/node/CotNodeTest.cpp
+        core/node/InverseTrigFunctionNodeTest.cpp
+        core/node/CosNodeTest.cpp
+        core/node/SinNodeTest.cpp
+        core/node/ArcTanNodeTest.cpp
+        core/node/ArcCscNodeTest.cpp)
 
 add_executable(tests ${TEST_SOURCE})
 target_link_libraries(tests GTest::gtest_main src)

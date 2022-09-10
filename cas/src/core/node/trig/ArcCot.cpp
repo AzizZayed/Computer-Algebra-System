@@ -8,6 +8,7 @@
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
 #include "cas/node/Sum.h"
+#include "cas/node/Var.h"
 
 CAS_NAMESPACE
 
@@ -23,6 +24,15 @@ ArcCot* ArcCot::clone() {
 }
 
 Expression* ArcCot::derivative(char var) {
+    if (argument->isOfType(ExpressionType::CONSTANT))
+        return new Const(0);
+
+    if (argument->isOfType(ExpressionType::VARIABLE)) {
+        auto* variable = dynamic_cast<Var*>(argument);
+        if (variable->getSymbol() != var)
+            return new Const(0);
+    }
+
     return new Divide(
             argument->derivative(var)->negate(),
             new Sum({argument->clone()->power(2), new Const(1)}));

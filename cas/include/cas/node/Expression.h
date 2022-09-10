@@ -120,6 +120,8 @@ public:
 
     bool isOfSameType(Expression* expression) const;
 
+    // TODO overload operators + - * / ^
+
     std::string explicitText() override;
 
 protected:

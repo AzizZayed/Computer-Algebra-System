@@ -46,6 +46,10 @@ double Expression::evaluate(const std::unordered_map<char, double>& variables) {
     throw std::runtime_error("Expression::evaluate() is not implemented for " + properties.getName());
 }
 
+double Expression::evaluate() {
+    return evaluate({});
+}
+
 bool Expression::equals(Expression* expression) {
     throw std::runtime_error("Expression::equals() is not implemented for " + properties.getName());
 }
@@ -176,10 +180,6 @@ Round* Expression::round() {
 
 Sign* Expression::sign() {
     return new Sign(this);
-}
-
-double Expression::evaluate() {
-    return evaluate({});
 }
 
 ExpressionProperties Expression::getProperties() const {
