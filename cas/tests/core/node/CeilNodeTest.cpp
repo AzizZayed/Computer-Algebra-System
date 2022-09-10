@@ -99,7 +99,7 @@ TEST(CeilNodeTest, CeilLatexTest) {
 
 TEST(CeilNodeTest, CeilStringifyTest) {
     auto* ceil = new cas::Ceil(new cas::Const(1));
-    EXPECT_STREQ(L"⌈1⌉", ceil->stringify().c_str());
+    EXPECT_TRUE(ceil->stringify() == L"⌈1⌉");
 
     delete ceil;
 }

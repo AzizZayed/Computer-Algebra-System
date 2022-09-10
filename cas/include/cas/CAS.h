@@ -10,9 +10,15 @@
 
 #define DEBUG_CAS 0
 
+#include <cmath>
+
 template<typename Base, typename T>
 inline bool instanceof (T * ptr) {
     return dynamic_cast<Base*>(ptr) != nullptr;
+}
+
+inline bool isWholeNumber(double number) {
+    return number == std::trunc(number);
 }
 
 #endif//CAS_CAS_H

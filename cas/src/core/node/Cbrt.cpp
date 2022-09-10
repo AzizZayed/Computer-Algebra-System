@@ -35,7 +35,9 @@ Expression* Cbrt::_derivative(char var) {
 Expression* Cbrt::simplified() {
     if (base->isOfType(ExpressionType::CONSTANT)) {
         auto* constant = dynamic_cast<Const*>(base);
-        return new Const(std::cbrt(constant->getValue()));
+        double cbrt = std::cbrt(constant->getValue());
+        if (isWholeNumber(cbrt))
+            return new Const(cbrt);
     }
 
     return new Cbrt(base->simplified());

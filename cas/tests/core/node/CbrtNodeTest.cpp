@@ -51,7 +51,7 @@ TEST(CbrtNodeTest, CbrtEvaluationTest) {
     auto* expression = new cas::Const(5);
     auto* cbrt = new cas::Cbrt(expression);
 
-    EXPECT_EQ(cbrt->evaluate({}), 1.709975946676697);
+    EXPECT_EQ(cbrt->evaluate({}), std::cbrt(5));
 
     delete cbrt;
 }
@@ -117,7 +117,7 @@ TEST(CbrtNodeTest, CbrtSimplifiedTest) {
     auto* expression = new cas::Const(5);
     auto* cbrt = new cas::Cbrt(expression);
 
-    EXPECT_TRUE(cbrt->simplified()->equals(new cas::Const(std::cbrt(5))));
+    EXPECT_TRUE(cbrt->simplified()->equals(cbrt->clone()));
 
     delete cbrt;
 }
