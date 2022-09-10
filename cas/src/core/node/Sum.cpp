@@ -29,7 +29,7 @@ Sum* Sum::clone() {
     return new Sum{clonedExpressions};
 }
 
-Sum* Sum::derivative(char var) {
+Sum* Sum::_derivative(char var) {
     std::vector<Expression*> differentiatedExpressions;
     differentiatedExpressions.reserve(expressions.size());
 

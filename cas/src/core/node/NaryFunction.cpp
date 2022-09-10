@@ -23,7 +23,7 @@ NaryFunction::~NaryFunction() {
     }
 }
 
-bool NaryFunction::equals(Expression* expression) {
+bool NaryFunction::_equals(Expression* expression) {
     if (this == expression)
         return true;
 

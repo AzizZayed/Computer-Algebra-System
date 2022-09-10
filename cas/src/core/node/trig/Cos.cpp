@@ -20,7 +20,7 @@ Cos* Cos::clone() {
     return new Cos(argument->clone());
 }
 
-Expression* Cos::derivative(char variable) {
+Expression* Cos::_derivative(char variable) {
     return new Negate(argument->clone()->sin()->multiply(argument->derivative(variable)));
 }
 

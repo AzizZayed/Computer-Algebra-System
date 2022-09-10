@@ -26,7 +26,7 @@ double Negate::evaluate(const std::unordered_map<char, double>& variables) {
     return -argument->evaluate(variables);
 }
 
-bool Negate::equals(Expression* expr) {
+bool Negate::_equals(Expression* expr) {
     if (this == argument)
         return true;
 
@@ -42,7 +42,7 @@ Negate* Negate::clone() {
     return new Negate(argument->clone());
 }
 
-Negate* Negate::derivative(char var) {
+Negate* Negate::_derivative(char var) {
     return new Negate(argument->derivative(var));
 }
 

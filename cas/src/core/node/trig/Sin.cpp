@@ -19,7 +19,7 @@ Sin* Sin::clone() {
     return new Sin(argument->clone());
 }
 
-Expression* Sin::derivative(char variable) {
+Expression* Sin::_derivative(char variable) {
     return argument
             ->clone()
             ->cos()

@@ -16,6 +16,8 @@ public:
 
     ~UnaryFunction() override;
 
+    Expression* derivative(char var) override;
+
     Expression* getArgument() const { return argument; }
 
     std::string latex() override;

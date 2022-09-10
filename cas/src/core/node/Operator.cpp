@@ -34,7 +34,7 @@ double Operator::evaluate(const std::unordered_map<char, double>& variables) {
     return result;
 }
 
-bool Operator::equals(Expression* expression) {
+bool Operator::_equals(Expression* expression) {
     if (this == expression)
         return true;
 

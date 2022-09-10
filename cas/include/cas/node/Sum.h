@@ -20,7 +20,7 @@ public:
 
     Sum* clone() override;
 
-    Sum* derivative(char var) override;
+    Sum* _derivative(char var) override;
 
     Expression* simplified() override;
 

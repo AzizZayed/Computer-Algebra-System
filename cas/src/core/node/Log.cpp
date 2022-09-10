@@ -34,7 +34,7 @@ double Log::evaluate(const std::unordered_map<char, double>& variables) {
     return std::log(argument->evaluate(variables)) / std::log(base->evaluate(variables));
 }
 
-bool Log::equals(Expression* expression) {
+bool Log::_equals(Expression* expression) {
     if (this == expression)
         return true;
 
@@ -49,7 +49,7 @@ Log* Log::clone() {
     return new Log(base->clone(), argument->clone());
 }
 
-Expression* Log::derivative(char var) {
+Expression* Log::_derivative(char var) {
     bool baseIsConstant = base->isOfType(ExpressionType::CONSTANT);
     bool argumentIsConstant = argument->isOfType(ExpressionType::CONSTANT);
 

@@ -21,7 +21,7 @@ Exp* Exp::clone() {
     return new Exp(exponent->clone());
 }
 
-Expression* Exp::derivative(char var) {
+Expression* Exp::_derivative(char var) {
     if (exponent->isOfType(ExpressionType::CONSTANT)) {
         return new Const;
     }

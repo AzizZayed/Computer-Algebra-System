@@ -64,10 +64,12 @@ public:
     double evaluate();
 
     virtual bool equals(Expression* expression);
+    virtual bool _equals(Expression* expression);
 
     virtual Expression* clone();
 
     virtual Expression* derivative(char var);
+    virtual Expression* _derivative(char var);
 
     virtual Expression* simplified();
 

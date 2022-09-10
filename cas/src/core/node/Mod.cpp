@@ -37,7 +37,7 @@ double Mod::evaluate(const std::unordered_map<char, double>& variables) {
     return std::fmod(dividend->evaluate(variables), divisor->evaluate(variables));
 }
 
-bool Mod::equals(Expression* expression) {
+bool Mod::_equals(Expression* expression) {
     if (this == expression)
         return true;
 

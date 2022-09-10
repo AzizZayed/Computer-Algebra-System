@@ -20,7 +20,7 @@ Tan* Tan::clone() {
     return new Tan(argument->clone());
 }
 
-Expression* Tan::derivative(char variable) {
+Expression* Tan::_derivative(char variable) {
     return argument->clone()
             ->sec()
             ->power(2)

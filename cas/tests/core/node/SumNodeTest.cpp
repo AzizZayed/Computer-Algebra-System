@@ -64,7 +64,7 @@ TEST(SumNodeTest, SumEqualsTest) {
 
 TEST(SumNodeTest, SumDerivativeTest) {
     auto* sum = new cas::Sum({new cas::Var('x'), new cas::Var('y')});
-    cas::Sum* derivative = sum->derivative('x');
+    auto* derivative = dynamic_cast<cas::Sum*>(sum->derivative('x'));
     EXPECT_EQ(cas::ExpressionType::SUM, derivative->getProperties().getType());
     EXPECT_EQ(2, derivative->getExpressions().size());
     // TODO test deeper

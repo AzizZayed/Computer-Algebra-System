@@ -72,7 +72,7 @@ TEST(CeilNodeTest, CeilDerivativeTest) {
         try {
             ceil->derivative('x');
         } catch (std::runtime_error& e) {
-            EXPECT_STREQ("Expression::derivative() is not implemented for ceiling", e.what());
+            EXPECT_STREQ("The ceiling::derivative() operation is not supported", e.what());
             throw;
         }
     },
@@ -117,10 +117,3 @@ TEST(CeilNodeTest, CeilExplicitTextTest) {
 
     delete ceil;
 }
-
-
-
-
-
-
-

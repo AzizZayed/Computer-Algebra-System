@@ -28,7 +28,7 @@ Product* Product::clone() {
     return new Product{clonedExpressions};
 }
 
-Expression* Product::derivative(char var) {
+Expression* Product::_derivative(char var) {
     std::vector<Expression*> differentiatedExpressions;
     differentiatedExpressions.reserve(expressions.size());
 

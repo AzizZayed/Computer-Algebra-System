@@ -18,7 +18,7 @@ public:
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
     Sec* clone() override;
-    Expression* derivative(char variable) override;
+    Expression* _derivative(char variable) override;
     Expression* simplified() override;
 };
 

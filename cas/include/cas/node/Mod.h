@@ -18,7 +18,7 @@ public:
     ~Mod() override;
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
-    bool equals(Expression* expression) override;
+    bool _equals(Expression* expression) override;
     Mod* clone() override;
     Expression* simplified() override;
 

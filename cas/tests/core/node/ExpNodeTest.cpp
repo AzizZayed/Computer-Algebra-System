@@ -4,8 +4,8 @@
 
 #include "cas/node/Const.h"
 #include "cas/node/Exp.h"
-#include "cas/node/Var.h"
 #include "cas/node/Product.h"
+#include "cas/node/Var.h"
 #include "gtest/gtest.h"
 
 TEST(ExpNodeTest, ExpCreationTest) {
@@ -145,6 +145,3 @@ TEST(ExpNodeTest, ExpExplicitTest) {
     delete exp;
     delete exp2;
 }
-
-
-

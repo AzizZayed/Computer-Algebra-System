@@ -22,7 +22,7 @@ public:
 
     Ln* clone() override;
 
-    Expression* derivative(char var) override;
+    Expression* _derivative(char var) override;
 
     Expression* simplified() override;
 

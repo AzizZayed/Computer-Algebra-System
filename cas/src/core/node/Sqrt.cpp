@@ -21,7 +21,7 @@ Sqrt* Sqrt::clone() {
     return new Sqrt(base->clone());
 }
 
-Expression* Sqrt::derivative(char var) {
+Expression* Sqrt::_derivative(char var) {
     return new Divide(
             base->derivative(var),
             new Product({new Const(2), clone()}));

@@ -21,7 +21,7 @@ ArcTan* ArcTan::clone() {
     return new ArcTan(argument->clone());
 }
 
-Expression* ArcTan::derivative(char var) {
+Expression* ArcTan::_derivative(char var) {
     return new Divide(
             argument->derivative(var),
             new Sum({new Const(1), argument->clone()->power(2)}));

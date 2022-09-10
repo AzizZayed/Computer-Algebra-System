@@ -12,7 +12,7 @@ CAS_NAMESPACE
 TrigFunction::TrigFunction(const ExpressionProperties& properties, Expression* argument)
     : UnaryFunction(properties, argument) {}
 
-bool TrigFunction::equals(Expression* other) {
+bool TrigFunction::_equals(Expression* other) {
     if (this == other)
         return true;
 

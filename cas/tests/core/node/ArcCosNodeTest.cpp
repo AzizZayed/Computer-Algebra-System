@@ -1,9 +1,9 @@
 #include "cas/node/Const.h"
-#include "cas/node/Var.h"
-#include "cas/node/Sqrt.h"
-#include "cas/node/Negate.h"
-#include "cas/node/Sum.h"
 #include "cas/node/Divide.h"
+#include "cas/node/Negate.h"
+#include "cas/node/Sqrt.h"
+#include "cas/node/Sum.h"
+#include "cas/node/Var.h"
 #include "cas/node/trig/ArcCos.h"
 #include "gtest/gtest.h"
 
@@ -92,8 +92,7 @@ TEST(ArcCosNodeTest, ArcCosDerivativeTest) {
                     ->divide(
                             (new cas::Const(1))
                                     ->subtract((new cas::Var)->power(2))
-                                    ->sqrt())
-            ));
+                                    ->sqrt())));
     EXPECT_TRUE(node4->derivative('y')->equals(zero));
 
     delete node;

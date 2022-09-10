@@ -16,7 +16,9 @@ public:
 
     ~BracketFunction() override = default;
 
-    bool equals(Expression* other) override;
+    bool _equals(Expression* other) override;
+
+    Expression* derivative(char var) override;
 
     std::string latex() override;
 

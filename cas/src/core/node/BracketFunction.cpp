@@ -14,15 +14,13 @@ BracketFunction::BracketFunction(const ExpressionProperties& properties, Express
       openBracket(openBracket), closeBracket(closeBracket),
       openBracketLatex(openBracketLatex), closeBracketLatex(closeBracketLatex) {}
 
-bool BracketFunction::equals(Expression* other) {
-    if (this == other)
-        return true;
-
-    if (other->getProperties().getType() != properties.getType())
-        return false;
-
+bool BracketFunction::_equals(Expression* other) {
     auto* otherBracketFunction = dynamic_cast<BracketFunction*>(other);
     return argument->equals(otherBracketFunction->argument) && wcscmp(openBracket, otherBracketFunction->openBracket) == 0 && wcscmp(closeBracket, otherBracketFunction->closeBracket) == 0;
+}
+
+Expression* BracketFunction::derivative(char var) {
+    throw std::runtime_error("The " + properties.getName() + "::derivative() operation is not supported");
 }
 
 std::string BracketFunction::latex() {

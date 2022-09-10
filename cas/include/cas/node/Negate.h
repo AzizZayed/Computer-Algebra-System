@@ -21,11 +21,11 @@ public:
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
 
-    bool equals(Expression* expression) override;
+    bool _equals(Expression* expression) override;
 
     Negate* clone() override;
 
-    Negate* derivative(char var) override;
+    Negate* _derivative(char var) override;
 
     Expression* simplified() override;
 

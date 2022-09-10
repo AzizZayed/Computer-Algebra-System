@@ -36,7 +36,7 @@ double Divide::evaluate(const std::unordered_map<char, double>& variables) {
     return dividend->evaluate(variables) / divisor->evaluate(variables);
 }
 
-bool Divide::equals(Expression* expression) {
+bool Divide::_equals(Expression* expression) {
     if (this == expression)
         return true;
 
@@ -52,7 +52,7 @@ Divide* Divide::clone() {
     return new Divide(dividend->clone(), divisor->clone());
 }
 
-Divide* Divide::derivative(char var) {
+Divide* Divide::_derivative(char var) {
     return new Divide(// quotient rule
             new Sum({
                     // f'g - fg'

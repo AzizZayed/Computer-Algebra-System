@@ -22,7 +22,7 @@ Cot* Cot::clone() {
     return new Cot(argument->clone());
 }
 
-Expression* Cot::derivative(char variable) {
+Expression* Cot::_derivative(char variable) {
     return new Negate(argument->clone()
                               ->csc()
                               ->power(2)

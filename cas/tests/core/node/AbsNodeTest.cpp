@@ -77,7 +77,7 @@ TEST(AbsNodeTest, AbsDerivativeTest) {
         try {
             abs->derivative('x');
         } catch (std::runtime_error& e) {
-            EXPECT_STREQ("Expression::derivative() is not implemented for absolute_value", e.what());
+            EXPECT_STREQ("The absolute_value::derivative() operation is not supported", e.what());
             throw;
         }
     },
@@ -130,7 +130,7 @@ TEST(AbsNodeTest, AbsStringifyTest) {
 }
 
 TEST(AbsNodeTest, AbsTextTest) {
-auto* abs = new cas::Abs(new cas::Const(1));
+    auto* abs = new cas::Abs(new cas::Const(1));
     EXPECT_STREQ("|1|", abs->text().c_str());
 
     auto* abs2 = new cas::Abs(new cas::Const(-1));

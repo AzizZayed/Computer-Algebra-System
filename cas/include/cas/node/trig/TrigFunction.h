@@ -15,7 +15,7 @@ public:
     TrigFunction() = delete;
     ~TrigFunction() override = default;
 
-    bool equals(Expression* expression) override;
+    bool _equals(Expression* expression) override;
 
     std::string latex() override;
     std::wstring stringify() override;

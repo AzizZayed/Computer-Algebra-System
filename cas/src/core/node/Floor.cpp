@@ -23,7 +23,7 @@ Expression* Floor::simplified() {
         auto* constant = dynamic_cast<Const*>(argument);
         return new Const(std::floor(constant->getValue()));
     }
-    return clone(); // TODO: simplify
+    return clone();// TODO: simplify
 }
 
 CAS_NAMESPACE_END

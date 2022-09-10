@@ -37,7 +37,7 @@ double Const::evaluate(const std::unordered_map<char, double>& variables) {
     return value;
 }
 
-bool Const::equals(Expression* expression) {
+bool Const::_equals(Expression* expression) {
     if (this == expression)
         return true;
 
@@ -48,7 +48,7 @@ bool Const::equals(Expression* expression) {
     return false;
 }
 
-Const* Const::derivative(char var) {
+Const* Const::_derivative(char var) {
     return new Const{0.0};
 }
 

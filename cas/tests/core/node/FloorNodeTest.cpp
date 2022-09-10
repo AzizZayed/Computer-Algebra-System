@@ -119,10 +119,11 @@ TEST(FloorNodeTest, FloorDerivativeTest) {
         try {
             floor->derivative('x');
         } catch (std::runtime_error& e) {
-            EXPECT_STREQ("Expression::derivative() is not implemented for floor_value", e.what());
+            EXPECT_STREQ("The floor_value::derivative() operation is not supported", e.what());
             throw;
         }
-    }, std::runtime_error);
+    },
+                 std::runtime_error);
 }
 
 TEST(FloorNodeTest, FloorTextTest) {
@@ -154,5 +155,3 @@ TEST(FloorNodeTest, FloorExplicitTextTest) {
     delete floor2;
     delete floor3;
 }
-
-

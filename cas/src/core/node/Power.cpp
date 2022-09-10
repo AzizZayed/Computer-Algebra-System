@@ -39,7 +39,7 @@ double Power::evaluate(const std::unordered_map<char, double>& variables) {
     return pow(base->evaluate(variables), exponent->evaluate(variables));
 }
 
-bool Power::equals(Expression* expression) {
+bool Power::_equals(Expression* expression) {
     if (this == expression)
         return true;
 
@@ -55,7 +55,7 @@ Power* Power::clone() {
     return new Power(base->clone(), exponent->clone());
 }
 
-Expression* Power::derivative(char var) {
+Expression* Power::_derivative(char var) {
     bool baseIsNumber = base->isOfType(ExpressionType::CONSTANT);
     bool exponentIsNumber = exponent->isOfType(ExpressionType::CONSTANT);
 

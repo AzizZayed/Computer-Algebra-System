@@ -20,7 +20,7 @@ Ln* Ln::clone() {
     return new Ln(argument->clone());
 }
 
-Expression* Ln::derivative(char var) {
+Expression* Ln::_derivative(char var) {
     return new Divide(argument->derivative(var), argument->clone());
 }
 

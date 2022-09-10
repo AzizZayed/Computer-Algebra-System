@@ -4,9 +4,9 @@
 
 #include "cas/node/Cbrt.h"
 #include "cas/node/Const.h"
-#include "cas/node/Var.h"
-#include "cas/node/Product.h"
 #include "cas/node/Divide.h"
+#include "cas/node/Product.h"
+#include "cas/node/Var.h"
 #include "gtest/gtest.h"
 
 TEST(CbrtNodeTest, CbrtCreationTest) {
@@ -157,4 +157,3 @@ TEST(CbrtNodeTest, CbrtExplicitTextTest) {
 
     delete cbrt;
 }
-

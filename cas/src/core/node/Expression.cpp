@@ -51,6 +51,16 @@ double Expression::evaluate() {
 }
 
 bool Expression::equals(Expression* expression) {
+    if (this == expression)
+        return true;
+
+    if (expression->getProperties().getType() != properties.getType())
+        return false;
+
+    return _equals(expression);
+}
+
+bool Expression::_equals(Expression* expression) {
     throw std::runtime_error("Expression::equals() is not implemented for " + properties.getName());
 }
 
@@ -59,6 +69,10 @@ Expression* Expression::clone() {
 }
 
 Expression* Expression::derivative(char var) {
+    return _derivative(var);
+}
+
+Expression* Expression::_derivative(char var) {
     throw std::runtime_error("Expression::derivative() is not implemented for " + properties.getName());
 }
 

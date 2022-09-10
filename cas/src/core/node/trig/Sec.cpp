@@ -20,7 +20,7 @@ Sec* Sec::clone() {
     return new Sec(argument->clone());
 }
 
-Expression* Sec::derivative(char variable) {
+Expression* Sec::_derivative(char variable) {
     return new Product({argument->clone()->sec(),
                         argument->clone()->tan(),
                         argument->derivative(variable)});

@@ -25,7 +25,7 @@ ArcCsc* ArcCsc::clone() {
     return new ArcCsc(argument->clone());
 }
 
-Expression* ArcCsc::derivative(char var) {
+Expression* ArcCsc::_derivative(char var) {
     if (argument->isOfType(ExpressionType::CONSTANT))
         return new Const(0);
 

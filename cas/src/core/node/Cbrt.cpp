@@ -22,7 +22,7 @@ Cbrt* Cbrt::clone() {
     return new Cbrt(base->clone());
 }
 
-Expression* Cbrt::derivative(char var) {
+Expression* Cbrt::_derivative(char var) {
     if (base->isOfType(ExpressionType::CONSTANT)) {
         return new Const(0);
     }

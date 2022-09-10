@@ -23,16 +23,7 @@ ArcCos* ArcCos::clone() {
     return new ArcCos(argument->clone());
 }
 
-Expression* ArcCos::derivative(char var) {
-    if (argument->isOfType(ExpressionType::CONSTANT))
-        return new Const(0);
-
-    if (argument->isOfType(ExpressionType::VARIABLE)) {
-        auto* variable = dynamic_cast<Var*>(argument);
-        if (variable->getSymbol() != var)
-            return new Const(0);
-    }
-
+Expression* ArcCos::_derivative(char var) {
     auto* one = new Const(1);
     return argument->derivative(var)
             ->negate()

@@ -32,7 +32,7 @@ double Var::evaluate(const std::unordered_map<char, double>& variables) {
     return variables.at(symbol);
 }
 
-bool Var::equals(Expression* expression) {
+bool Var::_equals(Expression* expression) {
     if (this == expression)
         return true;
 
@@ -43,7 +43,7 @@ bool Var::equals(Expression* expression) {
     return false;
 }
 
-Expression* Var::derivative(char var) {
+Expression* Var::_derivative(char var) {
     double derivative = symbol == var ? 1.0 : 0.0;
     return new Const{derivative};
 }

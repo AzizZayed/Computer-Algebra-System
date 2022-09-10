@@ -23,16 +23,7 @@ ArcCot* ArcCot::clone() {
     return new ArcCot(argument->clone());
 }
 
-Expression* ArcCot::derivative(char var) {
-    if (argument->isOfType(ExpressionType::CONSTANT))
-        return new Const(0);
-
-    if (argument->isOfType(ExpressionType::VARIABLE)) {
-        auto* variable = dynamic_cast<Var*>(argument);
-        if (variable->getSymbol() != var)
-            return new Const(0);
-    }
-
+Expression* ArcCot::_derivative(char var) {
     return new Divide(
             argument->derivative(var)->negate(),
             new Sum({argument->clone()->power(2), new Const(1)}));

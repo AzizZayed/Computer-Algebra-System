@@ -17,7 +17,7 @@ public:
 
     ~NaryFunction() override;
 
-    bool equals(Expression* expression) override;
+    bool _equals(Expression* expression) override;
 
     std::string latex() override;
 

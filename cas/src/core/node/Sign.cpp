@@ -16,7 +16,7 @@ double Sign::evaluate(const std::unordered_map<char, double>& variables) {
                                    : 0;
 }
 
-bool Sign::equals(Expression* expression) {
+bool Sign::_equals(Expression* expression) {
     if (this == expression)
         return true;
 

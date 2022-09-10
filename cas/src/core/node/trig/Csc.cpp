@@ -21,7 +21,7 @@ Csc* Csc::clone() {
     return new Csc(argument->clone());
 }
 
-Expression* Csc::derivative(char variable) {
+Expression* Csc::_derivative(char variable) {
     return new Negate(
             new Product({argument->clone()->csc(),
                          argument->clone()->cot(),

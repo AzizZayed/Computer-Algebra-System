@@ -6,8 +6,8 @@
 #define CAS_PIECEWISECONDITION_H
 
 #include "cas/CAS.h"
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 CAS_NAMESPACE
 
