@@ -45,7 +45,7 @@ set(CAS_SRC_HEADERS
         ../include/cas/node/trig/ArcSec.h
         ../include/cas/node/trig/ArcCot.h
         ../include/cas/node/trig/ArcCsc.h
-        ../include/cas/util/StringUtils.h ../include/cas/math/PieceWiseCondition.h)
+        ../include/cas/util/StringUtils.h)
 
 set(CAS_SRC_SOURCES
         core/node/Const.cpp
@@ -86,7 +86,8 @@ set(CAS_SRC_SOURCES
         core/node/trig/ArcTan.cpp
         core/node/trig/ArcSec.cpp
         core/node/trig/ArcCot.cpp
-        core/node/trig/ArcCsc.cpp core/node/trig/InverseTrigFunction.cpp)
+        core/node/trig/ArcCsc.cpp
+        core/node/trig/InverseTrigFunction.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)
