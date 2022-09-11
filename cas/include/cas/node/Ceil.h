@@ -18,7 +18,7 @@ public:
 
     ~Ceil() override = default;
 
-    double evaluate(const std::unordered_map<char, double>& variables) override;
+    double evaluate(const VarMap& variables) override;
 
     Ceil* clone() override;
 

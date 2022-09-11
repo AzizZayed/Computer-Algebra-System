@@ -6,6 +6,7 @@
 #include "cas/node/Abs.h"
 #include "cas/node/Cbrt.h"
 #include "cas/node/Ceil.h"
+#include "cas/node/Const.h"
 #include "cas/node/Divide.h"
 #include "cas/node/Exp.h"
 #include "cas/node/Floor.h"
@@ -88,8 +89,16 @@ Sum* Expression::add(Expression* expression) {
     return new Sum({this, expression});
 }
 
+Sum* Expression::add(double value) {
+    return this->add(new Const(value));
+}
+
 Sum* Expression::subtract(Expression* expression) {
     return new Sum({this, new Negate(expression)});
+}
+
+Sum* Expression::subtract(double value) {
+    return this->subtract(new Const(value));
 }
 
 Divide* Expression::divide(Expression* expression) {

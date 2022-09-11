@@ -26,20 +26,15 @@ ArcCsc* ArcCsc::clone() {
 }
 
 Expression* ArcCsc::_derivative(char var) {
-    if (argument->isOfType(ExpressionType::CONSTANT))
-        return new Const(0);
 
-    if (argument->isOfType(ExpressionType::VARIABLE)) {
-        auto* variable = dynamic_cast<Var*>(argument);
-        if (variable->getSymbol() != var)
-            return new Const(0);
-    }
-
-    return new Divide(
-            argument->derivative(var)->negate(),// new Negate(argument->derivative(var))
-            new Product({argument->clone()->abs(),
-                         new Sqrt(new Sum({argument->clone()->power(2),
-                                           new Negate(new Const(1))}))}));
+    return argument->derivative(var)
+            ->negate()
+            ->divide(argument->clone()
+                             ->abs()
+                             ->multiply(argument->clone()
+                                                ->power(2)
+                                                ->subtract(1)
+                                                ->sqrt()));
 }
 
 Expression* ArcCsc::simplified() {

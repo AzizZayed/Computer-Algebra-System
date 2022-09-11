@@ -26,11 +26,13 @@ ArcSec* ArcSec::clone() {
 }
 
 Expression* ArcSec::_derivative(char var) {
-    return new Divide(
-            argument->derivative(var),
-            new Product({argument->clone()->abs(),
-                         new Sqrt(new Sum({argument->clone()->power(2),
-                                           new Negate(new Const(1))}))}));
+    return argument->derivative(var)
+            ->divide(argument->clone()
+                             ->abs()
+                             ->multiply(argument->clone()
+                                                ->power(2)
+                                                ->subtract(1)
+                                                ->sqrt()));
 }
 
 Expression* ArcSec::simplified() {

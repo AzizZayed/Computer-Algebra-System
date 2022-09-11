@@ -80,13 +80,13 @@ TEST(FloorNodeTest, FloorLatexTest) {
 
 TEST(FloorNodeTest, FloorStringifyTest) {
     auto* floor = new cas::Floor(new cas::Const(1));
-    EXPECT_EQ(L"⌊1⌋", floor->stringify());
+    EXPECT_STREQ(L"⌊1⌋", floor->stringify().c_str());
 
     auto* floor2 = new cas::Floor(new cas::Const(-1));
-    EXPECT_EQ(L"⌊-1⌋", floor2->stringify());
+    EXPECT_STREQ(L"⌊-1⌋", floor2->stringify().c_str());
 
     auto* floor3 = new cas::Floor(new cas::Var);
-    EXPECT_EQ(L"⌊x⌋", floor3->stringify());
+    EXPECT_STREQ(L"⌊x⌋", floor3->stringify().c_str());
 
     delete floor;
     delete floor2;

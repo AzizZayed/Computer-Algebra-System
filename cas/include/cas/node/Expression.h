@@ -54,13 +54,15 @@ CAS_NAMESPACE
 
 class Expression : public IMathNode {
 public:
+    using VarMap = std::unordered_map<char, double>;
+
     explicit Expression(const ExpressionProperties& properties);
 
     virtual ~Expression();
 
     Expression(const Expression& expression) = delete;
 
-    virtual double evaluate(const std::unordered_map<char, double>& variables);
+    virtual double evaluate(const VarMap& variables);
     double evaluate();
 
     virtual bool equals(Expression* expression);
@@ -76,6 +78,8 @@ public:
     Product* multiply(Expression* expression);
     Sum* add(Expression* expression);
     Sum* subtract(Expression* expression);
+    Sum* add(double value);
+    Sum* subtract(double value);
     Divide* divide(Expression* expression);
     Negate* negate();
 

@@ -38,14 +38,8 @@ double Const::evaluate(const std::unordered_map<char, double>& variables) {
 }
 
 bool Const::_equals(Expression* expression) {
-    if (this == expression)
-        return true;
-
-    if (expression->getProperties().getType() == ExpressionType::CONSTANT) {
-        auto* constant = dynamic_cast<Const*>(expression);
-        return value == constant->getValue();
-    }
-    return false;
+    auto* constant = dynamic_cast<Const*>(expression);
+    return floatingsEqual(value, constant->value);
 }
 
 Const* Const::_derivative(char var) {

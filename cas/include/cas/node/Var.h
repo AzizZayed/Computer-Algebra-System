@@ -35,11 +35,17 @@ public:
 
     char getSymbol() const { return symbol; }
 
+    static Var* x() { return new Var(VAR_X); }
+    static Var* y() { return new Var(VAR_Y); }
+    static Var* z() { return new Var(VAR_Z); }
+
 private:
     const char symbol;
 
 public:
     static const char VAR_X = 'x';
+    static const char VAR_Y = 'y';
+    static const char VAR_Z = 'z';
 };
 
 CAS_NAMESPACE_END
