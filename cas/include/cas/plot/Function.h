@@ -10,13 +10,13 @@
 
 CAS_NAMESPACE
 
-class Formula : public IMath, public IRepresentableMath {
+class Function : public IMath, public IRepresentableMath {
 public:
-    static Formula parse(const std::string& strFormula);
+    static Function parse(const std::string& strFormula);
 
     double evaluate(const VarMap& variables) override;
-    IMath* derivative(char var) override;
-    IMath* simplified() override;
+    Function* derivative(char var) override;
+    Function* simplified() override;
     bool isEquivalent(IMath* expr) override;
 
     std::string latex() override;
@@ -25,9 +25,10 @@ public:
     std::string explicitText() override;
 
 protected:
-    explicit Formula(Expression* expr, const VarMap& variables);
+    explicit Function(Expression* expr, const VarMap& variables);
 
 private:
+    const size_t id;
     Expression* expr;
     VarMap variables;
     std::string originalFormula;

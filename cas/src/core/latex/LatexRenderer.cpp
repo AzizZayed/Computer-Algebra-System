@@ -3,6 +3,7 @@
 //
 
 #include "cas/latex/LatexRenderer.h"
+#include "stdexcept"
 
 CAS_NAMESPACE
 

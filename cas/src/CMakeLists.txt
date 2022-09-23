@@ -46,7 +46,7 @@ set(CAS_SRC_HEADERS
         ../include/cas/node/trig/ArcCot.h
         ../include/cas/node/trig/ArcCsc.h
         ../include/cas/util/StringUtils.h
-        ../include/cas/plot/Formula.h
+        ../include/cas/plot/Function.h
         ../include/cas/node/IMath.h
         ../include/cas/latex/LatexRenderer.h)
 
@@ -90,7 +90,9 @@ set(CAS_SRC_SOURCES
         core/node/trig/ArcSec.cpp
         core/node/trig/ArcCot.cpp
         core/node/trig/ArcCsc.cpp
-        core/node/trig/InverseTrigExpression.cpp core/data/ExpressionProperties.cpp core/latex/LatexRenderer.cpp)
+        core/node/trig/InverseTrigExpression.cpp
+        core/data/ExpressionProperties.cpp
+        core/latex/LatexRenderer.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)
