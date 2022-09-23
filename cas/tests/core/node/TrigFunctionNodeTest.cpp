@@ -1,4 +1,4 @@
-#include "cas/node/trig/TrigFunction.h"
+#include "cas/node/trig/TrigExpression.h"
 #include "gtest/gtest.h"
 
 TEST(TrigFunctionNodeTest, TrigFunctionCreateTest) {

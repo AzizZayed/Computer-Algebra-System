@@ -5,11 +5,11 @@
 #ifndef CAS_ARCTAN_H
 #define CAS_ARCTAN_H
 
-#include "InverseTrigFunction.h"
+#include "InverseTrigExpression.h"
 
 CAS_NAMESPACE
 
-class ArcTan : public InverseTrigFunction {
+class ArcTan : public InverseTrigExpression {
 public:
     explicit ArcTan(Expression* argument);
     ArcTan() = delete;

@@ -5,12 +5,12 @@
 #ifndef CAS_MAX_H
 #define CAS_MAX_H
 
-#include "NaryFunction.h"
+#include "NaryExpression.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class Max : public NaryFunction {
+class Max : public NaryExpression {
 public:
     explicit Max(std::vector<Expression*> expressions);
 

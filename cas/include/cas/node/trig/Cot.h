@@ -5,11 +5,11 @@
 #ifndef CAS_COT_H
 #define CAS_COT_H
 
-#include "cas/node/trig/TrigFunction.h"
+#include "cas/node/trig/TrigExpression.h"
 
 CAS_NAMESPACE
 
-class Cot : public TrigFunction {
+class Cot : public TrigExpression {
 public:
     explicit Cot(Expression* argument);
     Cot() = delete;

@@ -6,11 +6,11 @@
 #define CAS_TAN_H
 
 #include "cas/CAS.h"
-#include "cas/node/trig/TrigFunction.h"
+#include "cas/node/trig/TrigExpression.h"
 
 CAS_NAMESPACE
 
-class Tan : public TrigFunction {
+class Tan : public TrigExpression {
 public:
     explicit Tan(Expression* argument);
     Tan() = delete;

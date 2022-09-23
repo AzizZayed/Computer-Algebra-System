@@ -5,12 +5,12 @@
 #ifndef CAS_CEIL_H
 #define CAS_CEIL_H
 
-#include "BracketFunction.h"
+#include "BracketExpression.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class Ceil : public BracketFunction {
+class Ceil : public BracketExpression {
 public:
     explicit Ceil(Expression* argument);
 

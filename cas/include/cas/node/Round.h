@@ -5,12 +5,12 @@
 #ifndef CAS_ROUND_H
 #define CAS_ROUND_H
 
-#include "BracketFunction.h"
+#include "BracketExpression.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class Round : public BracketFunction {
+class Round : public BracketExpression {
 public:
     explicit Round(Expression* argument);
 

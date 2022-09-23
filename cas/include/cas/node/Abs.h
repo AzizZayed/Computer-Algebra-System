@@ -5,12 +5,12 @@
 #ifndef CAS_ABS_H
 #define CAS_ABS_H
 
-#include "BracketFunction.h"
+#include "BracketExpression.h"
 #include "Expression.h"
 
 CAS_NAMESPACE
 
-class Abs : public BracketFunction {
+class Abs : public BracketExpression {
 public:
     explicit Abs(Expression* argument);
 

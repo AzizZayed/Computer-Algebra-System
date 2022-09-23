@@ -2,12 +2,12 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-09.
 //
 
-#include "cas/node/trig/InverseTrigFunction.h"
+#include "cas/node/trig/InverseTrigExpression.h"
 
 CAS_NAMESPACE
 
-InverseTrigFunction::InverseTrigFunction(const ExpressionProperties& props, Expression* argument)
-    : TrigFunction(props, argument) {}
+InverseTrigExpression::InverseTrigExpression(const ExpressionProperties& props, Expression* argument)
+    : TrigExpression(props, argument) {}
 
 //std::string InverseTrigFunction::latex() {
 //    if (needsParentheses())

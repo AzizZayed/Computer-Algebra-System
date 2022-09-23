@@ -2,15 +2,15 @@
 // Created by Abd-El-Aziz Zayed on 2022-08-27.
 //
 
-#ifndef CAS_I_MATH_NODE_H
-#define CAS_I_MATH_NODE_H
+#ifndef CAS_I_REPRESENTABLE_MATH__H
+#define CAS_I_REPRESENTABLE_MATH__H
 
 #include "cas/CAS.h"
 #include <string>
 
 CAS_NAMESPACE
 
-class IMathNode {
+class IRepresentableMath {
 public:
     virtual std::string latex() = 0;       // latex representation
     virtual std::wstring stringify() = 0;  // fancy string representation
@@ -20,4 +20,4 @@ public:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_I_MATH_NODE_H
+#endif//CAS_I_REPRESENTABLE_MATH__H

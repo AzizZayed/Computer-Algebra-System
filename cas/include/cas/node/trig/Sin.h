@@ -6,11 +6,11 @@
 #define CAS_SIN_H
 
 #include "cas/CAS.h"
-#include "cas/node/trig/TrigFunction.h"
+#include "cas/node/trig/TrigExpression.h"
 
 CAS_NAMESPACE
 
-class Sin : public TrigFunction {
+class Sin : public TrigExpression {
 public:
     explicit Sin(Expression* argument);
     Sin() = delete;

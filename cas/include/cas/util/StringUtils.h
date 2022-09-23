@@ -21,9 +21,9 @@ inline std::string toString(const std::wstring& wString) {
 }
 
 inline void wPrint(const std::wstring& str) {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32)// Windows
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) // Windows
     std::wcout << str << std::endl;
-#else// MacOS & Linux
+#else // MacOS & Linux
     std::cout << toString(str) << std::endl;
 #endif
 }

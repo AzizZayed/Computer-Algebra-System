@@ -6,11 +6,11 @@
 #define CAS_SEC_H
 
 #include "cas/CAS.h"
-#include "cas/node/trig/TrigFunction.h"
+#include "cas/node/trig/TrigExpression.h"
 
 CAS_NAMESPACE
 
-class Sec : public TrigFunction {
+class Sec : public TrigExpression {
 public:
     explicit Sec(Expression* argument);
     Sec() = delete;

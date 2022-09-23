@@ -1,19 +1,23 @@
 @startuml
 skinparam style strictuml
 
-interface IMathNode {
-    + {abstract} string latex()
-    + {abstract} wstring stringify()
-    + {abstract} string text()
-    + {abstract} string explicitText()
+interface IMath {
+    + {abstract} evaluate()
+    + {abstract} derivative()
+    + {abstract} simplified()
+    + {abstract} isEquivalent()
+}
+
+interface IRepresentableMath {
+    + {abstract} latex()
+    + {abstract} stringify()
+    + {abstract} text()
+    + {abstract} explicitText()
 }
 
 abstract class Expression {
-    + {abstract} evaluate()
     + {abstract} equals()
     + {abstract} clone()
-    + {abstract} derivative()
-    + {abstract} simplified()
 }
 
 class Const {
@@ -107,6 +111,9 @@ enum ExpressionType {
     NEGATE
 }
 
+Expression --|> IRepresentableMath
+Expression --|> IMath
+
 Const --|> Expression
 Var --|> Expression
 
@@ -158,7 +165,6 @@ Divide --|> Expression
 ExpressionProperties ..> ExpressionType : type
 Expression ..> ExpressionProperties : properties
 Expression ..> Expression : parent
-Expression --|> IMathNode
 
 Divide ..> Expression : dividend
 Divide ..> Expression : divisor

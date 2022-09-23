@@ -81,6 +81,10 @@ Expression* Expression::simplified() {
     throw std::runtime_error("Expression::simplified() is not implemented for " + properties.getName());
 }
 
+bool Expression::isEquivalent(cas::IMath* expression) {
+    throw std::runtime_error("Expression::isEquivalent() is not implemented for " + properties.getName());
+}
+
 Product* Expression::multiply(Expression* expression) {
     return new Product({this, expression});
 }

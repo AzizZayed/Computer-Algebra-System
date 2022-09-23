@@ -6,11 +6,11 @@
 #define CAS_COS_H
 
 #include "cas/CAS.h"
-#include "cas/node/trig/TrigFunction.h"
+#include "cas/node/trig/TrigExpression.h"
 
 CAS_NAMESPACE
 
-class Cos : public TrigFunction {
+class Cos : public TrigExpression {
 public:
     explicit Cos(Expression* argument);
     Cos() = delete;

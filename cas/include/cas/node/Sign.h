@@ -5,12 +5,12 @@
 #ifndef CAS_SIGN_H
 #define CAS_SIGN_H
 
-#include "UnaryFunction.h"
+#include "UnaryExpression.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class Sign : public UnaryFunction {
+class Sign : public UnaryExpression {
 public:
     explicit Sign(Expression* argument);
     Sign() = delete;

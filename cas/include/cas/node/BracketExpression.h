@@ -5,16 +5,16 @@
 #ifndef CAS_BRACKETFUNCTION_H
 #define CAS_BRACKETFUNCTION_H
 
-#include "UnaryFunction.h"
+#include "UnaryExpression.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class BracketFunction : public UnaryFunction {
+class BracketExpression : public UnaryExpression {
 public:
-    BracketFunction() = delete;
+    BracketExpression() = delete;
 
-    ~BracketFunction() override = default;
+    ~BracketExpression() override = default;
 
     bool _equals(Expression* other) override;
 
@@ -29,7 +29,7 @@ public:
     std::string explicitText() override;
 
 protected:
-    explicit BracketFunction(const ExpressionProperties& properties, Expression* argument,
+    explicit BracketExpression(const ExpressionProperties& properties, Expression* argument,
                              const wchar_t* openBracket, const wchar_t* closeBracket,
                              const char* openBracketLatex, const char* closeBracketLatex);
 

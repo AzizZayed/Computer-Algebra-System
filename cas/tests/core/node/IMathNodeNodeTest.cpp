@@ -1,4 +1,4 @@
-#include "cas/node/IMathNode.h"
+#include "cas/node/IRepresentableMath.h"
 #include "gtest/gtest.h"
 
 TEST(IMathNodeNodeTest, IMathNodeCreateTest) {

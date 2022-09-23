@@ -15,21 +15,14 @@ CAS_NAMESPACE
 
 class ExpressionProperties {
 public:
-    ExpressionProperties(ExpressionType type, std::string name, std::string shortName)
-        : type(type), order(uint16_t(type)), name(std::move(name)), shortName(std::move(shortName)) {}
+    ExpressionProperties(ExpressionType type, std::string name, std::string shortName);
 
-    bool operator==(const ExpressionProperties& other) const {
-        return type == other.type && order == other.order && name == other.name && shortName == other.shortName;
-    }
+    bool operator==(const ExpressionProperties& other) const;
 
-    uint16_t getOrder() const { return order; }
-
-    ExpressionType getType() const { return type; }
-
-    std::string getName() const { return name; }
-
-    std::string getShortName() const { return shortName; }
-
+    uint16_t getOrder() const;
+    ExpressionType getType() const;
+    std::string getName() const;
+    std::string getShortName() const;
 private:
     const uint16_t order;
     const ExpressionType type;

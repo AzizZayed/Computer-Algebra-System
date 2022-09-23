@@ -1,4 +1,4 @@
-#include "cas/node/NaryFunction.h"
+#include "cas/node/NaryExpression.h"
 #include "gtest/gtest.h"
 
 TEST(NaryFunctionNodeTest, NaryFunctionCreateTest) {

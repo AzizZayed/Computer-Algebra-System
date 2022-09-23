@@ -10,7 +10,7 @@
 
 CAS_NAMESPACE
 
-Tan::Tan(Expression* argument) : TrigFunction({ExpressionType::TAN, "tangent", "tan"}, argument) {}
+Tan::Tan(Expression* argument) : TrigExpression({ExpressionType::TAN, "tangent", "tan"}, argument) {}
 
 double Tan::evaluate(const std::unordered_map<char, double>& variables) {
     return std::tan(argument->evaluate(variables));

@@ -1,0 +1,12 @@
+# file: ../.gitignore
+
+.idea/
+.gradle/
+build/
+*.iml
+*.DS_Store
+.vscode/
+bin/
+*.class
+*.jar
+*.war

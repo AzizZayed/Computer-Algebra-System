@@ -10,7 +10,7 @@
 
 CAS_NAMESPACE
 
-Sec::Sec(Expression* argument) : TrigFunction({ExpressionType::SEC, "secant", "sec"}, argument) {}
+Sec::Sec(Expression* argument) : TrigExpression({ExpressionType::SEC, "secant", "sec"}, argument) {}
 
 double Sec::evaluate(const std::unordered_map<char, double>& variables) {
     return 1.0 / std::cos(argument->evaluate(variables));

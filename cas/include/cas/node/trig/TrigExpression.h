@@ -6,14 +6,14 @@
 #define CAS_TRIGFUNCTIONS_H
 
 #include "cas/CAS.h"
-#include "cas/node/UnaryFunction.h"
+#include "cas/node/UnaryExpression.h"
 
 CAS_NAMESPACE
 
-class TrigFunction : public UnaryFunction {
+class TrigExpression : public UnaryExpression {
 public:
-    TrigFunction() = delete;
-    ~TrigFunction() override = default;
+    TrigExpression() = delete;
+    ~TrigExpression() override = default;
 
     bool _equals(Expression* expression) override;
 
@@ -21,7 +21,7 @@ public:
     std::wstring stringify() override;
 
 protected:
-    explicit TrigFunction(const ExpressionProperties& props, Expression* argument);
+    explicit TrigExpression(const ExpressionProperties& props, Expression* argument);
     bool needsParentheses();
 };
 

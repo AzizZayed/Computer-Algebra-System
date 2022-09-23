@@ -12,7 +12,7 @@
 
 CAS_NAMESPACE
 
-Cot::Cot(Expression* argument) : TrigFunction({ExpressionType::COT, "cotangent", "cot"}, argument) {}
+Cot::Cot(Expression* argument) : TrigExpression({ExpressionType::COT, "cotangent", "cot"}, argument) {}
 
 double Cot::evaluate(const std::unordered_map<char, double>& variables) {
     return 1.0 / std::tan(argument->evaluate(variables));

@@ -8,7 +8,7 @@
 CAS_NAMESPACE
 
 Sign::Sign(Expression* argument)
-    : UnaryFunction({ExpressionType::SIGN, "sign", "sign"}, argument) {}
+    : UnaryExpression({ExpressionType::SIGN, "sign", "sign"}, argument) {}
 
 double Sign::evaluate(const std::unordered_map<char, double>& variables) {
     double eval = argument->evaluate(variables);

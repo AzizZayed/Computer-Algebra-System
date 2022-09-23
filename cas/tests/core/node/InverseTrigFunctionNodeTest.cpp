@@ -1,4 +1,4 @@
-#include "cas/node/trig/InverseTrigFunction.h"
+#include "cas/node/trig/InverseTrigExpression.h"
 #include "gtest/gtest.h"
 
 TEST(InverseTrigFunctionNodeTest, InverseTrigFunctionCreateTest) {

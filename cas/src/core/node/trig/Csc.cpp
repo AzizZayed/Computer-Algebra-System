@@ -11,7 +11,7 @@
 
 CAS_NAMESPACE
 
-Csc::Csc(Expression* argument) : TrigFunction({ExpressionType::CSC, "cosecant", "csc"}, argument) {}
+Csc::Csc(Expression* argument) : TrigExpression({ExpressionType::CSC, "cosecant", "csc"}, argument) {}
 
 double Csc::evaluate(const std::unordered_map<char, double>& variables) {
     return 1.0 / std::sin(argument->evaluate(variables));

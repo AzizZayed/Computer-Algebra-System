@@ -3,7 +3,7 @@ project(src)
 
 set(CAS_SRC_HEADERS
         ../include/cas/CAS.h
-        ../include/cas/node/IMathNode.h
+        ../include/cas/node/IRepresentableMath.h
         ../include/cas/node/Expression.h
         ../include/cas/node/Const.h
         ../include/cas/data/ExpressionType.h
@@ -17,25 +17,25 @@ set(CAS_SRC_HEADERS
         ../include/cas/node/Log.h
         ../include/cas/node/Ln.h
         ../include/cas/node/Exp.h
-        ../include/cas/node/UnaryFunction.h
-        ../include/cas/node/NaryFunction.h
+        ../include/cas/node/UnaryExpression.h
+        ../include/cas/node/NaryExpression.h
         ../include/cas/node/Min.h
         ../include/cas/node/Max.h
-        ../include/cas/node/BracketFunction.h
+        ../include/cas/node/BracketExpression.h
         ../include/cas/node/Abs.h
         ../include/cas/node/Floor.h
         ../include/cas/node/Ceil.h
         ../include/cas/node/Round.h
         ../include/cas/node/Mod.h
         ../include/cas/node/Sign.h
-        ../include/cas/node/trig/TrigFunction.h
+        ../include/cas/node/trig/TrigExpression.h
         ../include/cas/node/trig/Cos.h
         ../include/cas/node/trig/Sin.h
         ../include/cas/node/trig/Tan.h
         ../include/cas/node/trig/Sec.h
         ../include/cas/node/trig/Csc.h
         ../include/cas/node/trig/Cot.h
-        ../include/cas/node/trig/InverseTrigFunction.h
+        ../include/cas/node/trig/InverseTrigExpression.h
         ../include/cas/node/trig/ArcCos.h
         ../include/cas/node/Sqrt.h
         ../include/cas/node/Root.h
@@ -45,7 +45,10 @@ set(CAS_SRC_HEADERS
         ../include/cas/node/trig/ArcSec.h
         ../include/cas/node/trig/ArcCot.h
         ../include/cas/node/trig/ArcCsc.h
-        ../include/cas/util/StringUtils.h)
+        ../include/cas/util/StringUtils.h
+        ../include/cas/plot/Formula.h
+        ../include/cas/node/IMath.h
+        ../include/cas/latex/LatexRenderer.h)
 
 set(CAS_SRC_SOURCES
         core/node/Const.cpp
@@ -60,18 +63,18 @@ set(CAS_SRC_SOURCES
         core/node/Exp.cpp
         core/node/Log.cpp
         core/node/Ln.cpp
-        core/node/NaryFunction.cpp
+        core/node/NaryExpression.cpp
         core/node/Min.cpp
         core/node/Max.cpp
-        core/node/BracketFunction.cpp
+        core/node/BracketExpression.cpp
         core/node/Abs.cpp
         core/node/Floor.cpp
         core/node/Ceil.cpp
         core/node/Round.cpp
-        core/node/UnaryFunction.cpp
+        core/node/UnaryExpression.cpp
         core/node/Mod.cpp
         core/node/Sign.cpp
-        core/node/trig/TrigFunction.cpp
+        core/node/trig/TrigExpression.cpp
         core/node/trig/Cos.cpp
         core/node/trig/Sin.cpp
         core/node/trig/Tan.cpp
@@ -87,7 +90,7 @@ set(CAS_SRC_SOURCES
         core/node/trig/ArcSec.cpp
         core/node/trig/ArcCot.cpp
         core/node/trig/ArcCsc.cpp
-        core/node/trig/InverseTrigFunction.cpp)
+        core/node/trig/InverseTrigExpression.cpp core/data/ExpressionProperties.cpp core/latex/LatexRenderer.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)

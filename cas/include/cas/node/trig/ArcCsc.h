@@ -5,11 +5,11 @@
 #ifndef CAS_ARCCSC_H
 #define CAS_ARCCSC_H
 
-#include "InverseTrigFunction.h"
+#include "InverseTrigExpression.h"
 
 CAS_NAMESPACE
 
-class ArcCsc : public InverseTrigFunction {
+class ArcCsc : public InverseTrigExpression {
 public:
     explicit ArcCsc(Expression* argument);
     ArcCsc() = delete;

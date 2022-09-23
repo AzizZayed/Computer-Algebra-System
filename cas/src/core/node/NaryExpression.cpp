@@ -2,13 +2,13 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-04.
 //
 
-#include "cas/node/NaryFunction.h"
+#include "cas/node/NaryExpression.h"
 #include "cas/util/StringUtils.h"
 #include <sstream>
 
 CAS_NAMESPACE
 
-NaryFunction::NaryFunction(const ExpressionProperties& props,
+NaryExpression::NaryExpression(const ExpressionProperties& props,
                            std::vector<Expression*> expressions)
     : Expression(props), expressions(std::move(expressions)) {
     for (auto& expression: this->expressions) {
@@ -16,19 +16,19 @@ NaryFunction::NaryFunction(const ExpressionProperties& props,
     }
 }
 
-NaryFunction::~NaryFunction() {
+NaryExpression::~NaryExpression() {
     for (auto& expression: expressions) {
         delete expression;
         expression = nullptr;
     }
 }
 
-bool NaryFunction::_equals(Expression* expression) {
+bool NaryExpression::_equals(Expression* expression) {
     if (this == expression)
         return true;
 
     if (expression->isOfType(properties.getType())) {
-        auto* function = dynamic_cast<NaryFunction*>(expression);
+        auto* function = dynamic_cast<NaryExpression*>(expression);
         if (expressions.size() != function->expressions.size())
             return false;
 
@@ -41,7 +41,7 @@ bool NaryFunction::_equals(Expression* expression) {
     return false;
 }
 
-std::string NaryFunction::latex() {
+std::string NaryExpression::latex() {
     std::stringstream ss;
     ss << "\\" << properties.getShortName() << "\\left(";
     for (size_t i = 0; i < expressions.size(); i++) {
@@ -53,7 +53,7 @@ std::string NaryFunction::latex() {
     return ss.str();
 }
 
-std::wstring NaryFunction::stringify() {
+std::wstring NaryExpression::stringify() {
     std::wstringstream ss;
     ss << toWstring(properties.getShortName()) << L"(";
     for (size_t i = 0; i < expressions.size(); i++) {
@@ -65,7 +65,7 @@ std::wstring NaryFunction::stringify() {
     return ss.str();
 }
 
-std::string NaryFunction::text() {
+std::string NaryExpression::text() {
     std::stringstream ss;
     ss << properties.getShortName() << "(";
     for (size_t i = 0; i < expressions.size(); i++) {
@@ -77,7 +77,7 @@ std::string NaryFunction::text() {
     return ss.str();
 }
 
-std::string NaryFunction::explicitText() {
+std::string NaryExpression::explicitText() {
     std::stringstream ss;
     ss << properties.getShortName() << "(";
     for (size_t i = 0; i < expressions.size(); i++) {

@@ -11,11 +11,11 @@
 
 CAS_NAMESPACE
 
-class NaryFunction : public Expression {
+class NaryExpression : public Expression {
 public:
-    NaryFunction() = delete;
+    NaryExpression() = delete;
 
-    ~NaryFunction() override;
+    ~NaryExpression() override;
 
     bool _equals(Expression* expression) override;
 
@@ -30,7 +30,7 @@ public:
     std::vector<Expression*> getExpressions() const { return {expressions}; }
 
 protected:
-    explicit NaryFunction(const ExpressionProperties& props, std::vector<Expression*> expressions);
+    explicit NaryExpression(const ExpressionProperties& props, std::vector<Expression*> expressions);
 
 protected:
     std::vector<Expression*> expressions;

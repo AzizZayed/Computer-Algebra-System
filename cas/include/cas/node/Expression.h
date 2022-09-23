@@ -5,13 +5,13 @@
 #ifndef CAS_EXPRESSION_H
 #define CAS_EXPRESSION_H
 
-#include "IMathNode.h"
+#include "IMath.h"
+#include "IRepresentableMath.h"
 #include "cas/CAS.h"
 #include "cas/data/ExpressionProperties.h"
 #include "cas/data/ExpressionType.h"
 #include <cstdlib>
 #include <iostream>
-#include <unordered_map>
 
 CAS_NAMESPACE
 
@@ -52,17 +52,15 @@ CAS_NAMESPACE_END
 
 CAS_NAMESPACE
 
-class Expression : public IMathNode {
+class Expression : public IMath, public IRepresentableMath {
 public:
-    using VarMap = std::unordered_map<char, double>;
-
     explicit Expression(const ExpressionProperties& properties);
 
     virtual ~Expression();
 
     Expression(const Expression& expression) = delete;
 
-    virtual double evaluate(const VarMap& variables);
+    double evaluate(const VarMap& variables) override;
     double evaluate();
 
     virtual bool equals(Expression* expression);
@@ -70,10 +68,11 @@ public:
 
     virtual Expression* clone();
 
-    virtual Expression* derivative(char var);
+    Expression* derivative(char var) override;
     virtual Expression* _derivative(char var);
 
-    virtual Expression* simplified();
+    Expression* simplified() override;
+    bool isEquivalent(IMath* expression) override;
 
     Product* multiply(Expression* expression);
     Sum* add(Expression* expression);

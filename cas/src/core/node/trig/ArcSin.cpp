@@ -14,7 +14,7 @@
 CAS_NAMESPACE
 
 ArcSin::ArcSin(Expression* argument)
-    : InverseTrigFunction({ExpressionType::ARC_SIN, "arcsin", "asin"}, argument) {}
+    : InverseTrigExpression({ExpressionType::ARC_SIN, "arcsin", "asin"}, argument) {}
 
 double ArcSin::evaluate(const std::unordered_map<char, double>& variables) {
     return std::asin(argument->evaluate(variables));

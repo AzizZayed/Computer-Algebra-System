@@ -15,7 +15,7 @@
 CAS_NAMESPACE
 
 ArcSec::ArcSec(Expression* argument)
-    : InverseTrigFunction({ExpressionType::ARC_SEC, "arcsec", "asec"}, argument) {}
+    : InverseTrigExpression({ExpressionType::ARC_SEC, "arcsec", "asec"}, argument) {}
 
 double ArcSec::evaluate(const std::unordered_map<char, double>& variables) {
     return std::acos(1.0 / argument->evaluate(variables));

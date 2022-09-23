@@ -9,7 +9,7 @@
 CAS_NAMESPACE
 
 Negate::Negate(Expression* expression)
-    : UnaryFunction({ExpressionType::NEGATE, "negate", "neg"}, expression) {
+    : UnaryExpression({ExpressionType::NEGATE, "negate", "neg"}, expression) {
 #if DEBUG_CAS
     std::string str = properties.getName();
     wprintf(L"%s(...)\n", str.c_str());

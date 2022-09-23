@@ -5,11 +5,11 @@
 #ifndef CAS_CSC_H
 #define CAS_CSC_H
 
-#include "cas/node/trig/TrigFunction.h"
+#include "cas/node/trig/TrigExpression.h"
 
 CAS_NAMESPACE
 
-class Csc : public TrigFunction {
+class Csc : public TrigExpression {
 public:
     explicit Csc(Expression* argument);
     Csc() = delete;

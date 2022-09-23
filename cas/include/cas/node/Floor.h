@@ -5,12 +5,12 @@
 #ifndef CAS_FLOOR_H
 #define CAS_FLOOR_H
 
-#include "BracketFunction.h"
+#include "BracketExpression.h"
 #include "cas/CAS.h"
 
 CAS_NAMESPACE
 
-class Floor : public BracketFunction {
+class Floor : public BracketExpression {
 public:
     explicit Floor(Expression* argument);
 

@@ -1,0 +1,28 @@
+plugins {
+    id 'application'
+}
+
+group 'cas.latex'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.scilab.forge:jlatexmath:1.0.7'
+}
+
+application {
+    mainClass = 'cas.latex.LatexRenderer'
+}
+
+run {
+    if (project.hasProperty("aargs")) {
+        args Eval.me(aargs)
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -10,11 +10,11 @@
 
 CAS_NAMESPACE
 
-class UnaryFunction : public Expression {
+class UnaryExpression : public Expression {
 public:
-    UnaryFunction() = delete;
+    UnaryExpression() = delete;
 
-    ~UnaryFunction() override;
+    ~UnaryExpression() override;
 
     Expression* derivative(char var) override;
 
@@ -29,7 +29,7 @@ public:
     std::string explicitText() override;
 
 protected:
-    explicit UnaryFunction(const ExpressionProperties& properties, Expression* argument);
+    explicit UnaryExpression(const ExpressionProperties& properties, Expression* argument);
 
 protected:
     Expression* argument;

@@ -2,24 +2,24 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-05.
 //
 
-#include "cas/node/UnaryFunction.h"
+#include "cas/node/UnaryExpression.h"
 #include "cas/node/Const.h"
 #include "cas/node/Var.h"
 #include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 
-UnaryFunction::UnaryFunction(const ExpressionProperties& properties, Expression* argument)
+UnaryExpression::UnaryExpression(const ExpressionProperties& properties, Expression* argument)
     : Expression(properties), argument(argument) {
     this->argument->setParent(this);
 }
 
-UnaryFunction::~UnaryFunction() {
+UnaryExpression::~UnaryExpression() {
     delete argument;
     argument = nullptr;
 }
 
-Expression* UnaryFunction::derivative(char var) {
+Expression* UnaryExpression::derivative(char var) {
     if (argument->isOfType(ExpressionType::CONSTANT))
         return new Const(0);
 
@@ -32,19 +32,19 @@ Expression* UnaryFunction::derivative(char var) {
     return _derivative(var);
 }
 
-std::string UnaryFunction::latex() {
+std::string UnaryExpression::latex() {
     return "\\" + properties.getShortName() + "\\left(" + argument->latex() + "\\right)";
 }
 
-std::wstring UnaryFunction::stringify() {
+std::wstring UnaryExpression::stringify() {
     return toWstring(properties.getShortName()) + L"(" + argument->stringify() + L")";
 }
 
-std::string UnaryFunction::text() {
+std::string UnaryExpression::text() {
     return properties.getShortName() + "(" + argument->text() + ")";
 }
 
-std::string UnaryFunction::explicitText() {
+std::string UnaryExpression::explicitText() {
     return properties.getShortName() + "(" + argument->explicitText() + ")";
 }
 

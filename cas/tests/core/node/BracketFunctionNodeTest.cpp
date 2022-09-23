@@ -1,4 +1,4 @@
-#include "cas/node/BracketFunction.h"
+#include "cas/node/BracketExpression.h"
 #include "gtest/gtest.h"
 
 TEST(BracketFunctionNodeTest, BracketFunctionCreateTest) {
