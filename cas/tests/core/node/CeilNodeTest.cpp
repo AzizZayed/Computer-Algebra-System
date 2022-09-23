@@ -92,7 +92,7 @@ TEST(CeilNodeTest, CeilSimplifiedTest) {
 
 TEST(CeilNodeTest, CeilLatexTest) {
     auto* ceil = new cas::Ceil(new cas::Const(1));
-    EXPECT_STREQ("\\lceil1\\rceil", ceil->latex().c_str());
+    EXPECT_STREQ("\\lceil 1 \\rceil", ceil->latex().c_str());
 
     delete ceil;
 }

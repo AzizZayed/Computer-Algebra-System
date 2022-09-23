@@ -69,10 +69,10 @@ TEST(FloorNodeTest, FloorEqualsTest) {
 
 TEST(FloorNodeTest, FloorLatexTest) {
     auto* floor = new cas::Floor(new cas::Const(1));
-    EXPECT_EQ("\\lfloor1\\rfloor", floor->latex());
+    EXPECT_EQ("\\lfloor 1 \\rfloor", floor->latex());
 
     auto* floor2 = new cas::Floor(new cas::Const(-1));
-    EXPECT_EQ("\\lfloor-1\\rfloor", floor2->latex());
+    EXPECT_EQ("\\lfloor -1 \\rfloor", floor2->latex());
 
     delete floor;
     delete floor2;
