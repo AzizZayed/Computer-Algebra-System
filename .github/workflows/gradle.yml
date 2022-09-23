@@ -31,5 +31,3 @@ jobs:
     - name: Build with Gradle
       working-directory: ${{github.workspace}}/latex-rendering
       run: ./gradlew build
-      with:
-        arguments: build
