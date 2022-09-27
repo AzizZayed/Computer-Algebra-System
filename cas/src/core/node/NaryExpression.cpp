@@ -9,7 +9,7 @@
 CAS_NAMESPACE
 
 NaryExpression::NaryExpression(const ExpressionProperties& props,
-                           std::vector<Expression*> expressions)
+                               std::vector<Expression*> expressions)
     : Expression(props), expressions(std::move(expressions)) {
     for (auto& expression: this->expressions) {
         expression->setParent(this);

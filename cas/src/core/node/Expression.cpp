@@ -11,6 +11,7 @@
 #include "cas/node/Exp.h"
 #include "cas/node/Floor.h"
 #include "cas/node/Ln.h"
+#include "cas/node/Mod.h"
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
 #include "cas/node/Product.h"
@@ -55,7 +56,7 @@ bool Expression::equals(Expression* expression) {
     if (this == expression)
         return true;
 
-    if (expression->getProperties().getType() != properties.getType())
+    if (!isOfType(expression->getProperties().getType()))
         return false;
 
     return _equals(expression);
@@ -87,6 +88,10 @@ bool Expression::isEquivalent(cas::IMath* expression) {
 
 Product* Expression::multiply(Expression* expression) {
     return new Product({this, expression});
+}
+
+Product* Expression::multiply(double value) {
+    return new Product({this, Const::n(value)});
 }
 
 Sum* Expression::add(Expression* expression) {
@@ -209,6 +214,10 @@ Sign* Expression::sign() {
     return new Sign(this);
 }
 
+Mod* Expression::mod(Expression* expression) {
+    return new Mod(this, expression);
+}
+
 ExpressionProperties Expression::getProperties() const {
     return properties;
 }
@@ -230,7 +239,7 @@ bool Expression::isOfType(ExpressionType type) const {
 }
 
 bool Expression::isOfSameType(Expression* expression) const {
-    return properties.getType() == expression->getProperties().getType();
+    return isOfType(expression->getProperties().getType());
 }
 
 std::string Expression::explicitText() {

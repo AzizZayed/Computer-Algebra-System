@@ -17,7 +17,7 @@ public:
 
     Negate() = delete;
 
-    ~Negate() override;
+    ~Negate() override = default;
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
 

@@ -16,6 +16,14 @@ double Ln::evaluate(const std::unordered_map<char, double>& variables) {
     return std::log(argument->evaluate(variables));
 }
 
+bool Ln::_equals(Expression* expression) {
+    if (expression->isOfType(ExpressionType::NATURAL_LOGARITHM)) {
+        auto* ln = dynamic_cast<Ln*>(expression);
+        return argument->equals(ln->argument);
+    }
+    return false;
+}
+
 Ln* Ln::clone() {
     return new Ln(argument->clone());
 }

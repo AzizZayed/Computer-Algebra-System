@@ -37,15 +37,8 @@ double Divide::evaluate(const std::unordered_map<char, double>& variables) {
 }
 
 bool Divide::_equals(Expression* expression) {
-    if (this == expression)
-        return true;
-
-    if (expression->isOfType(ExpressionType::DIVIDE)) {
-        auto* divide = dynamic_cast<Divide*>(expression);
-        return dividend->equals(divide->dividend) && divisor->equals(divide->divisor);
-    }
-
-    return false;
+    auto* divide = dynamic_cast<Divide*>(expression);
+    return dividend->equals(divide->dividend) && divisor->equals(divide->divisor);
 }
 
 Divide* Divide::clone() {

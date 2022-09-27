@@ -1,17 +1,17 @@
+#include "cas/node/Abs.h"
 #include "cas/node/Const.h"
-#include "cas/node/Var.h"
-#include "cas/node/Negate.h"
-#include "cas/node/Sum.h"
-#include "cas/node/Power.h"
 #include "cas/node/Divide.h"
+#include "cas/node/Negate.h"
+#include "cas/node/Power.h"
 #include "cas/node/Product.h"
 #include "cas/node/Sqrt.h"
-#include "cas/node/Abs.h"
+#include "cas/node/Sum.h"
+#include "cas/node/Var.h"
 #include "cas/node/trig/ArcCsc.h"
 #include "gtest/gtest.h"
 
 TEST(ArcCscNodeTest, ArcCscCreateTest) {
-auto* node = new cas::ArcCsc(new cas::Const(1));
+    auto* node = new cas::ArcCsc(new cas::Const(1));
     EXPECT_EQ(node->getProperties().getType(), cas::ExpressionType::ARC_CSC);
     EXPECT_EQ(node->getProperties().getOrder(), uint16_t(cas::ExpressionType::ARC_CSC));
     EXPECT_EQ(node->getProperties().getName(), "arccsc");
@@ -89,8 +89,7 @@ TEST(ArcCscNodeTest, ArcCscDerivativeTest) {
                                      ->multiply(cas::Var::x()
                                                         ->power(2)
                                                         ->subtract(1)
-                                                        ->sqrt()))
-            ));
+                                                        ->sqrt()))));
 
     delete node;
     delete derivative;

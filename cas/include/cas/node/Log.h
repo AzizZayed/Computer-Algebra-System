@@ -16,6 +16,8 @@ public:
 
     explicit Log(double base, Expression* argument);
 
+    explicit Log(Expression* argument);
+
     Log() = delete;
 
     ~Log() override;

@@ -59,8 +59,10 @@ public:
 
     static Const* one() { return new Const{1.0}; }
 
+    static Const* n(double value) { return new Const{value}; }
+
     static bool floatingsEqual(double a, double b) {
-        double max = std::max({1.0, std::fabs(a) , std::fabs(b)}) ;
+        double max = std::max({1.0, std::fabs(a), std::fabs(b)});
         return std::fabs(a - b) <= std::numeric_limits<double>::epsilon() * max;
     }
 

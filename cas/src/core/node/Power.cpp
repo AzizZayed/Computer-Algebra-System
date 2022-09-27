@@ -40,15 +40,8 @@ double Power::evaluate(const std::unordered_map<char, double>& variables) {
 }
 
 bool Power::_equals(Expression* expression) {
-    if (this == expression)
-        return true;
-
-    if (expression->isOfType(properties.getType())) {
-        auto* power = dynamic_cast<Power*>(expression);
-        return base->equals(power->base) && exponent->equals(power->exponent);
-    }
-
-    return false;
+    auto* power = dynamic_cast<Power*>(expression);
+    return base->equals(power->base) && exponent->equals(power->exponent);
 }
 
 Power* Power::clone() {

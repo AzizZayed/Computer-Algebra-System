@@ -6,18 +6,15 @@
 #define CAS_IMATH_H
 
 #include "cas/CAS.h"
-#include <unordered_map>
 
 CAS_NAMESPACE
 
-using VarMap = std::unordered_map<char, double>;
-
 class IMath {
-    public:
-        virtual double evaluate(const VarMap& variables) = 0;
-        virtual IMath* derivative(char var) = 0;
-        virtual IMath* simplified() = 0;
-        virtual bool isEquivalent(IMath* expr) = 0;
+public:
+    virtual double evaluate(const VarMap& variables) = 0;
+    virtual IMath* derivative(char var) = 0;
+    virtual IMath* simplified() = 0;
+    virtual bool isEquivalent(IMath* expr) = 0;
 };
 
 CAS_NAMESPACE_END

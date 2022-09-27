@@ -22,6 +22,9 @@ Log::Log(Expression* base, Expression* argument)
 Log::Log(double base, Expression* argument)
     : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, new Const(base), argument) {}
 
+Log::Log(Expression* argument)
+    : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, Const::n(10), argument) {}
+
 Log::~Log() {
     delete base;
     delete argument;
@@ -35,9 +38,6 @@ double Log::evaluate(const std::unordered_map<char, double>& variables) {
 }
 
 bool Log::_equals(Expression* expression) {
-    if (this == expression)
-        return true;
-
     if (expression->isOfType(ExpressionType::LOGARITHM)) {
         auto* log = dynamic_cast<Log*>(expression);
         return base->equals(log->base) && argument->equals(log->argument);

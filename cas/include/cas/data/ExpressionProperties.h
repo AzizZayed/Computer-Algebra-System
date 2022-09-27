@@ -23,6 +23,7 @@ public:
     ExpressionType getType() const;
     std::string getName() const;
     std::string getShortName() const;
+
 private:
     const uint16_t order;
     const ExpressionType type;

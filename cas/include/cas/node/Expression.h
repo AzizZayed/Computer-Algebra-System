@@ -47,6 +47,7 @@ class Floor;
 class Ceil;
 class Round;
 class Sign;
+class Mod;
 
 CAS_NAMESPACE_END
 
@@ -61,7 +62,7 @@ public:
     Expression(const Expression& expression) = delete;
 
     double evaluate(const VarMap& variables) override;
-    double evaluate();
+    virtual double evaluate();
 
     virtual bool equals(Expression* expression);
     virtual bool _equals(Expression* expression);
@@ -75,6 +76,7 @@ public:
     bool isEquivalent(IMath* expression) override;
 
     Product* multiply(Expression* expression);
+    Product* multiply(double value);
     Sum* add(Expression* expression);
     Sum* subtract(Expression* expression);
     Sum* add(double value);
@@ -112,6 +114,7 @@ public:
     Ceil* ceil();
     Round* round();
     Sign* sign();
+    Mod* mod(Expression* expression);
 
     ExpressionProperties getProperties() const;
 

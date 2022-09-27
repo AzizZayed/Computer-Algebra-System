@@ -30,8 +30,8 @@ public:
 
 protected:
     explicit BracketExpression(const ExpressionProperties& properties, Expression* argument,
-                             const wchar_t* openBracket, const wchar_t* closeBracket,
-                             const char* openBracketLatex, const char* closeBracketLatex);
+                               const wchar_t* openBracket, const wchar_t* closeBracket,
+                               const char* openBracketLatex, const char* closeBracketLatex);
 
 protected:
     const wchar_t* openBracket;

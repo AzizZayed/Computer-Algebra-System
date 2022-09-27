@@ -20,6 +20,8 @@ public:
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
 
+    bool _equals(Expression* expression) override;
+
     Ln* clone() override;
 
     Expression* _derivative(char var) override;

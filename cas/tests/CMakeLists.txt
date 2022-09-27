@@ -30,7 +30,6 @@ set(TEST_SOURCE
         core/node/MinNodeTest.cpp
         core/node/OperatorNodeTest.cpp
         core/node/LnNodeTest.cpp
-        core/node/VarNodeTest.cpp
         core/node/RoundNodeTest.cpp
         core/node/NaryFunctionNodeTest.cpp
         core/node/ExpressionNodeTest.cpp
@@ -41,7 +40,6 @@ set(TEST_SOURCE
         core/node/UnaryFunctionNodeTest.cpp
         core/node/ModNodeTest.cpp
         core/node/SignNodeTest.cpp
-        core/node/ConstNodeTest.cpp
         core/node/SecNodeTest.cpp
         core/node/ArcCotNodeTest.cpp
         core/node/ArcCosNodeTest.cpp
@@ -55,7 +53,9 @@ set(TEST_SOURCE
         core/node/CosNodeTest.cpp
         core/node/SinNodeTest.cpp
         core/node/ArcTanNodeTest.cpp
-        core/node/ArcCscNodeTest.cpp)
+        core/node/ArcCscNodeTest.cpp
+        core/util/StringUtilsTest.cpp
+        core/data/ExpressionParserTest.cpp)
 
 add_executable(tests ${TEST_SOURCE})
 target_link_libraries(tests GTest::gtest_main src)

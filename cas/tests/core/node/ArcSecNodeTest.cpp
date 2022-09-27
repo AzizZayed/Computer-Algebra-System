@@ -1,12 +1,12 @@
+#include "cas/node/Abs.h"
 #include "cas/node/Const.h"
-#include "cas/node/Var.h"
-#include "cas/node/Negate.h"
-#include "cas/node/Sum.h"
-#include "cas/node/Power.h"
 #include "cas/node/Divide.h"
+#include "cas/node/Negate.h"
+#include "cas/node/Power.h"
 #include "cas/node/Product.h"
 #include "cas/node/Sqrt.h"
-#include "cas/node/Abs.h"
+#include "cas/node/Sum.h"
+#include "cas/node/Var.h"
 #include "cas/node/trig/ArcSec.h"
 #include "gtest/gtest.h"
 
@@ -84,12 +84,11 @@ TEST(ArcSecNodeTest, ArcSecDerivativeTest) {
     EXPECT_TRUE(derivative2->equals(
             cas::Const::one()
                     ->divide(cas::Var::x()
-                            ->abs()
-                            ->multiply(cas::Var::x()
+                                     ->abs()
+                                     ->multiply(cas::Var::x()
                                                         ->power(2)
                                                         ->subtract(1)
-                                                        ->sqrt()))
-            ));
+                                                        ->sqrt()))));
 
     delete node;
     delete derivative;

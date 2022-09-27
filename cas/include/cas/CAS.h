@@ -11,6 +11,20 @@
 #define DEBUG_CAS 0
 
 #include <cmath>
+#include <unordered_map>
+#include <unordered_set>
+
+CAS_NAMESPACE
+
+using VarMap = std::unordered_map<char, double>;
+using VarSet = std::unordered_set<char>;
+
+inline size_t nextId() {
+    static size_t nextId = 1;
+    return nextId++;
+}
+
+CAS_NAMESPACE_END
 
 template<typename Base, typename T>
 inline bool instanceof (T * ptr) {

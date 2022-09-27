@@ -13,6 +13,7 @@
 #include "cas/node/trig/Sin.h"
 #include "cas/util/StringUtils.h"
 #include "cas/latex/LatexRenderer.h"
+#include "cas/data/ExpressionParser.h"
 
 int main() {
 
@@ -43,10 +44,6 @@ int main() {
     wPrint(expression6->stringify());
     wPrint(expression7->stringify());
     wPrint(expression8->stringify());
-
-
-//    std::string path = cas::LatexRenderer::getInstance().render(cas::Var::x()->floor(), "test1");
-//    wprintf(L"\nPath: %s", path.c_str());
 
     return 0;
 }

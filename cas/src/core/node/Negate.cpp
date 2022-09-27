@@ -16,26 +16,13 @@ Negate::Negate(Expression* expression)
 #endif
 }
 
-Negate::~Negate() {
-#if DEBUG_CAS
-    wPrint(L"Destroy cas::Negate\n");
-#endif
-}
-
 double Negate::evaluate(const std::unordered_map<char, double>& variables) {
     return -argument->evaluate(variables);
 }
 
 bool Negate::_equals(Expression* expr) {
-    if (this == argument)
-        return true;
-
-    if (expr->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(expr);
-        return this->argument->equals(negate->argument);
-    }
-
-    return false;
+    auto* negate = dynamic_cast<Negate*>(expr);
+    return argument->equals(negate->argument);
 }
 
 Negate* Negate::clone() {

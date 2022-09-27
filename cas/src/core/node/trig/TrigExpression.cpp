@@ -13,12 +13,6 @@ TrigExpression::TrigExpression(const ExpressionProperties& properties, Expressio
     : UnaryExpression(properties, argument) {}
 
 bool TrigExpression::_equals(Expression* other) {
-    if (this == other)
-        return true;
-
-    if (other->getProperties().getType() != properties.getType())
-        return false;
-
     auto* otherTrigFunction = dynamic_cast<TrigExpression*>(other);
     return argument->equals(otherTrigFunction->argument);
 }

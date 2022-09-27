@@ -13,24 +13,30 @@ CAS_NAMESPACE
 class Function : public IMath, public IRepresentableMath {
 public:
     static Function parse(const std::string& strFormula);
+    ~Function();
 
     double evaluate(const VarMap& variables) override;
     Function* derivative(char var) override;
     Function* simplified() override;
-    bool isEquivalent(IMath* expr) override;
+    bool isEquivalent(IMath* expression) override;
 
     std::string latex() override;
     std::wstring stringify() override;
     std::string text() override;
     std::string explicitText() override;
 
+    size_t getUid() const;
+    const std::string& getOriginalFormula() const;
+    const Expression* getExpr() const;
+    const VarSet& getVariables() const;
+
 protected:
-    explicit Function(Expression* expr, const VarMap& variables);
+    explicit Function(const std::string& oFormula, Expression* expr, const VarSet& variables);
 
 private:
-    const size_t id;
+    const size_t uid;
     Expression* expr;
-    VarMap variables;
+    VarSet variables;
     std::string originalFormula;
 };
 
