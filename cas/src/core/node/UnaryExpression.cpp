@@ -33,7 +33,7 @@ Expression* UnaryExpression::derivative(char var) {
 }
 
 std::string UnaryExpression::latex() {
-    return "\\" + properties.getShortName() + "\\left(" + argument->latex() + "\\right)";
+    return "\\" + properties.getShortName() + "{\\left(" + argument->latex() + "\\right)}";
 }
 
 std::wstring UnaryExpression::stringify() {

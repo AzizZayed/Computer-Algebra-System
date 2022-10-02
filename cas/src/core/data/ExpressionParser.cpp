@@ -189,7 +189,7 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
 
             return new Product(expressions);
         } else if (contains(cut, "/")) {
-            std::vector<std::string> parts = split(cut, "/");
+            std::vector<std::string> parts = splitFirst(cut, "/");
 
             while (contains(parts[0], "()")) {
                 replaceOnce(parts[0], "()", "(" + pop(remove) + ")");
@@ -200,7 +200,7 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
 
             return new Divide(parse(parts[0], variables), parse(parts[1], variables));
         } else if (contains(cut, "^")) {
-            std::vector<std::string> parts = split(cut, "^");
+            std::vector<std::string> parts = splitFirst(cut, "^");
 
             while (contains(parts[0], "()")) {
                 replaceOnce(parts[0], "()", "(" + pop(remove) + ")");
@@ -351,10 +351,10 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
 
         return new Product(expressions);
     } else if (contains(expr, "/")) {
-        std::vector<std::string> parts = split(expr, "/");
+        std::vector<std::string> parts = splitFirst(expr, "/");
         return new Divide(parse(parts[0], variables), parse(parts[1], variables));
     } else if (contains(expr, "^")) {
-        std::vector<std::string> parts = split(expr, "^");
+        std::vector<std::string> parts = splitFirst(expr, "^");
         std::string& base = parts[0];
         Expression* power = parse(parts[1], variables);
 

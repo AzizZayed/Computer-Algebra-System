@@ -7,6 +7,7 @@
 #include "cas/node/Divide.h"
 #include "cas/node/Product.h"
 #include "cas/node/Var.h"
+#include <cmath>
 #include "gtest/gtest.h"
 
 TEST(CbrtNodeTest, CbrtCreationTest) {
@@ -123,10 +124,11 @@ TEST(CbrtNodeTest, CbrtSimplifiedTest) {
 }
 
 TEST(CbrtNodeTest, CbrtSimplified2Test) {
-    auto* expression = new cas::Const(27);
+    auto* expression = new cas::Const(27.0);
     auto* cbrt = new cas::Cbrt(expression);
 
-    EXPECT_TRUE(cbrt->simplified()->equals(new cas::Const(std::cbrt(27))));
+    double d = std::cbrt(27.0);
+    EXPECT_TRUE(cbrt->simplified()->equals(new cas::Const(d)));
 
     delete cbrt;
 }

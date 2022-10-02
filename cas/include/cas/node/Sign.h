@@ -23,6 +23,11 @@ public:
     Sign* clone() override;
 
     Expression* simplified() override;
+
+    std::string latex() override;
+
+private:
+    bool needsParentheses();
 };
 
 CAS_NAMESPACE_END

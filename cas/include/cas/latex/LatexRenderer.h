@@ -7,17 +7,24 @@
 
 #include "cas/CAS.h"
 #include "cas/node/IRepresentableMath.h"
+#include "cpr/cpr.h"
 
 CAS_NAMESPACE
 
 class LatexRenderer {
 public:
     static LatexRenderer& getInstance();
-    std::string render(IRepresentableMath* expr, const std::string& filename);
+    std::string render(IRepresentableMath& expr, const std::string& name);
+    std::string render(const std::string& latex, const std::string& name);
+    cpr::Response download(const char* url, const char* filepath);
+    void cleanup();
 
 protected:
     LatexRenderer() = default;
     ~LatexRenderer() = default;
+
+private:
+    std::string resFolder = "../res/latex/";
 };
 
 CAS_NAMESPACE_END

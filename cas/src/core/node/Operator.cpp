@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 Operator::Operator(const ExpressionProperties& props, double neutral, char symbol,
                    std::vector<Expression*> expressions)
-    : neutral(neutral), symbol(symbol), expressions(std::move(expressions)), Expression(props) {
+    : Expression(props), neutral(neutral), symbol(symbol), expressions(std::move(expressions)) {
 #if DEBUG_CAS
     wprintf(L"%s(%c...)\n", properties.getName().c_str(), symbol);
 #endif

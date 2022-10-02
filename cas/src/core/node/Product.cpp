@@ -67,14 +67,11 @@ std::string Product::latex() {
 
     std::stringstream ss;
 
-    for (size_t i = 0; i < expressions.size(); i++) {
-        Expression* exp = expressions[i];
+    for (auto& exp : expressions) {
         bool needsParens = needsParentheses(exp);
 
         if (needsParens)
             ss << "\\left(";
-        if (i > 0)
-            ss << " " << symbol << " ";
 
         ss << exp->latex();
 

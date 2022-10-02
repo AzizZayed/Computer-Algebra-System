@@ -19,12 +19,12 @@ bool BracketExpression::_equals(Expression* other) {
     return argument->equals(otherBracketFunction->argument);
 }
 
-Expression* BracketExpression::derivative(char var) {
+Expression* BracketExpression::derivative(char) {
     throw std::runtime_error("The " + properties.getName() + "::derivative() operation is not supported");
 }
 
 std::string BracketExpression::latex() {
-    return openBracketLatex + (" " + argument->latex() + " ") + closeBracketLatex;
+    return openBracketLatex + argument->latex() + closeBracketLatex;
 }
 
 std::wstring BracketExpression::stringify() {

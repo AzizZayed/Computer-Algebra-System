@@ -59,7 +59,7 @@ Expression* Mod::simplified() {
 }
 
 std::string Mod::latex() {
-    return "\\operatorname{mod}\\left(" + dividend->latex() + ", " + divisor->latex() + "\\right)";
+    return "\\mod{\\left(" + dividend->latex() + "," + divisor->latex() + "\\right)}";
 }
 
 std::wstring Mod::stringify() {

@@ -38,19 +38,6 @@ TEST(StringUtilsTest, testReplaceOnce) {
     ASSERT_EQ(str, "Hi World Hello World");
 }
 
-TEST(StringUtilsTest, testCountMatches) {
-    std::string str = "Hello World Hello World";
-    ASSERT_EQ(countMatches(str, "Hello"), 2);
-    ASSERT_EQ(countMatches(str, "World"), 2);
-    ASSERT_EQ(countMatches(str, "Hi"), 0);
-}
-
-TEST(StringUtilsTest, testStartsWith) {
-    std::string str = "Hello World Hello World";
-    ASSERT_TRUE(startsWith(str, "Hello"));
-    ASSERT_FALSE(startsWith(str, "World"));
-}
-
 TEST(StringUtilsTest, testIsNumber) {
     ASSERT_TRUE(isNumber("123"));
     ASSERT_TRUE(isNumber("123.123"));

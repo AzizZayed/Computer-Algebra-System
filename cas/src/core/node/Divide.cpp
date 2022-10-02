@@ -77,7 +77,9 @@ Expression* Divide::simplified() {
 }
 
 std::string Divide::latex() {
-    return "\\dfrac{" + dividend->latex() + "}{" + divisor->latex() + "}";
+    if (dividend->isOfType(ExpressionType::CONSTANT) && divisor->isOfType(ExpressionType::CONSTANT))
+        return "\\,^{" + dividend->latex() + "}/_{" + divisor->latex() + "}";
+    return "\\frac{" + dividend->latex() + "}{" + divisor->latex() + "}";
 }
 
 std::wstring Divide::stringify() {

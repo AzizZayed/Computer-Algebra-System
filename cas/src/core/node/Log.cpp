@@ -11,7 +11,7 @@
 CAS_NAMESPACE
 
 Log::Log(const ExpressionProperties& props, Expression* base, Expression* argument)
-    : base(base), argument(argument), Expression(props) {
+    : Expression(props), base(base), argument(argument) {
     base->setParent(this);
     argument->setParent(this);
 }

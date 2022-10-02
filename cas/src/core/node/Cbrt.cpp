@@ -8,7 +8,6 @@
 #include "cas/node/Product.h"
 #include "cas/util/StringUtils.h"
 
-
 CAS_NAMESPACE
 
 Cbrt::Cbrt(Expression* base)
@@ -34,8 +33,7 @@ Expression* Cbrt::_derivative(char var) {
 
 Expression* Cbrt::simplified() {
     if (base->isOfType(ExpressionType::CONSTANT)) {
-        auto* constant = dynamic_cast<Const*>(base);
-        double cbrt = std::cbrt(constant->getValue());
+        double cbrt = std::cbrt(base->evaluate());
         if (isWholeNumber(cbrt))
             return new Const(cbrt);
     }

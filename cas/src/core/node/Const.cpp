@@ -16,7 +16,7 @@ const char* Const::E_LATEX = "e";
 const char* Const::PHI_LATEX = "\\varphi";
 
 Const::Const(double value)
-    : value{value}, Expression{{ExpressionType::CONSTANT, "constant", "const"}} {
+    : Expression{{ExpressionType::CONSTANT, "constant", "const"}}, value{value} {
 #if DEBUG_CAS
     std::string str = properties.getName();
     wprintf(L"%s(%f)\n", str.c_str(), value);
@@ -33,7 +33,7 @@ Const* Const::clone() {
     return new Const{value};
 }
 
-double Const::evaluate(const std::unordered_map<char, double>& variables) {
+double Const::evaluate(const std::unordered_map<char, double>&) {
     return value;
 }
 
@@ -42,7 +42,7 @@ bool Const::_equals(Expression* expression) {
     return floatingsEqual(value, constant->value);
 }
 
-Const* Const::_derivative(char var) {
+Const* Const::_derivative(char) {
     return new Const{0.0};
 }
 

@@ -31,7 +31,7 @@ public:
 protected:
     double operate(double a, double b) override { return a + b; };
 
-    bool needsParentheses(Expression* expression) override { return false; };
+    bool needsParentheses(Expression*) override { return false; };
 };
 
 CAS_NAMESPACE_END

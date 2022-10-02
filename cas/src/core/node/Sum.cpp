@@ -63,7 +63,7 @@ std::string Sum::latex() {
         if (needsParens)
             ss << "\\left(";
         if (i > 0 && !exp->isNegated())
-            ss << " " << symbol << " ";
+            ss << symbol;
 
         ss << exp->latex();
 

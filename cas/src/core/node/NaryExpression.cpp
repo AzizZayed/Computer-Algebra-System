@@ -43,13 +43,13 @@ bool NaryExpression::_equals(Expression* expression) {
 
 std::string NaryExpression::latex() {
     std::stringstream ss;
-    ss << "\\" << properties.getShortName() << "\\left(";
+    ss << "\\" << properties.getShortName() << "{\\left(";
     for (size_t i = 0; i < expressions.size(); i++) {
-        ss << expressions[i]->text();
+        ss << expressions[i]->latex();
         if (i < expressions.size() - 1)
-            ss << ", ";
+            ss << ",";
     }
-    ss << "\\right)";
+    ss << "\\right)}";
     return ss.str();
 }
 

@@ -44,7 +44,7 @@ Expression::~Expression() {
 #endif
 }
 
-double Expression::evaluate(const std::unordered_map<char, double>& variables) {
+double Expression::evaluate(const std::unordered_map<char, double>&) {
     throw std::runtime_error("Expression::evaluate() is not implemented for " + properties.getName());
 }
 
@@ -62,7 +62,7 @@ bool Expression::equals(Expression* expression) {
     return _equals(expression);
 }
 
-bool Expression::_equals(Expression* expression) {
+bool Expression::_equals(Expression*) {
     throw std::runtime_error("Expression::equals() is not implemented for " + properties.getName());
 }
 
@@ -74,7 +74,7 @@ Expression* Expression::derivative(char var) {
     return _derivative(var);
 }
 
-Expression* Expression::_derivative(char var) {
+Expression* Expression::_derivative(char) {
     throw std::runtime_error("Expression::derivative() is not implemented for " + properties.getName());
 }
 
@@ -82,7 +82,7 @@ Expression* Expression::simplified() {
     throw std::runtime_error("Expression::simplified() is not implemented for " + properties.getName());
 }
 
-bool Expression::isEquivalent(cas::IMath* expression) {
+bool Expression::isEquivalent(cas::IMath*) {
     throw std::runtime_error("Expression::isEquivalent() is not implemented for " + properties.getName());
 }
 

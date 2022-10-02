@@ -4,7 +4,11 @@
 #endif
 
 #include "cas/plot/Function.h"
-#include "cas/util/StringUtils.h"
+#include "cas/node/Var.h"
+#include "cas/node/Const.h"
+#include "cas/node/Power.h"
+#include "cas/latex/LatexRenderer.h"
+#include <cmath>
 
 int main() {
 
@@ -17,8 +21,12 @@ int main() {
     }
 #endif
 
-    cas::Function function = cas::Function::parse("cosx*sinx/tanx");
-    wprintf(L"f(x) = %ls", function.stringify().c_str());
+    const char* strFunction = "2*x^2 + 5*x + 2/3";
+    cas::Function function = cas::Function::parse(strFunction);
 
+    cas::LatexRenderer& renderer = cas::LatexRenderer::getInstance();
+    renderer.render(function, "f");
+    renderer.cleanup();
+    
     return 0;
 }

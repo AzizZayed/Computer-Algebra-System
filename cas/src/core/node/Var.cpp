@@ -10,7 +10,7 @@
 CAS_NAMESPACE
 
 Var::Var(char variable)
-    : symbol(variable), Expression({ExpressionType::VARIABLE, "variable", "var"}) {
+    : Expression({ExpressionType::VARIABLE, "variable", "var"}), symbol(variable) {
 #if DEBUG_CAS
     wprintf(L"%s(%c)\n", properties.getName().c_str(), variable);
 #endif

@@ -38,8 +38,8 @@ Expression* Ln::simplified() {
 
 std::string Ln::latex() {
     if (argumentNeedsParentheses())
-        return "\\ln\\left(" + argument->latex() + "\\right)";
-    return "\\ln" + argument->latex();
+        return "\\ln{\\left(" + argument->latex() + "\\right)}";
+    return "\\ln{" + argument->latex() + "}";
 }
 
 std::wstring Ln::stringify() {

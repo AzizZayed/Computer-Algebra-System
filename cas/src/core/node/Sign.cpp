@@ -4,6 +4,7 @@
 
 #include "cas/node/Sign.h"
 #include "cas/node/Const.h"
+#include "cas/node/Log.h"
 
 CAS_NAMESPACE
 
@@ -36,6 +37,21 @@ Expression* Sign::simplified() {
         return new Const(Expression::evaluate());
     }
     return this;
+}
+
+std::string Sign::latex() {
+    if (needsParentheses())
+        return "\\text{sign}{\\,\\left(" + argument->latex() + "\\right)}";
+    return "\\text{sign}{\\," + argument->latex() + "}";
+}
+
+bool Sign::needsParentheses() {
+    return argument->isOfType(ExpressionType::SUM)
+           || argument->isOfType(ExpressionType::PRODUCT)
+           || argument->isOfType(ExpressionType::LOGARITHM)
+           || argument->isOfType(ExpressionType::NATURAL_LOGARITHM)
+           || argument->isOfType(ExpressionType::POWER)
+           || argument->isOfType(ExpressionType::DIVIDE);
 }
 
 CAS_NAMESPACE_END
