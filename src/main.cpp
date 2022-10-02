@@ -3,11 +3,11 @@
 #include <io.h>
 #endif
 
-#include "cas/plot/Function.h"
-#include "cas/node/Var.h"
+#include "cas/latex/LatexRenderer.h"
 #include "cas/node/Const.h"
 #include "cas/node/Power.h"
-#include "cas/latex/LatexRenderer.h"
+#include "cas/node/Var.h"
+#include "cas/plot/Function.h"
 #include <cmath>
 
 int main() {
@@ -27,6 +27,6 @@ int main() {
     cas::LatexRenderer& renderer = cas::LatexRenderer::getInstance();
     renderer.render(function, "f");
     renderer.cleanup();
-    
+
     return 0;
 }

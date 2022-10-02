@@ -29,15 +29,15 @@ class Var {
     - symbol
 }
 
-abstract class UnaryFunction {}
-abstract class NaryFunction {}
+abstract class UnaryExpression {}
+abstract class NaryExpression {}
 
-abstract class BracketFunction {
+abstract class BracketExpression {
     - openBracket
     - closeBracket
 }
-abstract class TrigFunction {}
-abstract class InverseTrigFunction {}
+abstract class TrigExpression {}
+abstract class InverseTrigExpression {}
 
 class Cos {}
 class Sin {}
@@ -111,37 +111,54 @@ enum ExpressionType {
     NEGATE
 }
 
+class ExpressionParser {
+    + {static} getInstance()
+    + parse()
+    + isValidExpression()
+}
+
+class LatexRenderer {
+    + {static} getInstance()
+    + render()
+}
+
+class Function {
+    + variables
+}
+
+Function ..> Expression
+
 Expression --|> IRepresentableMath
 Expression --|> IMath
 
 Const --|> Expression
 Var --|> Expression
 
-UnaryFunction --|> Expression
-NaryFunction --|> Expression
+UnaryExpression --|> Expression
+NaryExpression --|> Expression
 
-BracketFunction --|> UnaryFunction
-TrigFunction --|> UnaryFunction
-InverseTrigFunction --|> TrigFunction
+BracketExpression --|> UnaryExpression
+TrigExpression --|> UnaryExpression
+InverseTrigExpression --|> TrigExpression
 
-Cos --|> TrigFunction
-Sin --|> TrigFunction
-Tan --|> TrigFunction
-Cot --|> TrigFunction
-Sec --|> TrigFunction
-Csc --|> TrigFunction
-ArcCos --|> InverseTrigFunction
-ArcSin --|> InverseTrigFunction
-ArcTan --|> InverseTrigFunction
-ArcCot --|> InverseTrigFunction
-ArcSec --|> InverseTrigFunction
-ArcCsc --|> InverseTrigFunction
+Cos --|> TrigExpression
+Sin --|> TrigExpression
+Tan --|> TrigExpression
+Cot --|> TrigExpression
+Sec --|> TrigExpression
+Csc --|> TrigExpression
+ArcCos --|> InverseTrigExpression
+ArcSin --|> InverseTrigExpression
+ArcTan --|> InverseTrigExpression
+ArcCot --|> InverseTrigExpression
+ArcSec --|> InverseTrigExpression
+ArcCsc --|> InverseTrigExpression
 
-Abs --|> BracketFunction
-Floor --|> BracketFunction
-Ceil --|> BracketFunction
-Round --|> BracketFunction
-Sign --|> UnaryFunction
+Abs --|> BracketExpression
+Floor --|> BracketExpression
+Ceil --|> BracketExpression
+Round --|> BracketExpression
+Sign --|> UnaryExpression
 Mod --|> Expression
 
 Log --|> Expression
@@ -153,13 +170,13 @@ Root --|> Power
 Sqrt --|> Root
 Cbrt --|> Root
 
-Min --|> NaryFunction
-Max --|> NaryFunction
+Min --|> NaryExpression
+Max --|> NaryExpression
 
 Operator --|> Expression
 Sum --|> Operator
 Product --|> Operator
-Negate --|> UnaryFunction
+Negate --|> UnaryExpression
 Divide --|> Expression
 
 ExpressionProperties ..> ExpressionType : type
@@ -178,9 +195,9 @@ Log ..> Expression : argument
 Power ..> Expression : base
 Power ..> Expression : exponent
 
-UnaryFunction ..> Expression : argument
+UnaryExpression ..> Expression : argument
 
-NaryFunction ..> "*" Expression : arguments
+NaryExpression ..> "*" Expression : arguments
 Operator ..> "*" Expression : arguments
 
 @enduml

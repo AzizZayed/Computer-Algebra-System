@@ -46,12 +46,7 @@ std::string Sign::latex() {
 }
 
 bool Sign::needsParentheses() {
-    return argument->isOfType(ExpressionType::SUM)
-           || argument->isOfType(ExpressionType::PRODUCT)
-           || argument->isOfType(ExpressionType::LOGARITHM)
-           || argument->isOfType(ExpressionType::NATURAL_LOGARITHM)
-           || argument->isOfType(ExpressionType::POWER)
-           || argument->isOfType(ExpressionType::DIVIDE);
+    return argument->isOfType(ExpressionType::SUM) || argument->isOfType(ExpressionType::PRODUCT) || argument->isOfType(ExpressionType::LOGARITHM) || argument->isOfType(ExpressionType::NATURAL_LOGARITHM) || argument->isOfType(ExpressionType::POWER) || argument->isOfType(ExpressionType::DIVIDE);
 }
 
 CAS_NAMESPACE_END

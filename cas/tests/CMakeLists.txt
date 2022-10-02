@@ -25,7 +25,7 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
             -fsanitize=address
             -fsanitize=undefined
     )
-endif()
+endif ()
 
 set(TEST_SOURCE
         test_runner.cpp

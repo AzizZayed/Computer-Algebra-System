@@ -112,9 +112,7 @@ bool Power::baseNeedsParentheses() {
 }
 
 bool Power::exponentNeedsParentheses() {
-    return exponent->isOfType(ExpressionType::DIVIDE)
-           || exponent->isOfType(ExpressionType::POWER)
-           || instanceof<Operator>(exponent);
+    return exponent->isOfType(ExpressionType::DIVIDE) || exponent->isOfType(ExpressionType::POWER) || instanceof <Operator>(exponent);
 }
 
 std::string Power::latex() {

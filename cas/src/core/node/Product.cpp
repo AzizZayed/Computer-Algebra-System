@@ -67,7 +67,7 @@ std::string Product::latex() {
 
     std::stringstream ss;
 
-    for (auto& exp : expressions) {
+    for (auto& exp: expressions) {
         bool needsParens = needsParentheses(exp);
 
         if (needsParens)

@@ -3,7 +3,8 @@
 //
 
 #include "cas/latex/LatexRenderer.h"
-#include "stdexcept"
+#include <filesystem>
+#include <stdexcept>
 
 CAS_NAMESPACE
 
@@ -17,7 +18,6 @@ std::string LatexRenderer::render(IRepresentableMath& expr, const std::string& n
 }
 
 std::string LatexRenderer::render(const std::string& latex, const std::string& name) {
-    printf("Rendering latex: %s\n", latex.c_str());
     const std::string baseUrl = R"(https://latex.codecogs.com/png.image?\huge&space;\dpi{300}\bg{black})";
     const std::string url = baseUrl + name + "(x,y)=" + latex;
     printf("Invoking URL: %s", url.c_str());
@@ -39,7 +39,7 @@ cpr::Response LatexRenderer::download(const char* url, const char* filepath) {
 }
 
 void LatexRenderer::cleanup() {
-    for (const auto& entry : std::filesystem::directory_iterator(resFolder)) {
+    for (const auto& entry: std::filesystem::directory_iterator(resFolder)) {
         if (entry.path().filename().string() != "test.png") {
             std::filesystem::remove(entry.path());
         }

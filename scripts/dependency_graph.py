@@ -1,3 +1,8 @@
+"""
+Command from root ComputerAlgebraSystem directory:
+python3 scripts/dependency_graph.py cas/include/ cas/docs/include-deps -f png -v -c --cluster-labels --strict
+"""
+
 import os
 import re
 import argparse

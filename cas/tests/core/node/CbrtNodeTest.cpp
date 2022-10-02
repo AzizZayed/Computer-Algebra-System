@@ -7,8 +7,8 @@
 #include "cas/node/Divide.h"
 #include "cas/node/Product.h"
 #include "cas/node/Var.h"
-#include <cmath>
 #include "gtest/gtest.h"
+#include <cmath>
 
 TEST(CbrtNodeTest, CbrtCreationTest) {
     auto* expression = new cas::Const(5);
