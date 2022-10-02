@@ -78,7 +78,7 @@ TEST(SumNodeTest, SumSimplifiedTest) {
 
 TEST(SumNodeTest, SumLatexTest) {
     auto* sum = new cas::Sum({new cas::Var('x'), new cas::Var('y'), cas::Const::PI()});
-    EXPECT_EQ("x + y + \\pi", sum->latex());
+    EXPECT_EQ("x+y+\\pi", sum->latex());
 }
 
 TEST(SumNodeTest, SumStringifyTest) {

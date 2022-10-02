@@ -6,14 +6,13 @@ TEST(CosNodeTest, CosCreateTest) {
     auto* pConst = new cas::Const(1);
     auto* cos = new cas::Cos(pConst);
     EXPECT_EQ(cas::ExpressionType::COS, cos->getProperties().getType());
-    EXPECT_EQ("cos", cos->getProperties().getName());
+    EXPECT_EQ("cosine", cos->getProperties().getName());
     EXPECT_EQ("cos", cos->getProperties().getShortName());
     EXPECT_EQ(nullptr, cos->getParent());
 
     EXPECT_TRUE(cos->getArgument()->equals(pConst));
     EXPECT_TRUE(pConst->getParent()->equals(cos));
 
-    delete pConst;
     delete cos;
 }
 
@@ -39,11 +38,8 @@ TEST(CosNodeTest, CosEvaluateTest) {
     auto* cos3 = new cas::Cos(pConst3);
     EXPECT_EQ(cos3->evaluate({}), 0.5403023058681398);
 
-    delete pConst;
     delete cos;
-    delete pConst2;
     delete cos2;
-    delete pConst3;
     delete cos3;
 }
 

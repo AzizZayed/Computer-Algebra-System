@@ -121,7 +121,7 @@ TEST(DivideNodeTest, DivideSimplifiedTest) {
 
 TEST(DivideNodeTest, DivideLatexTest) {
     auto* divide = new cas::Divide(new cas::Var('x'), new cas::Var('y'));
-    EXPECT_EQ("\\dfrac{x}{y}", divide->latex());
+    EXPECT_EQ("\\frac{x}{y}", divide->latex());
 }
 
 TEST(DivideNodeTest, DivideStringifyTest) {

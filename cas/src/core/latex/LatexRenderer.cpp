@@ -40,7 +40,7 @@ cpr::Response LatexRenderer::download(const char* url, const char* filepath) {
 
 void LatexRenderer::cleanup() {
     for (const auto& entry : std::filesystem::directory_iterator(resFolder)) {
-        if (!entry.path().filename().string().starts_with("test")) {
+        if (entry.path().filename().string() != "test.png") {
             std::filesystem::remove(entry.path());
         }
     }

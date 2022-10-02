@@ -93,7 +93,7 @@ TEST(ProductNodeTest, ProductLatexTest) {
                     new cas::Var('w'),
                     new cas::Var('a'),
             }};
-    EXPECT_EQ("x * y * w * a", product->latex());
+    EXPECT_EQ("xywa", product->latex());
 }
 
 TEST(ProductNodeTest, ProductStringifyTest) {

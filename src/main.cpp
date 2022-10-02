@@ -21,7 +21,7 @@ int main() {
     }
 #endif
 
-    const char* strFunction = "2*x^2 + 5*x + 2/3";
+    const char* strFunction = "2*x^2 + 5*x + 2/3 + pi + e + phi";
     cas::Function function = cas::Function::parse(strFunction);
 
     cas::LatexRenderer& renderer = cas::LatexRenderer::getInstance();

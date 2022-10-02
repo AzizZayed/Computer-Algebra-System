@@ -101,13 +101,13 @@ TEST(AbsNodeTest, AbsSimplifiedTest) {
 
 TEST(AbsNodeTest, AbsLatexTest) {
     auto* abs = new cas::Abs(new cas::Const(1));
-    EXPECT_STREQ("\\left| 1 \\right|", abs->latex().c_str());
+    EXPECT_STREQ("\\left|1\\right|", abs->latex().c_str());
 
     auto* abs2 = new cas::Abs(new cas::Const(-1));
-    EXPECT_STREQ("\\left| -1 \\right|", abs2->latex().c_str());
+    EXPECT_STREQ("\\left|-1\\right|", abs2->latex().c_str());
 
     auto* abs3 = new cas::Abs(new cas::Var);
-    EXPECT_STREQ("\\left| x \\right|", abs3->latex().c_str());
+    EXPECT_STREQ("\\left|x\\right|", abs3->latex().c_str());
 
     delete abs;
     delete abs2;
