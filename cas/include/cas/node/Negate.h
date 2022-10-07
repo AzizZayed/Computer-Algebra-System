@@ -5,9 +5,7 @@
 #ifndef CAS_NEGATE_H
 #define CAS_NEGATE_H
 
-#include "Expression.h"
 #include "UnaryExpression.h"
-#include "cas/CAS.h"
 
 CAS_NAMESPACE
 

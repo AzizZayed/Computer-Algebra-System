@@ -6,7 +6,6 @@
 #define CAS_EXP_H
 
 #include "Power.h"
-#include "cas/CAS.h"
 
 CAS_NAMESPACE
 

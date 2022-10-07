@@ -7,11 +7,8 @@
 
 #include "IMath.h"
 #include "IRepresentableMath.h"
-#include "cas/CAS.h"
 #include "cas/data/ExpressionProperties.h"
 #include "cas/data/ExpressionType.h"
-#include <cstdlib>
-#include <iostream>
 
 CAS_NAMESPACE
 

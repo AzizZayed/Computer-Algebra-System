@@ -5,7 +5,6 @@
 #ifndef CAS_FORMULA_H
 #define CAS_FORMULA_H
 
-#include "cas/CAS.h"
 #include "cas/node/Expression.h"
 
 CAS_NAMESPACE

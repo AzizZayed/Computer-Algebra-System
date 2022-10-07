@@ -5,7 +5,6 @@
 #ifndef CAS_POWER_H
 #define CAS_POWER_H
 
-#include "cas/CAS.h"
 #include "cas/node/Expression.h"
 
 CAS_NAMESPACE

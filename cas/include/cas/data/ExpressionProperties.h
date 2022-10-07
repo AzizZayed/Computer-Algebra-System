@@ -6,10 +6,7 @@
 #define CAS_EXPRESSIONPROPERTIES_H
 
 #include "ExpressionType.h"
-#include "cas/CAS.h"
-#include <cstdint>
 #include <string>
-#include <utility>
 
 CAS_NAMESPACE
 

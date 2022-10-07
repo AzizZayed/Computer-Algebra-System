@@ -11,7 +11,7 @@ CAS_NAMESPACE
 Abs::Abs(Expression* argument)
     : BracketExpression({ExpressionType::ABSOLUTE_VALUE, "absolute_value", "abs"}, argument, L"|", L"|", "\\left|", "\\right|") {}
 
-double Abs::evaluate(const std::unordered_map<char, double>& variables) {
+double Abs::evaluate(const VarMap& variables) {
     return std::abs(argument->evaluate(variables));
 }
 

@@ -5,7 +5,7 @@ enable_testing()
 
 add_subdirectory(src)
 add_subdirectory(tests)
-add_subdirectory(bench)
+add_subdirectory(benchmark)
 
-add_library(${PROJECT_NAME} scratch/scratch.cpp)
-target_link_libraries(${PROJECT_NAME} src)
+add_library(${PROJECT_NAME} INTERFACE)
+target_link_libraries(${PROJECT_NAME} INTERFACE src)

@@ -3,7 +3,6 @@
 //
 
 #include "cas/node/BracketExpression.h"
-#include <sstream>
 
 CAS_NAMESPACE
 

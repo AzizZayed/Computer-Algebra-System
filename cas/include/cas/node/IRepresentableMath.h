@@ -6,7 +6,6 @@
 #define CAS_I_REPRESENTABLE_MATH__H
 
 #include "cas/CAS.h"
-#include <string>
 
 CAS_NAMESPACE
 

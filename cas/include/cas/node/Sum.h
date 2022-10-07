@@ -6,7 +6,6 @@
 #define CAS_SUM_H
 
 #include "Operator.h"
-#include "cas/CAS.h"
 
 CAS_NAMESPACE
 

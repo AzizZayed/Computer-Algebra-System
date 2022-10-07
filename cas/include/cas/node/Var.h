@@ -6,7 +6,6 @@
 #define CAS_VARIABLE_H
 
 #include "Expression.h"
-#include <string>
 
 CAS_NAMESPACE
 

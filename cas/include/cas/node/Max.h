@@ -6,7 +6,6 @@
 #define CAS_MAX_H
 
 #include "NaryExpression.h"
-#include "cas/CAS.h"
 
 CAS_NAMESPACE
 

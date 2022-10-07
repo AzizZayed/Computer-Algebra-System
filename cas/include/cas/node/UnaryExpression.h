@@ -6,7 +6,6 @@
 #define CAS_UNARYFUNCTION_H
 
 #include "Expression.h"
-#include "cas/CAS.h"
 
 CAS_NAMESPACE
 

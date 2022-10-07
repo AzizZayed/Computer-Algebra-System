@@ -3,9 +3,7 @@
 //
 
 #include "cas/node/Sum.h"
-#include "cas/CAS.h"
 #include "cas/node/Const.h"
-#include "cas/util/StringUtils.h"
 #include <sstream>
 
 CAS_NAMESPACE

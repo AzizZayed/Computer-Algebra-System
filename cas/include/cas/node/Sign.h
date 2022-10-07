@@ -6,7 +6,6 @@
 #define CAS_SIGN_H
 
 #include "UnaryExpression.h"
-#include "cas/CAS.h"
 
 CAS_NAMESPACE
 

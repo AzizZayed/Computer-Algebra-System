@@ -3,8 +3,6 @@
 //
 
 #include "cas/node/Max.h"
-#include <algorithm>
-#include <utility>
 
 CAS_NAMESPACE
 

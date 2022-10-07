@@ -6,8 +6,6 @@
 #define CAS_OPERATOR_H
 
 #include "Expression.h"
-#include "cas/CAS.h"
-#include <utility>
 #include <vector>
 
 CAS_NAMESPACE

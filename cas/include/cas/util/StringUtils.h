@@ -7,8 +7,6 @@
 
 #include <codecvt>
 #include <iostream>
-#include <locale>
-#include <string>
 #include <vector>
 
 inline std::wstring toWstring(const std::string& string) {
@@ -67,14 +65,6 @@ inline bool isNumber(const std::string& str) {
     char* p;
     std::strtod(str.c_str(), &p);
     return *p == 0;
-}
-
-inline void wPrint(const std::wstring& str) {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32)// Windows
-    std::wcout << str << std::endl;
-#else// MacOS & Linux
-    std::cout << toString(str) << std::endl;
-#endif
 }
 
 #endif//CAS_STRINGUTILS_H

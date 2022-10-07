@@ -5,7 +5,6 @@
 #ifndef CAS_LATEXRENDERER_H
 #define CAS_LATEXRENDERER_H
 
-#include "cas/CAS.h"
 #include "cas/node/IRepresentableMath.h"
 #include "cpr/cpr.h"
 

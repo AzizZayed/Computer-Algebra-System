@@ -3,7 +3,6 @@
 //
 
 #include "cas/node/Var.h"
-#include "cas/CAS.h"
 #include "cas/node/Const.h"
 #include "cas/util/StringUtils.h"
 

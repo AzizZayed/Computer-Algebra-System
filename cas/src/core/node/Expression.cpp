@@ -13,7 +13,6 @@
 #include "cas/node/Ln.h"
 #include "cas/node/Mod.h"
 #include "cas/node/Negate.h"
-#include "cas/node/Power.h"
 #include "cas/node/Product.h"
 #include "cas/node/Round.h"
 #include "cas/node/Sign.h"
@@ -31,7 +30,6 @@
 #include "cas/node/trig/Sec.h"
 #include "cas/node/trig/Sin.h"
 #include "cas/node/trig/Tan.h"
-#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 

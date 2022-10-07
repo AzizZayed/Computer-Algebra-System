@@ -6,7 +6,6 @@
 #define CAS_BRACKETFUNCTION_H
 
 #include "UnaryExpression.h"
-#include "cas/CAS.h"
 
 CAS_NAMESPACE
 

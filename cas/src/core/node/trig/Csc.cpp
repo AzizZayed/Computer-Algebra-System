@@ -7,7 +7,6 @@
 #include "cas/node/Negate.h"
 #include "cas/node/Product.h"
 #include "cas/node/trig/Cot.h"
-#include <cmath>
 
 CAS_NAMESPACE
 

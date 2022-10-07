@@ -4,7 +4,6 @@
 
 #include "cas/node/Negate.h"
 #include "cas/node/Operator.h"
-#include "cas/util/StringUtils.h"
 #include "fmt/format.h"
 #include "fmt/xchar.h"
 

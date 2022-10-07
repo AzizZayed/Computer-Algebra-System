@@ -8,7 +8,6 @@
 #define CAS_NAMESPACE namespace cas {
 #define CAS_NAMESPACE_END }
 
-#include <cmath>
 #include <unordered_map>
 #include <unordered_set>
 

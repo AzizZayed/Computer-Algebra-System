@@ -5,7 +5,6 @@
 #ifndef CAS_EXPRESSIONPARSER_H
 #define CAS_EXPRESSIONPARSER_H
 
-#include "cas/CAS.h"
 #include "cas/node/Expression.h"
 #include <list>
 

@@ -6,7 +6,6 @@
 #define CAS_NARYFUNCTION_H
 
 #include "Expression.h"
-#include "cas/CAS.h"
 #include <vector>
 
 CAS_NAMESPACE

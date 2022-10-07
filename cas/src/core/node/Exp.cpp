@@ -3,9 +3,7 @@
 //
 
 #include "cas/node/Exp.h"
-#include "cas/CAS.h"
 #include "cas/node/Const.h"
-#include "cas/node/Expression.h"
 #include "cas/node/Product.h"
 #include "fmt/format.h"
 

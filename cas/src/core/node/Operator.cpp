@@ -3,9 +3,7 @@
 //
 
 #include "cas/node/Operator.h"
-
 #include <sstream>
-#include <utility>
 
 CAS_NAMESPACE
 

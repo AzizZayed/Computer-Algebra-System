@@ -11,9 +11,6 @@
 #endif
 
 #include "Expression.h"
-#include "cas/CAS.h"
-#include <cmath>
-#include <string>
 
 CAS_NAMESPACE
 

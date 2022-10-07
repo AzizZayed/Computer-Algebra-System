@@ -6,7 +6,6 @@
 #define CAS_PRODUCT_H
 
 #include "Operator.h"
-#include "cas/CAS.h"
 
 CAS_NAMESPACE
 

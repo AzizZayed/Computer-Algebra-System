@@ -8,7 +8,6 @@
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
 #include "cas/node/Sum.h"
-#include "cas/node/Var.h"
 
 CAS_NAMESPACE
 

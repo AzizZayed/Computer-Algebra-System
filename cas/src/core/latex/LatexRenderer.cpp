@@ -3,10 +3,7 @@
 //
 
 #include "cas/latex/LatexRenderer.h"
-#include "fmt/core.h"
 #include "fmt/printf.h"
-#include <filesystem>
-#include <stdexcept>
 
 CAS_NAMESPACE
 

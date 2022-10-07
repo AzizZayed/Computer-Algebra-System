@@ -6,8 +6,6 @@
 #define CAS_MOD_H
 
 #include "Expression.h"
-#include "cas/CAS.h"
-
 
 CAS_NAMESPACE
 

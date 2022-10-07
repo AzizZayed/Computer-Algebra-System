@@ -4,7 +4,6 @@
 
 #include "cas/node/Product.h"
 #include "cas/node/Sum.h"
-#include "cas/util/StringUtils.h"
 #include <sstream>
 
 CAS_NAMESPACE

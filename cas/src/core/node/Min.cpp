@@ -3,8 +3,6 @@
 //
 
 #include "cas/node/Min.h"
-#include <algorithm>
-#include <utility>
 
 CAS_NAMESPACE
 

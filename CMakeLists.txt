@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.2)
 project(ComputerAlgebraSystem)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -8,10 +8,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
     add_compile_options(
-            -O0
             -Wall
             -Wextra
-#            -ffast-math # Is this supported for all compilers?
             -fsanitize=address
             -fsanitize=undefined
             -fno-sanitize-recover=all

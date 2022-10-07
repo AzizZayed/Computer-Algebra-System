@@ -10,7 +10,6 @@
 #include "cas/node/Product.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
-#include "cas/node/Var.h"
 
 CAS_NAMESPACE
 

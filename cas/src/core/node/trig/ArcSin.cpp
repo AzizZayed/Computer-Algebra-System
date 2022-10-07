@@ -8,15 +8,13 @@
 #include "cas/node/Negate.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
-#include "cas/node/Var.h"
-#include <vector>
 
 CAS_NAMESPACE
 
 ArcSin::ArcSin(Expression* argument)
     : InverseTrigExpression({ExpressionType::ARC_SIN, "arcsin", "asin"}, argument) {}
 
-double ArcSin::evaluate(const std::unordered_map<char, double>& variables) {
+double ArcSin::evaluate(const VarMap& variables) {
     return std::asin(argument->evaluate(variables));
 }
 

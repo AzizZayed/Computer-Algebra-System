@@ -6,7 +6,6 @@
 #define CAS_LN_H
 
 #include "Log.h"
-#include "cas/CAS.h"
 
 CAS_NAMESPACE
 
