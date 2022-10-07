@@ -7,6 +7,7 @@
 #include "cas/node/Const.h"
 #include "cas/node/Expression.h"
 #include "cas/node/Product.h"
+#include "fmt/format.h"
 
 CAS_NAMESPACE
 
@@ -42,7 +43,7 @@ Expression* Exp::simplified() {
 }
 
 std::string Exp::explicitText() {
-    return properties.getShortName() + "(" + exponent->explicitText() + ")";
+    return fmt::format("exp({})", exponent->explicitText());
 }
 
 CAS_NAMESPACE_END

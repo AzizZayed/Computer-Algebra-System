@@ -11,6 +11,8 @@
 #include "cas/node/Product.h"
 #include "cas/node/Sum.h"
 #include "cas/util/StringUtils.h"
+#include "fmt/printf.h"
+#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -21,10 +23,6 @@ Divide::Divide(Expression* dividend, Expression* divisor)
 }
 
 Divide::~Divide() {
-#if DEBUG_CAS
-    wPrint(L"Destroy cas::Divide\n");
-#endif
-
     delete dividend;
     delete divisor;
 
@@ -32,7 +30,7 @@ Divide::~Divide() {
     divisor = nullptr;
 }
 
-double Divide::evaluate(const std::unordered_map<char, double>& variables) {
+double Divide::evaluate(const VarMap& variables) {
     return dividend->evaluate(variables) / divisor->evaluate(variables);
 }
 
@@ -78,20 +76,20 @@ Expression* Divide::simplified() {
 
 std::string Divide::latex() {
     if (dividend->isOfType(ExpressionType::CONSTANT) && divisor->isOfType(ExpressionType::CONSTANT))
-        return "\\,^{" + dividend->latex() + "}/_{" + divisor->latex() + "}";
-    return "\\frac{" + dividend->latex() + "}{" + divisor->latex() + "}";
+        return fmt::sprintf("\\,^{%s}/_{%s}", dividend->latex(), divisor->latex());
+    return fmt::sprintf("\\frac{%s}{%s}", dividend->latex(), divisor->latex());
 }
 
 std::wstring Divide::stringify() {
-    return L"(" + dividend->stringify() + L"/" + divisor->stringify() + L")";
+    return fmt::format(L"({}/{})", dividend->stringify(), divisor->stringify());
 }
 
 std::string Divide::text() {
-    return "((" + dividend->text() + ")/(" + divisor->text() + "))";
+    return fmt::format("(({})/({}))", dividend->text(), divisor->text());
 }
 
 std::string Divide::explicitText() {
-    return properties.getShortName() + "(" + dividend->explicitText() + ", " + divisor->explicitText() + ")";
+    return fmt::format("div({}, {})", dividend->explicitText(), divisor->explicitText());
 }
 
 CAS_NAMESPACE_END

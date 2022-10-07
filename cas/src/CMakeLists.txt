@@ -2,10 +2,16 @@ cmake_minimum_required(VERSION 3.0)
 project(src)
 
 include(FetchContent)
+
 FetchContent_Declare(cpr
         GIT_REPOSITORY https://github.com/libcpr/cpr.git
         GIT_TAG f88fd7737de3e640c61703eb57a0fa0ce00c60cd)
-FetchContent_MakeAvailable(cpr) # The commit hash for latest
+FetchContent_MakeAvailable(cpr)
+
+FetchContent_Declare(fmt
+        GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+        GIT_TAG a33701196adfad74917046096bf5a2aa0ab0bb50)
+FetchContent_MakeAvailable(fmt)
 
 set(CAS_SRC_HEADERS
         ../include/cas/CAS.h
@@ -105,4 +111,4 @@ set(CAS_SRC_SOURCES
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)
-target_link_libraries(${PROJECT_NAME} PUBLIC cpr::cpr)
+target_link_libraries(${PROJECT_NAME} PUBLIC cpr::cpr fmt::fmt)

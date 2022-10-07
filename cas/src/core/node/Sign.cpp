@@ -5,6 +5,7 @@
 #include "cas/node/Sign.h"
 #include "cas/node/Const.h"
 #include "cas/node/Log.h"
+#include "fmt/printf.h"
 
 CAS_NAMESPACE
 
@@ -41,8 +42,8 @@ Expression* Sign::simplified() {
 
 std::string Sign::latex() {
     if (needsParentheses())
-        return "\\text{sign}{\\,\\left(" + argument->latex() + "\\right)}";
-    return "\\text{sign}{\\," + argument->latex() + "}";
+        return fmt::sprintf(R"(\text{sign}{\,\left(%s\right)})", argument->latex());
+    return fmt::sprintf(R"(\text{sign}{\,%s})", argument->latex());
 }
 
 bool Sign::needsParentheses() {

@@ -13,12 +13,6 @@ CAS_NAMESPACE
 Sum::Sum(const std::vector<Expression*>& expressions)
     : Operator({ExpressionType::SUM, "summation", "sum"}, 0.0, '+', expressions) {}
 
-Sum::~Sum() {
-#if DEBUG_CAS
-    wPrint(L"Destroy cas::Sum\n");
-#endif
-}
-
 Sum* Sum::clone() {
     std::vector<Expression*> clonedExpressions;
     clonedExpressions.reserve(expressions.size());

@@ -7,15 +7,28 @@
 
 CAS_NAMESPACE
 
+Function::Function(std::string strFunction)
+    : uid(nextId()), originalFormula(strFunction) {
+    ExpressionParser& parser = ExpressionParser::getInstance();
+
+    parser.setup(strFunction);
+    if (!parser.isValidExpression(strFunction)) {
+        throw std::invalid_argument("Invalid expression");
+    }
+
+    this->expr = parser.parse(strFunction, variables);
+}
+
 Function::Function(const std::string& oFormula, cas::Expression* expr, const cas::VarSet& variables)
     : uid(nextId()), expr(expr), variables(variables), originalFormula(oFormula) {}
 
 Function::~Function() {
     delete expr;
+    expr = nullptr;
 }
 
-double Function::evaluate(const cas::VarMap& variables) {
-    return expr->evaluate(variables);
+double Function::evaluate(const cas::VarMap& vars) {
+    return expr->evaluate(vars);
 }
 
 Function* Function::derivative(char var) {
@@ -54,7 +67,7 @@ const std::string& Function::getOriginalFormula() const {
     return originalFormula;
 }
 
-const cas::Expression* Function::getExpr() const {
+cas::Expression* Function::getExpr() const {
     return expr;
 }
 
@@ -62,18 +75,16 @@ const cas::VarSet& Function::getVariables() const {
     return variables;
 }
 
-Function Function::parse(const std::string& strFormula) {
-    std::string formula = strFormula;
-
+Function Function::parse(std::string strFormula) {
     ExpressionParser& parser = ExpressionParser::getInstance();
-    parser.setup(formula);
+    parser.setup(strFormula);
 
-    if (!parser.isValidExpression(formula)) {
+    if (!parser.isValidExpression(strFormula)) {
         throw std::invalid_argument("Invalid expression");
     }
 
     VarSet variables;
-    Expression* expr = parser.parse(formula, variables);
+    Expression* expr = parser.parse(strFormula, variables);
 
     return Function(strFormula, expr, variables);
 }

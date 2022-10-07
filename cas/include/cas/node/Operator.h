@@ -14,14 +14,13 @@ CAS_NAMESPACE
 
 class Operator : public Expression {
 public:
-    explicit Operator(const ExpressionProperties& props, double neutral, char symbol,
-                      std::vector<Expression*> expressions);
+    explicit Operator(const ExpressionProperties& props, double neutral, char symbol, std::vector<Expression*> expressions);
 
     Operator() = delete;
 
     ~Operator() override;
 
-    double evaluate(const std::unordered_map<char, double>& variables) override;
+    double evaluate(const VarMap& variables) override;
 
     bool _equals(Expression* expression) override;
 

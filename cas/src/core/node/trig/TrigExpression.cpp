@@ -6,6 +6,8 @@
 #include "cas/node/Log.h"
 #include "cas/node/Operator.h"
 #include "cas/util/StringUtils.h"
+#include <fmt/printf.h>
+#include <fmt/xchar.h>
 
 CAS_NAMESPACE
 
@@ -23,14 +25,14 @@ bool TrigExpression::needsParentheses() {
 
 std::string TrigExpression::latex() {
     if (needsParentheses())
-        return "\\" + properties.getShortName() + "{\\left(" + argument->latex() + "\\right)}";
-    return "\\" + properties.getShortName() + "{" + argument->latex() + "}";
+        return fmt::sprintf("%s{\\left(%s\\right)}", properties.getShortName(), argument->latex());
+    return fmt::sprintf("\\%s{%s}", properties.getShortName(), argument->latex());
 }
 
 std::wstring TrigExpression::stringify() {
     if (needsParentheses())
-        return toWstring(properties.getShortName()) + L" (" + argument->stringify() + L")";
-    return toWstring(properties.getShortName()) + L" " + argument->stringify();
+        return fmt::format(L"{} ({})", toWstring(properties.getShortName()), argument->stringify());
+    return fmt::format(L"{} {}", toWstring(properties.getShortName()), argument->stringify());
 }
 
 CAS_NAMESPACE_END

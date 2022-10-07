@@ -3,6 +3,8 @@
 //
 
 #include "cas/latex/LatexRenderer.h"
+#include "fmt/core.h"
+#include "fmt/printf.h"
 #include <filesystem>
 #include <stdexcept>
 
@@ -19,21 +21,21 @@ std::string LatexRenderer::render(IRepresentableMath& expr, const std::string& n
 
 std::string LatexRenderer::render(const std::string& latex, const std::string& name) {
     const std::string baseUrl = R"(https://latex.codecogs.com/png.image?\huge&space;\dpi{300}\bg{black})";
-    const std::string url = baseUrl + name + "(x,y)=" + latex;
-    printf("Invoking URL: %s", url.c_str());
+    const std::string url = fmt::format("{}{}(x,y)={}", baseUrl, name, latex);
+    fmt::print("Invoking URL: {}\n", url);
 
-    std::string filepath = resFolder + name + ".png";
-    const cpr::Response& response = download(url.c_str(), filepath.c_str());
+    std::string filepath = fmt::format("{}{}.png", resFolder, name);
+    const cpr::Response& response = download(url, filepath);
     if (response.status_code != 200) {
-        printf("Error: %s\n", response.error.message.c_str());
-        fprintf(stderr, "Error: %s\n", response.error.message.c_str());
+        fmt::print("Error: {}\n", response.error.message);
+        fmt::fprintf(stderr, "Error: {}\n", response.error.message);
         throw std::runtime_error("Failed to download image");
     }
 
     return filepath;
 }
 
-cpr::Response LatexRenderer::download(const char* url, const char* filepath) {
+cpr::Response LatexRenderer::download(const std::string& url, const std::string& filepath) {
     std::ofstream ofstream = std::ofstream(filepath);
     return cpr::Download(ofstream, cpr::Url{url});
 }

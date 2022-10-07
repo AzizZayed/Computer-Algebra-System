@@ -5,18 +5,15 @@
 #include "cas/node/Negate.h"
 #include "cas/node/Operator.h"
 #include "cas/util/StringUtils.h"
+#include "fmt/format.h"
+#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
 Negate::Negate(Expression* expression)
-    : UnaryExpression({ExpressionType::NEGATE, "negate", "neg"}, expression) {
-#if DEBUG_CAS
-    std::string str = properties.getName();
-    wprintf(L"%s(...)\n", str.c_str());
-#endif
-}
+    : UnaryExpression({ExpressionType::NEGATE, "negate", "neg"}, expression) {}
 
-double Negate::evaluate(const std::unordered_map<char, double>& variables) {
+double Negate::evaluate(const VarMap& variables) {
     return -argument->evaluate(variables);
 }
 
@@ -55,16 +52,16 @@ std::string Negate::latex() {
 
 std::wstring Negate::stringify() {
     if (needsParentheses())
-        return L"-(" + argument->stringify() + L")";
-    return L"-" + argument->stringify();
+        return fmt::format(L"-({})", argument->stringify());
+    return fmt::format(L"-{}", argument->stringify());
 }
 
 std::string Negate::text() {
-    return "(-(" + argument->text() + "))";
+    return fmt::format("(-({}))", argument->text());
 }
 
 std::string Negate::explicitText() {
-    return properties.getShortName() + "(" + argument->explicitText() + ")";
+    return fmt::format("neg({})", argument->explicitText());
 }
 
 CAS_NAMESPACE_END

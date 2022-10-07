@@ -87,10 +87,10 @@ TEST(ArcCotNodeTest, ArcCotSimplifiedTest) {
 
 TEST(ArcCotNodeTest, ArcCotLatexTest) {
     auto* node = new cas::ArcCot(new cas::Const(1));
-    EXPECT_EQ(node->latex(), "\\acot{1}");
+    EXPECT_EQ(node->latex(), "\\text{arccot}{\\,1}");
 
     auto* node2 = new cas::ArcCot(new cas::Var('x'));
-    EXPECT_EQ(node2->latex(), "\\acot{x}");
+    EXPECT_EQ(node2->latex(), "\\text{arccot}{\\,x}");
 
     delete node;
     delete node2;

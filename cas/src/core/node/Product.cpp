@@ -12,12 +12,6 @@ CAS_NAMESPACE
 Product::Product(const std::vector<Expression*>& expressions)
     : Operator({ExpressionType::PRODUCT, "product", "prod"}, 1.0, '*', expressions) {}
 
-Product::~Product() {
-#if DEBUG_CAS
-    wPrint(L"Destroy cas::Product\n");
-#endif
-}
-
 Product* Product::clone() {
     std::vector<Expression*> clonedExpressions;
     clonedExpressions.reserve(expressions.size());

@@ -118,10 +118,10 @@ TEST(ArcCosNodeTest, ArcCosLatexTest) {
     auto* node3 = new cas::ArcCos(new cas::Const(2));
     auto* node4 = new cas::ArcCos(new cas::Var('x'));
 
-    EXPECT_EQ(node1->latex(), "\\acos{1}");
-    EXPECT_EQ(node2->latex(), "\\acos{x}");
-    EXPECT_EQ(node3->latex(), "\\acos{2}");
-    EXPECT_EQ(node4->latex(), "\\acos{x}");
+    EXPECT_EQ(node1->latex(), "\\text{arccos}{\\,1}");
+    EXPECT_EQ(node2->latex(), "\\text{arccos}{\\,x}");
+    EXPECT_EQ(node3->latex(), "\\text{arccos}{\\,2}");
+    EXPECT_EQ(node4->latex(), "\\text{arccos}{\\,x}");
 
     delete node1;
     delete node2;

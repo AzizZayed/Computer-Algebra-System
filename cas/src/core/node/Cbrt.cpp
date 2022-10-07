@@ -7,6 +7,8 @@
 #include "cas/node/Divide.h"
 #include "cas/node/Product.h"
 #include "cas/util/StringUtils.h"
+#include <fmt/printf.h>
+#include <fmt/xchar.h>
 
 CAS_NAMESPACE
 
@@ -42,11 +44,11 @@ Expression* Cbrt::simplified() {
 }
 
 std::string Cbrt::latex() {
-    return "\\sqrt[3]{" + base->latex() + "}";
+    return fmt::sprintf("\\sqrt[3]{%s}", base->latex());
 }
 
 std::wstring Cbrt::stringify() {
-    return toWstring(properties.getShortName()) + L"(" + base->stringify() + L")";
+    return fmt::format(L"{}({})", toWstring(properties.getShortName()), base->stringify());
 }
 
 std::string Cbrt::text() {

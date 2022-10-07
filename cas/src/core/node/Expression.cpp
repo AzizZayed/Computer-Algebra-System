@@ -38,13 +38,7 @@ CAS_NAMESPACE
 Expression::Expression(const ExpressionProperties& properties)
     : properties{properties} {}
 
-Expression::~Expression() {
-#if DEBUG_CAS
-    wPrint(L"Destroy cas::Expression");
-#endif
-}
-
-double Expression::evaluate(const std::unordered_map<char, double>&) {
+double Expression::evaluate(const VarMap&) {
     throw std::runtime_error("Expression::evaluate() is not implemented for " + properties.getName());
 }
 

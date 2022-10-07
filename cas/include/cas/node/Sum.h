@@ -16,7 +16,7 @@ public:
 
     Sum() = delete;
 
-    ~Sum() override;
+    ~Sum() override = default;
 
     Sum* clone() override;
 

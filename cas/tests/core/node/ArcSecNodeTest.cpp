@@ -113,10 +113,10 @@ TEST(ArcSecNodeTest, ArcSecSimplifiedTest) {
 
 TEST(ArcSecNodeTest, ArcSecLatexTest) {
     auto* node = new cas::ArcSec(new cas::Const(1));
-    EXPECT_EQ(node->latex(), "\\asec{1}");
+    EXPECT_EQ(node->latex(), "\\text{arcsec}{\\,1}");
 
     auto* node2 = new cas::ArcSec(new cas::Var('x'));
-    EXPECT_EQ(node2->latex(), "\\asec{x}");
+    EXPECT_EQ(node2->latex(), "\\text{arcsec}{\\,x}");
 
     delete node;
     delete node2;

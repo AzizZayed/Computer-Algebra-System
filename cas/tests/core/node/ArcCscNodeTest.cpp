@@ -114,10 +114,10 @@ TEST(ArcCscNodeTest, ArcCscSimplifiedTest) {
 
 TEST(ArcCscNodeTest, ArcCscLatexTest) {
     auto* node = new cas::ArcCsc(new cas::Const(1));
-    EXPECT_EQ(node->latex(), "\\acsc{1}");
+    EXPECT_EQ(node->latex(), "\\text{arccsc}{\\,1}");
 
     auto* node2 = new cas::ArcCsc(new cas::Var('x'));
-    EXPECT_EQ(node2->latex(), "\\acsc{x}");
+    EXPECT_EQ(node2->latex(), "\\text{arccsc}{\\,x}");
 
     delete node;
     delete node2;

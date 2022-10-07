@@ -7,6 +7,8 @@
 #include "cas/node/Const.h"
 #include "cas/node/Sqrt.h"
 #include "cas/util/StringUtils.h"
+#include "fmt/printf.h"
+#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -51,15 +53,15 @@ Expression* Root::simplified() {
 }
 
 std::string Root::latex() {
-    return "\\sqrt[" + exponent->latex() + "]{" + base->latex() + "}";
+    return fmt::sprintf("\\sqrt[%s]{%s}", exponent->latex(), base->latex());
 }
 
 std::wstring Root::stringify() {
-    return toWstring(properties.getShortName()) + L"(" + base->stringify() + L", " + exponent->stringify() + L")";
+    return fmt::format(L"{}({}, {})", toWstring(properties.getShortName()), base->stringify(), exponent->stringify());
 }
 
 std::string Root::text() {
-    return properties.getShortName() + "(" + base->text() + ", " + exponent->text() + ")";
+    return fmt::format("{}({}, {})", properties.getShortName(), base->text(), exponent->text());
 }
 
 

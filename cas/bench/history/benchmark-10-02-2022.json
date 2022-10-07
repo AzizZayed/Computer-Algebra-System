@@ -1,0 +1,48 @@
+{
+  "context": {
+    "date": "2022-10-02T12:17:37-04:00",
+    "host_name": "macos.local",
+    "executable": "./bench",
+    "num_cpus": 10,
+    "mhz_per_cpu": 24,
+    "cpu_scaling_enabled": false,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 65536,
+        "num_sharing": 0
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 131072,
+        "num_sharing": 0
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 4194304,
+        "num_sharing": 1
+      }
+    ],
+    "load_avg": [5.68604,3.70801,3.46631],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "BM_FunctionCreation",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_FunctionCreation",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 10,
+      "real_time": 6.8444091599667445e+04,
+      "cpu_time": 6.8397900000000009e+04,
+      "time_unit": "us"
+    }
+  ]
+}

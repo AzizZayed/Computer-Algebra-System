@@ -119,8 +119,6 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
     std::string expr = expression;
     removeUnnecessarySurroundingBrackets(expr);
 
-    //    wprintf(L"\nParsing: %s,\n", expr.c_str());
-
     if (contains(expr, "(")) {
         size_t start, end;
         getFirstPairOfNonEmptyBrackets(expr, start, end);

@@ -6,6 +6,8 @@
 #include "cas/node/Const.h"
 #include "cas/node/Var.h"
 #include "cas/util/StringUtils.h"
+#include "fmt/printf.h"
+#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -33,19 +35,19 @@ Expression* UnaryExpression::derivative(char var) {
 }
 
 std::string UnaryExpression::latex() {
-    return "\\" + properties.getShortName() + "{\\left(" + argument->latex() + "\\right)}";
+    return fmt::sprintf(R"(\%s{\left(%s\right)})", properties.getShortName(), argument->latex());
 }
 
 std::wstring UnaryExpression::stringify() {
-    return toWstring(properties.getShortName()) + L"(" + argument->stringify() + L")";
+    return fmt::format(L"{}({})", toWstring(properties.getShortName()), argument->stringify());
 }
 
 std::string UnaryExpression::text() {
-    return properties.getShortName() + "(" + argument->text() + ")";
+    return fmt::format("{}({})", properties.getShortName(), argument->text());
 }
 
 std::string UnaryExpression::explicitText() {
-    return properties.getShortName() + "(" + argument->explicitText() + ")";
+    return fmt::format("{}({})", properties.getShortName(), argument->explicitText());
 }
 
 CAS_NAMESPACE_END

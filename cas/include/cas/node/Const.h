@@ -29,7 +29,7 @@ public:
 
     explicit Const() : Const(0.0){};
 
-    ~Const() override;
+    ~Const() override = default;
 
     double evaluate(const std::unordered_map<char, double>& variables) override;
 

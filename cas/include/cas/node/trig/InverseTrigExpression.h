@@ -14,7 +14,7 @@ public:
     InverseTrigExpression() = delete;
     ~InverseTrigExpression() override = default;
 
-    //    std::string latex() override;
+    std::string latex() override;
 
 protected:
     explicit InverseTrigExpression(const ExpressionProperties& props, Expression* argument);

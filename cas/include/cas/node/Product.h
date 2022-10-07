@@ -16,7 +16,7 @@ public:
 
     Product() = delete;
 
-    ~Product() override;
+    ~Product() override = default;
 
     Product* clone() override;
 

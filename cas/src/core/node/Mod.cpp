@@ -5,6 +5,8 @@
 #include "cas/node/Mod.h"
 #include "cas/node/Const.h"
 #include "cas/util/StringUtils.h"
+#include "fmt/printf.h"
+#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -20,10 +22,6 @@ Mod::Mod(Expression* dividend, Expression* divisor)
 }
 
 Mod::~Mod() {
-#if DEBUG_CAS
-    wPrint(L"Destroy cas::Mod\n");
-#endif
-
     delete dividend;
     delete divisor;
 
@@ -31,7 +29,7 @@ Mod::~Mod() {
     divisor = nullptr;
 }
 
-double Mod::evaluate(const std::unordered_map<char, double>& variables) {
+double Mod::evaluate(const VarMap& variables) {
     return std::fmod(dividend->evaluate(variables), divisor->evaluate(variables));
 }
 
@@ -59,19 +57,19 @@ Expression* Mod::simplified() {
 }
 
 std::string Mod::latex() {
-    return "\\mod{\\left(" + dividend->latex() + "," + divisor->latex() + "\\right)}";
+    return fmt::format(R"(\mod{\left({},{}\right)})", dividend->latex(), divisor->latex());
 }
 
 std::wstring Mod::stringify() {
-    return toWstring(properties.getShortName()) + L"(" + dividend->stringify() + L", " + divisor->stringify() + L")";
+    return fmt::format(L"mod({}, {})", dividend->stringify(), divisor->stringify());
 }
 
 std::string Mod::text() {
-    return properties.getShortName() + "(" + dividend->text() + ", " + divisor->text() + ")";
+    return fmt::format("mod({}, {})", dividend->text(), divisor->text());
 }
 
 std::string Mod::explicitText() {
-    return properties.getName() + "(" + dividend->explicitText() + ", " + divisor->explicitText() + ")";
+    return fmt::format("mod({}, {})", dividend->explicitText(), divisor->explicitText());
 }
 
 CAS_NAMESPACE_END

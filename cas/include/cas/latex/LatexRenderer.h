@@ -16,7 +16,7 @@ public:
     static LatexRenderer& getInstance();
     std::string render(IRepresentableMath& expr, const std::string& name);
     std::string render(const std::string& latex, const std::string& name);
-    cpr::Response download(const char* url, const char* filepath);
+    cpr::Response download(const std::string& url, const std::string& filepath);
     void cleanup();
 
 protected:

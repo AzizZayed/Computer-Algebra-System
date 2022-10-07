@@ -8,6 +8,8 @@
 #include "cas/node/Ln.h"
 #include "cas/node/Product.h"
 #include "cas/node/Sum.h"
+#include "fmt/printf.h"
+#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -24,10 +26,6 @@ Power::Power(Expression* base, double exponent)
     : Power({ExpressionType::POWER, "power", "pow"}, base, new Const(exponent)) {}
 
 Power::~Power() {
-#if DEBUG_CAS
-    wPrint(L"Destroy Power\n");
-#endif
-
     delete base;
     delete exponent;
 
@@ -35,7 +33,7 @@ Power::~Power() {
     exponent = nullptr;
 }
 
-double Power::evaluate(const std::unordered_map<char, double>& variables) {
+double Power::evaluate(const VarMap& variables) {
     return pow(base->evaluate(variables), exponent->evaluate(variables));
 }
 
@@ -117,30 +115,31 @@ bool Power::exponentNeedsParentheses() {
 
 std::string Power::latex() {
     if (baseNeedsParentheses())
-        return "\\left(" + base->latex() + "\\right)^{" + exponent->latex() + "}";
-    return base->latex() + "^{" + exponent->latex() + "}";
+        return fmt::sprintf("\\left(%s\\right)^{%s}", base->latex(), exponent->latex());
+    return fmt::sprintf("%s^{%s}", base->latex(), exponent->latex());
 }
 
 std::wstring Power::stringify() {
+    std::wstring format = L"({})^({})";
     if (baseNeedsParentheses()) {
-        if (exponentNeedsParentheses())
-            return L"(" + base->stringify() + L")^(" + exponent->stringify() + L")";
-        else
-            return L"(" + base->stringify() + L")^" + exponent->stringify();
+        if (!exponentNeedsParentheses())
+            format = L"({})^{}";
     } else {
         if (exponentNeedsParentheses())
-            return base->stringify() + L"^(" + exponent->stringify() + L")";
+            format = L"{}^({})";
         else
-            return base->stringify() + L"^" + exponent->stringify();
+            format = L"{}^{}";
     }
+
+    return fmt::format(format, base->stringify(), exponent->stringify());
 }
 
 std::string Power::text() {
-    return "(" + base->text() + ")^(" + exponent->text() + ")";
+    return fmt::format("({})^({})", base->text(), exponent->text());
 }
 
 std::string Power::explicitText() {
-    return properties.getShortName() + "(" + base->explicitText() + ", " + exponent->explicitText() + ")";
+    return fmt::format("pow({}, {})", base->explicitText(), exponent->explicitText());
 }
 
 CAS_NAMESPACE_END

@@ -9,13 +9,8 @@
 
 CAS_NAMESPACE
 
-Operator::Operator(const ExpressionProperties& props, double neutral, char symbol,
-                   std::vector<Expression*> expressions)
+Operator::Operator(const ExpressionProperties& props, double neutral, char symbol, std::vector<Expression*> expressions)
     : Expression(props), neutral(neutral), symbol(symbol), expressions(std::move(expressions)) {
-#if DEBUG_CAS
-    wprintf(L"%s(%c...)\n", properties.getName().c_str(), symbol);
-#endif
-
     for (auto& expression: this->expressions)
         expression->setParent(this);
 }
@@ -26,7 +21,7 @@ Operator::~Operator() {
     }
 }
 
-double Operator::evaluate(const std::unordered_map<char, double>& variables) {
+double Operator::evaluate(const VarMap& variables) {
     double result = neutral;
     for (auto* expression: expressions)
         result = operate(result, expression->evaluate(variables));

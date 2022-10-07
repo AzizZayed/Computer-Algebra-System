@@ -13,7 +13,6 @@ FetchContent_MakeAvailable(googletest)
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
     add_compile_options(
-            -O0
             -Wall
             -Wextra
             -fsanitize=address
@@ -71,7 +70,7 @@ set(TEST_SOURCE
         core/node/ArcTanNodeTest.cpp
         core/node/ArcCscNodeTest.cpp
         core/util/StringUtilsTest.cpp
-        core/data/ExpressionParserTest.cpp)
+        core/data/ExpressionParserTest.cpp core/plot/FunctionTest.cpp)
 
 add_executable(tests ${TEST_SOURCE})
 target_link_libraries(tests GTest::gtest_main src)

@@ -6,6 +6,8 @@
 #include "cas/CAS.h"
 #include "cas/node/Const.h"
 #include "cas/node/Divide.h"
+#include "fmt/printf.h"
+#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -38,22 +40,22 @@ Expression* Ln::simplified() {
 
 std::string Ln::latex() {
     if (argumentNeedsParentheses())
-        return "\\ln{\\left(" + argument->latex() + "\\right)}";
-    return "\\ln{" + argument->latex() + "}";
+        return fmt::sprintf(R"(\ln{\left(%s\right)})", argument->latex());
+    return fmt::sprintf("\\ln{%s}", argument->latex());
 }
 
 std::wstring Ln::stringify() {
     if (argumentNeedsParentheses())
-        return L"ln(" + argument->stringify() + L")";
-    return L"ln" + argument->stringify();
+        return fmt::sprintf(L"ln(%s)", argument->stringify());
+    return fmt::format(L"ln{}", argument->stringify());
 }
 
 std::string Ln::text() {
-    return "ln(" + argument->text() + ")";
+    return fmt::format("ln({})", argument->text());
 }
 
 std::string Ln::explicitText() {
-    return properties.getShortName() + "(" + argument->explicitText() + ")";
+    return fmt::format("ln({})", argument->explicitText());
 }
 
 CAS_NAMESPACE_END

@@ -57,7 +57,7 @@ class Expression : public IMath, public IRepresentableMath {
 public:
     explicit Expression(const ExpressionProperties& properties);
 
-    virtual ~Expression();
+    virtual ~Expression() = default;
 
     Expression(const Expression& expression) = delete;
 

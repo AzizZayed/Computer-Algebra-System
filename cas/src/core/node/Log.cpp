@@ -7,6 +7,8 @@
 #include "cas/node/Divide.h"
 #include "cas/node/Ln.h"
 #include "cas/node/Product.h"
+#include "fmt/printf.h"
+#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -81,26 +83,26 @@ bool Log::argumentNeedsParentheses() {
 
 std::string Log::latex() {
     if (argumentNeedsParentheses())
-        return "\\log_{" + base->latex() + "}{\\left(" + argument->latex() + "\\right)}";
-    return "\\log_{" + base->latex() + "}{" + argument->latex() + "}";
+        return fmt::sprintf(R"(\log_{%s}{\left(%s\right)})", base->latex(), argument->latex());
+    return fmt::sprintf("\\log_{%s}{%s}", base->latex(), argument->latex());
 }
 
 std::wstring Log::stringify() {
     if (argumentNeedsParentheses()) {
         if (base->isOfType(ExpressionType::CONSTANT) || base->isOfType(ExpressionType::VARIABLE)) {
-            return L"log_" + base->stringify() + L"(" + argument->stringify() + L")";
+            return fmt::format(L"log_{}({})", base->stringify(), argument->stringify());
         }
-        return L"log_(" + base->stringify() + L")(" + argument->stringify() + L")";
+        return fmt::format(L"log({})({})", base->stringify(), argument->stringify());
     }
-    return L"log_" + base->stringify() + L" " + argument->stringify();
+    return fmt::format(L"log_{} {}", base->stringify(), argument->stringify());
 }
 
 std::string Log::text() {
-    return "log_(" + base->text() + ")_(" + argument->text() + ")";
+    return fmt::format("log_({})_({})", base->text(), argument->text());
 }
 
 std::string Log::explicitText() {
-    return properties.getShortName() + "(" + base->explicitText() + ", " + argument->explicitText() + ")";
+    return fmt::format("log({}, {})", base->explicitText(), argument->explicitText());
 }
 
 CAS_NAMESPACE_END

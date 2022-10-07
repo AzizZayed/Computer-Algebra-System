@@ -4,6 +4,7 @@
 
 #include "cas/node/Const.h"
 #include "cas/util/StringUtils.h"
+#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -16,24 +17,13 @@ const char* Const::E_LATEX = "e";
 const char* Const::PHI_LATEX = "\\varphi";
 
 Const::Const(double value)
-    : Expression{{ExpressionType::CONSTANT, "constant", "const"}}, value{value} {
-#if DEBUG_CAS
-    std::string str = properties.getName();
-    wprintf(L"%s(%f)\n", str.c_str(), value);
-#endif
-}
-
-Const::~Const() {
-#if DEBUG_CAS
-    wPrint(L"Destroy cas::Const\n");
-#endif
-}
+    : Expression{{ExpressionType::CONSTANT, "constant", "const"}}, value{value} {}
 
 Const* Const::clone() {
     return new Const{value};
 }
 
-double Const::evaluate(const std::unordered_map<char, double>&) {
+double Const::evaluate(const VarMap&) {
     return value;
 }
 
@@ -75,7 +65,7 @@ std::wstring Const::stringify() {
         return PHI_UNICODE;
     }
 
-    return toWstring(text());
+    return fmt::to_wstring(value);
 }
 
 std::string Const::text() {
