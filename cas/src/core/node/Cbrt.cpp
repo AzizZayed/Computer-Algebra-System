@@ -28,19 +28,30 @@ Expression* Cbrt::_derivative(char var) {
         return new Const(0);
     }
 
-    return new Divide(
-            base->derivative(var),
-            new Product({new Const(3), new Cbrt(new Power(base->clone(), 2))}));
+    return base->derivative(var)
+            ->divide(Const::n(3)
+                             ->multiply(base->clone()
+                                                ->power(2)
+                                                ->cbrt()));
 }
 
 Expression* Cbrt::simplified() {
     if (base->isOfType(ExpressionType::CONSTANT)) {
-        double cbrt = std::cbrt(base->evaluate());
+        double cbrt = Expression::evaluate();
         if (isWholeNumber(cbrt))
             return new Const(cbrt);
+        return clone();
+    }
+    if (base->isOfType(ExpressionType::POWER)) {
+        auto* power = dynamic_cast<Power*>(base);
+        if (power->getExponent()->isOfType(ExpressionType::CONSTANT)) {
+            double exponent = power->getExponent()->evaluate();
+            if (exponent == 3)
+                return power->getBase()->simplified();
+        }
     }
 
-    return new Cbrt(base->simplified());
+    return base->simplified()->cbrt();
 }
 
 std::string Cbrt::latex() {

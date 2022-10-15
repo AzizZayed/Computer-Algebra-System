@@ -3,7 +3,9 @@
 //
 
 #include "cas/node/Floor.h"
+#include "cas/node/Ceil.h"
 #include "cas/node/Const.h"
+#include "cas/node/Negate.h"
 
 CAS_NAMESPACE
 
@@ -20,10 +22,20 @@ Floor* Floor::clone() {
 
 Expression* Floor::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        auto* constant = dynamic_cast<Const*>(argument);
-        return new Const(std::floor(constant->getValue()));
+        return Const::n(Expression::evaluate());
     }
-    return clone();// TODO: simplify
+    if (argument->isOfType(ExpressionType::FLOOR)) {
+        return argument->simplified();
+    }
+    if (argument->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(argument);
+        return negate->getArgument()->simplified()->ceil()->negate();
+    }
+
+    // TODO floor(x + a) = floor(x) + a
+    // TODO floor(x - a) = floor(x) - a
+
+    return argument->simplified()->floor();
 }
 
 CAS_NAMESPACE_END

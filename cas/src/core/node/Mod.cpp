@@ -50,9 +50,15 @@ Mod* Mod::clone() {
 
 Expression* Mod::simplified() {
     if (dividend->isOfType(ExpressionType::CONSTANT) && divisor->isOfType(ExpressionType::CONSTANT)) {
-        return new Const(Expression::evaluate());
+        if (isWholeNumber(dividend->evaluate()) && isWholeNumber(divisor->evaluate())) {
+            return new Const(Expression::evaluate());
+        }
     }
-    return new Mod(dividend->simplified(), divisor->simplified());// TODO: simplify
+    if (dividend->isOfType(ExpressionType::CONSTANT) && dividend->evaluate() == 0) {
+        return Const::zero();
+    }
+
+    return new Mod(dividend->simplified(), divisor->simplified());
 }
 
 std::string Mod::latex() {

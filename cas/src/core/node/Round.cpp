@@ -20,10 +20,13 @@ Round* Round::clone() {
 
 Expression* Round::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        auto* constant = dynamic_cast<Const*>(argument);
-        return new Const(std::round(constant->getValue()));
+        return Const::n(Expression::evaluate());
     }
-    return clone();// TODO: simplify
+    if (argument->isOfType(ExpressionType::ROUND)) {
+        return argument->simplified();
+    }
+
+    return argument->simplified()->round();
 }
 
 CAS_NAMESPACE_END

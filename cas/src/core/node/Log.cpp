@@ -7,6 +7,7 @@
 #include "cas/node/Divide.h"
 #include "cas/node/Ln.h"
 #include "cas/node/Product.h"
+#include "cas/node/Power.h"
 #include "fmt/printf.h"
 #include "fmt/xchar.h"
 
@@ -55,17 +56,20 @@ Expression* Log::_derivative(char var) {
     bool baseIsConstant = base->isOfType(ExpressionType::CONSTANT);
     bool argumentIsConstant = argument->isOfType(ExpressionType::CONSTANT);
 
-    if (baseIsConstant && argumentIsConstant)
+    if (baseIsConstant && argumentIsConstant) {
         return new Const(0);
-
-    if (baseIsConstant) {
-        return new Divide(
-                argument->derivative(var),
-                new Product({argument->clone(),
-                             new Ln(base->clone())}));
     }
 
-    Expression* exp = new Divide(new Ln(base->clone()), new Ln(argument->clone()));
+    if (baseIsConstant) {
+        return argument->derivative(var)
+                ->divide(argument->clone()
+                                 ->multiply(base->clone()->ln()));
+    }
+
+    Expression* exp = base->clone()
+                              ->ln()
+                              ->divide(argument->clone()
+                                               ->ln());
     Expression* derivative = exp->derivative(var);
 
     delete exp;
@@ -74,7 +78,22 @@ Expression* Log::_derivative(char var) {
 }
 
 Expression* Log::simplified() {
-    return new Log(base->simplified(), argument->simplified());// TODO: Simplify
+    if (argument->equals(base))
+        return Const::one();
+
+    if (argument->isOfType(ExpressionType::CONSTANT)) {
+        double argumentValue = argument->evaluate();
+        if (argumentValue == 1)
+            return Const::zero();
+    }
+
+    if (argument->isOfType(ExpressionType::POWER)) {
+        auto* power = dynamic_cast<Power*>(argument);
+        if (power->getBase()->equals(base))
+            return power->getExponent()->simplified();
+    }
+
+    return new Log(base->simplified(), argument->simplified());
 }
 
 bool Log::argumentNeedsParentheses() {

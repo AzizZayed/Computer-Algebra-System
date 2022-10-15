@@ -29,6 +29,7 @@ public:
     char getSymbol() const { return symbol; }
 
     std::vector<Expression*> getExpressions() const { return {expressions}; }
+    size_t getExpressionsSize() const { return expressions.size(); }
 
 protected:
     virtual double operate(double a, double b) = 0;

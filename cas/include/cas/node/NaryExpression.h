@@ -28,6 +28,21 @@ public:
 
     std::vector<Expression*> getExpressions() const { return {expressions}; }
 
+    template<typename F>
+    bool all(F&& f) const {
+        return std::all_of(expressions.begin(), expressions.end(), f);
+    }
+
+    template<typename F>
+    bool any(F&& f) const {
+        return std::any_of(expressions.begin(), expressions.end(), f);
+    }
+
+    template<typename F>
+    void forEach(F&& f) const {
+        std::for_each(expressions.begin(), expressions.end(), f);
+    }
+
 protected:
     explicit NaryExpression(const ExpressionProperties& props, std::vector<Expression*> expressions);
 

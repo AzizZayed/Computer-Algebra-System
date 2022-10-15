@@ -30,12 +30,23 @@ Expression* Sqrt::_derivative(char var) {
 }
 
 Expression* Sqrt::simplified() {
-    auto* exp = new Const(0);
-    if (base->equals(exp)) {
-        return exp;
+    if (base->isOfType(ExpressionType::CONSTANT)) {
+        double sqrt = Expression::evaluate();
+        if (isWholeNumber(sqrt))
+            return new Const(sqrt);
+        else
+            return clone();
+    }
+    if (base->isOfType(ExpressionType::POWER)) {
+        auto* power = dynamic_cast<Power*>(base);
+        if (power->getExponent()->isOfType(ExpressionType::CONSTANT)) {
+            double exponent = power->getExponent()->evaluate();
+            if (exponent == 2)
+                return power->getBase()->simplified();
+        }
     }
 
-    return new Sqrt(base->simplified());
+    return base->simplified()->sqrt();
 }
 
 std::string Sqrt::latex() {

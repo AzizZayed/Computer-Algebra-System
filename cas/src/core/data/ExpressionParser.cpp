@@ -204,7 +204,13 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
                 replaceOnce(parts[1], "()", "(" + pop(remove) + ")");
             }
 
-            return new Power(parse(parts[0], variables), parse(parts[1], variables));
+            std::string& base = parts[0];
+            Expression* power = parse(parts[1], variables);
+            if (base == "e") {
+                return new Exp(power);
+            }
+
+            return new Power(parse(base, variables), power);
         } else if (cut == "-()") {
             return new Negate(parse(pop(remove), variables));
         } else if (cut == "sin()") {

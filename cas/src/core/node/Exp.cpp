@@ -5,6 +5,7 @@
 #include "cas/node/Exp.h"
 #include "cas/node/Const.h"
 #include "cas/node/Product.h"
+#include "cas/node/Log.h"
 #include "fmt/format.h"
 
 CAS_NAMESPACE
@@ -25,19 +26,24 @@ Expression* Exp::_derivative(char var) {
         return new Const;
     }
 
-    return new Product({clone(), exponent->derivative(var)});
+    return clone()->multiply(exponent->derivative(var));
 }
 
 Expression* Exp::simplified() {
     if (exponent->isOfType(ExpressionType::CONSTANT)) {
-        auto* constant = dynamic_cast<Const*>(exponent);
-        if (constant->getValue() == 0)
-            return new Const(1);
-        if (constant->getValue() == 1)
+        double exponentValue = exponent->evaluate();
+        if (exponentValue == 0)
+            return Const::one();
+        if (exponentValue == 1)
             return Const::E();
     }
+    if (exponent->isOfType(ExpressionType::LOGARITHM)) {
+        auto* log = dynamic_cast<Log*>(exponent);
+        if (log->getBase()->equals(this->base))
+            return log->getArgument()->simplified();
+    }
 
-    return new Exp(exponent->simplified());// TODO: Simplify
+    return exponent->simplified()->exp();
 }
 
 std::string Exp::explicitText() {

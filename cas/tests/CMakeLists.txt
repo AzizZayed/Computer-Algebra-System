@@ -20,9 +20,11 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
             -fno-sanitize-recover=all
             -fno-omit-frame-pointer
     )
-    link_libraries(
+    add_link_options(
             -fsanitize=address
             -fsanitize=undefined
+            -fno-sanitize-recover=all
+            -fno-omit-frame-pointer
     )
 endif ()
 
@@ -39,20 +41,14 @@ set(TEST_SOURCE
         core/node/CeilNodeTest.cpp
         core/node/ExpNodeTest.cpp
         core/node/FloorNodeTest.cpp
-        core/node/IMathNodeNodeTest.cpp
         core/node/SqrtNodeTest.cpp
         core/node/PowerNodeTest.cpp
         core/node/MinNodeTest.cpp
-        core/node/OperatorNodeTest.cpp
         core/node/LnNodeTest.cpp
         core/node/RoundNodeTest.cpp
-        core/node/NaryFunctionNodeTest.cpp
-        core/node/ExpressionNodeTest.cpp
-        core/node/BracketFunctionNodeTest.cpp
         core/node/LogNodeTest.cpp
         core/node/MaxNodeTest.cpp
         core/node/RootNodeTest.cpp
-        core/node/UnaryFunctionNodeTest.cpp
         core/node/ModNodeTest.cpp
         core/node/SignNodeTest.cpp
         core/node/SecNodeTest.cpp
@@ -61,16 +57,15 @@ set(TEST_SOURCE
         core/node/ArcSinNodeTest.cpp
         core/node/TanNodeTest.cpp
         core/node/CscNodeTest.cpp
-        core/node/TrigFunctionNodeTest.cpp
         core/node/ArcSecNodeTest.cpp
         core/node/CotNodeTest.cpp
-        core/node/InverseTrigFunctionNodeTest.cpp
         core/node/CosNodeTest.cpp
         core/node/SinNodeTest.cpp
         core/node/ArcTanNodeTest.cpp
         core/node/ArcCscNodeTest.cpp
         core/util/StringUtilsTest.cpp
-        core/data/ExpressionParserTest.cpp core/plot/FunctionTest.cpp)
+        core/data/ExpressionParserTest.cpp
+        core/plot/FunctionTest.cpp)
 
 add_executable(tests ${TEST_SOURCE})
 target_link_libraries(tests GTest::gtest_main src)

@@ -41,34 +41,60 @@ Divide* Divide::clone() {
 }
 
 Divide* Divide::_derivative(char var) {
-    return new Divide(// quotient rule
-            new Sum({
-                    // f'g - fg'
-                    new Product({
-                            // f'g
-                            dividend->derivative(var),// f'g
-                            divisor->clone()          // g
-                    }),                               // end f'*g
-                    new Negate(new Product({
-                            // -fg'
-                            dividend->clone(),      // f
-                            divisor->derivative(var)// g'
-                    }))                             // end -fg'
-            }),                                     // end f'g - fg'
-            new Power(                              // g^2
-                    divisor->clone(),               // g
-                    new Const(2)                    // 2
-                    )                               // end g^2
-    );                                              // end quotient rule
+    return dividend->derivative(var)
+            ->multiply(divisor->clone()) // f' * g
+            ->subtract(dividend->clone()
+                               ->multiply(divisor->derivative(var))) // f' * g - f * g'
+            ->divide(divisor->clone()
+                             ->power(2)); // (f' * g - f * g') / g^2
 }
 
 Expression* Divide::simplified() {
-    Expression* dividendSimplified = dividend->simplified();
-    Expression* divisorSimplified = divisor->simplified();
+    if (dividend->equals(divisor)) {
+        return Const::one();
+    }
 
-    // TODO simplify
+    bool dividendIsDivide = dividend->isOfType(ExpressionType::DIVIDE);
+    bool divisorIsDivide = divisor->isOfType(ExpressionType::DIVIDE);
 
-    return new Divide(dividendSimplified, divisorSimplified);
+    if (dividendIsDivide && !divisorIsDivide) { // (g/h)/f = g/(h*f)
+        auto* dDividend = dynamic_cast<Divide*>(dividend);
+        return dDividend->dividend->simplified()
+                ->divide(dDividend->divisor->simplified()
+                                 ->multiply(divisor));
+    }
+    if (!dividendIsDivide && divisorIsDivide) { // f/(g/h) = (f*h)/g
+        auto* divisorDivide = dynamic_cast<Divide*>(divisor);
+        return dividend
+                ->multiply(divisorDivide->divisor->simplified())
+                ->divide(divisorDivide->dividend->simplified());
+    }
+    if (dividendIsDivide) { // (g/h)/(f/k) = (g*k)/(h*f)
+        auto* dividendDivide = dynamic_cast<Divide*>(dividend);
+        auto* divisorDivide = dynamic_cast<Divide*>(divisor);
+        return dividendDivide->dividend->simplified()
+                ->multiply(divisorDivide->divisor->simplified())
+                ->divide(dividendDivide->divisor->simplified()
+                                 ->multiply(divisorDivide->dividend->simplified()));
+    }
+
+    if (dividend->isOfType(ExpressionType::CONSTANT) && divisor->isOfType(ExpressionType::CONSTANT)) {
+        double dividendValue = dividend->evaluate();
+        double divisorValue = divisor->evaluate();
+        if (divisorValue == 0) {
+            throw std::runtime_error("Division by zero");
+        }
+
+        double result = dividendValue / divisorValue;
+        if (isWholeNumber(result)) {
+            return new Const(result);
+        }
+        return Const::n(dividendValue)->divide(Const::n(divisorValue));
+    }
+
+    // TODO cancel out common factors with products
+
+    return dividend->divide(divisor);
 }
 
 std::string Divide::latex() {

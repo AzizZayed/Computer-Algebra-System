@@ -6,6 +6,7 @@
 #define CAS_IMATH_H
 
 #include "cas/CAS.h"
+#include <cmath>
 
 CAS_NAMESPACE
 

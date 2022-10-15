@@ -591,6 +591,7 @@ TEST(ExpressionParserTest, testParseWithBrackets) {
     ASSERT_TRUE(expr->equals(cas::Var::a()->multiply(cas::Var::x()->log(cas::Var::a()))));
     ASSERT_EQ(vars.size(), 2);
     ASSERT_EQ(vars, (cas::VarSet{'a', 'x'}));
+    vars.clear();
 
     str = "a*log_(a)_(x)";
     parser.setup(str);
@@ -598,6 +599,7 @@ TEST(ExpressionParserTest, testParseWithBrackets) {
     ASSERT_TRUE(expr->equals(cas::Var::a()->multiply(cas::Var::x()->log(cas::Var::a()))));
     ASSERT_EQ(vars.size(), 2);
     ASSERT_EQ(vars, (cas::VarSet{'a', 'x'}));
+    vars.clear();
 
     str = "a*log_a_(x)";
     parser.setup(str);
@@ -605,6 +607,15 @@ TEST(ExpressionParserTest, testParseWithBrackets) {
     ASSERT_TRUE(expr->equals(cas::Var::a()->multiply(cas::Var::x()->log(cas::Var::a()))));
     ASSERT_EQ(vars.size(), 2);
     ASSERT_EQ(vars, (cas::VarSet{'a', 'x'}));
+    vars.clear();
+
+    str = "e^(x+y)";
+    parser.setup(str);
+    expr = parser.parse(str, vars);
+    ASSERT_TRUE(expr->equals(cas::Var::x()->add(cas::Var::y())->exp()));
+    ASSERT_EQ(vars, (cas::VarSet{'x', 'y'}));
+    ASSERT_EQ(vars.size(), 2);
+    vars.clear();
 
     delete expr;
 }

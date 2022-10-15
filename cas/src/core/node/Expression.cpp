@@ -30,6 +30,7 @@
 #include "cas/node/trig/Sec.h"
 #include "cas/node/trig/Sin.h"
 #include "cas/node/trig/Tan.h"
+#include <stdexcept>
 
 CAS_NAMESPACE
 

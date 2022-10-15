@@ -19,7 +19,7 @@ Const::Const(double value)
     : Expression{{ExpressionType::CONSTANT, "constant", "const"}}, value{value} {}
 
 Const* Const::clone() {
-    return new Const{value};
+    return Const::n(value);
 }
 
 double Const::evaluate(const VarMap&) {
@@ -27,12 +27,11 @@ double Const::evaluate(const VarMap&) {
 }
 
 bool Const::_equals(Expression* expression) {
-    auto* constant = dynamic_cast<Const*>(expression);
-    return floatingsEqual(value, constant->value);
+    return floatingsEqual(value, expression->evaluate());
 }
 
 Const* Const::_derivative(char) {
-    return new Const{0.0};
+    return Const::zero();
 }
 
 Const* Const::simplified() {

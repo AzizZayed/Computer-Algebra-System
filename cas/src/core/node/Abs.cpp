@@ -4,6 +4,7 @@
 
 #include "cas/node/Abs.h"
 #include "cas/node/Const.h"
+#include "cas/node/Negate.h"
 #include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
@@ -21,10 +22,17 @@ Abs* Abs::clone() {
 
 Expression* Abs::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        auto* constant = dynamic_cast<Const*>(argument);
-        return new Const(std::abs(constant->getValue()));
+        return Const::n(Expression::evaluate());
     }
-    return clone();// TODO: simplify
+    if (argument->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(argument);
+        return negate->getArgument()->simplified()->abs();
+    }
+    if (argument->isOfType(ExpressionType::ABSOLUTE_VALUE)) {
+        return argument->simplified();
+    }
+
+    return argument->simplified()->abs();
 }
 
 std::string Abs::text() {

@@ -1,23 +1,17 @@
 //
 // Created by Abd-El-Aziz Zayed on 2022-08-26.
 //
-#define _USE_MATH_DEFINES
-
 #ifndef CAS_CONSTANT_H
 #define CAS_CONSTANT_H
-
-#ifdef WIN32
-#include <corecrt_math_defines.h>
-#endif
 
 #include "Expression.h"
 
 CAS_NAMESPACE
 
 namespace math {
-    const double PI = M_PI;
-    const double E = M_E;
-    const double PHI = 1.6180339887498948482045868343656381;
+    const double PI = 2 * std::acos(0.0);
+    const double E = std::exp(1.0);
+    const double PHI = (1 + std::sqrt(5)) / 2;
 }// namespace math
 
 class Const : public Expression {

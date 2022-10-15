@@ -12,7 +12,7 @@ CAS_NAMESPACE
 class Var : public Expression {
 public:
     explicit Var(char variable);
-    explicit Var() : Var(VAR_X) {}
+    explicit Var() : Var('x') {}
 
     ~Var() override = default;
 
@@ -36,31 +36,25 @@ public:
 
     static Var* var(char variable) { return new Var(variable); }
 
-    static Var* a() { return new Var(VAR_A); }
-    static Var* b() { return new Var(VAR_B); }
+    static Var* a() { return var('a'); }
+    static Var* b() { return var('b'); }
+    static Var* c() { return var('c'); }
 
-    static Var* x() { return new Var(VAR_X); }
-    static Var* y() { return new Var(VAR_Y); }
-    static Var* z() { return new Var(VAR_Z); }
-    static Var* w() { return new Var(VAR_W); }
+    static Var* i() { return var('i'); }
+    static Var* j() { return var('j'); }
+    static Var* k() { return var('k'); }
 
-    static Var* t() { return new Var(VAR_T); }
-    static Var* s() { return new Var(VAR_S); }
+    static Var* x() { return var('x'); }
+    static Var* y() { return var('y'); }
+    static Var* z() { return var('z'); }
+    static Var* w() { return var('w'); }
+
+    static Var* s() { return var('s'); }
+    static Var* t() { return var('t'); }
+    static Var* u() { return var('u'); }
 
 private:
     const char symbol;
-
-public:
-    static const char VAR_A = 'a';
-    static const char VAR_B = 'b';
-
-    static const char VAR_X = 'x';
-    static const char VAR_Y = 'y';
-    static const char VAR_Z = 'z';
-    static const char VAR_W = 'w';
-
-    static const char VAR_T = 't';
-    static const char VAR_S = 's';
 };
 
 CAS_NAMESPACE_END

@@ -5,6 +5,7 @@
 #include "cas/node/Sign.h"
 #include "cas/node/Const.h"
 #include "cas/node/Log.h"
+#include "cas/node/Negate.h"
 #include "fmt/printf.h"
 
 CAS_NAMESPACE
@@ -37,7 +38,16 @@ Expression* Sign::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         return new Const(Expression::evaluate());
     }
-    return this;
+    if (argument->isOfType(ExpressionType::SIGN)) {
+        return argument->simplified();
+    }
+    if (argument->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(argument);
+        return negate->getArgument()->simplified()
+                ->sign()
+                ->negate();
+    }
+    return argument->simplified()->sign();
 }
 
 std::string Sign::latex() {

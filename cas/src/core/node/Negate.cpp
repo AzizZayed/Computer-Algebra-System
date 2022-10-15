@@ -29,16 +29,14 @@ Negate* Negate::_derivative(char var) {
     return new Negate(argument->derivative(var));
 }
 
-Expression* Negate::simplified()// TODO: Simplify
+Expression* Negate::simplified()
 {
-    auto* simplified = argument->simplified();
-
-    if (simplified->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(simplified);
+    if (argument->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(argument);
         return negate->argument->clone();
     }
 
-    return new Negate(simplified);
+    return argument->simplified()->negate();
 }
 
 bool Negate::needsParentheses() {

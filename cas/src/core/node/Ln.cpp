@@ -5,6 +5,7 @@
 #include "cas/node/Ln.h"
 #include "cas/node/Const.h"
 #include "cas/node/Divide.h"
+#include "cas/node/Exp.h"
 #include "fmt/printf.h"
 #include "fmt/xchar.h"
 
@@ -30,11 +31,28 @@ Ln* Ln::clone() {
 }
 
 Expression* Ln::_derivative(char var) {
-    return new Divide(argument->derivative(var), argument->clone());
+    return argument->derivative(var)->divide(argument->clone());
 }
 
 Expression* Ln::simplified() {
-    return new Ln(argument->simplified());// TODO: Simplify
+    if (argument->equals(base))
+        return Const::one();
+    if (argument->isOfType(ExpressionType::CONSTANT)) {
+        double argumentValue = argument->evaluate();
+        if (argumentValue == 1)
+            return Const::zero();
+    }
+    if (argument->isOfType(ExpressionType::EXPONENTIAL)) {
+        auto* exp = dynamic_cast<Exp*>(argument);
+        return exp->getExponent()->simplified();
+    }
+    if (argument->isOfType(ExpressionType::POWER)) {
+        auto* power = dynamic_cast<Power*>(argument);
+        if (power->getBase()->equals(base))
+            return power->getExponent()->simplified();
+    }
+
+    return argument->simplified()->ln();
 }
 
 std::string Ln::latex() {

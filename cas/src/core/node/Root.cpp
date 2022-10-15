@@ -30,24 +30,15 @@ Root* Root::clone() {
 }
 
 Expression* Root::simplified() {
-    auto* exp1 = new Const(1);
-    if (exponent->equals(exp1)) {
-        return base->simplified();
+    if (exponent->isOfType(ExpressionType::CONSTANT)) {
+        double root = exponent->evaluate();
+        if (root == 1)
+            return base->simplified();
+        if (root == 2)
+            return base->simplified()->sqrt();
+        if (root == 3)
+            return base->simplified()->cbrt();
     }
-
-    auto* exp2 = new Const(2);
-    if (exponent->equals(exp2)) {
-        return new Sqrt(base->simplified());
-    }
-
-    auto* exp3 = new Const(3);
-    if (exponent->equals(exp3)) {
-        return new Cbrt(base->simplified());
-    }
-
-    delete exp1;
-    delete exp2;
-    delete exp3;
 
     return new Root(base->simplified(), exponent->simplified());
 }

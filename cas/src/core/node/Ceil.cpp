@@ -4,6 +4,8 @@
 
 #include "cas/node/Ceil.h"
 #include "cas/node/Const.h"
+#include "cas/node/Floor.h"
+#include "cas/node/Negate.h"
 
 CAS_NAMESPACE
 
@@ -20,10 +22,20 @@ Ceil* Ceil::clone() {
 
 Expression* Ceil::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        auto* constant = dynamic_cast<Const*>(argument);
-        return new Const(std::ceil(constant->getValue()));
+        return Const::n(Expression::evaluate());
     }
-    return clone();// TODO: simplify
+    if (argument->isOfType(ExpressionType::CEIL)) {
+        return argument->simplified();
+    }
+    if (argument->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(argument);
+        return negate->getArgument()->simplified()->floor()->negate();
+    }
+
+    // TODO ceil(x + a) = ceil(x) + a
+    // TODO ceil(x - a) = ceil(x) - a
+
+    return argument->simplified()->ceil();
 }
 
 CAS_NAMESPACE_END
