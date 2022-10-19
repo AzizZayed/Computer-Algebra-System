@@ -4,8 +4,8 @@
 
 #include "cas/node/Exp.h"
 #include "cas/node/Const.h"
-#include "cas/node/Product.h"
 #include "cas/node/Log.h"
+#include "cas/node/Product.h"
 #include "fmt/format.h"
 
 CAS_NAMESPACE

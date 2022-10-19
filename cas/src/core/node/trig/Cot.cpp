@@ -7,6 +7,7 @@
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
 #include "cas/node/Product.h"
+#include "cas/node/trig/ArcCot.h"
 #include "cas/node/trig/Csc.h"
 #include "cas/node/trig/Sec.h"
 
@@ -31,9 +32,22 @@ Expression* Cot::_derivative(char variable) {
 
 Expression* Cot::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        return new Const(Expression::evaluate());
+        double value = argument->evaluate();
+        if (unitCircle.contains(value)) {
+            Expression* tan = unitCircle[value].tan;
+            return tan->clone()->reciprocal();
+        }
     }
-    return clone();// TODO: Simplify further
+    if (argument->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(argument);
+        return negate->getArgument()->simplified()->cot()->negate();
+    }
+    if (argument->isOfType(ExpressionType::ARC_COT)) {
+        auto* arcCot = dynamic_cast<ArcCot*>(argument);
+        return arcCot->getArgument()->simplified();
+    }
+
+    return argument->simplified()->cot();
 }
 
 CAS_NAMESPACE_END

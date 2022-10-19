@@ -3,6 +3,7 @@
 //
 
 #include "cas/node/Negate.h"
+#include "cas/node/Const.h"
 #include "cas/node/Operator.h"
 #include "fmt/format.h"
 #include "fmt/xchar.h"
@@ -29,11 +30,13 @@ Negate* Negate::_derivative(char var) {
     return new Negate(argument->derivative(var));
 }
 
-Expression* Negate::simplified()
-{
+Expression* Negate::simplified() {
+    if (argument->isOfType(ExpressionType::CONSTANT)) {
+        return Const::n(Expression::evaluate());
+    }
     if (argument->isOfType(ExpressionType::NEGATE)) {
         auto* negate = dynamic_cast<Negate*>(argument);
-        return negate->argument->clone();
+        return negate->argument->simplified();
     }
 
     return argument->simplified()->negate();

@@ -28,12 +28,22 @@ Expression* Sec::_derivative(char variable) {
 
 Expression* Sec::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        return new Const(Expression::evaluate());
-    } else if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
-        return new Sec(negate->getArgument()->clone());
+        double value = argument->evaluate();
+        if (unitCircle.contains(value)) {
+            Expression* cos = unitCircle[value].cos;
+            return cos->clone()->reciprocal();
+        }
     }
-    return clone();// TODO: Simplify further
+    if (argument->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(argument);
+        return negate->getArgument()->simplified()->sec()->negate();
+    }
+    if (argument->isOfType(ExpressionType::TAN)) {
+        auto* tan = dynamic_cast<Tan*>(argument);
+        return tan->getArgument()->simplified()->sec();
+    }
+
+    return argument->simplified()->sec();
 }
 
 CAS_NAMESPACE_END

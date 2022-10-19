@@ -79,6 +79,7 @@ public:
     Sum* add(double value);
     Sum* subtract(double value);
     Divide* divide(Expression* expression);
+    Divide* divide(double divisor);
     Negate* negate();
 
     Power* power(Expression* expression);
@@ -113,6 +114,14 @@ public:
     Sign* sign();
     Mod* mod(Expression* expression);
 
+    Expression* reciprocal();
+
+    bool operator<(const Expression& expression) const;
+
+    bool lessThan(Expression* expression) const;
+
+    static bool compare(Expression* left, Expression* right);
+
     ExpressionProperties getProperties() const;
 
     Expression* getParent() const;
@@ -125,7 +134,7 @@ public:
 
     bool isOfSameType(Expression* expression) const;
 
-    // TODO overload operators + - * / ^
+    // TODO overload math operators + - * / ^
 
     std::string explicitText() override;
 
@@ -133,6 +142,9 @@ protected:
     const ExpressionProperties properties;
     Expression* parent = nullptr;
 };
+
+using ExpressionPtr = Expression*;
+using ExprPtr = Expression*;
 
 CAS_NAMESPACE_END
 

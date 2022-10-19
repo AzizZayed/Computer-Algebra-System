@@ -5,14 +5,9 @@
 #define CAS_CONSTANT_H
 
 #include "Expression.h"
+#include <unordered_map>
 
 CAS_NAMESPACE
-
-namespace math {
-    const double PI = 2 * std::acos(0.0);
-    const double E = std::exp(1.0);
-    const double PHI = (1 + std::sqrt(5)) / 2;
-}// namespace math
 
 class Const : public Expression {
 public:

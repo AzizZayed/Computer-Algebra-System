@@ -36,7 +36,18 @@ Expression* ArcSec::_derivative(char var) {
 }
 
 Expression* ArcSec::simplified() {
-    return new ArcSec(argument->simplified());// TODO: Simplify further
+    if (argument->isOfType(ExpressionType::CONSTANT)) {
+        if (argument->evaluate() == 1)
+            return Const::zero();
+        if (argument->evaluate() == 2)
+            return Const::PI()->divide(3);
+        if (argument->evaluate() == -1)
+            return Const::PI();
+        if (argument->evaluate() == -2)
+            return Const::PI()->multiply(2)->divide(3);
+    }
+
+    return argument->simplified()->asec();
 }
 
 CAS_NAMESPACE_END

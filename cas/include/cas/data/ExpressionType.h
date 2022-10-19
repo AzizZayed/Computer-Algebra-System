@@ -14,6 +14,7 @@ enum class ExpressionType : uint16_t {
     VARIABLE,
     POWER,
     EXPONENTIAL,
+    DIVIDE,
     LOGARITHM,
     NATURAL_LOGARITHM,
     ROOT,
@@ -39,10 +40,9 @@ enum class ExpressionType : uint16_t {
     MODULO,
     MIN,
     MAX,
-    NEGATE,
-    DIVIDE,
     PRODUCT,
     SUM,
+    NEGATE,
 };
 
 CAS_NAMESPACE_END

@@ -28,7 +28,19 @@ Expression* ArcSin::_derivative(char var) {
 }
 
 Expression* ArcSin::simplified() {
-    return new ArcSin(argument->simplified());// TODO: Simplify further
+    if (argument->isOfType(ExpressionType::CONSTANT)) {
+        if (argument->evaluate() == 0)
+            return Const::zero();
+        if (argument->evaluate() == 1)
+            return Const::PI()->divide(2);
+        if (argument->evaluate() == -1)
+            return Const::PI()->negate()->divide(2);
+    }
+    if (argument->isOfType(ExpressionType::NEGATE)) {
+        return argument->simplified()->asin()->negate();
+    }
+
+    return argument->simplified()->asin();
 }
 
 CAS_NAMESPACE_END

@@ -121,30 +121,25 @@ Expression* Power::simplified() {
     }
     if (base->isOfType(ExpressionType::DIVIDE)) {
         auto* frac = dynamic_cast<Divide*>(base);
-        return frac->getDividend()->simplified()
-                ->power(exponent)
-                ->divide(frac->getDivisor()->simplified()
-                                 ->power(exponent));
+        return frac->getDividend()->simplified()->power(exponent)->divide(frac->getDivisor()->simplified()->power(exponent));
     }
     if (base->isOfType(ExpressionType::POWER)) {
         auto* pow = dynamic_cast<Power*>(base);
-        return pow->getBase()->simplified()
-                ->power(pow->getExponent()->simplified()
-                                ->multiply(exponent));
+        return pow->getBase()->simplified()->power(pow->getExponent()->simplified()->multiply(exponent));
     }
     if (base->isOfType(ExpressionType::PRODUCT)) {
         auto* prod = dynamic_cast<Product*>(base);
 
         std::vector<Expression*> newFactors;
         newFactors.reserve(prod->getExpressionsSize());
-        for (auto* factor : prod->getExpressions()) {
+        for (auto* factor: prod->getExpressions()) {
             newFactors.push_back(factor->simplified()
                                          ->power(exponent));
         }
 
         return new Product(newFactors);
     }
-    if (instanceof<Log>(base)) {
+    if (instanceof <Log>(base)) {
         auto* log = dynamic_cast<Log*>(base);
         if (log->getBase()->equals(base)) {
             return log->getArgument()->simplified();

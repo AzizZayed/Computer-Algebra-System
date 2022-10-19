@@ -10,6 +10,13 @@
 
 CAS_NAMESPACE
 
+struct UnitCircleCoordinate {
+    double angle;
+    Expression* cos;
+    Expression* sin;
+    Expression* tan;
+};
+
 class TrigExpression : public UnaryExpression {
 public:
     TrigExpression() = delete;
@@ -19,6 +26,8 @@ public:
 
     std::string latex() override;
     std::wstring stringify() override;
+
+    static std::unordered_map<double, UnitCircleCoordinate> unitCircle;
 
 protected:
     explicit TrigExpression(const ExpressionProperties& props, Expression* argument);

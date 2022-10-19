@@ -18,6 +18,7 @@
 #include "cas/node/Sign.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
+#include "cas/node/Var.h"
 #include "cas/node/trig/ArcCos.h"
 #include "cas/node/trig/ArcCot.h"
 #include "cas/node/trig/ArcCsc.h"
@@ -30,6 +31,7 @@
 #include "cas/node/trig/Sec.h"
 #include "cas/node/trig/Sin.h"
 #include "cas/node/trig/Tan.h"
+#include <fmt/core.h>
 #include <stdexcept>
 
 CAS_NAMESPACE
@@ -105,6 +107,10 @@ Sum* Expression::subtract(double value) {
 
 Divide* Expression::divide(Expression* expression) {
     return new Divide(this, expression);
+}
+
+Divide* Expression::divide(double divisor) {
+    return this->divide(Const::n(divisor));
 }
 
 Negate* Expression::negate() {
@@ -209,6 +215,55 @@ Sign* Expression::sign() {
 
 Mod* Expression::mod(Expression* expression) {
     return new Mod(this, expression);
+}
+
+Expression* Expression::reciprocal() {
+    if (isOfType(ExpressionType::DIVIDE)) {
+        auto* div = dynamic_cast<Divide*>(this);
+        return div->getDivisor()->divide(div->getDividend());
+    }
+
+    return Const::n(1)->divide(this);
+}
+
+bool Expression::operator<(const cas::Expression& expression) const {
+    ExpressionType type = properties.getType();
+    ExpressionType expressionType = expression.properties.getType();
+
+    int diff = static_cast<int>(type) - static_cast<int>(expressionType);
+
+    if (diff == 0) {
+        if (isOfType(ExpressionType::VARIABLE)) {
+            auto* var = dynamic_cast<const Var*>(this);
+            auto* otherVar = dynamic_cast<const Var*>(&expression);
+
+            return var->getSymbol() < otherVar->getSymbol();
+        }
+        if (isOfType(ExpressionType::CONSTANT)) {
+            auto* constant = dynamic_cast<const Const*>(this);
+            auto* otherConstant = dynamic_cast<const Const*>(&expression);
+
+            return constant->getValue() < otherConstant->getValue();
+        }
+        if (isOfType(ExpressionType::DIVIDE)) {
+            auto* divide = dynamic_cast<const Divide*>(this);
+            auto* otherDivide = dynamic_cast<const Divide*>(&expression);
+
+            return divide->getDividend()->lessThan(otherDivide->getDividend()) || divide->getDivisor()->lessThan(otherDivide->getDivisor());
+        }
+
+        // TODO compare other individual types (redesign needed, use polymorphism/inheritance)
+    }
+
+    return diff < 0;
+}
+
+bool Expression::lessThan(cas::Expression* expression) const {
+    return *this < *expression;
+}
+
+bool Expression::compare(cas::Expression* left, cas::Expression* right) {
+    return left->lessThan(right);
 }
 
 ExpressionProperties Expression::getProperties() const {

@@ -7,6 +7,7 @@
 #include "cas/node/Divide.h"
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
+#include "cas/node/Product.h"
 #include "cas/node/Sum.h"
 
 CAS_NAMESPACE
@@ -29,7 +30,16 @@ Expression* ArcCot::_derivative(char var) {
 }
 
 Expression* ArcCot::simplified() {
-    return new ArcCot(argument->simplified());// TODO: Simplify further
+    if (argument->isOfType(ExpressionType::CONSTANT)) {
+        if (argument->evaluate() == 1)
+            return Const::PI()->divide(4);
+        if (argument->evaluate() == 0)
+            return Const::PI()->divide(2);
+        if (argument->evaluate() == -1)
+            return Const::PI()->multiply(3)->divide(4);
+    }
+
+    return argument->simplified()->acot();
 }
 
 CAS_NAMESPACE_END

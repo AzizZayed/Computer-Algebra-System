@@ -5,6 +5,7 @@
 #include "cas/node/trig/ArcTan.h"
 #include "cas/node/Const.h"
 #include "cas/node/Divide.h"
+#include "cas/node/Negate.h"
 #include "cas/node/Power.h"
 #include "cas/node/Sum.h"
 
@@ -28,7 +29,19 @@ Expression* ArcTan::_derivative(char var) {
 }
 
 Expression* ArcTan::simplified() {
-    return new ArcTan(argument->simplified());// TODO: Simplify further
+    if (argument->isOfType(ExpressionType::CONSTANT)) {
+        if (argument->evaluate() == 0)
+            return Const::zero();
+        if (argument->evaluate() == 1)
+            return Const::PI()->divide(4);
+        if (argument->evaluate() == -1)
+            return Const::PI()->negate()->divide(4);
+    }
+    if (argument->isOfType(ExpressionType::NEGATE)) {
+        return argument->simplified()->atan()->negate();
+    }
+
+    return argument->simplified()->atan();
 }
 
 CAS_NAMESPACE_END

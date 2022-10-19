@@ -43,9 +43,7 @@ Expression* Sign::simplified() {
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
         auto* negate = dynamic_cast<Negate*>(argument);
-        return negate->getArgument()->simplified()
-                ->sign()
-                ->negate();
+        return negate->getArgument()->simplified()->sign()->negate();
     }
     return argument->simplified()->sign();
 }

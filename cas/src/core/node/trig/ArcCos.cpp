@@ -23,14 +23,22 @@ ArcCos* ArcCos::clone() {
 }
 
 Expression* ArcCos::_derivative(char var) {
-    auto* one = new Const(1);
     return argument->derivative(var)
             ->negate()
-            ->divide(one->subtract(argument->clone()->power(2))->sqrt());
+            ->divide(Const::one()
+                             ->subtract(argument->clone()->power(2))
+                             ->sqrt());
 }
 
 Expression* ArcCos::simplified() {
-    return new ArcCos(argument->simplified());// TODO: Simplify further
+    if (argument->isOfType(ExpressionType::CONSTANT)) {
+        if (argument->evaluate() == 1)
+            return Const::zero();
+        if (argument->evaluate() == -1)
+            return Const::PI();
+    }
+
+    return argument->simplified()->acos();
 }
 
 CAS_NAMESPACE_END

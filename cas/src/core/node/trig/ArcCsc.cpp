@@ -25,7 +25,6 @@ ArcCsc* ArcCsc::clone() {
 }
 
 Expression* ArcCsc::_derivative(char var) {
-
     return argument->derivative(var)
             ->negate()
             ->divide(argument->clone()
@@ -37,7 +36,13 @@ Expression* ArcCsc::_derivative(char var) {
 }
 
 Expression* ArcCsc::simplified() {
-    return new ArcCsc(argument->simplified());// TODO: Simplify further
+    if (argument->isOfType(ExpressionType::CONSTANT)) {
+        if (argument->evaluate() == 1)
+            return Const::PI()->divide(2);
+        if (argument->evaluate() == -1)
+            return Const::PI()->negate()->divide(2);
+    }
+    return argument->simplified()->acsc();
 }
 
 CAS_NAMESPACE_END

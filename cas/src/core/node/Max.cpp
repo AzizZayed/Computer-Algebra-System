@@ -49,8 +49,8 @@ Expression* Max::simplified() {
         bool allConstant = std::all_of(simplifiedExpressions.begin(), simplifiedExpressions.end(), isConstant);
         if (allConstant) {
             double maxElement = (*std::max_element(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](Expression* a, Expression* b) {
-                return a->evaluate() > b->evaluate();
-            }))->evaluate();
+                                    return a->evaluate() > b->evaluate();
+                                }))->evaluate();
 
             return Const::n(maxElement);
         }

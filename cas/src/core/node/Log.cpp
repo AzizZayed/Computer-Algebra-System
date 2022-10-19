@@ -6,8 +6,8 @@
 #include "cas/node/Const.h"
 #include "cas/node/Divide.h"
 #include "cas/node/Ln.h"
-#include "cas/node/Product.h"
 #include "cas/node/Power.h"
+#include "cas/node/Product.h"
 #include "fmt/printf.h"
 #include "fmt/xchar.h"
 

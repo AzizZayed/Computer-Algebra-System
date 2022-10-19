@@ -4,8 +4,10 @@
 
 #include "cas/node/trig/Tan.h"
 #include "cas/node/Const.h"
+#include "cas/node/Negate.h"
 #include "cas/node/Power.h"
 #include "cas/node/Product.h"
+#include "cas/node/trig/ArcTan.h"
 #include "cas/node/trig/Sec.h"
 
 CAS_NAMESPACE
@@ -29,9 +31,20 @@ Expression* Tan::_derivative(char variable) {
 
 Expression* Tan::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        return new Const(Expression::evaluate());
+        double value = argument->evaluate();
+        if (unitCircle.contains(value))
+            return unitCircle[value].tan->clone();
     }
-    return clone();// TODO: Simplify further
+    if (argument->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(argument);
+        return negate->getArgument()->simplified()->tan()->negate();
+    }
+    if (argument->isOfType(ExpressionType::ARC_TAN)) {
+        auto* arcTan = dynamic_cast<ArcTan*>(argument);
+        return arcTan->getArgument()->simplified();
+    }
+
+    return argument->simplified()->tan();
 }
 
 CAS_NAMESPACE_END
