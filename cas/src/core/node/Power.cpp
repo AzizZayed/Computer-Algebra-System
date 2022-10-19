@@ -164,18 +164,17 @@ std::string Power::latex() {
 }
 
 std::wstring Power::stringify() {
-    std::wstring format = L"({})^({})";
     if (baseNeedsParentheses()) {
-        if (!exponentNeedsParentheses())
-            format = L"({})^{}";
-    } else {
-        if (exponentNeedsParentheses())
-            format = L"{}^({})";
+    	if (exponentNeedsParentheses())
+	    return fmt::format(L"({})^({})", base->stringify(), exponent->stringify());
         else
-            format = L"{}^{}";
+	    return fmt::format(L"({})^{}", base->stringify(), exponent->stringify());
+    } else {
+    	if (exponentNeedsParentheses())
+	    return fmt::format(L"{}^({})", base->stringify(), exponent->stringify());
+        else
+	    return fmt::format(L"{}^{}", base->stringify(), exponent->stringify());
     }
-
-    return fmt::format(format, base->stringify(), exponent->stringify());
 }
 
 std::string Power::text() {

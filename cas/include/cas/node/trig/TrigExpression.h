@@ -27,7 +27,7 @@ public:
     std::string latex() override;
     std::wstring stringify() override;
 
-    static std::unordered_map<double, UnitCircleCoordinate> unitCircle;
+    static const std::unordered_map<double, UnitCircleCoordinate> unitCircle;
 
 protected:
     explicit TrigExpression(const ExpressionProperties& props, Expression* argument);

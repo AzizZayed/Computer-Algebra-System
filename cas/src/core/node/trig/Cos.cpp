@@ -31,7 +31,7 @@ Expression* Cos::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         double value = argument->evaluate();
         if (unitCircle.contains(value))
-            return unitCircle[value].cos->clone();
+            return unitCircle.at(value).cos->clone();
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
         auto* negate = dynamic_cast<Negate*>(argument);

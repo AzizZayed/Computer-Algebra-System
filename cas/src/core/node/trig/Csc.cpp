@@ -32,7 +32,7 @@ Expression* Csc::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         double value = argument->evaluate();
         if (unitCircle.contains(value)) {
-            Expression* sin = unitCircle[value].sin;
+            Expression* sin = unitCircle.at(value).sin;
             return sin->clone()->reciprocal();
         }
     }

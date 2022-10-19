@@ -33,7 +33,7 @@ Expression* Tan::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         double value = argument->evaluate();
         if (unitCircle.contains(value))
-            return unitCircle[value].tan->clone();
+            return unitCircle.at(value).tan->clone();
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
         auto* negate = dynamic_cast<Negate*>(argument);

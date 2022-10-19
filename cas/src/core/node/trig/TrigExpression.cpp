@@ -15,7 +15,7 @@
 
 CAS_NAMESPACE
 
-std::unordered_map<double, UnitCircleCoordinate> TrigExpression::unitCircle = {
+const std::unordered_map<double, UnitCircleCoordinate> TrigExpression::unitCircle = {
         {0, {0, Const::one(), Const::zero(), Const::zero()}},
         {math::PI_6, {math::PI_6, Const::n(3)->sqrt()->divide(2), Const::n(1)->divide(2), Const::one()->divide(Const::n(3)->sqrt())}},
         {math::PI_4, {math::PI_4, Const::n(2)->sqrt()->divide(2), Const::n(2)->sqrt()->divide(2), Const::one()}},

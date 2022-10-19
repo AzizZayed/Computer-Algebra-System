@@ -62,7 +62,7 @@ Expression* Mod::simplified() {
 }
 
 std::string Mod::latex() {
-    return fmt::format(R"(\mod{\left({},{}\right)})", dividend->latex(), divisor->latex());
+    return fmt::sprintf("\\mod{\\left(%s,%s\\right)}", dividend->latex(), divisor->latex());
 }
 
 std::wstring Mod::stringify() {

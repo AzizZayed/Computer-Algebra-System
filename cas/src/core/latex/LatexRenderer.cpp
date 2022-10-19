@@ -4,6 +4,7 @@
 
 #include "cas/latex/LatexRenderer.h"
 #include "fmt/printf.h"
+#include <filesystem>
 
 CAS_NAMESPACE
 

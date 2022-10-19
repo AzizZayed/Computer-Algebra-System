@@ -32,7 +32,7 @@ Expression* Sin::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         double value = argument->evaluate();
         if (unitCircle.contains(value))
-            return unitCircle[value].sin->clone();
+            return unitCircle.at(value).sin->clone();
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
         auto* negate = dynamic_cast<Negate*>(argument);

@@ -4,6 +4,7 @@
 
 #include "cas/plot/Function.h"
 #include "cas/data/ExpressionParser.h"
+#include <stdexcept>
 
 CAS_NAMESPACE
 

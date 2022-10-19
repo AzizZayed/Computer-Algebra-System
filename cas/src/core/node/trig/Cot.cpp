@@ -34,7 +34,7 @@ Expression* Cot::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         double value = argument->evaluate();
         if (unitCircle.contains(value)) {
-            Expression* tan = unitCircle[value].tan;
+            Expression* tan = unitCircle.at(value).tan;
             return tan->clone()->reciprocal();
         }
     }

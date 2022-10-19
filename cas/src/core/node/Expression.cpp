@@ -230,7 +230,7 @@ bool Expression::operator<(const cas::Expression& expression) const {
     ExpressionType type = properties.getType();
     ExpressionType expressionType = expression.properties.getType();
 
-    int diff = static_cast<int>(type) - static_cast<int>(expressionType);
+    int diff = static_cast<uint8_t>(type) - static_cast<uint8_t>(expressionType);
 
     if (diff == 0) {
         if (isOfType(ExpressionType::VARIABLE)) {

@@ -6,10 +6,11 @@
 #define CAS_EXPRESSIONTYPE_H
 
 #include "cas/CAS.h"
+#include <cstdint>
 
 CAS_NAMESPACE
 
-enum class ExpressionType : uint16_t {
+enum class ExpressionType : uint8_t {
     CONSTANT = 0,
     VARIABLE,
     POWER,

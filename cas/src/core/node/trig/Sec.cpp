@@ -30,7 +30,7 @@ Expression* Sec::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         double value = argument->evaluate();
         if (unitCircle.contains(value)) {
-            Expression* cos = unitCircle[value].cos;
+            Expression* cos = unitCircle.at(value).cos;
             return cos->clone()->reciprocal();
         }
     }
