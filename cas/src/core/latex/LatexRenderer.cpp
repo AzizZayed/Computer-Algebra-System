@@ -22,7 +22,7 @@ std::string LatexRenderer::render(const std::string& latex, const std::string& n
     const std::string url = fmt::format("{}{}(x,y)={}", baseUrl, name, latex);
     fmt::print("Invoking URL: {}\n", url);
 
-    std::string filepath = fmt::format("{}{}.png", resFolder, name);
+    std::string filepath = fmt::format("{}/lr_{}.png", resFolder, name);
     const cpr::Response& response = download(url, filepath);
     if (response.status_code != 200) {
         fmt::print("Error: {}\n", response.error.message);
@@ -30,6 +30,7 @@ std::string LatexRenderer::render(const std::string& latex, const std::string& n
         throw std::runtime_error("Failed to download image");
     }
 
+    fmt::print("Downloaded image to {}\n", filepath);
     return filepath;
 }
 
@@ -40,7 +41,7 @@ cpr::Response LatexRenderer::download(const std::string& url, const std::string&
 
 void LatexRenderer::cleanup() {
     for (const auto& entry: std::filesystem::directory_iterator(resFolder)) {
-        if (entry.path().filename().string() != "test.png") {
+        if (entry.path().filename().string().starts_with("lr_")) {
             std::filesystem::remove(entry.path());
         }
     }

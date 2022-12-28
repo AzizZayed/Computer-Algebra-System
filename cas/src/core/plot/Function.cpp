@@ -18,14 +18,21 @@ Function::Function(std::string strFunction)
     }
 
     this->expr = parser.parse(strFunction, variables);
+    this->xDerivative = expr->derivative('x');
+    this->yDerivative = expr->derivative('y');
 }
 
-Function::Function(const std::string& oFormula, cas::Expression* expr, const cas::VarSet& variables)
-    : uid(nextId()), expr(expr), variables(variables), originalFormula(oFormula) {}
+Function::Function(const std::string& strFunction, cas::Expression* expr, const cas::VarSet& variables)
+    : uid(nextId()), expr(expr), variables(variables), originalFormula(strFunction) {}
 
 Function::~Function() {
     delete expr;
+    delete xDerivative;
+    delete yDerivative;
+
     expr = nullptr;
+    xDerivative = nullptr;
+    yDerivative = nullptr;
 }
 
 double Function::evaluate(const cas::VarMap& vars) {
@@ -37,7 +44,7 @@ Function* Function::derivative(char var) {
 }
 
 Function* Function::simplified() {
-    return new Function(originalFormula, expr->simplified(), this->variables);
+    return new Function("", expr->simplified(), this->variables);
 }
 
 bool Function::isEquivalent(cas::IMath* expression) {
@@ -68,26 +75,21 @@ const std::string& Function::getOriginalFormula() const {
     return originalFormula;
 }
 
-cas::Expression* Function::getExpr() const {
+Expression* Function::getExpr() const {
     return expr;
+}
+
+Expression* Function::getXDerivative() const {
+    return xDerivative;
+}
+
+Expression* Function::getYDerivative() const {
+    return yDerivative;
 }
 
 const cas::VarSet& Function::getVariables() const {
     return variables;
 }
 
-Function Function::parse(std::string strFormula) {
-    ExpressionParser& parser = ExpressionParser::getInstance();
-    parser.setup(strFormula);
-
-    if (!parser.isValidExpression(strFormula)) {
-        throw std::invalid_argument("Invalid expression");
-    }
-
-    VarSet variables;
-    Expression* expr = parser.parse(strFormula, variables);
-
-    return Function(strFormula, expr, variables);
-}
 
 CAS_NAMESPACE_END

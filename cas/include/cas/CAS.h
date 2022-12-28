@@ -26,7 +26,7 @@ inline size_t nextId() {
 CAS_NAMESPACE_END
 
 template<typename Base, typename T>
-inline bool instanceof (T * ptr) {
+inline bool instanceof (T* ptr) {
     return dynamic_cast<Base*>(ptr) != nullptr;
 }
 

@@ -23,7 +23,7 @@ protected:
     ~LatexRenderer() = default;
 
 private:
-    std::string resFolder = "../res/latex/";
+    std::string resFolder = "../res/latex";
 };
 
 CAS_NAMESPACE_END

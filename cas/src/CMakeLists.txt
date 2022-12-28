@@ -61,7 +61,8 @@ set(CAS_SRC_HEADERS
         ../include/cas/plot/Function.h
         ../include/cas/node/IMath.h
         ../include/cas/latex/LatexRenderer.h
-        ../include/cas/data/ExpressionParser.h)
+        ../include/cas/data/ExpressionParser.h
+        ../include/cas/plot/Surface.h)
 
 set(CAS_SRC_SOURCES
         core/node/Const.cpp
@@ -107,7 +108,7 @@ set(CAS_SRC_SOURCES
         core/data/ExpressionProperties.cpp
         core/latex/LatexRenderer.cpp
         core/plot/Function.cpp
-        core/data/ExpressionParser.cpp)
+        core/data/ExpressionParser.cpp core/plot/Surface.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)

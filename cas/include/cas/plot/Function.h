@@ -12,7 +12,6 @@ CAS_NAMESPACE
 class Function : public IMath, public IRepresentableMath {
 public:
     explicit Function(std::string strFunction);
-    static Function parse(std::string strFunction);
     virtual ~Function();
 
     double evaluate(const VarMap& vars) override;
@@ -28,6 +27,8 @@ public:
     size_t getUid() const;
     const std::string& getOriginalFormula() const;
     Expression* getExpr() const;
+    Expression* getXDerivative() const;
+    Expression* getYDerivative() const;
     const VarSet& getVariables() const;
 
 protected:
@@ -36,8 +37,10 @@ protected:
 private:
     const size_t uid;
     Expression* expr;
+    Expression* xDerivative = nullptr;
+    Expression* yDerivative = nullptr;
     VarSet variables;
-    std::string originalFormula;
+    const std::string originalFormula;
 };
 
 CAS_NAMESPACE_END

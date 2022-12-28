@@ -11,23 +11,6 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE) # fix windows build
 FetchContent_MakeAvailable(googletest)
 
-if (CMAKE_BUILD_TYPE MATCHES Debug)
-    add_compile_options(
-            -Wall
-            -Wextra
-            -fsanitize=address
-            -fsanitize=undefined
-            -fno-sanitize-recover=all
-            -fno-omit-frame-pointer
-    )
-    add_link_options(
-            -fsanitize=address
-            -fsanitize=undefined
-            -fno-sanitize-recover=all
-            -fno-omit-frame-pointer
-    )
-endif ()
-
 set(TEST_SOURCE
         test_runner.cpp
         core/node/ConstantNodeTest.cpp
