@@ -4,6 +4,7 @@
 
 #include "cas/node/Min.h"
 #include "cas/node/Const.h"
+#include <algorithm>
 
 CAS_NAMESPACE
 

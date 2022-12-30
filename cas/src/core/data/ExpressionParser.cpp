@@ -34,6 +34,7 @@
 #include "cas/node/trig/Sin.h"
 #include "cas/node/trig/Tan.h"
 #include "cas/util/StringUtils.h"
+#include <algorithm>
 
 CAS_NAMESPACE
 

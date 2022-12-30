@@ -8,10 +8,18 @@ FetchContent_Declare(cpr
         GIT_TAG f88fd7737de3e640c61703eb57a0fa0ce00c60cd)
 FetchContent_MakeAvailable(cpr)
 
+set(CPR_BUILD_TESTS OFF CACHE BOOL "Build the tests" FORCE)
+set(CPR_BUILD_TESTS_SSL OFF CACHE BOOL "Build the ssl tests" FORCE)
+set(CPR_BUILD_TESTS_PROXY OFF CACHE BOOL "Build the proxy tests" FORCE)
+
 FetchContent_Declare(fmt
         GIT_REPOSITORY https://github.com/fmtlib/fmt.git
         GIT_TAG a33701196adfad74917046096bf5a2aa0ab0bb50)
 FetchContent_MakeAvailable(fmt)
+
+set(FMT_DOC OFF CACHE BOOL "Build documentation" FORCE)
+set(FMT_TEST OFF CACHE BOOL "Build tests" FORCE)
+set(FMT_INSTALL OFF CACHE BOOL "Build and install target" FORCE)
 
 set(CAS_SRC_HEADERS
         ../include/cas/CAS.h

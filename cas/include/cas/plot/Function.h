@@ -11,11 +11,12 @@ CAS_NAMESPACE
 
 class Function : public IMath, public IRepresentableMath {
 public:
-    explicit Function(std::string strFunction, const std::string& name = "z");
+    explicit Function(std::string strFunction, const std::string& name = "z", bool simplify = true);
     virtual ~Function();
 
     double evaluate(const VarMap& vars) override;
     Function* derivative(char var) override;
+    Function* simplifiedDerivative(char var);
     Function* simplified() override;
     bool isEquivalent(IMath* expression) override;
 

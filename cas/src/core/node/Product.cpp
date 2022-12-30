@@ -3,6 +3,7 @@
 //
 
 #include "cas/node/Product.h"
+#include "cas/node/Const.h"
 #include "cas/node/Sum.h"
 #include <sstream>
 
@@ -41,13 +42,45 @@ Expression* Product::_derivative(char var) {
 
 Expression* Product::simplified() {
     // TODO: simplify
+
+    // If there is only one expression, return it
+    if (expressions.size() == 1)
+        return expressions[0]->simplified();
+
     std::vector<Expression*> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
 
-    for (auto& expression: expressions)
-        simplifiedExpressions.push_back(expression->simplified());
+    double constant = 1.0;
+    for (auto& expression: expressions) {
+        Expression* x = expression->simplified();
 
-    return new Sum{simplifiedExpressions};
+        if (x->isOfType(ExpressionType::CONSTANT)) {
+            double value = x->evaluate();
+            if (value == 0) {
+                delete x;
+                return Const::zero();
+            }
+            constant *= value;
+            continue;
+        } else if (x->isOfType(ExpressionType::PRODUCT)) {
+            auto* product = dynamic_cast<Product*>(x);
+            for (auto& exp: product->expressions)
+                simplifiedExpressions.push_back(exp);
+            continue;
+        }
+
+        simplifiedExpressions.push_back(x);
+    }
+    if (constant != 1.0)
+        simplifiedExpressions.push_back(Const::n(constant));
+
+    if (simplifiedExpressions.size() == 1)
+        return simplifiedExpressions[0];
+
+    std::sort(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](Expression* a, Expression* b) {
+        return a->lessThan(b);
+    });
+    return new Product{simplifiedExpressions};
 }
 
 bool Product::needsParentheses(Expression* expression) {
@@ -60,11 +93,17 @@ std::string Product::latex() {
 
     std::stringstream ss;
 
-    for (auto& exp: expressions) {
+    for (size_t i = 0; i < expressions.size(); i++) {
+        Expression* exp = expressions[i];
         bool needsParens = needsParentheses(exp);
 
         if (needsParens)
             ss << "\\left(";
+
+        // If 2 consecutive constants, add the symbol between them
+        if (i > 0 && expressions[i - 1]->isOfType(ExpressionType::CONSTANT)
+            && exp->isOfType(ExpressionType::CONSTANT))
+            ss << symbol;
 
         ss << exp->latex();
 

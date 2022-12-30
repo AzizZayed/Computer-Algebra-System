@@ -150,7 +150,7 @@ public:
     void renderTime(double deltaTime, int frames, double timeSinceStart) const {
         const ImVec2& size = ImVec2(130, 80);
 
-        ImGui::SetNextWindowPos(ImVec2(width - size.x, 0), ImGuiCond_Always);
+        ImGui::SetNextWindowPos(ImVec2(width - size.x - 10, 10), ImGuiCond_Always);
         ImGui::SetNextWindowSize(size, ImGuiCond_Always);
         ImGui::Begin("FPS", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
         ImGui::Text("dt: %f ms", deltaTime * 1000.0f);
@@ -306,9 +306,9 @@ public:
     {
         cas::LatexRenderer& latexRenderer = cas::LatexRenderer::getInstance();
 
-        plots[plot].function = new cas::Function(func, (const std::string&) "z");
-        plots[dx].function = plots[plot].function->derivative('x'); // TODO simplify
-        plots[dy].function = plots[plot].function->derivative('y'); // TODO simplify
+        plots[plot].function = new cas::Function(func, (const std::string&) "z", false);
+        plots[dx].function = plots[plot].function->simplifiedDerivative('x');
+        plots[dy].function = plots[plot].function->simplifiedDerivative('y');
 
         for (auto& p : plots) {
             std::string imagePath = latexRenderer.render(*p.function);

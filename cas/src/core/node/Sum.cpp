@@ -33,12 +33,42 @@ Sum* Sum::_derivative(char var) {
 
 Expression* Sum::simplified() {
     // TODO: simplify
+
+    // If there is only one expression, return it
+    if (expressions.size() == 1)
+        return expressions[0]->simplified();
+
     std::vector<Expression*> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
 
-    for (auto& expression: expressions)
-        simplifiedExpressions.push_back(expression->simplified());
+    double constant = 0.0;
+    for (auto& expression: expressions) {
+        Expression* x = expression->simplified();
 
+        if (x->isOfType(ExpressionType::CONSTANT)) {
+            double value = x->evaluate();
+            if (value == 0.0) {
+                delete x;
+                continue;
+            }
+            constant += value;
+            continue;
+        } else if (x->isOfType(ExpressionType::SUM)) {
+            auto* sum = dynamic_cast<Sum*>(x);
+            for (auto& exp: sum->expressions)
+                simplifiedExpressions.push_back(exp);
+            continue;
+        }
+
+        simplifiedExpressions.push_back(x);
+    }
+    if (constant != 0.0)
+        simplifiedExpressions.push_back(Const::n(constant));
+
+    if (simplifiedExpressions.size() == 1)
+        return simplifiedExpressions[0];
+
+    std::sort(simplifiedExpressions.begin(), simplifiedExpressions.end());
     return new Sum{simplifiedExpressions};
 }
 

@@ -46,10 +46,6 @@ class Round;
 class Sign;
 class Mod;
 
-CAS_NAMESPACE_END
-
-CAS_NAMESPACE
-
 class Expression : public IMath, public IRepresentableMath {
 public:
     explicit Expression(const ExpressionProperties& properties);

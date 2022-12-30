@@ -5,6 +5,7 @@
 #include "cas/node/NaryExpression.h"
 #include "cas/util/StringUtils.h"
 #include <sstream>
+#include <algorithm>
 
 CAS_NAMESPACE
 
@@ -87,6 +88,21 @@ std::string NaryExpression::explicitText() {
     }
     ss << ")";
     return ss.str();
+}
+
+template<typename F>
+void NaryExpression::forEach(F&& f) const {
+    std::for_each(expressions.begin(), expressions.end(), f);
+}
+
+template<typename F>
+bool NaryExpression::any(F&& f) const {
+    return std::any_of(expressions.begin(), expressions.end(), f);
+}
+
+template<typename F>
+bool NaryExpression::all(F&& f) const {
+    return std::all_of(expressions.begin(), expressions.end(), f);
 }
 
 CAS_NAMESPACE_END

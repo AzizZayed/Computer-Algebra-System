@@ -26,7 +26,7 @@ Expression* Abs::simplified() {
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
         auto* negate = dynamic_cast<Negate*>(argument);
-        return negate->getArgument()->simplified()->abs();
+        return negate->getArgument()->abs();
     }
     if (argument->isOfType(ExpressionType::ABSOLUTE_VALUE)) {
         return argument->simplified();

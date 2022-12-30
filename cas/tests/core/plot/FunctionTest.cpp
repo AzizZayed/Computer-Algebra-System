@@ -15,7 +15,7 @@ TEST(FunctionTest, FunctionTestCreate) {
     const char* str = "x^2 + 2*x + 1";
     cas::Function f(str);
     EXPECT_EQ(f.getUid(), 1);
-    EXPECT_EQ(f.getOriginalFormula(), str);
+    EXPECT_EQ(f.getStrExpr(), str);
     EXPECT_EQ(f.getVariables().size(), 1);
     EXPECT_EQ(f.getVariables(), cas::VarSet{'x'});
 
