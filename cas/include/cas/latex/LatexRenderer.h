@@ -6,6 +6,7 @@
 #define CAS_LATEXRENDERER_H
 
 #include "cas/node/IRepresentableMath.h"
+#import "cas/plot/Function.h"
 #include "cpr/cpr.h"
 
 CAS_NAMESPACE
@@ -13,8 +14,9 @@ CAS_NAMESPACE
 class LatexRenderer {
 public:
     static LatexRenderer& getInstance();
-    std::string render(IRepresentableMath& expr, const std::string& name);
-    std::string render(const std::string& latex, const std::string& name);
+    std::string render(IRepresentableMath& expr, const std::string& filename, const std::string& displayName);
+    std::string render(const std::string& latex, const std::string& filename, const std::string& displayName);
+    std::string render(Function& function);
     cpr::Response download(const std::string& url, const std::string& filepath);
     void cleanup();
 
@@ -23,7 +25,8 @@ protected:
     ~LatexRenderer() = default;
 
 private:
-    std::string resFolder = "../res/latex";
+    const std::string prefix = "lr_";
+    const std::string resFolder = "../res/latex";
 };
 
 CAS_NAMESPACE_END

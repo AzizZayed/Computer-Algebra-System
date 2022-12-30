@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Function : public IMath, public IRepresentableMath {
 public:
-    explicit Function(std::string strFunction);
+    explicit Function(std::string strFunction, const std::string& name = "z");
     virtual ~Function();
 
     double evaluate(const VarMap& vars) override;
@@ -24,23 +24,25 @@ public:
     std::string text() override;
     std::string explicitText() override;
 
+    std::string generateFilename() const;
+
     size_t getUid() const;
-    const std::string& getOriginalFormula() const;
+    const std::string& getStrExpr() const;
     Expression* getExpr() const;
-    Expression* getXDerivative() const;
-    Expression* getYDerivative() const;
+    const std::string& getName() const;
+    const std::string& getFilename() const;
     const VarSet& getVariables() const;
 
 protected:
-    explicit Function(const std::string& oFormula, Expression* expr, const VarSet& variables);
+    explicit Function(const std::string& strFunction, Expression* expr, const VarSet& variables, const std::string& name = "z");
 
 private:
     const size_t uid;
+    const std::string strExpr;
     Expression* expr;
-    Expression* xDerivative = nullptr;
-    Expression* yDerivative = nullptr;
+    const std::string name;
+    const std::string filename;
     VarSet variables;
-    const std::string originalFormula;
 };
 
 CAS_NAMESPACE_END

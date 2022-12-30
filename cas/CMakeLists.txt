@@ -1,11 +1,20 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.12)
 project(cas)
 
-enable_testing()
+set(BUILD_CAS_TESTS OFF CACHE BOOL "Build tests") # Disable tests
+set(BUILD_CAS_BENCHMARK OFF CACHE BOOL "Build benchmarks") # Disable benchmarks
 
 add_subdirectory(src)
-add_subdirectory(tests)
-add_subdirectory(benchmark)
+
+if (BUILD_CAS_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+
+if (BUILD_CAS_BENCHMARK)
+    enable_testing()
+    add_subdirectory(benchmark)
+endif()
 
 add_library(${PROJECT_NAME} INTERFACE)
 target_link_libraries(${PROJECT_NAME} INTERFACE src)

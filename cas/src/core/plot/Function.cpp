@@ -8,8 +8,9 @@
 
 CAS_NAMESPACE
 
-Function::Function(std::string strFunction)
-    : uid(nextId()), originalFormula(strFunction) {
+Function::Function(std::string strFunction, const std::string& name)
+    : uid(nextId()), strExpr(strFunction), name(name), filename(generateFilename())
+{
     ExpressionParser& parser = ExpressionParser::getInstance();
 
     parser.setup(strFunction);
@@ -18,21 +19,13 @@ Function::Function(std::string strFunction)
     }
 
     this->expr = parser.parse(strFunction, variables);
-    this->xDerivative = expr->derivative('x');
-    this->yDerivative = expr->derivative('y');
 }
 
-Function::Function(const std::string& strFunction, cas::Expression* expr, const cas::VarSet& variables)
-    : uid(nextId()), expr(expr), variables(variables), originalFormula(strFunction) {}
+Function::Function(const std::string& strFunction, cas::Expression* expr, const cas::VarSet& variables, const std::string& name)
+    : uid(nextId()), strExpr(strFunction), expr(expr), name(name), filename(generateFilename()), variables(variables) {}
 
 Function::~Function() {
     delete expr;
-    delete xDerivative;
-    delete yDerivative;
-
-    expr = nullptr;
-    xDerivative = nullptr;
-    yDerivative = nullptr;
 }
 
 double Function::evaluate(const cas::VarMap& vars) {
@@ -40,11 +33,13 @@ double Function::evaluate(const cas::VarMap& vars) {
 }
 
 Function* Function::derivative(char var) {
-    return new Function("", expr->derivative(var), this->variables);
+    Expression* pExpression = expr->derivative(var);
+    return new Function(pExpression->text(), pExpression, this->variables, this->name + "_" + var);
 }
 
 Function* Function::simplified() {
-    return new Function("", expr->simplified(), this->variables);
+    Expression* pExpression = expr->simplified();
+    return new Function(pExpression->text(), pExpression, this->variables, this->name + "_s");
 }
 
 bool Function::isEquivalent(cas::IMath* expression) {
@@ -67,24 +62,28 @@ std::string Function::explicitText() {
     return expr->explicitText();
 }
 
+std::string Function::generateFilename() const {
+    return "f_" + std::to_string(uid);
+}
+
 size_t Function::getUid() const {
     return uid;
 }
 
-const std::string& Function::getOriginalFormula() const {
-    return originalFormula;
+const std::string& Function::getStrExpr() const {
+    return strExpr;
 }
 
 Expression* Function::getExpr() const {
     return expr;
 }
 
-Expression* Function::getXDerivative() const {
-    return xDerivative;
+const std::string& Function::getName() const {
+    return name;
 }
 
-Expression* Function::getYDerivative() const {
-    return yDerivative;
+const std::string& Function::getFilename() const {
+    return filename;
 }
 
 const cas::VarSet& Function::getVariables() const {
