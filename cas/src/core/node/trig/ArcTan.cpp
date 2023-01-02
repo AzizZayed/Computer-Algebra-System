@@ -14,7 +14,7 @@ CAS_NAMESPACE
 ArcTan::ArcTan(Expression* argument)
     : InverseTrigExpression({ExpressionType::ARC_TAN, "arctan", "atan"}, argument) {}
 
-double ArcTan::evaluate(const std::unordered_map<char, double>& variables) {
+double ArcTan::evaluate(const VariableMap& variables) {
     return std::atan(argument->evaluate(variables));
 }
 

@@ -27,7 +27,7 @@ Divide::~Divide() {
     divisor = nullptr;
 }
 
-double Divide::evaluate(const VarMap& variables) {
+double Divide::evaluate(const VariableMap& variables) {
     return dividend->evaluate(variables) / divisor->evaluate(variables);
 }
 

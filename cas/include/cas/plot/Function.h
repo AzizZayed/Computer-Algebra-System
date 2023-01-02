@@ -14,7 +14,7 @@ public:
     explicit Function(std::string strFunction, const std::string& name = "z", bool simplify = true);
     virtual ~Function();
 
-    double evaluate(const VarMap& vars) override;
+    double evaluate(const VariableMap& vars) override;
     Function* derivative(char var) override;
     Function* simplifiedDerivative(char var);
     Function* simplified() override;

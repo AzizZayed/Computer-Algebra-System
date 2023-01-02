@@ -33,7 +33,7 @@ Power::~Power() {
     exponent = nullptr;
 }
 
-double Power::evaluate(const VarMap& variables) {
+double Power::evaluate(const VariableMap& variables) {
     return pow(base->evaluate(variables), exponent->evaluate(variables));
 }
 
@@ -121,16 +121,11 @@ Expression* Power::simplified() {
     }
     if (base->isOfType(ExpressionType::DIVIDE)) {
         auto* frac = dynamic_cast<Divide*>(base);
-        return frac->getDividend()->simplified()
-                ->power(exponent->simplified())
-                ->divide(frac->getDivisor()->simplified()
-                                 ->power(exponent->simplified()));
+        return frac->getDividend()->simplified()->power(exponent->simplified())->divide(frac->getDivisor()->simplified()->power(exponent->simplified()));
     }
     if (base->isOfType(ExpressionType::POWER)) {
         auto* pow = dynamic_cast<Power*>(base);
-        return pow->getBase()->simplified()
-                ->power(pow->getExponent()->simplified()
-                                ->multiply(exponent->simplified()));
+        return pow->getBase()->simplified()->power(pow->getExponent()->simplified()->multiply(exponent->simplified()));
     }
     if (base->isOfType(ExpressionType::PRODUCT)) {
         auto* prod = dynamic_cast<Product*>(base);
@@ -170,15 +165,15 @@ std::string Power::latex() {
 
 std::wstring Power::stringify() {
     if (baseNeedsParentheses()) {
-    	if (exponentNeedsParentheses())
-	    return fmt::format(L"({})^({})", base->stringify(), exponent->stringify());
+        if (exponentNeedsParentheses())
+            return fmt::format(L"({})^({})", base->stringify(), exponent->stringify());
         else
-	    return fmt::format(L"({})^{}", base->stringify(), exponent->stringify());
+            return fmt::format(L"({})^{}", base->stringify(), exponent->stringify());
     } else {
-    	if (exponentNeedsParentheses())
-	    return fmt::format(L"{}^({})", base->stringify(), exponent->stringify());
+        if (exponentNeedsParentheses())
+            return fmt::format(L"{}^({})", base->stringify(), exponent->stringify());
         else
-	    return fmt::format(L"{}^{}", base->stringify(), exponent->stringify());
+            return fmt::format(L"{}^{}", base->stringify(), exponent->stringify());
     }
 }
 

@@ -101,8 +101,7 @@ std::string Product::latex() {
             ss << "\\left(";
 
         // If 2 consecutive constants, add the symbol between them
-        if (i > 0 && expressions[i - 1]->isOfType(ExpressionType::CONSTANT)
-            && exp->isOfType(ExpressionType::CONSTANT))
+        if (i > 0 && expressions[i - 1]->isOfType(ExpressionType::CONSTANT) && exp->isOfType(ExpressionType::CONSTANT))
             ss << symbol;
 
         ss << exp->latex();

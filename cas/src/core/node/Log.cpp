@@ -36,7 +36,7 @@ Log::~Log() {
     argument = nullptr;
 }
 
-double Log::evaluate(const std::unordered_map<char, double>& variables) {
+double Log::evaluate(const VariableMap& variables) {
     return std::log(argument->evaluate(variables)) / std::log(base->evaluate(variables));
 }
 

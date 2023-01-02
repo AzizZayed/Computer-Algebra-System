@@ -8,14 +8,13 @@
 #define CAS_NAMESPACE namespace cas {
 #define CAS_NAMESPACE_END }
 
-#include <cstddef>
-#include <unordered_map>
-#include <unordered_set>
+#include "cas/data/VariableMap.h"
 #include <cmath>
+#include <cstddef>
+#include <unordered_set>
 
 CAS_NAMESPACE
 
-using VarMap = std::unordered_map<char, double>;
 using VarSet = std::unordered_set<char>;
 
 inline size_t nextId() {
@@ -26,7 +25,7 @@ inline size_t nextId() {
 CAS_NAMESPACE_END
 
 template<typename Base, typename T>
-inline bool instanceof (T* ptr) {
+inline bool instanceof (T * ptr) {
     return dynamic_cast<Base*>(ptr) != nullptr;
 }
 

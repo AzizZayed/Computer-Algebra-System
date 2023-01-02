@@ -11,8 +11,8 @@ CAS_NAMESPACE
 Min::Min(std::vector<Expression*> expressions)
     : NaryExpression({ExpressionType::MIN, "minimum", "min"}, std::move(expressions)) {}
 
-double Min::evaluate(const std::unordered_map<char, double>& variables) {
-    auto functor = [variables](Expression* a, Expression* b) {
+double Min::evaluate(const VariableMap& variables) {
+    auto functor = [&](Expression* a, Expression* b) {
         return a->evaluate(variables) < b->evaluate(variables);
     };
 

@@ -3,6 +3,7 @@
 //
 
 #include "cas/node/Var.h"
+#include "cas/data/VariableMap.h"
 #include "cas/node/Const.h"
 #include "cas/util/StringUtils.h"
 
@@ -15,7 +16,7 @@ Var* Var::clone() {
     return new Var(symbol);
 }
 
-double Var::evaluate(const VarMap& variables) {
+double Var::evaluate(const VariableMap& variables) {
     if (!variables.contains(symbol))
         throw std::runtime_error("Var not found for evaluation");
     return variables.at(symbol);

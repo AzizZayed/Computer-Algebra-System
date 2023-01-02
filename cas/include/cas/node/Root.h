@@ -18,7 +18,7 @@ public:
     Root() = delete;
     ~Root() override = default;
 
-    double evaluate(const std::unordered_map<char, double>& variables) override;
+    double evaluate(const VariableMap& variables) override;
     Root* clone() override;
     Expression* simplified() override;
 

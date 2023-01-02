@@ -12,7 +12,7 @@ CAS_NAMESPACE
 
 class IMath {
 public:
-    virtual double evaluate(const VarMap& variables) = 0;
+    virtual double evaluate(const VariableMap& variables) = 0;
     virtual IMath* derivative(char var) = 0;
     virtual IMath* simplified() = 0;
     virtual bool isEquivalent(IMath* expr) = 0;

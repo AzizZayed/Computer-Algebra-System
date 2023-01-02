@@ -9,8 +9,7 @@
 CAS_NAMESPACE
 
 Function::Function(std::string strFunction, const std::string& name, bool simplify)
-    : uid(nextId()), strExpr(strFunction), name(name), filename(generateFilename())
-{
+    : uid(nextId()), strExpr(strFunction), name(name), filename(generateFilename()) {
     ExpressionParser& parser = ExpressionParser::getInstance();
 
     parser.setup(strFunction);
@@ -33,7 +32,7 @@ Function::~Function() {
     delete expr;
 }
 
-double Function::evaluate(const cas::VarMap& vars) {
+double Function::evaluate(const VariableMap& vars) {
     return expr->evaluate(vars);
 }
 
@@ -43,16 +42,19 @@ Function* Function::derivative(char var) {
 }
 
 Function* Function::simplifiedDerivative(char var) {
-    Expression* pExpression = expr->derivative(var);
+    Expression* pExpression;
+    try {
+        pExpression = expr->derivative(var);
+    } catch (std::runtime_error& e) {
+        printf("Error: %s\n", e.what());
+        return nullptr;
+    }
 
     // Simplify the derivative until it can't be simplified anymore
     Expression* simplifiedExpr = pExpression->simplified();
     while (simplifiedExpr->text() != pExpression->text()) {
-        printf("%ls differs from %ls\n", simplifiedExpr->stringify().c_str(), pExpression->stringify().c_str());
-        printf("%s differs from %s\n", simplifiedExpr->explicitText().c_str(), pExpression->explicitText().c_str());
         delete pExpression;
         pExpression = simplifiedExpr;
-        printf("Simplifying %ls\n", pExpression->stringify().c_str());
         simplifiedExpr = pExpression->simplified();
     }
 

@@ -11,8 +11,8 @@ CAS_NAMESPACE
 Max::Max(std::vector<Expression*> expressions)
     : NaryExpression({ExpressionType::MAX, "maximum", "max"}, std::move(expressions)) {}
 
-double Max::evaluate(const std::unordered_map<char, double>& variables) {
-    auto functor = [variables](Expression* a, Expression* b) {
+double Max::evaluate(const VariableMap& variables) {
+    auto functor = [&](Expression* a, Expression* b) {
         return a->evaluate(variables) > b->evaluate(variables);
     };
 

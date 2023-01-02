@@ -18,7 +18,7 @@ public:
 
     ~Operator() override;
 
-    double evaluate(const VarMap& variables) override;
+    double evaluate(const VariableMap& variables) override;
 
     bool _equals(Expression* expression) override;
 

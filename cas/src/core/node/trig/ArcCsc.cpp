@@ -16,7 +16,7 @@ CAS_NAMESPACE
 ArcCsc::ArcCsc(Expression* argument)
     : InverseTrigExpression({ExpressionType::ARC_CSC, "arccsc", "acsc"}, argument) {}
 
-double ArcCsc::evaluate(const std::unordered_map<char, double>& variables) {
+double ArcCsc::evaluate(const VariableMap& variables) {
     return std::asin(1 / argument->evaluate(variables));
 }
 

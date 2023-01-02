@@ -14,7 +14,7 @@ CAS_NAMESPACE
 ArcCos::ArcCos(Expression* argument)
     : InverseTrigExpression({ExpressionType::ARC_COS, "arccos", "acos"}, argument) {}
 
-double ArcCos::evaluate(const std::unordered_map<char, double>& variables) {
+double ArcCos::evaluate(const VariableMap& variables) {
     return std::acos(argument->evaluate(variables));
 }
 

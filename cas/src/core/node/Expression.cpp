@@ -39,7 +39,7 @@ CAS_NAMESPACE
 Expression::Expression(const ExpressionProperties& properties)
     : properties{properties} {}
 
-double Expression::evaluate(const VarMap&) {
+double Expression::evaluate(const VariableMap&) {
     throw std::runtime_error("Expression::evaluate() is not implemented for " + properties.getName());
 }
 

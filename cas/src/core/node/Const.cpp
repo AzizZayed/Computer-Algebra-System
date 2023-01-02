@@ -22,7 +22,7 @@ Const* Const::clone() {
     return Const::n(value);
 }
 
-double Const::evaluate(const VarMap&) {
+double Const::evaluate(const VariableMap&) {
     return value;
 }
 

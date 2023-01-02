@@ -7,8 +7,8 @@
 
 #include <codecvt>
 #include <iostream>
-#include <vector>
 #include <locale>
+#include <vector>
 
 inline std::wstring toWstring(const std::string& string) {
     std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;

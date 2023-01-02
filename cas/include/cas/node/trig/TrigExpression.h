@@ -7,6 +7,7 @@
 
 #include "cas/CAS.h"
 #include "cas/node/UnaryExpression.h"
+#include <unordered_map>
 
 CAS_NAMESPACE
 
@@ -27,6 +28,7 @@ public:
     std::string latex() override;
     std::wstring stringify() override;
 
+public:
     static const std::unordered_map<double, UnitCircleCoordinate> unitCircle;
 
 protected:

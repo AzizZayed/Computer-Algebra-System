@@ -17,8 +17,7 @@ static void BM_FunctionCreation(benchmark::State& state) {
                               "+min(x, y, x+y, x*y, x/y, x^y)"
                               "*max(x, y, x+y, x*y, x/y, x^y)";
 
-    for (auto _ : state)
-    {
+    for (auto _: state) {
         cas::Function function = cas::Function(strFunction);
         for (double x = -1.0; x <= 1.0; x += 0.01) {
             for (double y = -1.0; y <= 1.0; y += 0.01) {
@@ -31,7 +30,6 @@ static void BM_FunctionCreation(benchmark::State& state) {
             }
         }
     }
-
 }
 BENCHMARK(BM_FunctionCreation)->Unit(benchmark::kMicrosecond);
 

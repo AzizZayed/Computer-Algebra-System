@@ -15,7 +15,7 @@ public:
     Cbrt() = delete;
     ~Cbrt() override = default;
 
-    double evaluate(const std::unordered_map<char, double>& variables) override;
+    double evaluate(const VariableMap& variables) override;
     Cbrt* clone() override;
     Expression* _derivative(char variable) override;
     Expression* simplified() override;

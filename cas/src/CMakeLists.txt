@@ -19,7 +19,6 @@ FetchContent_MakeAvailable(fmt)
 
 set(FMT_DOC OFF CACHE BOOL "Build documentation" FORCE)
 set(FMT_TEST OFF CACHE BOOL "Build tests" FORCE)
-set(FMT_INSTALL OFF CACHE BOOL "Build and install target" FORCE)
 
 set(CAS_SRC_HEADERS
         ../include/cas/CAS.h
@@ -70,6 +69,7 @@ set(CAS_SRC_HEADERS
         ../include/cas/node/IMath.h
         ../include/cas/latex/LatexRenderer.h
         ../include/cas/data/ExpressionParser.h
+        ../include/cas/data/VariableMap.h
         ../include/cas/plot/Surface.h)
 
 set(CAS_SRC_SOURCES
@@ -114,6 +114,7 @@ set(CAS_SRC_SOURCES
         core/node/trig/ArcCsc.cpp
         core/node/trig/InverseTrigExpression.cpp
         core/data/ExpressionProperties.cpp
+        core/data/VariableMap.cpp
         core/latex/LatexRenderer.cpp
         core/plot/Function.cpp
         core/data/ExpressionParser.cpp core/plot/Surface.cpp)

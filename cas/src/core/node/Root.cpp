@@ -21,7 +21,7 @@ Root::Root(Expression* base, Expression* root)
 Root::Root(Expression* base, double root)
     : Root(base, new Const(root)) {}
 
-double Root::evaluate(const std::unordered_map<char, double>& variables) {
+double Root::evaluate(const VariableMap& variables) {
     return pow(base->evaluate(variables), 1.0 / exponent->evaluate(variables));
 }
 

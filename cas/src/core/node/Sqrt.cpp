@@ -15,7 +15,7 @@ CAS_NAMESPACE
 Sqrt::Sqrt(Expression* base)
     : Root({ExpressionType::SQUARE_ROOT, "square_root", "sqrt"}, base, new Const(2)) {}
 
-double Sqrt::evaluate(const std::unordered_map<char, double>& variables) {
+double Sqrt::evaluate(const VariableMap& variables) {
     return std::sqrt(base->evaluate(variables));
 }
 

@@ -13,7 +13,7 @@ CAS_NAMESPACE
 Negate::Negate(Expression* expression)
     : UnaryExpression({ExpressionType::NEGATE, "negate", "neg"}, expression) {}
 
-double Negate::evaluate(const VarMap& variables) {
+double Negate::evaluate(const VariableMap& variables) {
     return -argument->evaluate(variables);
 }
 

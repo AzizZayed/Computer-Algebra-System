@@ -17,7 +17,7 @@ public:
 
     ~Ceil() override = default;
 
-    double evaluate(const VarMap& variables) override;
+    double evaluate(const VariableMap& variables) override;
 
     Ceil* clone() override;
 

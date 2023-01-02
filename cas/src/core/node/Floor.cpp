@@ -12,7 +12,7 @@ CAS_NAMESPACE
 Floor::Floor(Expression* argument)
     : BracketExpression({ExpressionType::FLOOR, "floor_value", "floor"}, argument, L"\u230A", L"\u230B", "\\lfloor", "\\rfloor") {}
 
-double Floor::evaluate(const std::unordered_map<char, double>& variables) {
+double Floor::evaluate(const VariableMap& variables) {
     return std::floor(argument->evaluate(variables));
 }
 

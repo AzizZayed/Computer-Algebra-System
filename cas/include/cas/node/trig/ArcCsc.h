@@ -15,7 +15,7 @@ public:
     ArcCsc() = delete;
     ~ArcCsc() override = default;
 
-    double evaluate(const std::unordered_map<char, double>& variables) override;
+    double evaluate(const VariableMap& variables) override;
     ArcCsc* clone() override;
     Expression* _derivative(char variable) override;
     Expression* simplified() override;

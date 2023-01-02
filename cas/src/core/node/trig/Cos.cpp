@@ -15,7 +15,7 @@ CAS_NAMESPACE
 
 Cos::Cos(Expression* argument) : TrigExpression({ExpressionType::COS, "cosine", "cos"}, argument) {}
 
-double Cos::evaluate(const std::unordered_map<char, double>& variables) {
+double Cos::evaluate(const VariableMap& variables) {
     return std::cos(argument->evaluate(variables));
 }
 

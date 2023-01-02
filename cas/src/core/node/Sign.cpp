@@ -13,7 +13,7 @@ CAS_NAMESPACE
 Sign::Sign(Expression* argument)
     : UnaryExpression({ExpressionType::SIGN, "sign", "sign"}, argument) {}
 
-double Sign::evaluate(const std::unordered_map<char, double>& variables) {
+double Sign::evaluate(const VariableMap& variables) {
     double eval = argument->evaluate(variables);
     return eval > 0 ? 1 : eval < 0 ? -1
                                    : 0;

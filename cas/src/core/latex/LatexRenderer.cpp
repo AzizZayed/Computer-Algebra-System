@@ -3,6 +3,7 @@
 //
 
 #include "cas/latex/LatexRenderer.h"
+#include "cas/util/StringUtils.h"
 #include "fmt/printf.h"
 #include <filesystem>
 
@@ -23,10 +24,14 @@ std::string LatexRenderer::render(Function& function) {
 
 std::string LatexRenderer::render(const std::string& latex, const std::string& filename, const std::string& displayName = "z") {
     const std::string baseUrl = R"(https://latex.codecogs.com/png.image?\dpi{300}\bg{black})";
-    const std::string url = fmt::format("{}{}={}", baseUrl, displayName, latex);
+    std::string url = fmt::format("{}{}={}", baseUrl, displayName, latex);
+    replaceAll(url, " ", "%20");
+
     fmt::print("Invoking URL: {}\n", url);
 
     std::string filepath = fmt::format("{}/{}{}.png", resFolder, prefix, filename);
+
+    // TODO: Check if file exists and if it does, don't download it again if it's the same
     const cpr::Response& response = download(url, filepath);
     if (response.status_code != 200) {
         fmt::fprintf(stderr, "Error: {}\n", response.error.message);
@@ -48,6 +53,7 @@ void LatexRenderer::cleanup() {
             std::filesystem::remove(entry.path());
         }
     }
+    fmt::print("Cleaned up images in {}\n", resFolder);
 }
 
 CAS_NAMESPACE_END

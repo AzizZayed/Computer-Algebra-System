@@ -4,8 +4,8 @@
 
 #include "cas/node/NaryExpression.h"
 #include "cas/util/StringUtils.h"
-#include <sstream>
 #include <algorithm>
+#include <sstream>
 
 CAS_NAMESPACE
 

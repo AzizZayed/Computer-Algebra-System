@@ -7,7 +7,7 @@
 
 #include "Function.h"
 
-template<typename V> // V for vertex
+template<typename V>// V for vertex
 struct Plot {
     bool visible = true;
 
@@ -57,7 +57,7 @@ struct Plot {
 
 CAS_NAMESPACE
 
-template<typename T, typename F> // F: F(xyz, rgba) -> T
+template<typename T, typename F>// F: F(xyz, rgba) -> T
 class Surface : public Function {
     explicit Surface(std::string strFunction);
     virtual ~Surface() override;

@@ -17,14 +17,10 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
             -Wextra
             -fsanitize=address
             -fsanitize=undefined
-            -fno-sanitize-recover=all
-            -fno-omit-frame-pointer
     )
     add_link_options(
             -fsanitize=address
             -fsanitize=undefined
-            -fno-sanitize-recover=all
-            -fno-omit-frame-pointer
     )
 endif()
 
@@ -35,7 +31,6 @@ FetchContent_Declare(glfw
         GIT_TAG 3.3.8)
 FetchContent_MakeAvailable(glfw)
 
-set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -46,12 +41,15 @@ FetchContent_Declare(imgui
 FetchContent_MakeAvailable(imgui)
 include_directories(${imgui_SOURCE_DIR}/ ${imgui_SOURCE_DIR}/backends)
 
-if (APPLE)
+if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
     message(STATUS "Apple OS detected - Using METAL for graphics")
     set(MAIN_FILE "src/render/metal/main.mm")
     set(HEADERS_AMD_SOURCES
             src/render/metal/metal_math.h
             src/render/metal/metal_types.h
+            src/render/metal/Window.h
+            src/render/metal/Grid.h
+            src/render/metal/Surface.h
             src/render/metal/shader.metal
             ${imgui_SOURCE_DIR}/imgui.cpp
             ${imgui_SOURCE_DIR}/imgui_demo.cpp
@@ -67,9 +65,12 @@ if (APPLE)
             "-framework Cocoa"
             "-framework MetalKit"
             "-framework ModelIO")
-elseif (WIN32 OR LINUX)
+elseif (CMAKE_SYSTEM_NAME MATCHES "Linux" OR CMAKE_SYSTEM_NAME MATCHES "Windows")
     message(STATUS "Windows or Linux OS detected - Using OpenGL for graphics")
     set(MAIN_FILE "src/render/opengl/main.cpp")
+    set(HEADERS_AMD_SOURCES "")
+    set(LINK_LIBS glfw)
+
     # TODO add files and libs
 endif()
 

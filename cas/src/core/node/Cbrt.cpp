@@ -15,7 +15,7 @@ CAS_NAMESPACE
 Cbrt::Cbrt(Expression* base)
     : Root({ExpressionType::CUBE_ROOT, "cube_root", "cbrt"}, base, new Const(3)) {}
 
-double Cbrt::evaluate(const std::unordered_map<char, double>& variables) {
+double Cbrt::evaluate(const VariableMap& variables) {
     return std::cbrt(base->evaluate(variables));
 }
 

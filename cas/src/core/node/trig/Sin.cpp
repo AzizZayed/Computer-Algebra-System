@@ -13,7 +13,7 @@ CAS_NAMESPACE
 
 Sin::Sin(Expression* argument) : TrigExpression({ExpressionType::SIN, "sinus", "sin"}, argument) {}
 
-double Sin::evaluate(const std::unordered_map<char, double>& variables) {
+double Sin::evaluate(const VariableMap& variables) {
     return std::sin(argument->evaluate(variables));
 }
 

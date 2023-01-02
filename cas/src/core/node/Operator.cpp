@@ -19,7 +19,7 @@ Operator::~Operator() {
     }
 }
 
-double Operator::evaluate(const VarMap& variables) {
+double Operator::evaluate(const VariableMap& variables) {
     double result = neutral;
     for (auto* expression: expressions)
         result = operate(result, expression->evaluate(variables));

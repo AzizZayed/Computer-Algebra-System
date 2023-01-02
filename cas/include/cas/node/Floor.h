@@ -17,7 +17,7 @@ public:
 
     ~Floor() override = default;
 
-    double evaluate(const std::unordered_map<char, double>& variables) override;
+    double evaluate(const VariableMap& variables) override;
 
     Floor* clone() override;
 

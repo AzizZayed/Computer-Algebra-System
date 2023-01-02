@@ -13,7 +13,7 @@ CAS_NAMESPACE
 Exp::Exp(Expression* exponent)
     : Power({ExpressionType::EXPONENTIAL, "exponential", "exp"}, Const::E(), exponent) {}
 
-double Exp::evaluate(const std::unordered_map<char, double>& variables) {
+double Exp::evaluate(const VariableMap& variables) {
     return std::exp(exponent->evaluate(variables));
 }
 

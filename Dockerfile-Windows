@@ -1,0 +1,26 @@
+# Used to test Windows builds
+
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
+
+# Install MinGW
+RUN powershell -Command \
+    $ErrorActionPreference = 'Stop'; \
+    $ProgressPreference = 'SilentlyContinue'; \
+    Invoke-WebRequest -Uri https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Automated%20Builds/mingw-w64-install.exe/download -OutFile mingw-w64-install.exe; \
+    Start-Process mingw-w64-install.exe -ArgumentList '--mode unattended --arch x86_64 --threads posix --exceptions seh --build-threads 4 --enable-languages c,c++ --prefix C:\mingw64' -Wait; \
+    Remove-Item mingw-w64-install.exe -Force
+
+# Install CMake
+RUN powershell -Command \
+    $ErrorActionPreference = 'Stop'; \
+    $ProgressPreference = 'SilentlyContinue'; \
+    Invoke-WebRequest -Uri https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-windows-x86_64.msi -OutFile cmake.msi; \
+    Start-Process cmake.msi -ArgumentList '/i cmake.msi /quiet /norestart' -Wait; \
+    Remove-Item cmake.msi -Force
+
+# Install project
+COPY . /cas-mingw
+
+# Build project
+WORKDIR /cas-mingw
+RUN .\build.bat

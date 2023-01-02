@@ -28,7 +28,7 @@ Mod::~Mod() {
     divisor = nullptr;
 }
 
-double Mod::evaluate(const VarMap& variables) {
+double Mod::evaluate(const VariableMap& variables) {
     return std::fmod(dividend->evaluate(variables), divisor->evaluate(variables));
 }
 

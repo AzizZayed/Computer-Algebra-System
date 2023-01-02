@@ -54,7 +54,7 @@ public:
 
     Expression(const Expression& expression) = delete;
 
-    double evaluate(const VarMap& variables) override;
+    double evaluate(const VariableMap& variables) override;
     virtual double evaluate();
 
     virtual bool equals(Expression* expression);

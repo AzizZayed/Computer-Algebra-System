@@ -3,6 +3,7 @@
 //
 
 #include "cas/node/BracketExpression.h"
+#include "fmt/format.h"
 #include <stdexcept>
 
 CAS_NAMESPACE
@@ -24,7 +25,7 @@ Expression* BracketExpression::derivative(char) {
 }
 
 std::string BracketExpression::latex() {
-    return openBracketLatex + argument->latex() + closeBracketLatex;
+    return fmt::format("{} {} {}", openBracketLatex, argument->latex(), closeBracketLatex);
 }
 
 std::wstring BracketExpression::stringify() {

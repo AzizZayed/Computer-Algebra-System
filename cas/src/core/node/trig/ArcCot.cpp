@@ -15,7 +15,7 @@ CAS_NAMESPACE
 ArcCot::ArcCot(Expression* argument)
     : InverseTrigExpression({ExpressionType::ARC_COT, "arccot", "acot"}, argument) {}
 
-double ArcCot::evaluate(const std::unordered_map<char, double>& variables) {
+double ArcCot::evaluate(const VariableMap& variables) {
     return std::atan(1 / argument->evaluate(variables));
 }
 

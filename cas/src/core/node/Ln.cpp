@@ -14,7 +14,7 @@ CAS_NAMESPACE
 Ln::Ln(Expression* argument)
     : Log({ExpressionType::NATURAL_LOGARITHM, "natural_logarithm", "ln"}, Const::E(), argument) {}
 
-double Ln::evaluate(const std::unordered_map<char, double>& variables) {
+double Ln::evaluate(const VariableMap& variables) {
     return std::log(argument->evaluate(variables));
 }
 
