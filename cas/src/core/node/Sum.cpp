@@ -5,6 +5,7 @@
 #include "cas/node/Sum.h"
 #include "cas/node/Const.h"
 #include <sstream>
+#include <algorithm>
 
 CAS_NAMESPACE
 

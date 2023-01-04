@@ -8,6 +8,10 @@
 #include <memory>
 #include <vector>
 
+#include "cas/data/VariableMap.h"
+#include "Grid.h"
+#include "Surface.h"
+
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_metal.h"
@@ -22,12 +26,10 @@
 #import <MetalKit/MetalKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-#include "Grid.h"
-#include "Surface.h"
 
 class Window {
 public:
-    explicit Window(const char* title, id<MTLDevice> device, const Grid& grid) : device(device), grid(grid), title(title) {
+    explicit Window(const char* title, id<MTLDevice> device, Grid& grid) : device(device), grid(grid), title(title) {
         glfwSetErrorCallback([](int error, const char* description) {
             printf("Glfw Error %d: %s\n", error, description);
         });
@@ -102,12 +104,14 @@ public:
         ImGui::ShowDemoWindow(&show_demo_window);
     }
 
-    void drawImGuiSideBar(std::vector<std::shared_ptr<Surface>>& surfaces) {// add sliders now
+    void drawImGuiSideBar(std::vector<std::shared_ptr<Surface>>& surfaces, cas::VariableMap& variables) {
         static std::vector<uint8_t> showSurface(surfaces.size(), 1);
 
         ImGui::SetNextWindowPos(ImVec2(5, 5), ImGuiCond_Always);
-        ImGui::SetNextWindowSize(ImVec2(sideBarWidth, height - 10), ImGuiCond_FirstUseEver);
-        if (ImGui::Begin("3D Functions", nullptr), ImGuiWindowFlags_NoMove) {
+        ImGui::SetNextWindowSize(ImVec2(sideBarWidth, height - 10), ImGuiCond_Once);
+        if (ImGui::Begin("3D Functions", nullptr, ImGuiWindowFlags_NoMove)) {
+
+            sideBarWidth = ImGui::GetWindowWidth();
 
             // Input
             static char buf[512] = "x^2 + y^2";
@@ -116,16 +120,45 @@ public:
             drawImGuiHelp("Input your function here. Example: x^2 + y^2");
 
             if (ImGui::Button("Add 3D Function")) {
-                surfaces.push_back(std::make_shared<Surface>(device, buf, grid));
+                const std::shared_ptr<Surface>& surface = std::make_shared<Surface>(device, buf, grid, variables);
+                surfaces.push_back(surface);
                 showSurface.push_back(1);
+
+                // Add surface variables to map
+                for (const Surface::Plot& plot : surface->plots) {
+                    cas::VarSet vars = plot.function->getVariables();
+                    for (const char var : vars) {
+                        if (!variables.contains(var)) {
+                            variables.insert(var, 1.0);
+                        }
+                    }
+                }
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Reset")) {
+                grid.reset();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Clear")) {
+                surfaces.clear();
+                showSurface.clear();
+                variables.clearExceptXY();
             }
 
             // sliders
-            static float a = 0;
             ImGui::TextUnformatted("Sliders");
-            ImGui::DragFloat("a", &a, 0.01f, -10.0f, 10.0f);
+            for (const char name : variables.variables()) {
+                if (name != 'x' && name != 'y') {
+                    double min = -10.0f;
+                    double max = 10.0f;
+                    ImGui::SliderScalar(std::string(1, name).c_str(), ImGuiDataType_Double, &variables[name], &min, &max);
+                }
+            }
+
+            ImGui::Separator();
 
             // Draw surfaces
+            ImGui::TextUnformatted("Functions");
             for (size_t i = 0; i < surfaces.size(); i++) {
                 std::shared_ptr<Surface> surface = surfaces[i];
 
@@ -147,9 +180,8 @@ public:
                     }
                 }
             }
-
-            ImGui::End();
         }
+        ImGui::End();
     }
     void removeSurface(std::vector<std::shared_ptr<Surface>>& surfaces, std::vector<uint8_t>& showSurface, size_t i) const {
         surfaces.erase(surfaces.begin() + i);
@@ -212,7 +244,6 @@ public:
 
     ImVec2 getMouseScrollDelta() const {
         ImGuiIO& io = ImGui::GetIO();
-
         if (io.MousePos.x < sideBarWidth + 15) {
             return {0.0f, 0.0f};
         }
@@ -251,7 +282,7 @@ public:
 
 public:
     id<MTLDevice> device;
-    const Grid& grid;
+    Grid& grid;
     const char* title;
     GLFWwindow* window{};
     NSWindow* cocoaWindow;

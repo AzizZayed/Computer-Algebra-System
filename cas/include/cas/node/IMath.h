@@ -5,8 +5,9 @@
 #ifndef CAS_IMATH_H
 #define CAS_IMATH_H
 
-#include "cas/CAS.h"
 #include <cmath>
+#include "cas/CAS.h"
+#include "cas/data/VariableMap.h"
 
 CAS_NAMESPACE
 

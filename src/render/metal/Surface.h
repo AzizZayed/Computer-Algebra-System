@@ -5,70 +5,18 @@
 #ifndef COMPUTERALGEBRASYSTEM_SURFACE_H
 #define COMPUTERALGEBRASYSTEM_SURFACE_H
 
-#include <fstream>
 #include <string>
 
 #include "Grid.h"
+#include "Model.h"
+
+#include "cas/data/VariableMap.h"
 #include "cas/latex/LatexRenderer.h"
 #include "cas/plot/Function.h"
 
 #import <Metal/Metal.h>
 #import <MetalKit/MetalKit.h>
 #import <QuartzCore/QuartzCore.h>
-
-class Texture {
-public:
-    explicit Texture(id<MTLDevice> device, const std::string& imagePath) : path(imagePath) {
-        getImageSize(imagePath);
-
-        CGContext* context = CGBitmapContextCreate(nil, width, height, bitsPerComponent,
-                                                   width * sizeof(float),
-                                                   CGColorSpaceCreateDeviceRGB(),
-                                                   kCGImageAlphaPremultipliedLast);
-
-        CGAffineTransform flipVertical = CGAffineTransformMake(1, 0, 0, -1, 0, height);
-        CGContextConcatCTM(context, flipVertical);
-
-        CGImageSourceRef imageSourceCreateWithUrl = CGImageSourceCreateWithURL(
-                (CFURLRef) [NSURL fileURLWithPath:[NSString stringWithUTF8String:path.c_str()]], nil);
-        CGImage* image = CGImageSourceCreateImageAtIndex(imageSourceCreateWithUrl, 0, nil);
-        CGContextDrawImage(context, CGRectMake(0, 0, width, height), image);
-
-        MTLTextureDescriptor* textureDescriptor = [[MTLTextureDescriptor alloc] init];
-        textureDescriptor.pixelFormat = MTLPixelFormatBGRA8Unorm;
-        textureDescriptor.width = width;
-        textureDescriptor.height = height;
-
-        metalTexture = [device newTextureWithDescriptor:textureDescriptor];
-        MTLRegion region = MTLRegionMake2D(0, 0, width, height);
-        [metalTexture replaceRegion:region mipmapLevel:0 withBytes:CGBitmapContextGetData(context) bytesPerRow:width * 4];
-        if (metalTexture == nil) {
-            NSLog(@"Failed to create texture");
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    ~Texture() {
-        [metalTexture release];
-    }
-
-    void getImageSize(const std::string& imagePath) {
-        std::ifstream in(imagePath);
-        in.seekg(16);
-        in.read((char*) &width, 4);
-        in.read((char*) &height, 4);
-
-        width = ntohl(width);
-        height = ntohl(height);
-    }
-
-public:
-    const std::string path;
-    id<MTLTexture> metalTexture;
-    size_t width{};
-    size_t height{};
-    size_t bitsPerComponent{8};
-};
 
 class Surface {
 public:
@@ -85,7 +33,9 @@ public:
         bool render = true;
     };
 
-    explicit Surface(id<MTLDevice> device, const std::string& func, const Grid& grid) : func(func), grid(grid) {
+    explicit Surface(id<MTLDevice> device, const std::string& func, const Grid& grid, cas::VariableMap& variables)
+        : func(func), grid(grid), variables(variables)
+    {
         cas::LatexRenderer& latexRenderer = cas::LatexRenderer::getInstance();
 
         plots[plot].function = new cas::Function(func, (const std::string&) "z", false);
@@ -104,7 +54,8 @@ public:
         plots[plot].render = true;
     }
 
-    explicit Surface(id<MTLDevice> device, const char* func, const Grid& grid) : Surface(device, std::string(func), grid) {}
+    explicit Surface(id<MTLDevice> device, const char* func, const Grid& grid, cas::VariableMap& variables)
+        : Surface(device, std::string(func), grid, variables) {}
 
     ~Surface() {
         for (Plot& p: plots) {
@@ -145,7 +96,7 @@ public:
             indexBuffer = [device newBufferWithBytes:indices
                                               length:grid.indexCount * sizeof(uint32_t)
                                              options:MTLResourceStorageModeShared];
-            printf("Index buffer created.");
+            printf("Index buffer created.\n");
         }
 
         return indexBuffer;
@@ -166,12 +117,11 @@ public:
         double y = grid.yMin;
 
         uint32_t index = 0;
-        cas::VariableMap vars = {{'x', x}, {'y', y}};
         for (uint32_t j = 0; j < grid.WIDTH; j++) {
             for (uint32_t i = 0; i < grid.WIDTH; i++) {
-                vars['x'] = x;
-                vars['y'] = y;
-                double z = p.function->evaluate(vars);
+                variables['x'] = x;
+                variables['y'] = y;
+                double z = p.function->evaluate(variables);
 
                 auto xf = static_cast<float>(x);
                 auto yf = static_cast<float>(y);
@@ -191,6 +141,7 @@ public:
 public:
     const std::string func;
     const Grid& grid;
+    cas::VariableMap& variables;
     Plot plots[3];
     size_t plot = 0, dx = 1, dy = 2;
 };

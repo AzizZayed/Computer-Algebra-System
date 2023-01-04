@@ -2,13 +2,13 @@
 // Created by Abd-El-Aziz Zayed on 2022-12-30.
 //
 
-#ifndef VARIABLEMAP_H
-#define VARIABLEMAP_H
-
+#ifndef CAS_VARIABLEMAP_H
+#define CAS_VARIABLEMAP_H
 
 #include <cas/CAS.h>
 #include <iterator>
 #include <stdexcept>
+#include <vector>
 
 CAS_NAMESPACE
 
@@ -55,6 +55,8 @@ public:
     VariableMap& operator=(const VariableMap&) = delete;
 
     void clear();
+    void clear(char var);
+    void clearExceptXY();
 
     [[nodiscard]] bool contains(char var) const;
 
@@ -62,6 +64,8 @@ public:
 
     double& operator[](char var);
     double at(char var) const;
+
+    size_t size() const;
 
     VariableMapIterator begin();
     VariableMapIterator end();
@@ -74,6 +78,7 @@ public:
 
 private:
     static std::invalid_argument variableNotFoundException(char var);
+    static std::invalid_argument invalidVariableException(char var);
 
     static bool lowercase(char c, size_t& index);
     static bool uppercase(char c, size_t& index);
@@ -88,4 +93,4 @@ private:
 
 CAS_NAMESPACE_END
 
-#endif//VARIABLEMAP_H
+#endif//CAS_VARIABLEMAP_H

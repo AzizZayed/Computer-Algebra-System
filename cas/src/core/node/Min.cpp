@@ -59,7 +59,7 @@ Expression* Min::simplified() {
         std::vector<Expression*> reducedExpressions;
         reducedExpressions.reserve(expressions.size());
 
-        double min = 1.0 / 0.0;
+        double min = math::POSITIVE_INFINITY;
         for (auto& expr: simplifiedExpressions) {
             if (expr->isOfType(ExpressionType::CONSTANT)) {
                 min = std::min(min, expr->evaluate());

@@ -6,7 +6,6 @@
 #include <sstream>
 #include <string>
 #include <utility>
-#include <vector>
 
 CAS_NAMESPACE
 
@@ -31,7 +30,7 @@ void VariableMap::insert(char var, double value) {
             uppercaseVariables.letters++;
         }
     } else {
-        throw std::invalid_argument("Variable is not a letter.");
+        throw invalidVariableException(var);
     }
 }
 
@@ -48,7 +47,7 @@ double& VariableMap::operator[](char var) {
         }
         throw variableNotFoundException(var);
     }
-    throw std::invalid_argument("Variable is not a letter.");
+    throw invalidVariableException(var);
 }
 
 double VariableMap::at(char var) const {
@@ -64,7 +63,7 @@ double VariableMap::at(char var) const {
         }
         throw variableNotFoundException(var);
     }
-    throw std::invalid_argument("Variable is not a letter.");
+    throw invalidVariableException(var);
 }
 
 VariableMapIterator VariableMap::begin() {
@@ -136,12 +135,43 @@ bool VariableMap::contains(char var) const {
     } else if (uppercase(var, index)) {
         return uppercaseVariables.validLetter[index];
     }
-    throw variableNotFoundException(var);
+    throw invalidVariableException(var);
 }
 
 void VariableMap::clear() {
     lowercaseVariables = {};
     uppercaseVariables = {};
+}
+
+void VariableMap::clear(char var) {
+    size_t index = 0;
+    if (lowercase(var, index)) {
+        if (lowercaseVariables.validLetter[index]) {
+            lowercaseVariables.validLetter[index] = false;
+            lowercaseVariables.letters--;
+        }
+    } else if (uppercase(var, index)) {
+        if (uppercaseVariables.validLetter[index]) {
+            uppercaseVariables.validLetter[index] = false;
+            uppercaseVariables.letters--;
+        }
+    } else {
+        throw invalidVariableException(var);
+    }
+}
+
+void VariableMap::clearExceptXY() {
+    double x = at('x');
+    double y = at('y');
+
+    clear();
+
+    insert('x', x);
+    insert('y', y);
+}
+
+size_t VariableMap::size() const {
+    return lowercaseVariables.letters + uppercaseVariables.letters;
 }
 
 std::string VariableMap::str() const {
@@ -158,6 +188,10 @@ std::string VariableMap::str() const {
 
 std::invalid_argument VariableMap::variableNotFoundException(char var) {
     return std::invalid_argument("Variable " + std::string(1, var) + " is not in the map.");
+}
+
+std::invalid_argument VariableMap::invalidVariableException(char var) {
+    return std::invalid_argument("Variable " + std::string(1, var) + " is not a letter.");
 }
 
 bool VariableMap::lowercase(char c, size_t& index) {

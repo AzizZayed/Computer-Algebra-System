@@ -1,6 +1,6 @@
 # Used to test Windows builds
 
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM mcr.microsoft.com/dotnet/sdk:5.0
 
 # Install MinGW
 RUN powershell -Command \
@@ -24,3 +24,17 @@ COPY . /cas-mingw
 # Build project
 WORKDIR /cas-mingw
 RUN .\build.bat
+
+# Run debug tests
+#WORKDIR /cas-mingw/build-debug/cas
+#RUN ctest
+
+# Run release tests
+#WORKDIR /cas-mingw/build-release/cas
+#RUN ctest'
+
+# Run executable
+WORKDIR /cas-mingw/build-debug
+CMD [".\ComputerAlgebraSystem.exe"]
+
+

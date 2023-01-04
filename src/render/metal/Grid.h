@@ -16,7 +16,7 @@ public:
     const uint32_t indexCount = RESOLUTION * RESOLUTION * 6;
     const uint32_t vertexCount = WIDTH * WIDTH;
 
-    double y = 0.0;
+    double yOrigin = 0.0;
 
     double xMin = -1.0;
     double xMax = 1.0;
@@ -51,22 +51,36 @@ public:
         return yLength() / RESOLUTION;
     }
 
-    void scale(double factor, double damping) {
+    void scale(double factor, double damping = 0.05) {
         double avg = (xLength() + yLength() + zLength()) / 3.0;
         factor *= damping * avg;
 
         if (xMin < xMax && yMin < yMax) {
             xMin -= factor;
             yMin -= factor;
-            zMin -= factor;
+            //            zMin -= factor;
             xMax += factor;
             yMax += factor;
-            zMax += factor;
+            //            zMax += factor;
         }
     }
 
-    void raise(double yChange) {
-        y += yChange;
+    void reset() {
+        yOrigin = 0.0;
+
+        xMin = -1.0;
+        xMax = 1.0;
+        yMin = -1.0;
+        yMax = 1.0;
+        zMin = -1.0;
+        zMax = 1.0;
+
+        xRotation = -M_PI_2;
+        zRotation = 0.0;
+    }
+
+    void raise(double dy) {
+        yOrigin += dy;
     }
 
     void rotate(double x, double z, double damping = 0.5) {
@@ -90,7 +104,7 @@ public:
         double z = -2.0;
         double scale = 1.00;
         return {
-                math::translate(0, y, z),
+                math::translate(0, yOrigin, z),
                 math::xRotate(-xRotation) * math::zRotate(-zRotation),
                 math::scale(scale / xLength(), scale / yLength(), scale / zLength())};
     }

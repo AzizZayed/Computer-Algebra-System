@@ -4,14 +4,16 @@
 #include "Surface.h"
 #include "Window.h"
 
+#include "cas/data/VariableMap.h"
+
 #import <Metal/Metal.h>
 #import <MetalKit/MetalKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-id<MTLLibrary> getLibrary(id<MTLDevice> device) {
+id<MTLLibrary> getLibrary(id<MTLDevice> device, const std::string& shaderPath) {
     NSError* error = nil;
-    NSString* shaderSrc = [NSString stringWithContentsOfFile:@"../src/render/metal/shader.metal" encoding:NSUTF8StringEncoding error:&error];
-    if (error) {// The path to the shader file is with respect to the build directory
+    NSString* shaderSrc = [NSString stringWithContentsOfFile:@(shaderPath.c_str()) encoding:NSUTF8StringEncoding error:&error];
+    if (error) { // The path to the shader file is with respect to the build directory
         NSLog(@"Error loading shader.metal: %@", error);
         exit(EXIT_FAILURE);
     }
@@ -71,32 +73,66 @@ MTLRenderPassDescriptor* getRenderPassDescriptor(id<CAMetalDrawable> drawable) {
     return renderPassDescriptor;
 }
 
+NSArray<MTKMesh*>* loadMesh(id<MTLDevice> device, MTLVertexDescriptor* vertexDescriptor, const std::string& modelPath) {
+    NSError* error = nil;
+
+    MDLVertexDescriptor* mdlVertexDescriptor = MTKModelIOVertexDescriptorFromMetal(vertexDescriptor);
+    mdlVertexDescriptor.attributes[0].name = MDLVertexAttributePosition;
+    mdlVertexDescriptor.attributes[1].name = MDLVertexAttributeColor;
+
+    // Load monkey model
+    MTKMeshBufferAllocator* meshBufferAllocator = [[MTKMeshBufferAllocator alloc] initWithDevice:device];
+    MDLAsset* asset = [[MDLAsset alloc] initWithURL:[NSURL fileURLWithPath:@(modelPath.c_str())] vertexDescriptor:mdlVertexDescriptor bufferAllocator:meshBufferAllocator];
+    NSArray<MTKMesh*>* meshes = [MTKMesh newMeshesFromAsset:asset device:device sourceMeshes:nil error:&error];
+    if (meshes == nil) {
+        NSLog(@"Failed to load model");
+        exit(EXIT_FAILURE);
+    }
+
+    NSLog(@"Loaded model");
+    NSLog(@"Meshes: %lu", meshes.count);
+    NSLog(@"Vertex count: %lu", meshes[0].vertexCount);
+    NSLog(@"Vertex buffer count: %lu", meshes[0].vertexBuffers.count);
+    NSLog(@"Submesh count: %lu", meshes[0].submeshes.count);
+
+    [mdlVertexDescriptor release];
+    [meshBufferAllocator release];
+
+    return meshes;
+}
+
 int main() {
-    // Renderer Setup
+    // ==================== RENDERER SETUP ====================
     id<MTLDevice> device = MTLCreateSystemDefaultDevice();
     id<MTLCommandQueue> commandQueue = [device newCommandQueue];
-    id<MTLLibrary> library = getLibrary(device);
-    id<MTLFunction> vertexFunction = [library newFunctionWithName:@"vertexMain"];// struct with both functions
+
+    id<MTLLibrary> library = getLibrary(device, "../src/render/metal/shader.metal");
+    id<MTLFunction> vertexFunction = [library newFunctionWithName:@"vertexMain"]; // struct with both functions
     id<MTLFunction> fragmentFunction = [library newFunctionWithName:@"fragmentMain"];
+
     MTLVertexDescriptor* vertexDescriptor = getVertexDescriptor();
     MTLRenderPipelineDescriptor* pipelineStateDescriptor = getRenderPipelineDescriptor(vertexFunction, fragmentFunction, vertexDescriptor);
     id<MTLRenderPipelineState> pipelineState = getRenderPipelineState(device, pipelineStateDescriptor);
+
     MTLDepthStencilDescriptor* depthStencilDescriptor = getDepthStencilDescriptor();
     id<MTLDepthStencilState> depthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
 
-    // ==================== Setup ====================
+    NSArray<MTKMesh*>* axis = loadMesh(device, vertexDescriptor, "../res/models/axis.obj");
 
+    // ==================== WORLD/GRID Setup ====================
     Grid grid;
     Window window("Computer Algebra System", device, grid);
-    std::vector<std::shared_ptr<Surface>> surfaces;
-    surfaces.push_back(std::make_shared<Surface>(device, "abs(x * y)", grid));
-    surfaces.push_back(std::make_shared<Surface>(device, "floor(round(ceil(x + y)))", grid));
-
+    cas::VariableMap variables = {{'x', 0}, {'y', 0}};
+    std::vector<std::shared_ptr<Surface>> surfaces {
+            std::make_shared<Surface>(device, "x^2 + y^2", grid, variables),
+            std::make_shared<Surface>(device, "x^2 * y^2", grid, variables),
+            std::make_shared<Surface>(device, "sin(x*y)", grid, variables),
+            std::make_shared<Surface>(device, "abs(x * y)", grid, variables),
+            std::make_shared<Surface>(device, "floor(round(ceil(x + y)))", grid, variables)};
 
     WorldView worldView = {math::perspective(M_PI / 3, window.bufferAspect, 0.1f, 1000.0f)};
 
     // ==================== Main Loop ====================
-
     size_t nFunctions = surfaces.size();
     while (!window.shouldClose()) {
         bool frameBufferSizeChanged = window.update();
@@ -127,7 +163,7 @@ int main() {
             bool mouseDown = io.MouseDown[0] || io.MouseDown[1] || io.MouseDown[2];
 
             grid.rotate(drag.y * window.deltaTime, drag.x * window.deltaTime);
-            grid.scale(scroll.y * window.deltaTime, 0.5);
+            grid.scale(scroll.y * window.deltaTime);
             grid.raise(scroll.x * window.deltaTime);
 
             for (auto& surface: surfaces) {
@@ -141,6 +177,7 @@ int main() {
 
             [renderCommandEncoder setRenderPipelineState:pipelineState];
             [renderCommandEncoder setDepthStencilState:depthStencilState];
+
             [renderCommandEncoder setVertexBytes:&worldView length:sizeof(WorldView) atIndex:15];
             [renderCommandEncoder setVertexBytes:&transform length:sizeof(Transform) atIndex:16];
             [renderCommandEncoder setTriangleFillMode:MTLTriangleFillModeLines];
@@ -159,10 +196,29 @@ int main() {
                 }
             }
 
+            transform.scale = math::scale(0.01f);
+            transform.rotate = transform.rotate * math::xRotate(-M_PI / 2);
+            [renderCommandEncoder setVertexBytes:&transform length:sizeof(Transform) atIndex:16];
+            [renderCommandEncoder setTriangleFillMode:MTLTriangleFillModeFill];
+
+            for (MTKMesh* mesh in axis) {
+                for (MTKMeshBuffer* vb in mesh.vertexBuffers) {
+                    [renderCommandEncoder setVertexBuffer:vb.buffer offset:vb.offset atIndex:0];
+                    for (MTKSubmesh* subMesh in mesh.submeshes) {
+                        [renderCommandEncoder
+                                drawIndexedPrimitives:subMesh.primitiveType
+                                           indexCount:subMesh.indexCount
+                                            indexType:subMesh.indexType
+                                          indexBuffer:subMesh.indexBuffer.buffer
+                                    indexBufferOffset:subMesh.indexBuffer.offset];
+                    }
+                }
+            }
+
             [renderCommandEncoder pushDebugGroup:@"GuiRenderer"];
             [renderCommandEncoder setTriangleFillMode:MTLTriangleFillModeFill];
 
-            window.drawImGuiSideBar(surfaces);
+            window.drawImGuiSideBar(surfaces, variables);
             window.drawImGuiTimeWindow();
             window.drawImGuiFrame(commandBuffer, renderCommandEncoder);
 

@@ -8,7 +8,6 @@
 #define CAS_NAMESPACE namespace cas {
 #define CAS_NAMESPACE_END }
 
-#include "cas/data/VariableMap.h"
 #include <cmath>
 #include <cstddef>
 #include <unordered_set>

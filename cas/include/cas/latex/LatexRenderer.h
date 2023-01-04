@@ -6,7 +6,7 @@
 #define CAS_LATEXRENDERER_H
 
 #include "cas/node/IRepresentableMath.h"
-#import "cas/plot/Function.h"
+#include "cas/plot/Function.h"
 #include "cpr/cpr.h"
 
 CAS_NAMESPACE

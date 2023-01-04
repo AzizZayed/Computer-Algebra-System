@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 project(ComputerAlgebraSystem
-        VERSION 0.0.1
+        VERSION 0.1.0
         DESCRIPTION "A computer algebra system"
         LANGUAGES CXX)
 
@@ -9,22 +9,27 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-include(FetchContent)
-
 if (CMAKE_BUILD_TYPE MATCHES Debug)
-    add_compile_options(
-            -Wall
-            -Wextra
-            -fsanitize=address
-            -fsanitize=undefined
-    )
-    add_link_options(
-            -fsanitize=address
-            -fsanitize=undefined
-    )
+    if (MSVC)
+        message(STATUS "MSVC debug build.")
+        add_compile_options(/W4 /WX)
+    else()
+        message(STATUS "GCC/Clang debug build.")
+        add_compile_options(-Wall -Wextra)
+    endif()
+
+    # Enable ASAN and UBSAN
+    if (MSVC)
+        add_compile_options(/fsanitize=address,undefined)
+        add_link_options(/fsanitize=address,undefined)
+    else()
+        add_compile_options(-fsanitize=address,undefined -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=address,undefined -fno-omit-frame-pointer)
+    endif()
 endif()
 
 add_subdirectory("cas")
+include(FetchContent)
 
 FetchContent_Declare(glfw
         GIT_REPOSITORY https://github.com/glfw/glfw
@@ -50,6 +55,7 @@ if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
             src/render/metal/Window.h
             src/render/metal/Grid.h
             src/render/metal/Surface.h
+            src/render/metal/Model.h
             src/render/metal/shader.metal
             ${imgui_SOURCE_DIR}/imgui.cpp
             ${imgui_SOURCE_DIR}/imgui_demo.cpp
@@ -65,6 +71,7 @@ if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
             "-framework Cocoa"
             "-framework MetalKit"
             "-framework ModelIO")
+
 elseif (CMAKE_SYSTEM_NAME MATCHES "Linux" OR CMAKE_SYSTEM_NAME MATCHES "Windows")
     message(STATUS "Windows or Linux OS detected - Using OpenGL for graphics")
     set(MAIN_FILE "src/render/opengl/main.cpp")

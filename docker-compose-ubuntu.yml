@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  cas-ubuntu:
+    image: ubuntu:22.04
+    volumes:
+      - ./cas:/cas-ubuntu/cas
+      - ./res:/cas-ubuntu/res
+      - ./src:/cas-ubuntu/src
+      - ./build.sh:/cas-ubuntu/build.sh
+      - ./CMakeLists.txt:/cas-ubuntu/CMakeLists.txt
+    working_dir: /cas-ubuntu
+    command:
+      - sh
+      - -c
+      - |
+        apt-get update
+        apt-get install -y clang cmake git openssl libssl-dev libx11-dev xorg-dev
+        chmod +x build.sh
+        ./build.sh -d
+        cd build-debug
+        ./ComputerAlgebraSystem
+        tail -f /dev/nullptr
