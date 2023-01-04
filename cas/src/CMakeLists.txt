@@ -117,7 +117,7 @@ set(CAS_SRC_SOURCES
         core/data/VariableMap.cpp
         core/latex/LatexRenderer.cpp
         core/plot/Function.cpp
-        core/data/ExpressionParser.cpp core/plot/Surface.cpp)
+        core/data/ExpressionParser.cpp)
 
 add_library(${PROJECT_NAME} ${CAS_SRC_HEADERS} ${CAS_SRC_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../include)
