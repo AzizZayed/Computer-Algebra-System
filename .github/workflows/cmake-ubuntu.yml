@@ -22,8 +22,8 @@ jobs:
     
     - name: Install dependencies
       run: | 
-        apt-get update
-        apt-get install -y git openssl libssl-dev libx11-dev xorg-dev
+        sudo apt-get update
+        sudo apt-get install -y openssl libssl-dev libx11-dev xorg-dev
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
