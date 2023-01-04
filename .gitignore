@@ -12,7 +12,7 @@ CTestTestfile.cmake
 _deps
 
 cmake-build-*/
-build*/
+build-*/
 *_include.cmake
 bin/
 
@@ -27,7 +27,6 @@ bin/
 *.slo
 *.lo
 *.o
-*.obj
 
 # Precompiled Headers
 *.gch
@@ -62,5 +61,5 @@ bin/
 # Python
 venv/
 
-#ImGUI
+#ImGui
 *.ini
