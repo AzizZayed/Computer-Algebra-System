@@ -9,6 +9,7 @@
 #include "IRepresentableMath.h"
 #include "cas/data/ExpressionProperties.h"
 #include "cas/data/ExpressionType.h"
+#include <memory>
 
 CAS_NAMESPACE
 
