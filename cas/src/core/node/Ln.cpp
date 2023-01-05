@@ -11,14 +11,14 @@
 
 CAS_NAMESPACE
 
-Ln::Ln(ExprPtr argument)
+Ln::Ln(const ExprPtr& argument)
     : Log({ExpressionType::NATURAL_LOGARITHM, "natural_logarithm", "ln"}, Const::E(), argument) {}
 
 double Ln::evaluate(const VariableMap& variables) {
     return std::log(argument->evaluate(variables));
 }
 
-bool Ln::_equals(ExprPtr expression) {
+bool Ln::_equals(const ExprPtr& expression) {
     if (expression->isOfType(ExpressionType::NATURAL_LOGARITHM)) {
         auto* ln = dynamic_cast<Ln*>(expression.get());
         return argument->equals(ln->argument);

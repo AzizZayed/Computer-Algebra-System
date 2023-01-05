@@ -11,9 +11,9 @@ CAS_NAMESPACE
 
 class Power : public Expr {
 public:
-    explicit Power(ExprPtr base, ExprPtr exponent);
+    explicit Power(const ExprPtr& base, const ExprPtr& exponent);
 
-    explicit Power(ExprPtr base, double exponent);
+    explicit Power(const ExprPtr& base, double exponent);
 
     Power() = delete;
 
@@ -21,7 +21,7 @@ public:
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(ExprPtr expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
     ExprPtr clone() override;
 
@@ -41,10 +41,10 @@ public:
 
     ExprPtr getExponent() const { return exponent; }
 
-    static PowerPtr from(ExprPtr base, ExprPtr exponent) { return std::make_shared<Power>(base, exponent); }
+    static PowerPtr from(const ExprPtr& base, const ExprPtr& exponent) { return std::make_shared<Power>(base, exponent); }
 
 protected:
-    explicit Power(const ExpressionProperties& props, ExprPtr base, ExprPtr exponent);
+    explicit Power(const ExpressionProperties& props, const ExprPtr& base, const ExprPtr& exponent);
 
     bool baseNeedsParentheses();
 

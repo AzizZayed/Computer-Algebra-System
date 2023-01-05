@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Cot : public TrigExpression {
 public:
-    explicit Cot(ExprPtr argument);
+    explicit Cot(const ExprPtr& argument);
     Cot() = delete;
     ~Cot() override = default;
 
@@ -20,7 +20,7 @@ public:
     ExprPtr _derivative(char variable) override;
     ExprPtr simplified() override;
 
-    static CotPtr from(ExprPtr argument) { return std::make_shared<Cot>(argument); }
+    static CotPtr from(const ExprPtr& argument) { return std::make_shared<Cot>(argument); }
 };
 
 CAS_NAMESPACE_END

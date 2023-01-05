@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Round : public BracketExpression {
 public:
-    explicit Round(ExprPtr argument);
+    explicit Round(const ExprPtr& argument);
 
     Round() = delete;
 
@@ -23,7 +23,7 @@ public:
 
     ExprPtr simplified() override;
 
-    static RoundPtr from(ExprPtr argument) { return std::make_shared<Round>(argument); }
+    static RoundPtr from(const ExprPtr& argument) { return std::make_shared<Round>(argument); }
 };
 
 CAS_NAMESPACE_END

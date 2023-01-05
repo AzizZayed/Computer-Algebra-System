@@ -11,13 +11,13 @@ CAS_NAMESPACE
 
 class Sign : public UnaryExpression {
 public:
-    explicit Sign(ExprPtr argument);
+    explicit Sign(const ExprPtr& argument);
     Sign() = delete;
     ~Sign() override = default;
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(ExprPtr expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
     ExprPtr clone() override;
 
@@ -25,7 +25,7 @@ public:
 
     std::string latex() override;
 
-    static SignPtr from(ExprPtr argument) { return std::make_shared<Sign>(argument); }
+    static SignPtr from(const ExprPtr& argument) { return std::make_shared<Sign>(argument); }
 
 private:
     bool needsParentheses();

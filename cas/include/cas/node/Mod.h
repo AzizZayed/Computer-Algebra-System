@@ -11,12 +11,12 @@ CAS_NAMESPACE
 
 class Mod : public Expr {
 public:
-    explicit Mod(ExprPtr dividend, ExprPtr divisor);
+    explicit Mod(const ExprPtr& dividend, const ExprPtr& divisor);
     Mod() = delete;
     ~Mod() override = default;
 
     double evaluate(const VariableMap& variables) override;
-    bool _equals(ExprPtr expression) override;
+    bool _equals(const ExprPtr& expression) override;
     ExprPtr clone() override;
     ExprPtr simplified() override;
 
@@ -28,7 +28,7 @@ public:
     ExprPtr getDividend() const { return dividend; }
     ExprPtr getDivisor() const { return divisor; }
 
-    static ModPtr from(ExprPtr dividend, ExprPtr divisor) { return std::make_shared<Mod>(dividend, divisor); }
+    static ModPtr from(const ExprPtr& dividend, const ExprPtr& divisor) { return std::make_shared<Mod>(dividend, divisor); }
 
 private:
     ExprPtr dividend;

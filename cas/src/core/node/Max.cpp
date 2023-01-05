@@ -12,7 +12,7 @@ Max::Max(std::vector<ExprPtr> expressions)
     : NaryExpression({ExpressionType::MAX, "maximum", "max"}, std::move(expressions)) {}
 
 double Max::evaluate(const VariableMap& variables) {
-    auto functor = [&](ExprPtr a, ExprPtr b) {
+    auto functor = [&](const ExprPtr& a, const ExprPtr& b) {
         return a->evaluate(variables) > b->evaluate(variables);
     };
 
@@ -36,11 +36,11 @@ ExprPtr Max::simplified() {
     std::vector<ExprPtr> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
 
-    std::transform(expressions.begin(), expressions.end(), simplifiedExpressions.begin(), [](ExprPtr expr) {
+    std::transform(expressions.begin(), expressions.end(), simplifiedExpressions.begin(), [](const ExprPtr& expr) {
         return expr->simplified();
     });
 
-    bool (*isConstant)(ExprPtr) = [](ExprPtr expression) {
+    bool (*isConstant)(const ExprPtr&) = [](const ExprPtr& expression) {
         return expression->isOfType(ExpressionType::CONSTANT);
     };
 
@@ -49,7 +49,7 @@ ExprPtr Max::simplified() {
     if (constantCount > 1) {
         bool allConstant = std::all_of(simplifiedExpressions.begin(), simplifiedExpressions.end(), isConstant);
         if (allConstant) {
-            double maxElement = (*std::max_element(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](ExprPtr a, ExprPtr b) {
+            double maxElement = (*std::max_element(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](const ExprPtr& a, const ExprPtr& b) {
                                     return a->evaluate() > b->evaluate();
                                 }))->evaluate();
 

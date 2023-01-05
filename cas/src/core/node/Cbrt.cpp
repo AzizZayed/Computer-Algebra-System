@@ -12,7 +12,7 @@
 
 CAS_NAMESPACE
 
-Cbrt::Cbrt(ExprPtr base)
+Cbrt::Cbrt(const ExprPtr& base)
     : Root({ExpressionType::CUBE_ROOT, "cube_root", "cbrt"}, base, Const::n(3)) {}
 
 double Cbrt::evaluate(const VariableMap& variables) {

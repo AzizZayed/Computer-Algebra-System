@@ -48,7 +48,7 @@ double Expr::evaluate() {
     return evaluate({});
 }
 
-bool Expr::equals(ExprPtr expression) {
+bool Expr::equals(const ExprPtr& expression) {
     if (this == expression.get())
         return true;
 
@@ -58,7 +58,7 @@ bool Expr::equals(ExprPtr expression) {
     return _equals(expression);
 }
 
-bool Expr::_equals(ExprPtr) {
+bool Expr::_equals(const ExprPtr&) {
     throw std::runtime_error("Expression::equals() is not implemented for " + properties.getName());
 }
 
@@ -78,11 +78,11 @@ ExprPtr Expr::simplified() {
     throw std::runtime_error("Expression::simplified() is not implemented for " + properties.getName());
 }
 
-bool Expr::isEquivalent(ExprPtr) {
+bool Expr::isEquivalent(const ExprPtr&) {
     throw std::runtime_error("Expression::isEquivalent() is not implemented for " + properties.getName());
 }
 
-ProdPtr Expr::multiply(ExprPtr expression) {
+ProdPtr Expr::multiply(const ExprPtr& expression) {
     return std::make_shared<Prod>(std::vector<ExprPtr>{shared_from_this(), expression});
 }
 
@@ -90,7 +90,7 @@ ProdPtr Expr::multiply(double value) {
     return std::make_shared<Prod>(std::vector<ExprPtr>{shared_from_this(), Const::n(value)});
 }
 
-SumPtr Expr::add(ExprPtr expression) {
+SumPtr Expr::add(const ExprPtr& expression) {
     return std::make_shared<Sum>(std::vector<ExprPtr>{shared_from_this(), expression});
 }
 
@@ -98,7 +98,7 @@ SumPtr Expr::add(double value) {
     return add(Const::n(value));
 }
 
-SumPtr Expr::subtract(ExprPtr expression) {
+SumPtr Expr::subtract(const ExprPtr& expression) {
     const NegatePtr& negate = Negate::from(expression);
     return std::make_shared<Sum>(std::vector<ExprPtr>{shared_from_this(), negate});
 }
@@ -107,7 +107,7 @@ SumPtr Expr::subtract(double value) {
     return subtract(Const::n(value));
 }
 
-DividePtr Expr::divide(ExprPtr expression) {
+DividePtr Expr::divide(const ExprPtr& expression) {
     return std::make_shared<Divide>(shared_from_this(), expression);
 }
 
@@ -119,7 +119,7 @@ NegatePtr Expr::negate() {
     return std::make_shared<Negate>(shared_from_this());
 }
 
-PowerPtr Expr::power(ExprPtr expression) {
+PowerPtr Expr::power(const ExprPtr& expression) {
     return std::make_shared<Power>(shared_from_this(), expression);
 }
 
@@ -131,7 +131,7 @@ ExpPtr Expr::exp() {
     return std::make_shared<Exp>(shared_from_this());
 }
 
-LogPtr Expr::log(ExprPtr base) {
+LogPtr Expr::log(const ExprPtr& base) {
     return std::make_shared<Log>(base, shared_from_this());
 }
 LogPtr Expr::log(double base) {
@@ -141,7 +141,7 @@ LogPtr Expr::log(double base) {
 LnPtr Expr::ln() {
     return std::make_shared<Ln>(shared_from_this());
 }
-RootPtr Expr::root(ExprPtr root) {
+RootPtr Expr::root(const ExprPtr& root) {
     return std::make_shared<Root>(shared_from_this(), root);
 }
 
@@ -214,7 +214,7 @@ SignPtr Expr::sign() {
     return std::make_shared<Sign>(shared_from_this());
 }
 
-ModPtr Expr::mod(ExprPtr expression) {
+ModPtr Expr::mod(const ExprPtr& expression) {
     return std::make_shared<Mod>(shared_from_this(), expression);
 }
 
@@ -256,11 +256,11 @@ bool Expr::operator<(const cas::Expr& expression) const {
     return diff < 0;
 }
 
-bool Expr::lessThan(cas::ExprPtr expression) const {
+bool Expr::lessThan(const ExprPtr& expression) const {
     return *this < *expression;
 }
 
-bool Expr::compare(cas::ExprPtr left, cas::ExprPtr right) {
+bool Expr::compare(const ExprPtr& left, const ExprPtr& right) {
     return left->lessThan(right);
 }
 
@@ -284,7 +284,7 @@ bool Expr::isOfType(ExpressionType type) const {
     return properties.getType() == type;
 }
 
-bool Expr::isOfSameType(ExprPtr expression) const {
+bool Expr::isOfSameType(const ExprPtr& expression) const {
     return isOfType(expression->getProperties().getType());
 }
 

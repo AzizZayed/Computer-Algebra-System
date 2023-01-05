@@ -13,7 +13,7 @@
 
 CAS_NAMESPACE
 
-ArcCsc::ArcCsc(ExprPtr argument)
+ArcCsc::ArcCsc(const ExprPtr& argument)
     : InverseTrigExpression({ExpressionType::ARC_CSC, "arccsc", "acsc"}, argument) {}
 
 double ArcCsc::evaluate(const VariableMap& variables) {

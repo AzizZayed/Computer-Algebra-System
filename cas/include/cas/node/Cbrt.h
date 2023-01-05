@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Cbrt : public Root {
 public:
-    explicit Cbrt(ExprPtr base);
+    explicit Cbrt(const ExprPtr& base);
     Cbrt() = delete;
     ~Cbrt() override = default;
 
@@ -25,7 +25,7 @@ public:
     std::string text() override;
     std::string explicitText() override;
 
-    static CbrtPtr from(ExprPtr base) { return std::make_shared<Cbrt>(base); }
+    static CbrtPtr from(const ExprPtr& base) { return std::make_shared<Cbrt>(base); }
 };
 
 CAS_NAMESPACE_END

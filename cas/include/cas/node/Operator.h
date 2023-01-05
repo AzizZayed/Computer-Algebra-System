@@ -20,7 +20,7 @@ public:
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(ExprPtr expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
     std::string text() override;
 
@@ -34,7 +34,7 @@ public:
 protected:
     virtual double operate(double a, double b) = 0;
 
-    virtual bool needsParentheses(ExprPtr expression) = 0;
+    virtual bool needsParentheses(const ExprPtr& expression) = 0;
 
 protected:
     const double neutral;

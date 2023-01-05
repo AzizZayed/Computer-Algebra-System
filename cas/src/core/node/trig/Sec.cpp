@@ -10,7 +10,7 @@
 
 CAS_NAMESPACE
 
-Sec::Sec(ExprPtr argument) : TrigExpression({ExpressionType::SEC, "secant", "sec"}, argument) {}
+Sec::Sec(const ExprPtr& argument) : TrigExpression({ExpressionType::SEC, "secant", "sec"}, argument) {}
 
 double Sec::evaluate(const VariableMap& variables) {
     return 1.0 / std::cos(argument->evaluate(variables));

@@ -8,14 +8,14 @@
 
 CAS_NAMESPACE
 
-BracketExpression::BracketExpression(const ExpressionProperties& properties, ExprPtr argument,
+BracketExpression::BracketExpression(const ExpressionProperties& properties, const ExprPtr& argument,
                                      const wchar_t* openBracket, const wchar_t* closeBracket,
                                      const char* openBracketLatex, const char* closeBracketLatex)
     : UnaryExpression(properties, argument),
       openBracket(openBracket), closeBracket(closeBracket),
       openBracketLatex(openBracketLatex), closeBracketLatex(closeBracketLatex) {}
 
-bool BracketExpression::_equals(ExprPtr other) {
+bool BracketExpression::_equals(const ExprPtr& other) {
     auto* otherBracketFunction = dynamic_cast<BracketExpression*>(other.get());
     return argument->equals(otherBracketFunction->argument);
 }

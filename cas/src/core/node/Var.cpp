@@ -22,7 +22,7 @@ double Var::evaluate(const VariableMap& variables) {
     return variables.at(symbol);
 }
 
-bool Var::_equals(ExprPtr expression) {
+bool Var::_equals(const ExprPtr& expression) {
     auto* var = dynamic_cast<Var*>(expression.get());
     return var->getSymbol() == symbol;
 }

@@ -21,7 +21,7 @@ double Operator::evaluate(const VariableMap& variables) {
     return result;
 }
 
-bool Operator::_equals(ExprPtr expression) {
+bool Operator::_equals(const ExprPtr& expression) {
     if (this == expression.get())
         return true;
 

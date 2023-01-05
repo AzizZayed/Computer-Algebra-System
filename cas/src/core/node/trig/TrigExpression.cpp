@@ -34,10 +34,10 @@ const std::unordered_map<double, UnitCircleCoordinate> TrigExpression::unitCircl
         {math::PI_11_6, {math::PI_11_6, Const::n(3)->sqrt()->divide(2), Const::n(-1)->divide(2), Const::n(-1)->divide(Const::n(3)->sqrt())}},
 };
 
-TrigExpression::TrigExpression(const ExpressionProperties& properties, ExprPtr argument)
+TrigExpression::TrigExpression(const ExpressionProperties& properties, const ExprPtr& argument)
     : UnaryExpression(properties, argument) {}
 
-bool TrigExpression::_equals(ExprPtr other) {
+bool TrigExpression::_equals(const ExprPtr& other) {
     auto* otherTrigFunction = dynamic_cast<TrigExpression*>(other.get());
     return argument->equals(otherTrigFunction->argument);
 }

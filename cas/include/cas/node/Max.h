@@ -23,7 +23,7 @@ public:
 
     ExprPtr simplified() override;
 
-    static MaxPtr from(std::vector<ExprPtr> expressions) { return std::make_shared<Max>(expressions); }
+    static MaxPtr from(const std::vector<ExprPtr>& expressions) { return std::make_shared<Max>(expressions); }
 };
 
 CAS_NAMESPACE_END

@@ -26,7 +26,7 @@ double Const::evaluate(const VariableMap&) {
     return value;
 }
 
-bool Const::_equals(ExprPtr expression) {
+bool Const::_equals(const ExprPtr& expression) {
     return floatingsEqual(value, expression->evaluate());
 }
 

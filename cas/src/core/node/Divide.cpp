@@ -13,7 +13,7 @@
 
 CAS_NAMESPACE
 
-Divide::Divide(ExprPtr dividend, ExprPtr divisor)
+Divide::Divide(const ExprPtr& dividend, const ExprPtr& divisor)
     : Expr({ExpressionType::DIVIDE, "divide", "div"}), dividend(dividend), divisor(divisor) {
     dividend->setParent(this);
     divisor->setParent(this);
@@ -23,7 +23,7 @@ double Divide::evaluate(const VariableMap& variables) {
     return dividend->evaluate(variables) / divisor->evaluate(variables);
 }
 
-bool Divide::_equals(ExprPtr expression) {
+bool Divide::_equals(const ExprPtr& expression) {
     auto* divide = dynamic_cast<Divide*>(expression.get());
     return dividend->equals(divide->dividend) && divisor->equals(divide->divisor);
 }

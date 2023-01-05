@@ -11,7 +11,7 @@
 
 CAS_NAMESPACE
 
-ArcTan::ArcTan(ExprPtr argument)
+ArcTan::ArcTan(const ExprPtr& argument)
     : InverseTrigExpression({ExpressionType::ARC_TAN, "arctan", "atan"}, argument) {}
 
 double ArcTan::evaluate(const VariableMap& variables) {

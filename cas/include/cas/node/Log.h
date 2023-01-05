@@ -11,11 +11,11 @@ CAS_NAMESPACE
 
 class Log : public Expr {
 public:
-    explicit Log(ExprPtr base, ExprPtr argument);
+    explicit Log(const ExprPtr& base, const ExprPtr& argument);
 
-    explicit Log(double base, ExprPtr argument);
+    explicit Log(double base, const ExprPtr& argument);
 
-    explicit Log(ExprPtr argument);
+    explicit Log(const ExprPtr& argument);
 
     Log() = delete;
 
@@ -23,7 +23,7 @@ public:
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(ExprPtr expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
     ExprPtr clone() override;
 
@@ -43,12 +43,12 @@ public:
 
     ExprPtr getArgument() const { return argument; }
 
-    static LogPtr from(ExprPtr base, ExprPtr argument) { return std::make_shared<Log>(base, argument); }
-    static LogPtr from(double base, ExprPtr argument) { return std::make_shared<Log>(base, argument); }
-    static LogPtr from(ExprPtr argument) { return std::make_shared<Log>(argument); }
+    static LogPtr from(const ExprPtr& base, const ExprPtr& argument) { return std::make_shared<Log>(base, argument); }
+    static LogPtr from(double base, const ExprPtr& argument) { return std::make_shared<Log>(base, argument); }
+    static LogPtr from(const ExprPtr& argument) { return std::make_shared<Log>(argument); }
 
 protected:
-    explicit Log(const ExpressionProperties& props, ExprPtr base, ExprPtr argument);
+    explicit Log(const ExpressionProperties& props, const ExprPtr& base, const ExprPtr& argument);
 
     bool argumentNeedsParentheses();
 

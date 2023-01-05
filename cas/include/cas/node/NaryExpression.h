@@ -16,7 +16,7 @@ public:
 
     ~NaryExpression() override = default;
 
-    bool _equals(ExprPtr expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
     std::string latex() override;
 

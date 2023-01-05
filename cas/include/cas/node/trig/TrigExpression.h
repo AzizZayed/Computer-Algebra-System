@@ -23,7 +23,7 @@ public:
     TrigExpression() = delete;
     ~TrigExpression() override = default;
 
-    bool _equals(ExprPtr expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
     std::string latex() override;
     std::wstring stringify() override;
@@ -32,7 +32,7 @@ public:
     static const std::unordered_map<double, UnitCircleCoordinate> unitCircle;
 
 protected:
-    explicit TrigExpression(const ExpressionProperties& props, ExprPtr argument);
+    explicit TrigExpression(const ExpressionProperties& props, const ExprPtr& argument);
     bool needsParentheses();
 };
 

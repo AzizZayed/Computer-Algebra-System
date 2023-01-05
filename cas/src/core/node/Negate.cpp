@@ -10,14 +10,14 @@
 
 CAS_NAMESPACE
 
-Negate::Negate(ExprPtr expression)
+Negate::Negate(const ExprPtr& expression)
     : UnaryExpression({ExpressionType::NEGATE, "negate", "neg"}, expression) {}
 
 double Negate::evaluate(const VariableMap& variables) {
     return -argument->evaluate(variables);
 }
 
-bool Negate::_equals(ExprPtr expr) {
+bool Negate::_equals(const ExprPtr& expr) {
     auto* negate = dynamic_cast<Negate*>(expr.get());
     return argument->equals(negate->argument);
 }

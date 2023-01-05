@@ -15,7 +15,7 @@ public:
 
     ~BracketExpression() override = default;
 
-    bool _equals(ExprPtr other) override;
+    bool _equals(const ExprPtr& other) override;
 
     ExprPtr derivative(char var) override;
 
@@ -28,7 +28,7 @@ public:
     std::string explicitText() override;
 
 protected:
-    explicit BracketExpression(const ExpressionProperties& properties, ExprPtr argument,
+    explicit BracketExpression(const ExpressionProperties& properties, const ExprPtr& argument,
                                const wchar_t* openBracket, const wchar_t* closeBracket,
                                const char* openBracketLatex, const char* closeBracketLatex);
 

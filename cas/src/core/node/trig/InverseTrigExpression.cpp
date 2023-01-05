@@ -7,7 +7,7 @@
 
 CAS_NAMESPACE
 
-InverseTrigExpression::InverseTrigExpression(const ExpressionProperties& props, ExprPtr argument)
+InverseTrigExpression::InverseTrigExpression(const ExpressionProperties& props, const ExprPtr& argument)
     : TrigExpression(props, argument) {}
 
 std::string InverseTrigExpression::latex() {

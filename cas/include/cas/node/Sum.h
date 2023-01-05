@@ -32,7 +32,7 @@ public:
 protected:
     double operate(double a, double b) override { return a + b; };
 
-    bool needsParentheses(ExprPtr) override { return false; };
+    bool needsParentheses(const ExprPtr&) override { return false; };
 };
 
 CAS_NAMESPACE_END

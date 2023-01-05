@@ -76,13 +76,13 @@ ExprPtr Prod::simplified() {
     if (simplifiedExpressions.size() == 1)
         return simplifiedExpressions[0];
 
-    std::sort(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](ExprPtr a, ExprPtr b) {
+    std::sort(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](const ExprPtr& a, const ExprPtr& b) {
         return a->lessThan(b);
     });
     return Prod::from({simplifiedExpressions});
 }
 
-bool Prod::needsParentheses(ExprPtr expression) {
+bool Prod::needsParentheses(const ExprPtr& expression) {
     return expression->getProperties().getType() == ExpressionType::SUM;
 }
 

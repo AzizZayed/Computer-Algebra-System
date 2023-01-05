@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Abs : public BracketExpression {
 public:
-    explicit Abs(ExprPtr argument);
+    explicit Abs(const ExprPtr& argument);
 
     Abs() = delete;
 
@@ -25,7 +25,7 @@ public:
 
     std::string text() override;
 
-    static ExprPtr from(ExprPtr argument) {
+    static ExprPtr from(const ExprPtr& argument) {
         return std::make_shared<Abs>(argument);
     }
 };

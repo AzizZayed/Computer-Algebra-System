@@ -12,7 +12,7 @@ CAS_NAMESPACE
 
 class Tan : public TrigExpression {
 public:
-    explicit Tan(ExprPtr argument);
+    explicit Tan(const ExprPtr& argument);
     Tan() = delete;
     ~Tan() override = default;
 
@@ -21,7 +21,7 @@ public:
     ExprPtr _derivative(char variable) override;
     ExprPtr simplified() override;
 
-    static TanPtr from(ExprPtr argument) { return std::make_shared<Tan>(argument); }
+    static TanPtr from(const ExprPtr& argument) { return std::make_shared<Tan>(argument); }
 };
 
 CAS_NAMESPACE_END

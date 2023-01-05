@@ -17,7 +17,7 @@ public:
     std::string latex() override;
 
 protected:
-    explicit InverseTrigExpression(const ExpressionProperties& props, ExprPtr argument);
+    explicit InverseTrigExpression(const ExpressionProperties& props, const ExprPtr& argument);
 };
 
 CAS_NAMESPACE_END

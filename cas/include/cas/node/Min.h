@@ -23,7 +23,7 @@ public:
 
     ExprPtr simplified() override;
 
-    static MinPtr from(std::vector<ExprPtr> expressions) { return std::make_shared<Min>(expressions); }
+    static MinPtr from(const std::vector<ExprPtr>& expressions) { return std::make_shared<Min>(expressions); }
 };
 
 CAS_NAMESPACE_END

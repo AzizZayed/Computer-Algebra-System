@@ -18,7 +18,7 @@ public:
     Function* derivative(char var) override;
     Function* simplifiedDerivative(char var);
     Function* simplified() override;
-    bool isEquivalent(Function* expression) override;
+    bool isEquivalent(Function* const & expression) override;
 
     std::string latex() override;
     std::wstring stringify() override;
@@ -35,7 +35,7 @@ public:
     const VarSet& getVariables() const;
 
 protected:
-    explicit Function(const std::string& strFunction, ExprPtr expr, const VarSet& variables, const std::string& name = "z");
+    explicit Function(const std::string& strFunction, const ExprPtr& expr, const VarSet& variables, const std::string& name = "z");
 
 private:
     const size_t uid;

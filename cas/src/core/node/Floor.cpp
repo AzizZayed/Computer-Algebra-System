@@ -9,7 +9,7 @@
 
 CAS_NAMESPACE
 
-Floor::Floor(ExprPtr argument)
+Floor::Floor(const ExprPtr& argument)
     : BracketExpression({ExpressionType::FLOOR, "floor_value", "floor"}, argument, L"\u230A", L"\u230B", "\\lfloor", "\\rfloor") {}
 
 double Floor::evaluate(const VariableMap& variables) {

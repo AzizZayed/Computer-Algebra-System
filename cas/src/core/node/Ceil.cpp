@@ -9,7 +9,7 @@
 
 CAS_NAMESPACE
 
-Ceil::Ceil(ExprPtr argument)
+Ceil::Ceil(const ExprPtr& argument)
     : BracketExpression({ExpressionType::CEIL, "ceiling", "ceil"}, argument,
                         L"\u2308", L"\u2309",
                         "\\lceil", "\\rceil") {}

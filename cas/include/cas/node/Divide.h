@@ -13,13 +13,13 @@ CAS_NAMESPACE
 class Divide : public Expr {
 public:
     Divide() = delete;
-    explicit Divide(ExprPtr dividend, ExprPtr divisor);
+    explicit Divide(const ExprPtr& dividend, const ExprPtr& divisor);
 
     ~Divide() override = default;
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(ExprPtr expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
     ExprPtr clone() override;
 
@@ -35,13 +35,10 @@ public:
 
     std::string explicitText() override;
 
-    static DividePtr from(ExprPtr dividend, ExprPtr divisor) { return std::make_shared<Divide>(dividend, divisor); }
+    static DividePtr from(const ExprPtr& dividend, const ExprPtr& divisor) { return std::make_shared<Divide>(dividend, divisor); }
 
     ExprPtr getDividend() const { return dividend; }
     ExprPtr getDivisor() const { return divisor; }
-
-private:
-    void setParents();
 
 private:
     ExprPtr dividend;

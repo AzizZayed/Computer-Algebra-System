@@ -100,8 +100,8 @@ public:
     double evaluate(const VariableMap& variables) override;
     virtual double evaluate();
 
-    virtual bool equals(ExprPtr expression);
-    virtual bool _equals(ExprPtr expression);
+    virtual bool equals(const ExprPtr& expression);
+    virtual bool _equals(const ExprPtr& expression);
 
     virtual ExprPtr clone();
 
@@ -109,26 +109,26 @@ public:
     virtual ExprPtr _derivative(char var);
 
     ExprPtr simplified() override;
-    bool isEquivalent(ExprPtr expression) override;
+    bool isEquivalent(const ExprPtr& expression) override;
 
-    ProdPtr multiply(ExprPtr expression);
+    ProdPtr multiply(const ExprPtr& expression);
     ProdPtr multiply(double value);
-    SumPtr add(ExprPtr expression);
-    SumPtr subtract(ExprPtr expression);
+    SumPtr add(const ExprPtr& expression);
+    SumPtr subtract(const ExprPtr& expression);
     SumPtr add(double value);
     SumPtr subtract(double value);
-    DividePtr divide(ExprPtr expression);
+    DividePtr divide(const ExprPtr& expression);
     DividePtr divide(double divisor);
     NegatePtr negate();
 
-    PowerPtr power(ExprPtr expression);
+    PowerPtr power(const ExprPtr& expression);
     PowerPtr power(double exponent);
     ExpPtr exp();
-    LogPtr log(ExprPtr base);
+    LogPtr log(const ExprPtr& base);
     LogPtr log(double base);
     LnPtr ln();
 
-    RootPtr root(ExprPtr root);
+    RootPtr root(const ExprPtr& root);
     RootPtr root(double root);
     SqrtPtr sqrt();
     CbrtPtr cbrt();
@@ -151,15 +151,15 @@ public:
     CeilPtr ceil();
     RoundPtr round();
     SignPtr sign();
-    ModPtr mod(ExprPtr expression);
+    ModPtr mod(const ExprPtr& expression);
 
     ExprPtr reciprocal();
 
     bool operator<(const Expr& expression) const;
 
-    bool lessThan(ExprPtr expression) const;
+    bool lessThan(const ExprPtr& expression) const;
 
-    static bool compare(ExprPtr left, ExprPtr right);
+    static bool compare(const ExprPtr& left, const ExprPtr& right);
 
     ExpressionProperties getProperties() const;
 
@@ -171,7 +171,7 @@ public:
 
     bool isOfType(ExpressionType type) const;
 
-    bool isOfSameType(ExprPtr expression) const;
+    bool isOfSameType(const ExprPtr& expression) const;
 
     // TODO overload math operators + - * / ^
 

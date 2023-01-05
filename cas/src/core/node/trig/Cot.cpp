@@ -13,7 +13,7 @@
 
 CAS_NAMESPACE
 
-Cot::Cot(ExprPtr argument) : TrigExpression({ExpressionType::COT, "cotangent", "cot"}, argument) {}
+Cot::Cot(const ExprPtr& argument) : TrigExpression({ExpressionType::COT, "cotangent", "cot"}, argument) {}
 
 double Cot::evaluate(const VariableMap& variables) {
     return 1.0 / std::tan(argument->evaluate(variables));

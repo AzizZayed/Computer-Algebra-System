@@ -9,7 +9,7 @@
 
 CAS_NAMESPACE
 
-Mod::Mod(ExprPtr dividend, ExprPtr divisor)
+Mod::Mod(const ExprPtr& dividend, const ExprPtr& divisor)
     : Expr({ExpressionType::MODULO, "modulo", "mod"}), dividend(dividend), divisor(divisor) {
 
     if (divisor->isOfType(ExpressionType::CONSTANT) && divisor->evaluate() == 0) {
@@ -24,7 +24,7 @@ double Mod::evaluate(const VariableMap& variables) {
     return std::fmod(dividend->evaluate(variables), divisor->evaluate(variables));
 }
 
-bool Mod::_equals(ExprPtr expression) {
+bool Mod::_equals(const ExprPtr& expression) {
     if (this == expression.get())
         return true;
 

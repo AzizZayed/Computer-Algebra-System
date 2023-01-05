@@ -11,7 +11,7 @@
 
 CAS_NAMESPACE
 
-UnaryExpression::UnaryExpression(const ExpressionProperties& properties, ExprPtr argument)
+UnaryExpression::UnaryExpression(const ExpressionProperties& properties, const ExprPtr& argument)
     : Expr(properties), argument(argument) {
     this->argument->setParent(this);
 }

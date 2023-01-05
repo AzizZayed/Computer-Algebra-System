@@ -12,13 +12,13 @@
 
 CAS_NAMESPACE
 
-Root::Root(const ExpressionProperties& props, ExprPtr base, ExprPtr root)
+Root::Root(const ExpressionProperties& props, const ExprPtr& base, const ExprPtr& root)
     : Power(props, base, root) {}
 
-Root::Root(ExprPtr base, ExprPtr root)
+Root::Root(const ExprPtr& base, const ExprPtr& root)
     : Root({ExpressionType::ROOT, "root", "root"}, base, root) {}
 
-Root::Root(ExprPtr base, double root)
+Root::Root(const ExprPtr& base, double root)
     : Root(base, Const::n(root)) {}
 
 double Root::evaluate(const VariableMap& variables) {

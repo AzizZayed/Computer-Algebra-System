@@ -11,7 +11,7 @@
 
 CAS_NAMESPACE
 
-ArcCos::ArcCos(ExprPtr argument)
+ArcCos::ArcCos(const ExprPtr& argument)
     : InverseTrigExpression({ExpressionType::ARC_COS, "arccos", "acos"}, argument) {}
 
 double ArcCos::evaluate(const VariableMap& variables) {

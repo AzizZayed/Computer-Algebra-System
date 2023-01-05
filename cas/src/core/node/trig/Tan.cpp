@@ -12,7 +12,7 @@
 
 CAS_NAMESPACE
 
-Tan::Tan(ExprPtr argument) : TrigExpression({ExpressionType::TAN, "tangent", "tan"}, argument) {}
+Tan::Tan(const ExprPtr& argument) : TrigExpression({ExpressionType::TAN, "tangent", "tan"}, argument) {}
 
 double Tan::evaluate(const VariableMap& variables) {
     return std::tan(argument->evaluate(variables));

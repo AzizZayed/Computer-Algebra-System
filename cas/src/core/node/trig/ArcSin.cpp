@@ -11,7 +11,7 @@
 
 CAS_NAMESPACE
 
-ArcSin::ArcSin(ExprPtr argument)
+ArcSin::ArcSin(const ExprPtr& argument)
     : InverseTrigExpression({ExpressionType::ARC_SIN, "arcsin", "asin"}, argument) {}
 
 double ArcSin::evaluate(const VariableMap& variables) {

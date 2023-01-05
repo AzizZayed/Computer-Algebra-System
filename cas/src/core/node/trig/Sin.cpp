@@ -11,7 +11,7 @@
 
 CAS_NAMESPACE
 
-Sin::Sin(ExprPtr argument) : TrigExpression({ExpressionType::SIN, "sinus", "sin"}, argument) {}
+Sin::Sin(const ExprPtr& argument) : TrigExpression({ExpressionType::SIN, "sinus", "sin"}, argument) {}
 
 double Sin::evaluate(const VariableMap& variables) {
     return std::sin(argument->evaluate(variables));

@@ -2,8 +2,8 @@
 // Created by Abd-El-Aziz Zayed on 2022-08-27.
 //
 
-#ifndef CAS_I_REPRESENTABLE_MATH__H
-#define CAS_I_REPRESENTABLE_MATH__H
+#ifndef CAS_INTERFACE_REPRESENTABLE_MATH_H
+#define CAS_INTERFACE_REPRESENTABLE_MATH_H
 
 #include "cas/CAS.h"
 #include <string>
@@ -20,4 +20,4 @@ public:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_I_REPRESENTABLE_MATH__H
+#endif//CAS_INTERFACE_REPRESENTABLE_MATH_H

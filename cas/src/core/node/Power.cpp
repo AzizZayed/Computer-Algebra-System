@@ -13,23 +13,23 @@
 
 CAS_NAMESPACE
 
-Power::Power(const ExpressionProperties& props, ExprPtr base, ExprPtr exponent)
+Power::Power(const ExpressionProperties& props, const ExprPtr& base, const ExprPtr& exponent)
     : Expr(props), base(base), exponent(exponent) {
     //    this->base->setParent(shared_from_this());
     //    this->exponent->setParent(shared_from_this());
 }
 
-Power::Power(ExprPtr base, ExprPtr exponent)
+Power::Power(const ExprPtr& base, const ExprPtr& exponent)
     : Power({ExpressionType::POWER, "power", "pow"}, base, exponent) {}
 
-Power::Power(ExprPtr base, double exponent)
+Power::Power(const ExprPtr& base, double exponent)
     : Power({ExpressionType::POWER, "power", "pow"}, base, Const::n(exponent)) {}
 
 double Power::evaluate(const VariableMap& variables) {
     return pow(base->evaluate(variables), exponent->evaluate(variables));
 }
 
-bool Power::_equals(ExprPtr expression) {
+bool Power::_equals(const ExprPtr& expression) {
     auto* power = dynamic_cast<Power*>(expression.get());
     return base->equals(power->base) && exponent->equals(power->exponent);
 }

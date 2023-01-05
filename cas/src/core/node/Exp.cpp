@@ -10,7 +10,7 @@
 
 CAS_NAMESPACE
 
-Exp::Exp(ExprPtr exponent)
+Exp::Exp(const ExprPtr& exponent)
     : Power({ExpressionType::EXPONENTIAL, "exponential", "exp"}, Const::E(), exponent) {}
 
 double Exp::evaluate(const VariableMap& variables) {

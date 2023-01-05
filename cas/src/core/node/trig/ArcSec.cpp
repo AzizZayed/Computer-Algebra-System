@@ -14,7 +14,7 @@
 
 CAS_NAMESPACE
 
-ArcSec::ArcSec(ExprPtr argument)
+ArcSec::ArcSec(const ExprPtr& argument)
     : InverseTrigExpression({ExpressionType::ARC_SEC, "arcsec", "asec"}, argument) {}
 
 double ArcSec::evaluate(const VariableMap& variables) {

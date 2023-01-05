@@ -24,7 +24,7 @@ Function::Function(std::string strFunction, const std::string& name, bool simpli
     }
 }
 
-Function::Function(const std::string& strFunction, cas::ExprPtr expr, const cas::VarSet& variables, const std::string& name)
+Function::Function(const std::string& strFunction, const ExprPtr& expr, const cas::VarSet& variables, const std::string& name)
     : uid(nextId()), strExpr(strFunction), expr(expr), name(name), filename(generateFilename()), variables(variables) {}
 
 double Function::evaluate(const VariableMap& vars) {
@@ -60,7 +60,7 @@ Function* Function::simplified() {
     return new Function(pExpression->text(), pExpression, this->variables, this->name + "_s");
 }
 
-bool Function::isEquivalent(Function* expression) {
+bool Function::isEquivalent(Function* const & expression) {
     return expr->isEquivalent(expression->expr);
 }
 

@@ -9,7 +9,7 @@
 
 CAS_NAMESPACE
 
-Abs::Abs(ExprPtr argument)
+Abs::Abs(const ExprPtr& argument)
     : BracketExpression({ExpressionType::ABSOLUTE_VALUE, "absolute_value", "abs"}, argument, L"|", L"|", "\\left|", "\\right|") {}
 
 double Abs::evaluate(const VariableMap& variables) {

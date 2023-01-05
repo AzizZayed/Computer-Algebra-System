@@ -13,7 +13,7 @@
 
 CAS_NAMESPACE
 
-Cos::Cos(ExprPtr argument) : TrigExpression({ExpressionType::COS, "cosine", "cos"}, argument) {}
+Cos::Cos(const ExprPtr& argument) : TrigExpression({ExpressionType::COS, "cosine", "cos"}, argument) {}
 
 double Cos::evaluate(const VariableMap& variables) {
     return std::cos(argument->evaluate(variables));

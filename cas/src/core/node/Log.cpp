@@ -13,26 +13,26 @@
 
 CAS_NAMESPACE
 
-Log::Log(const ExpressionProperties& props, ExprPtr base, ExprPtr argument)
+Log::Log(const ExpressionProperties& props, const ExprPtr& base, const ExprPtr& argument)
     : Expr(props), base(base), argument(argument) {
     base->setParent(this);
     argument->setParent(this);
 }
 
-Log::Log(ExprPtr base, ExprPtr argument)
+Log::Log(const ExprPtr& base, const ExprPtr& argument)
     : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, base, argument) {}
 
-Log::Log(double base, ExprPtr argument)
+Log::Log(double base, const ExprPtr& argument)
     : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, Const::n(base), argument) {}
 
-Log::Log(ExprPtr argument)
+Log::Log(const ExprPtr& argument)
     : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, Const::n(10), argument) {}
 
 double Log::evaluate(const VariableMap& variables) {
     return std::log(argument->evaluate(variables)) / std::log(base->evaluate(variables));
 }
 
-bool Log::_equals(ExprPtr expression) {
+bool Log::_equals(const ExprPtr& expression) {
     if (expression->isOfType(ExpressionType::LOGARITHM)) {
         auto* log = dynamic_cast<Log*>(expression.get());
         return base->equals(log->base) && argument->equals(log->argument);

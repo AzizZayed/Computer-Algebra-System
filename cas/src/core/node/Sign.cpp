@@ -10,7 +10,7 @@
 
 CAS_NAMESPACE
 
-Sign::Sign(ExprPtr argument)
+Sign::Sign(const ExprPtr& argument)
     : UnaryExpression({ExpressionType::SIGN, "sign", "sign"}, argument) {}
 
 double Sign::evaluate(const VariableMap& variables) {
@@ -19,7 +19,7 @@ double Sign::evaluate(const VariableMap& variables) {
                                    : 0;
 }
 
-bool Sign::_equals(ExprPtr expression) {
+bool Sign::_equals(const ExprPtr& expression) {
     if (this == expression.get())
         return true;
 

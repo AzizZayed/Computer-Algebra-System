@@ -17,7 +17,7 @@ public:
     virtual double evaluate(const VariableMap& variables) = 0;
     virtual E derivative(char var) = 0;
     virtual E simplified() = 0;
-    virtual bool isEquivalent(E expr) = 0;
+    virtual bool isEquivalent(const E& expr) = 0;
 };
 
 namespace math {

@@ -12,7 +12,7 @@
 
 CAS_NAMESPACE
 
-Sqrt::Sqrt(ExprPtr base)
+Sqrt::Sqrt(const ExprPtr& base)
     : Root({ExpressionType::SQUARE_ROOT, "square_root", "sqrt"}, base, Const::n(2)) {}
 
 double Sqrt::evaluate(const VariableMap& variables) {

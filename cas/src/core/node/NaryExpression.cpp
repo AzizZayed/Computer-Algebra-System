@@ -17,7 +17,7 @@ NaryExpression::NaryExpression(const ExpressionProperties& props,
     }
 }
 
-bool NaryExpression::_equals(ExprPtr expression) {
+bool NaryExpression::_equals(const ExprPtr& expression) {
     if (this == expression.get())
         return true;
 

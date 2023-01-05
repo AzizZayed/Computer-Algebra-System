@@ -12,7 +12,7 @@
 
 CAS_NAMESPACE
 
-ArcCot::ArcCot(ExprPtr argument)
+ArcCot::ArcCot(const ExprPtr& argument)
     : InverseTrigExpression({ExpressionType::ARC_COT, "arccot", "acot"}, argument) {}
 
 double ArcCot::evaluate(const VariableMap& variables) {

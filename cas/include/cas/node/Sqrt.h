@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Sqrt : public Root {
 public:
-    explicit Sqrt(ExprPtr base);
+    explicit Sqrt(const ExprPtr& base);
     Sqrt() = delete;
     ~Sqrt() override = default;
 
@@ -25,7 +25,7 @@ public:
     std::string text() override;
     std::string explicitText() override;
 
-    static SqrtPtr from(ExprPtr base) { return std::make_shared<Sqrt>(base); }
+    static SqrtPtr from(const ExprPtr& base) { return std::make_shared<Sqrt>(base); }
 };
 
 CAS_NAMESPACE_END

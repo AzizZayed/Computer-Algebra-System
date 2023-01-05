@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class ArcTan : public InverseTrigExpression {
 public:
-    explicit ArcTan(ExprPtr argument);
+    explicit ArcTan(const ExprPtr& argument);
     ArcTan() = delete;
     ~ArcTan() override = default;
 
@@ -20,7 +20,7 @@ public:
     ExprPtr _derivative(char variable) override;
     ExprPtr simplified() override;
 
-    static ArcTanPtr from(ExprPtr argument) { return std::make_shared<ArcTan>(argument); }
+    static ArcTanPtr from(const ExprPtr& argument) { return std::make_shared<ArcTan>(argument); }
 };
 
 CAS_NAMESPACE_END

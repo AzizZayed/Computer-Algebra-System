@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Csc : public TrigExpression {
 public:
-    explicit Csc(ExprPtr argument);
+    explicit Csc(const ExprPtr& argument);
     Csc() = delete;
     ~Csc() override = default;
 
@@ -20,7 +20,7 @@ public:
     ExprPtr _derivative(char variable) override;
     ExprPtr simplified() override;
 
-    static CscPtr from(ExprPtr argument) { return std::make_shared<Csc>(argument); }
+    static CscPtr from(const ExprPtr& argument) { return std::make_shared<Csc>(argument); }
 };
 
 CAS_NAMESPACE_END

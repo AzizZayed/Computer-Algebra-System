@@ -12,7 +12,7 @@ CAS_NAMESPACE
 
 class Cos : public TrigExpression {
 public:
-    explicit Cos(ExprPtr argument);
+    explicit Cos(const ExprPtr& argument);
     Cos() = delete;
     ~Cos() override = default;
 
@@ -21,7 +21,7 @@ public:
     ExprPtr _derivative(char variable) override;
     ExprPtr simplified() override;
 
-    static CosPtr from(ExprPtr argument) { return std::make_shared<Cos>(argument); }
+    static CosPtr from(const ExprPtr& argument) { return std::make_shared<Cos>(argument); }
 };
 
 CAS_NAMESPACE_END

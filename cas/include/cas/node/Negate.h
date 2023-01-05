@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Negate : public UnaryExpression {
 public:
-    explicit Negate(ExprPtr expression);
+    explicit Negate(const ExprPtr& expression);
 
     Negate() = delete;
 
@@ -19,7 +19,7 @@ public:
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(ExprPtr expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
     ExprPtr clone() override;
 
@@ -35,7 +35,7 @@ public:
 
     std::string explicitText() override;
 
-    static NegatePtr from(ExprPtr expression) { return std::make_shared<Negate>(expression); }
+    static NegatePtr from(const ExprPtr& expression) { return std::make_shared<Negate>(expression); }
 
 protected:
     bool needsParentheses();

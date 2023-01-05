@@ -28,7 +28,7 @@ public:
     std::string explicitText() override;
 
 protected:
-    explicit UnaryExpression(const ExpressionProperties& properties, ExprPtr argument);
+    explicit UnaryExpression(const ExpressionProperties& properties, const ExprPtr& argument);
 
 protected:
     ExprPtr argument;
