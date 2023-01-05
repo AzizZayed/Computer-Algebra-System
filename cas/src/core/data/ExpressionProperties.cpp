@@ -7,7 +7,7 @@
 CAS_NAMESPACE
 
 ExpressionProperties::ExpressionProperties(ExpressionType type, std::string name, std::string shortName)
-    : order(uint16_t(type)), type(type), name(std::move(name)), shortName(std::move(shortName)) {}
+    : order(static_cast<uint8_t>(type)), type(type), name(std::move(name)), shortName(std::move(shortName)) {}
 
 bool ExpressionProperties::operator==(const ExpressionProperties& other) const {
     return type == other.type && order == other.order && name == other.name && shortName == other.shortName;

@@ -8,39 +8,39 @@
 
 CAS_NAMESPACE
 
-Max::Max(std::vector<Expression*> expressions)
+Max::Max(std::vector<ExprPtr> expressions)
     : NaryExpression({ExpressionType::MAX, "maximum", "max"}, std::move(expressions)) {}
 
 double Max::evaluate(const VariableMap& variables) {
-    auto functor = [&](Expression* a, Expression* b) {
+    auto functor = [&](ExprPtr a, ExprPtr b) {
         return a->evaluate(variables) > b->evaluate(variables);
     };
 
     return (*std::max_element(expressions.begin(), expressions.end(), functor))->evaluate(variables);
 }
 
-Max* Max::clone() {
-    std::vector<Expression*> clonedExpressions;
+ExprPtr Max::clone() {
+    std::vector<ExprPtr> clonedExpressions;
     clonedExpressions.reserve(expressions.size());
 
     for (auto& expression: expressions)
         clonedExpressions.push_back(expression->clone());
 
-    return new Max(clonedExpressions);
+    return Max::from(clonedExpressions);
 }
 
-Expression* Max::simplified() {
+ExprPtr Max::simplified() {
     if (expressions.size() == 1)
         return expressions[0]->simplified();
 
-    std::vector<Expression*> simplifiedExpressions;
+    std::vector<ExprPtr> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
 
-    std::transform(expressions.begin(), expressions.end(), simplifiedExpressions.begin(), [](Expression* expr) {
+    std::transform(expressions.begin(), expressions.end(), simplifiedExpressions.begin(), [](ExprPtr expr) {
         return expr->simplified();
     });
 
-    bool (*isConstant)(Expression*) = [](Expression* expression) {
+    bool (*isConstant)(ExprPtr) = [](ExprPtr expression) {
         return expression->isOfType(ExpressionType::CONSTANT);
     };
 
@@ -49,14 +49,14 @@ Expression* Max::simplified() {
     if (constantCount > 1) {
         bool allConstant = std::all_of(simplifiedExpressions.begin(), simplifiedExpressions.end(), isConstant);
         if (allConstant) {
-            double maxElement = (*std::max_element(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](Expression* a, Expression* b) {
+            double maxElement = (*std::max_element(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](ExprPtr a, ExprPtr b) {
                                     return a->evaluate() > b->evaluate();
                                 }))->evaluate();
 
             return Const::n(maxElement);
         }
 
-        std::vector<Expression*> reducedExpressions;
+        std::vector<ExprPtr> reducedExpressions;
         reducedExpressions.reserve(expressions.size());
 
         double max = -1.0 / 0.0;
@@ -73,10 +73,10 @@ Expression* Max::simplified() {
             return reducedExpressions[0];
         }
 
-        return new Max(reducedExpressions);
+        return Max::from(reducedExpressions);
     }
 
-    return new Max(simplifiedExpressions);
+    return Max::from(simplifiedExpressions);
 }
 
 CAS_NAMESPACE_END

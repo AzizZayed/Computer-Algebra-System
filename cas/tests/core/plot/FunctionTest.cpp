@@ -5,7 +5,7 @@
 #include "cas/plot/Function.h"
 #include "cas/node/Const.h"
 #include "cas/node/Power.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "cas/node/Sum.h"
 #include "cas/node/Var.h"
 #include "gtest/gtest.h"

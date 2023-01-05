@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Exp : public Power {
 public:
-    explicit Exp(Expression* exponent);
+    explicit Exp(ExprPtr exponent);
 
     Exp() = delete;
 
@@ -19,13 +19,15 @@ public:
 
     double evaluate(const VariableMap& variables) override;
 
-    Exp* clone() override;
+    ExprPtr clone() override;
 
-    Expression* _derivative(char var) override;
+    ExprPtr _derivative(char var) override;
 
-    Expression* simplified() override;
+    ExprPtr simplified() override;
 
     std::string explicitText() override;
+
+    static ExpPtr from(ExprPtr exponent) { return std::make_shared<Exp>(exponent); }
 };
 
 CAS_NAMESPACE_END

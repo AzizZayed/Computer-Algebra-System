@@ -1,6 +1,7 @@
 //
 // Created by Abd-El-Aziz Zayed on 2022-08-26.
 //
+
 #ifndef CAS_CONSTANT_H
 #define CAS_CONSTANT_H
 
@@ -9,23 +10,21 @@
 
 CAS_NAMESPACE
 
-class Const : public Expression {
+class Const : public Expr {
 public:
     explicit Const(double value);
-
-    explicit Const() : Const(0.0){};
-
+    Const() = delete;
     ~Const() override = default;
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(Expression* expression) override;
+    bool _equals(ExprPtr expression) override;
 
-    Const* clone() override;
+    ExprPtr clone() override;
 
-    Const* _derivative(char var) override;
+    ExprPtr _derivative(char var) override;
 
-    Const* simplified() override;
+    ExprPtr simplified() override;
 
     std::string latex() override;
 
@@ -35,17 +34,18 @@ public:
 
     double getValue() const { return value; }
 
-    static Const* PI() { return new Const{math::PI}; }
+    static ConstPtr PI() { return n(math::PI); }
 
-    static Const* E() { return new Const{math::E}; }
+    static ConstPtr E() { return n(math::E); }
 
-    static Const* PHI() { return new Const{math::PHI}; }
+    static ConstPtr PHI() { return n(math::PHI); }
 
-    static Const* zero() { return new Const; }
+    static ConstPtr zero() { return n(0.0); }
 
-    static Const* one() { return new Const{1.0}; }
+    static ConstPtr one() { return n(1.0); }
 
-    static Const* n(double value) { return new Const{value}; }
+    static ConstPtr n(double value) { return std::make_shared<Const>(value); }
+    static ConstPtr from(double value) { return n(value); }
 
     static bool floatingsEqual(double a, double b) {
         double max = std::max(1.0, std::max(std::fabs(a), std::fabs(b)));

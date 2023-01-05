@@ -11,14 +11,16 @@ CAS_NAMESPACE
 
 class ArcCot : public InverseTrigExpression {
 public:
-    explicit ArcCot(Expression* argument);
+    explicit ArcCot(ExprPtr argument);
     ArcCot() = delete;
     ~ArcCot() override = default;
 
     double evaluate(const VariableMap& variables) override;
-    ArcCot* clone() override;
-    Expression* _derivative(char variable) override;
-    Expression* simplified() override;
+    ExprPtr clone() override;
+    ExprPtr _derivative(char variable) override;
+    ExprPtr simplified() override;
+
+    static ArcCotPtr from(ExprPtr argument) { return std::make_shared<ArcCot>(argument); }
 };
 
 CAS_NAMESPACE_END

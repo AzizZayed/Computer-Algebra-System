@@ -11,22 +11,25 @@ CAS_NAMESPACE
 
 class Root : public Power {
 public:
-    explicit Root(const ExpressionProperties& props, Expression* base, Expression* root);
-    explicit Root(Expression* base, Expression* root);
-    explicit Root(Expression* base, double root);
+    explicit Root(const ExpressionProperties& props, ExprPtr base, ExprPtr root);
+    explicit Root(ExprPtr base, ExprPtr root);
+    explicit Root(ExprPtr base, double root);
 
     Root() = delete;
     ~Root() override = default;
 
     double evaluate(const VariableMap& variables) override;
-    Root* clone() override;
-    Expression* simplified() override;
+    ExprPtr clone() override;
+    ExprPtr simplified() override;
 
     std::string latex() override;
     std::wstring stringify() override;
     std::string text() override;
 
-    Expression* getRoot() const { return getExponent(); }
+    ExprPtr getRoot() const { return getExponent(); }
+
+    static RootPtr from(ExprPtr base, ExprPtr root) { return std::make_shared<Root>(base, root); }
+    static RootPtr from(ExprPtr base, double root) { return std::make_shared<Root>(base, root); }
 };
 
 CAS_NAMESPACE_END

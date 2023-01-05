@@ -16,9 +16,9 @@ const char* Const::E_LATEX = "e";
 const char* Const::PHI_LATEX = "\\varphi";
 
 Const::Const(double value)
-    : Expression{{ExpressionType::CONSTANT, "constant", "const"}}, value{value} {}
+    : Expr{{ExpressionType::CONSTANT, "constant", "const"}}, value{value} {}
 
-Const* Const::clone() {
+ExprPtr Const::clone() {
     return Const::n(value);
 }
 
@@ -26,15 +26,15 @@ double Const::evaluate(const VariableMap&) {
     return value;
 }
 
-bool Const::_equals(Expression* expression) {
+bool Const::_equals(ExprPtr expression) {
     return floatingsEqual(value, expression->evaluate());
 }
 
-Const* Const::_derivative(char) {
+ExprPtr Const::_derivative(char) {
     return Const::zero();
 }
 
-Const* Const::simplified() {
+ExprPtr Const::simplified() {
     return clone();
 }
 

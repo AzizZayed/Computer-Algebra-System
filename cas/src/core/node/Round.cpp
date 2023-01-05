@@ -7,20 +7,20 @@
 
 CAS_NAMESPACE
 
-Round::Round(Expression* argument)
+Round::Round(ExprPtr argument)
     : BracketExpression({ExpressionType::ROUND, "round", "round"}, argument, L"\u230A", L"\u2309", "\\lfloor", "\\rceil") {}
 
 double Round::evaluate(const VariableMap& variables) {
     return std::round(argument->evaluate(variables));
 }
 
-Round* Round::clone() {
-    return new Round(argument->clone());
+ExprPtr Round::clone() {
+    return Round::from(argument->clone());
 }
 
-Expression* Round::simplified() {
+ExprPtr Round::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        return Const::n(Expression::evaluate());
+        return Const::n(Expr::evaluate());
     }
     if (argument->isOfType(ExpressionType::ROUND)) {
         return argument->simplified();

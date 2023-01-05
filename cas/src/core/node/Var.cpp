@@ -10,10 +10,10 @@
 CAS_NAMESPACE
 
 Var::Var(char variable)
-    : Expression({ExpressionType::VARIABLE, "variable", "var"}), symbol(variable) {}
+    : Expr({ExpressionType::VARIABLE, "variable", "var"}), symbol(variable) {}
 
-Var* Var::clone() {
-    return new Var(symbol);
+ExprPtr Var::clone() {
+    return Var::from(symbol);
 }
 
 double Var::evaluate(const VariableMap& variables) {
@@ -22,17 +22,17 @@ double Var::evaluate(const VariableMap& variables) {
     return variables.at(symbol);
 }
 
-bool Var::_equals(Expression* expression) {
-    auto* var = dynamic_cast<Var*>(expression);
+bool Var::_equals(ExprPtr expression) {
+    auto* var = dynamic_cast<Var*>(expression.get());
     return var->getSymbol() == symbol;
 }
 
-Expression* Var::_derivative(char var) {
+ExprPtr Var::_derivative(char var) {
     double derivative = symbol == var ? 1.0 : 0.0;
-    return new Const{derivative};
+    return Const::n(derivative);
 }
 
-Var* Var::simplified() {
+ExprPtr Var::simplified() {
     return clone();
 }
 

@@ -13,7 +13,7 @@ CAS_NAMESPACE
 class ExpressionParser {
 public:
     static ExpressionParser& getInstance();
-    Expression* parse(const std::string& expression, VarSet& variables);
+    ExprPtr parse(const std::string& expression, VarSet& variables);
 
     void setup(std::string& expr);
     bool isValidExpression(const std::string& expr);

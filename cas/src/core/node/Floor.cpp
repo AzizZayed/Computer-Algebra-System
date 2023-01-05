@@ -9,26 +9,26 @@
 
 CAS_NAMESPACE
 
-Floor::Floor(Expression* argument)
+Floor::Floor(ExprPtr argument)
     : BracketExpression({ExpressionType::FLOOR, "floor_value", "floor"}, argument, L"\u230A", L"\u230B", "\\lfloor", "\\rfloor") {}
 
 double Floor::evaluate(const VariableMap& variables) {
     return std::floor(argument->evaluate(variables));
 }
 
-Floor* Floor::clone() {
-    return new Floor(argument->clone());
+ExprPtr Floor::clone() {
+    return Floor::from(argument->clone());
 }
 
-Expression* Floor::simplified() {
+ExprPtr Floor::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        return Const::n(Expression::evaluate());
+        return Const::n(Expr::evaluate());
     }
     if (argument->isOfType(ExpressionType::FLOOR)) {
         return argument->simplified();
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+        auto* negate = dynamic_cast<Negate*>(argument.get());
         return negate->getArgument()->simplified()->ceil()->negate();
     }
 

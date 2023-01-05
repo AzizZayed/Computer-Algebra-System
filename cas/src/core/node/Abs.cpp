@@ -9,23 +9,23 @@
 
 CAS_NAMESPACE
 
-Abs::Abs(Expression* argument)
+Abs::Abs(ExprPtr argument)
     : BracketExpression({ExpressionType::ABSOLUTE_VALUE, "absolute_value", "abs"}, argument, L"|", L"|", "\\left|", "\\right|") {}
 
 double Abs::evaluate(const VariableMap& variables) {
     return std::abs(argument->evaluate(variables));
 }
 
-Abs* Abs::clone() {
-    return new Abs(argument->clone());
+ExprPtr Abs::clone() {
+    return std::make_shared<Abs>(argument->clone());
 }
 
-Expression* Abs::simplified() {
+ExprPtr Abs::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        return Const::n(Expression::evaluate());
+        return Const::n(Expr::evaluate());
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+        auto* negate = dynamic_cast<Negate*>(argument.get());
         return negate->getArgument()->abs();
     }
     if (argument->isOfType(ExpressionType::ABSOLUTE_VALUE)) {

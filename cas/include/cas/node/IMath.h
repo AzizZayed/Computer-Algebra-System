@@ -5,18 +5,19 @@
 #ifndef CAS_IMATH_H
 #define CAS_IMATH_H
 
-#include <cmath>
 #include "cas/CAS.h"
 #include "cas/data/VariableMap.h"
+#include <cmath>
 
 CAS_NAMESPACE
 
+template<typename E>
 class IMath {
 public:
     virtual double evaluate(const VariableMap& variables) = 0;
-    virtual IMath* derivative(char var) = 0;
-    virtual IMath* simplified() = 0;
-    virtual bool isEquivalent(IMath* expr) = 0;
+    virtual E derivative(char var) = 0;
+    virtual E simplified() = 0;
+    virtual bool isEquivalent(E expr) = 0;
 };
 
 namespace math {

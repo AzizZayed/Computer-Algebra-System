@@ -15,7 +15,7 @@
 #include "cas/node/Mod.h"
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "cas/node/Round.h"
 #include "cas/node/Sign.h"
 #include "cas/node/Sqrt.h"

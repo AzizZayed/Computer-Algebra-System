@@ -7,34 +7,28 @@
 
 CAS_NAMESPACE
 
-Operator::Operator(const ExpressionProperties& props, double neutral, char symbol, std::vector<Expression*> expressions)
-    : Expression(props), neutral(neutral), symbol(symbol), expressions(std::move(expressions)) {
+Operator::Operator(const ExpressionProperties& props, double neutral, char symbol, std::vector<ExprPtr> expressions)
+    : Expr(props), neutral(neutral), symbol(symbol), expressions(std::move(expressions)) {
     for (auto& expression: this->expressions)
         expression->setParent(this);
 }
 
-Operator::~Operator() {
-    for (auto* expression: expressions) {
-        delete expression;
-    }
-}
-
 double Operator::evaluate(const VariableMap& variables) {
     double result = neutral;
-    for (auto* expression: expressions)
+    for (auto& expression: expressions)
         result = operate(result, expression->evaluate(variables));
 
     return result;
 }
 
-bool Operator::_equals(Expression* expression) {
-    if (this == expression)
+bool Operator::_equals(ExprPtr expression) {
+    if (this == expression.get())
         return true;
 
     if (!isOfSameType(expression))
         return false;
 
-    auto* op = dynamic_cast<Operator*>(expression);
+    auto* op = dynamic_cast<Operator*>(expression.get());
 
     if (expressions.size() != op->expressions.size() || symbol != op->getSymbol())
         return false;

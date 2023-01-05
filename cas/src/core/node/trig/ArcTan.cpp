@@ -11,24 +11,24 @@
 
 CAS_NAMESPACE
 
-ArcTan::ArcTan(Expression* argument)
+ArcTan::ArcTan(ExprPtr argument)
     : InverseTrigExpression({ExpressionType::ARC_TAN, "arctan", "atan"}, argument) {}
 
 double ArcTan::evaluate(const VariableMap& variables) {
     return std::atan(argument->evaluate(variables));
 }
 
-ArcTan* ArcTan::clone() {
-    return new ArcTan(argument->clone());
+ExprPtr ArcTan::clone() {
+    return ArcTan::from(argument->clone());
 }
 
-Expression* ArcTan::_derivative(char var) {
-    return new Divide(
+ExprPtr ArcTan::_derivative(char var) {
+    return Divide::from(
             argument->derivative(var),
-            new Sum({new Const(1), argument->clone()->power(2)}));
+            Sum::from({Const::one(), argument->clone()->power(2)}));
 }
 
-Expression* ArcTan::simplified() {
+ExprPtr ArcTan::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         if (argument->evaluate() == 0)
             return Const::zero();

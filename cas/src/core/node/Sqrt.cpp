@@ -5,40 +5,42 @@
 #include "cas/node/Sqrt.h"
 #include "cas/node/Const.h"
 #include "cas/node/Divide.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "cas/util/StringUtils.h"
 #include "fmt/printf.h"
 #include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
-Sqrt::Sqrt(Expression* base)
-    : Root({ExpressionType::SQUARE_ROOT, "square_root", "sqrt"}, base, new Const(2)) {}
+Sqrt::Sqrt(ExprPtr base)
+    : Root({ExpressionType::SQUARE_ROOT, "square_root", "sqrt"}, base, Const::n(2)) {}
 
 double Sqrt::evaluate(const VariableMap& variables) {
     return std::sqrt(base->evaluate(variables));
 }
 
-Sqrt* Sqrt::clone() {
-    return new Sqrt(base->clone());
+ExprPtr Sqrt::clone() {
+    return Sqrt::from(base->clone());
 }
 
-Expression* Sqrt::_derivative(char var) {
-    return new Divide(
-            base->derivative(var),
-            new Product({new Const(2), clone()}));
+ExprPtr Sqrt::_derivative(char var) {
+
+    // sqrt( f )' = f' / (2 * sqrt( f ))
+    return Divide::from(
+            base->derivative(var),          // f'
+            Const::n(2)->multiply(clone()));// 2 * sqrt( f )
 }
 
-Expression* Sqrt::simplified() {
+ExprPtr Sqrt::simplified() {
     if (base->isOfType(ExpressionType::CONSTANT)) {
-        double sqrt = Expression::evaluate();
+        double sqrt = Expr::evaluate();
         if (isWholeNumber(sqrt))
-            return new Const(sqrt);
+            return Const::from(sqrt);
         else
             return clone();
     }
     if (base->isOfType(ExpressionType::POWER)) {
-        auto* power = dynamic_cast<Power*>(base);
+        auto* power = dynamic_cast<Power*>(base.get());
         if (power->getExponent()->isOfType(ExpressionType::CONSTANT)) {
             double exponent = power->getExponent()->evaluate();
             if (exponent == 2)

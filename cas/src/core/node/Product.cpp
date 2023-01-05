@@ -2,68 +2,67 @@
 // Created by Abd-El-Aziz Zayed on 2022-09-01.
 //
 
-#include "cas/node/Product.h"
 #include "cas/node/Const.h"
+#include "cas/node/Prod.h"
 #include "cas/node/Sum.h"
 #include <sstream>
 
 CAS_NAMESPACE
 
-Product::Product(const std::vector<Expression*>& expressions)
+Prod::Prod(const std::vector<ExprPtr>& expressions)
     : Operator({ExpressionType::PRODUCT, "product", "prod"}, 1.0, '*', expressions) {}
 
-Product* Product::clone() {
-    std::vector<Expression*> clonedExpressions;
+ExprPtr Prod::clone() {
+    std::vector<ExprPtr> clonedExpressions;
     clonedExpressions.reserve(expressions.size());
 
     for (auto& expression: expressions)
         clonedExpressions.push_back(expression->clone());
 
-    return new Product{clonedExpressions};
+    return Prod::from({clonedExpressions});
 }
 
-Expression* Product::_derivative(char var) {
-    std::vector<Expression*> differentiatedExpressions;
+ExprPtr Prod::_derivative(char var) {
+    std::vector<ExprPtr> differentiatedExpressions;
     differentiatedExpressions.reserve(expressions.size());
 
     for (size_t i = 0; i < expressions.size(); i++) {
-        std::vector<Expression*> products;
+        std::vector<ExprPtr> products;
         products.reserve(expressions.size());
         for (size_t j = 0; j < expressions.size(); j++) {
-            Expression* exp = expressions[j];
-            Expression* prod = i == j ? exp->derivative(var) : exp->clone();
+            ExprPtr exp = expressions[j];
+            ExprPtr prod = i == j ? exp->derivative(var) : exp->clone();
             products.push_back(prod);
         }
-        differentiatedExpressions.push_back(new Product{products});
+        differentiatedExpressions.push_back(Prod::from({products}));
     }
 
-    return new Sum{differentiatedExpressions};
+    return Sum::from({differentiatedExpressions});
 }
 
-Expression* Product::simplified() {
+ExprPtr Prod::simplified() {
     // TODO: simplify
 
     // If there is only one expression, return it
     if (expressions.size() == 1)
         return expressions[0]->simplified();
 
-    std::vector<Expression*> simplifiedExpressions;
+    std::vector<ExprPtr> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
 
     double constant = 1.0;
     for (auto& expression: expressions) {
-        Expression* x = expression->simplified();
+        ExprPtr x = expression->simplified();
 
         if (x->isOfType(ExpressionType::CONSTANT)) {
             double value = x->evaluate();
             if (value == 0) {
-                delete x;
                 return Const::zero();
             }
             constant *= value;
             continue;
         } else if (x->isOfType(ExpressionType::PRODUCT)) {
-            auto* product = dynamic_cast<Product*>(x);
+            auto* product = dynamic_cast<Prod*>(x.get());
             for (auto& exp: product->expressions)
                 simplifiedExpressions.push_back(exp);
             continue;
@@ -77,24 +76,24 @@ Expression* Product::simplified() {
     if (simplifiedExpressions.size() == 1)
         return simplifiedExpressions[0];
 
-    std::sort(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](Expression* a, Expression* b) {
+    std::sort(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](ExprPtr a, ExprPtr b) {
         return a->lessThan(b);
     });
-    return new Product{simplifiedExpressions};
+    return Prod::from({simplifiedExpressions});
 }
 
-bool Product::needsParentheses(Expression* expression) {
+bool Prod::needsParentheses(ExprPtr expression) {
     return expression->getProperties().getType() == ExpressionType::SUM;
 }
 
-std::string Product::latex() {
+std::string Prod::latex() {
     if (expressions.empty())
         return "";
 
     std::stringstream ss;
 
     for (size_t i = 0; i < expressions.size(); i++) {
-        Expression* exp = expressions[i];
+        ExprPtr exp = expressions[i];
         bool needsParens = needsParentheses(exp);
 
         if (needsParens)
@@ -113,14 +112,14 @@ std::string Product::latex() {
     return ss.str();
 }
 
-std::wstring Product::stringify() {
+std::wstring Prod::stringify() {
     if (expressions.empty())
         return L"";
 
     std::wstringstream ss;
 
     for (size_t i = 0; i < expressions.size(); i++) {
-        Expression* exp = expressions[i];
+        ExprPtr exp = expressions[i];
         bool needsParens = needsParentheses(exp);
 
         if (needsParens)

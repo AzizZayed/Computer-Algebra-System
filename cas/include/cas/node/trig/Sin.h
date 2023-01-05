@@ -12,14 +12,16 @@ CAS_NAMESPACE
 
 class Sin : public TrigExpression {
 public:
-    explicit Sin(Expression* argument);
+    explicit Sin(ExprPtr argument);
     Sin() = delete;
     ~Sin() override = default;
 
     double evaluate(const VariableMap& variables) override;
-    Sin* clone() override;
-    Expression* _derivative(char variable) override;
-    Expression* simplified() override;
+    ExprPtr clone() override;
+    ExprPtr _derivative(char variable) override;
+    ExprPtr simplified() override;
+
+    static SinPtr from(ExprPtr argument) { return std::make_shared<Sin>(argument); }
 };
 
 CAS_NAMESPACE_END

@@ -10,13 +10,13 @@
 
 CAS_NAMESPACE
 
-class NaryExpression : public Expression {
+class NaryExpression : public Expr {
 public:
     NaryExpression() = delete;
 
-    ~NaryExpression() override;
+    ~NaryExpression() override = default;
 
-    bool _equals(Expression* expression) override;
+    bool _equals(ExprPtr expression) override;
 
     std::string latex() override;
 
@@ -26,7 +26,7 @@ public:
 
     std::string explicitText() override;
 
-    std::vector<Expression*> getExpressions() const { return {expressions}; }
+    std::vector<ExprPtr> getExpressions() const { return {expressions}; }
 
     template<typename F>
     bool all(F&& f) const;
@@ -38,10 +38,10 @@ public:
     void forEach(F&& f) const;
 
 protected:
-    explicit NaryExpression(const ExpressionProperties& props, std::vector<Expression*> expressions);
+    explicit NaryExpression(const ExpressionProperties& props, std::vector<ExprPtr> expressions);
 
 protected:
-    std::vector<Expression*> expressions;
+    std::vector<ExprPtr> expressions;
 };
 
 CAS_NAMESPACE_END

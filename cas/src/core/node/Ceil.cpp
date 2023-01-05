@@ -9,7 +9,7 @@
 
 CAS_NAMESPACE
 
-Ceil::Ceil(Expression* argument)
+Ceil::Ceil(ExprPtr argument)
     : BracketExpression({ExpressionType::CEIL, "ceiling", "ceil"}, argument,
                         L"\u2308", L"\u2309",
                         "\\lceil", "\\rceil") {}
@@ -18,19 +18,19 @@ double Ceil::evaluate(const VariableMap& variables) {
     return std::ceil(argument->evaluate(variables));
 }
 
-Ceil* Ceil::clone() {
-    return new Ceil(argument->clone());
+ExprPtr Ceil::clone() {
+    return std::make_shared<Ceil>(argument->clone());
 }
 
-Expression* Ceil::simplified() {
+ExprPtr Ceil::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        return Const::n(Expression::evaluate());
+        return Const::n(Expr::evaluate());
     }
     if (argument->isOfType(ExpressionType::CEIL)) {
         return argument->simplified();
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+        auto* negate = dynamic_cast<Negate*>(argument.get());
         return negate->getArgument()->simplified()->floor()->negate();
     }
 

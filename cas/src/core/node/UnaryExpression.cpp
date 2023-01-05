@@ -11,24 +11,19 @@
 
 CAS_NAMESPACE
 
-UnaryExpression::UnaryExpression(const ExpressionProperties& properties, Expression* argument)
-    : Expression(properties), argument(argument) {
+UnaryExpression::UnaryExpression(const ExpressionProperties& properties, ExprPtr argument)
+    : Expr(properties), argument(argument) {
     this->argument->setParent(this);
 }
 
-UnaryExpression::~UnaryExpression() {
-    delete argument;
-    argument = nullptr;
-}
-
-Expression* UnaryExpression::derivative(char var) {
+ExprPtr UnaryExpression::derivative(char var) {
     if (argument->isOfType(ExpressionType::CONSTANT))
-        return new Const(0);
+        return Const::zero();
 
     if (argument->isOfType(ExpressionType::VARIABLE)) {
-        auto* variable = dynamic_cast<Var*>(argument);
+        auto* variable = dynamic_cast<Var*>(argument.get());
         if (variable->getSymbol() != var)
-            return new Const(0);
+            return Const::zero();
     }
 
     return _derivative(var);

@@ -10,10 +10,11 @@
 
 CAS_NAMESPACE
 
+// TODO redesign so this is never copied
+
 class ExpressionProperties {
 public:
     ExpressionProperties(ExpressionType type, std::string name, std::string shortName);
-
     bool operator==(const ExpressionProperties& other) const;
 
     uint16_t getOrder() const;

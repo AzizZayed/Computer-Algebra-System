@@ -8,19 +8,19 @@
 
 CAS_NAMESPACE
 
-BracketExpression::BracketExpression(const ExpressionProperties& properties, Expression* argument,
+BracketExpression::BracketExpression(const ExpressionProperties& properties, ExprPtr argument,
                                      const wchar_t* openBracket, const wchar_t* closeBracket,
                                      const char* openBracketLatex, const char* closeBracketLatex)
     : UnaryExpression(properties, argument),
       openBracket(openBracket), closeBracket(closeBracket),
       openBracketLatex(openBracketLatex), closeBracketLatex(closeBracketLatex) {}
 
-bool BracketExpression::_equals(Expression* other) {
-    auto* otherBracketFunction = dynamic_cast<BracketExpression*>(other);
+bool BracketExpression::_equals(ExprPtr other) {
+    auto* otherBracketFunction = dynamic_cast<BracketExpression*>(other.get());
     return argument->equals(otherBracketFunction->argument);
 }
 
-Expression* BracketExpression::derivative(char) {
+ExprPtr BracketExpression::derivative(char) {
     throw std::runtime_error("The " + properties.getName() + "::derivative() operation is not supported");
 }
 

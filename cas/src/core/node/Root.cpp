@@ -12,24 +12,24 @@
 
 CAS_NAMESPACE
 
-Root::Root(const ExpressionProperties& props, Expression* base, Expression* root)
+Root::Root(const ExpressionProperties& props, ExprPtr base, ExprPtr root)
     : Power(props, base, root) {}
 
-Root::Root(Expression* base, Expression* root)
+Root::Root(ExprPtr base, ExprPtr root)
     : Root({ExpressionType::ROOT, "root", "root"}, base, root) {}
 
-Root::Root(Expression* base, double root)
-    : Root(base, new Const(root)) {}
+Root::Root(ExprPtr base, double root)
+    : Root(base, Const::n(root)) {}
 
 double Root::evaluate(const VariableMap& variables) {
     return pow(base->evaluate(variables), 1.0 / exponent->evaluate(variables));
 }
 
-Root* Root::clone() {
-    return new Root(base->clone(), exponent->clone());
+ExprPtr Root::clone() {
+    return Root::from(base->clone(), exponent->clone());
 }
 
-Expression* Root::simplified() {
+ExprPtr Root::simplified() {
     if (exponent->isOfType(ExpressionType::CONSTANT)) {
         double root = exponent->evaluate();
         if (root == 1)
@@ -40,7 +40,7 @@ Expression* Root::simplified() {
             return base->simplified()->cbrt();
     }
 
-    return new Root(base->simplified(), exponent->simplified());
+    return Root::from(base->simplified(), exponent->simplified());
 }
 
 std::string Root::latex() {

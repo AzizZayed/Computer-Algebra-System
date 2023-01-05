@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Ln : public Log {
 public:
-    explicit Ln(Expression* argument);
+    explicit Ln(ExprPtr argument);
 
     Ln() = delete;
 
@@ -19,13 +19,13 @@ public:
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(Expression* expression) override;
+    bool _equals(ExprPtr expression) override;
 
-    Ln* clone() override;
+    ExprPtr clone() override;
 
-    Expression* _derivative(char var) override;
+    ExprPtr _derivative(char var) override;
 
-    Expression* simplified() override;
+    ExprPtr simplified() override;
 
     std::string latex() override;
 
@@ -34,6 +34,8 @@ public:
     std::string text() override;
 
     std::string explicitText() override;
+
+    static LnPtr from(ExprPtr argument) { return std::make_shared<Ln>(argument); }
 };
 
 CAS_NAMESPACE_END

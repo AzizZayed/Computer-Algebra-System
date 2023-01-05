@@ -11,26 +11,28 @@ CAS_NAMESPACE
 
 class Sum : public Operator {
 public:
-    explicit Sum(const std::vector<Expression*>& expressions);
+    explicit Sum(const std::vector<ExprPtr>& expressions);
 
     Sum() = delete;
 
     ~Sum() override = default;
 
-    Sum* clone() override;
+    ExprPtr clone() override;
 
-    Sum* _derivative(char var) override;
+    ExprPtr _derivative(char var) override;
 
-    Expression* simplified() override;
+    ExprPtr simplified() override;
 
     std::string latex() override;
 
     std::wstring stringify() override;
 
+    static SumPtr from(const std::vector<ExprPtr>& expressions) { return std::make_shared<Sum>(expressions); }
+
 protected:
     double operate(double a, double b) override { return a + b; };
 
-    bool needsParentheses(Expression*) override { return false; };
+    bool needsParentheses(ExprPtr) override { return false; };
 };
 
 CAS_NAMESPACE_END

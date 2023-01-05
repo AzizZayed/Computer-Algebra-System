@@ -4,58 +4,57 @@
 
 #include "cas/node/Sum.h"
 #include "cas/node/Const.h"
-#include <sstream>
 #include <algorithm>
+#include <sstream>
 
 CAS_NAMESPACE
 
-Sum::Sum(const std::vector<Expression*>& expressions)
+Sum::Sum(const std::vector<ExprPtr>& expressions)
     : Operator({ExpressionType::SUM, "summation", "sum"}, 0.0, '+', expressions) {}
 
-Sum* Sum::clone() {
-    std::vector<Expression*> clonedExpressions;
+ExprPtr Sum::clone() {
+    std::vector<ExprPtr> clonedExpressions;
     clonedExpressions.reserve(expressions.size());
 
     for (auto& expression: expressions)
         clonedExpressions.push_back(expression->clone());
 
-    return new Sum{clonedExpressions};
+    return Sum::from(clonedExpressions);
 }
 
-Sum* Sum::_derivative(char var) {
-    std::vector<Expression*> differentiatedExpressions;
+ExprPtr Sum::_derivative(char var) {
+    std::vector<ExprPtr> differentiatedExpressions;
     differentiatedExpressions.reserve(expressions.size());
 
     for (auto& expression: expressions)
         differentiatedExpressions.push_back(expression->derivative(var));
 
-    return new Sum{differentiatedExpressions};
+    return Sum::from(differentiatedExpressions);
 }
 
-Expression* Sum::simplified() {
+ExprPtr Sum::simplified() {
     // TODO: simplify
 
     // If there is only one expression, return it
     if (expressions.size() == 1)
         return expressions[0]->simplified();
 
-    std::vector<Expression*> simplifiedExpressions;
+    std::vector<ExprPtr> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
 
     double constant = 0.0;
     for (auto& expression: expressions) {
-        Expression* x = expression->simplified();
+        ExprPtr x = expression->simplified();
 
         if (x->isOfType(ExpressionType::CONSTANT)) {
             double value = x->evaluate();
             if (value == 0.0) {
-                delete x;
                 continue;
             }
             constant += value;
             continue;
         } else if (x->isOfType(ExpressionType::SUM)) {
-            auto* sum = dynamic_cast<Sum*>(x);
+            auto* sum = dynamic_cast<Sum*>(x.get());
             for (auto& exp: sum->expressions)
                 simplifiedExpressions.push_back(exp);
             continue;
@@ -70,7 +69,7 @@ Expression* Sum::simplified() {
         return simplifiedExpressions[0];
 
     std::sort(simplifiedExpressions.begin(), simplifiedExpressions.end());
-    return new Sum{simplifiedExpressions};
+    return Sum::from(simplifiedExpressions);
 }
 
 std::string Sum::latex() {
@@ -80,7 +79,7 @@ std::string Sum::latex() {
     std::stringstream ss;
 
     for (size_t i = 0; i < expressions.size(); i++) {
-        Expression* exp = expressions[i];
+        ExprPtr exp = expressions[i];
         bool needsParens = needsParentheses(exp);
 
         if (needsParens)
@@ -104,7 +103,7 @@ std::wstring Sum::stringify() {
     std::wstringstream ss;
 
     for (size_t i = 0; i < expressions.size(); i++) {
-        Expression* exp = expressions[i];
+        ExprPtr exp = expressions[i];
         bool needsParens = needsParentheses(exp);
 
         if (needsParens)

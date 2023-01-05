@@ -10,7 +10,7 @@
 
 CAS_NAMESPACE
 
-Sign::Sign(Expression* argument)
+Sign::Sign(ExprPtr argument)
     : UnaryExpression({ExpressionType::SIGN, "sign", "sign"}, argument) {}
 
 double Sign::evaluate(const VariableMap& variables) {
@@ -19,30 +19,30 @@ double Sign::evaluate(const VariableMap& variables) {
                                    : 0;
 }
 
-bool Sign::_equals(Expression* expression) {
-    if (this == expression)
+bool Sign::_equals(ExprPtr expression) {
+    if (this == expression.get())
         return true;
 
     if (expression->isOfType(ExpressionType::SIGN)) {
-        auto* sign = dynamic_cast<Sign*>(expression);
+        auto* sign = dynamic_cast<Sign*>(expression.get());
         return argument->equals(sign->argument);
     }
     return false;
 }
 
-Sign* Sign::clone() {
-    return new Sign(argument->clone());
+ExprPtr Sign::clone() {
+    return Sign::from(argument->clone());
 }
 
-Expression* Sign::simplified() {
+ExprPtr Sign::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        return new Const(Expression::evaluate());
+        return Const::n(Expr::evaluate());
     }
     if (argument->isOfType(ExpressionType::SIGN)) {
         return argument->simplified();
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+        auto* negate = dynamic_cast<Negate*>(argument.get());
         return negate->getArgument()->simplified()->sign()->negate();
     }
     return argument->simplified()->sign();

@@ -10,26 +10,19 @@
 CAS_NAMESPACE
 
 NaryExpression::NaryExpression(const ExpressionProperties& props,
-                               std::vector<Expression*> expressions)
-    : Expression(props), expressions(std::move(expressions)) {
+                               std::vector<ExprPtr> expressions)
+    : Expr(props), expressions(std::move(expressions)) {
     for (auto& expression: this->expressions) {
         expression->setParent(this);
     }
 }
 
-NaryExpression::~NaryExpression() {
-    for (auto& expression: expressions) {
-        delete expression;
-        expression = nullptr;
-    }
-}
-
-bool NaryExpression::_equals(Expression* expression) {
-    if (this == expression)
+bool NaryExpression::_equals(ExprPtr expression) {
+    if (this == expression.get())
         return true;
 
     if (expression->isOfType(properties.getType())) {
-        auto* function = dynamic_cast<NaryExpression*>(expression);
+        auto* function = dynamic_cast<NaryExpression*>(expression.get());
         if (expressions.size() != function->expressions.size())
             return false;
 

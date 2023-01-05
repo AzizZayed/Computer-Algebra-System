@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Ceil : public BracketExpression {
 public:
-    explicit Ceil(Expression* argument);
+    explicit Ceil(ExprPtr argument);
 
     Ceil() = delete;
 
@@ -19,9 +19,13 @@ public:
 
     double evaluate(const VariableMap& variables) override;
 
-    Ceil* clone() override;
+    ExprPtr clone() override;
 
-    Expression* simplified() override;
+    ExprPtr simplified() override;
+
+    static ExprPtr from(ExprPtr argument) {
+        return std::make_shared<Ceil>(argument);
+    }
 };
 
 CAS_NAMESPACE_END

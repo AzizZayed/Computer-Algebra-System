@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Round : public BracketExpression {
 public:
-    explicit Round(Expression* argument);
+    explicit Round(ExprPtr argument);
 
     Round() = delete;
 
@@ -19,9 +19,11 @@ public:
 
     double evaluate(const VariableMap& variables) override;
 
-    Round* clone() override;
+    ExprPtr clone() override;
 
-    Expression* simplified() override;
+    ExprPtr simplified() override;
+
+    static RoundPtr from(ExprPtr argument) { return std::make_shared<Round>(argument); }
 };
 
 CAS_NAMESPACE_END

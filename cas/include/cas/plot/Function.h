@@ -9,16 +9,16 @@
 
 CAS_NAMESPACE
 
-class Function : public IMath, public IRepresentableMath {
+class Function : public IMath<Function*>, public IRepresentableMath {
 public:
     explicit Function(std::string strFunction, const std::string& name = "z", bool simplify = true);
-    virtual ~Function();
+    ~Function() = default;
 
     double evaluate(const VariableMap& vars) override;
     Function* derivative(char var) override;
     Function* simplifiedDerivative(char var);
     Function* simplified() override;
-    bool isEquivalent(IMath* expression) override;
+    bool isEquivalent(Function* expression) override;
 
     std::string latex() override;
     std::wstring stringify() override;
@@ -29,18 +29,18 @@ public:
 
     size_t getUid() const;
     const std::string& getStrExpr() const;
-    Expression* getExpr() const;
+    ExprPtr getExpr() const;
     const std::string& getName() const;
     const std::string& getFilename() const;
     const VarSet& getVariables() const;
 
 protected:
-    explicit Function(const std::string& strFunction, Expression* expr, const VarSet& variables, const std::string& name = "z");
+    explicit Function(const std::string& strFunction, ExprPtr expr, const VarSet& variables, const std::string& name = "z");
 
 private:
     const size_t uid;
     const std::string strExpr;
-    Expression* expr;
+    ExprPtr expr;
     const std::string name;
     const std::string filename;
     VarSet variables;

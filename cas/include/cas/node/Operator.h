@@ -10,17 +10,17 @@
 
 CAS_NAMESPACE
 
-class Operator : public Expression {
+class Operator : public Expr {
 public:
-    explicit Operator(const ExpressionProperties& props, double neutral, char symbol, std::vector<Expression*> expressions);
+    explicit Operator(const ExpressionProperties& props, double neutral, char symbol, std::vector<ExprPtr> expressions);
 
     Operator() = delete;
 
-    ~Operator() override;
+    ~Operator() override = default;
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(Expression* expression) override;
+    bool _equals(ExprPtr expression) override;
 
     std::string text() override;
 
@@ -28,18 +28,18 @@ public:
 
     char getSymbol() const { return symbol; }
 
-    std::vector<Expression*> getExpressions() const { return {expressions}; }
+    std::vector<ExprPtr> getExpressions() const { return {expressions}; }
     size_t getExpressionsSize() const { return expressions.size(); }
 
 protected:
     virtual double operate(double a, double b) = 0;
 
-    virtual bool needsParentheses(Expression* expression) = 0;
+    virtual bool needsParentheses(ExprPtr expression) = 0;
 
 protected:
     const double neutral;
     const char symbol;
-    std::vector<Expression*> expressions;
+    std::vector<ExprPtr> expressions;
 };
 
 CAS_NAMESPACE_END
