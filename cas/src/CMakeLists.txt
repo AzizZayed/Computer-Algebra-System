@@ -5,7 +5,7 @@ include(FetchContent)
 
 FetchContent_Declare(cpr
         GIT_REPOSITORY https://github.com/libcpr/cpr.git
-        GIT_TAG f88fd7737de3e640c61703eb57a0fa0ce00c60cd)
+        GIT_TAG 2553fc41450301cd09a9271c8d2c3e0cf3546b73)
 FetchContent_MakeAvailable(cpr)
 
 set(CPR_BUILD_TESTS OFF CACHE BOOL "Build the tests" FORCE)

@@ -1,10 +1,10 @@
 #include <memory>
 
+#include "cas/data/VariableMap.h"
+
 #include "Grid.h"
 #include "Surface.h"
 #include "Window.h"
-
-#include "cas/data/VariableMap.h"
 
 #import <Metal/Metal.h>
 #import <MetalKit/MetalKit.h>
@@ -28,10 +28,10 @@ id<MTLLibrary> getLibrary(id<MTLDevice> device, const std::string& shaderPath) {
 
 MTLVertexDescriptor* getVertexDescriptor() {
     MTLVertexDescriptor* vertexDescriptor = [MTLVertexDescriptor new];
-    vertexDescriptor.attributes[0].format = MTLVertexFormatFloat3;// position
+    vertexDescriptor.attributes[0].format = MTLVertexFormatFloat3; // position
     vertexDescriptor.attributes[0].offset = 0;
     vertexDescriptor.attributes[0].bufferIndex = 0;
-    vertexDescriptor.attributes[1].format = MTLVertexFormatFloat4;// color
+    vertexDescriptor.attributes[1].format = MTLVertexFormatFloat4; // color
     vertexDescriptor.attributes[1].offset = sizeof(simd::float3);
     vertexDescriptor.attributes[1].bufferIndex = 0;
     vertexDescriptor.layouts[0].stride = sizeof(Vertex);

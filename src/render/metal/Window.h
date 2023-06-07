@@ -29,7 +29,7 @@
 
 class Window {
 public:
-    explicit Window(const char* title, id<MTLDevice> device, Grid& grid) : device(device), grid(grid), title(title) {
+    explicit Window(const char* title, id<MTLDevice> device, Grid& grid) : title(title), device(device), grid(grid) {
         glfwSetErrorCallback([](int error, const char* description) {
             printf("Glfw Error %d: %s\n", error, description);
         });
