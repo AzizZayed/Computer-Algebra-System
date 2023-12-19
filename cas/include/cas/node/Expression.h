@@ -52,10 +52,10 @@ class Mod;
 class Expression : public IMath, public IRepresentableMath {
 public:
     explicit Expression(const ExpressionProperties& properties);
-
     virtual ~Expression() = default;
 
-    Expression(const Expression& expression) = delete;
+    Expression(const Expression& expression) = delete; // Remove copy constructor
+//    Expression& operator=(const Expression& expression) = delete; // Remove copy assignment
 
     double evaluate(const VariableMap& variables) override;
     virtual double evaluate();
@@ -144,6 +144,7 @@ protected:
 
 using ExpressionPtr = Expression*;
 using ExprPtr = Expression*;
+using Expr = Expression;
 
 CAS_NAMESPACE_END
 

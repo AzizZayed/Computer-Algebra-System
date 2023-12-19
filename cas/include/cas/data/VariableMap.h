@@ -14,14 +14,16 @@ CAS_NAMESPACE
 
 // TODO redesign to store std::pairs so iterators can be references
 
+struct LetterMap;
+struct VariableMapIterator;
+class VariableMap;
+
 struct LetterMap {
     static const char LETTER_COUNT = 26;
     char letters = 0;
     double letterMap[LETTER_COUNT] = {};
     bool validLetter[LETTER_COUNT] = {};
 };
-
-class VariableMap;
 
 struct VariableMapIterator {
     using iterator_category = std::forward_iterator_tag;

@@ -23,7 +23,7 @@ public:
     Expression* simplified() override;
 
     std::string latex() override;
-    std::wstring stringify() override;
+    std::string str() override;
     std::string text() override;
 
     Expression* getRoot() const { return getExponent(); }

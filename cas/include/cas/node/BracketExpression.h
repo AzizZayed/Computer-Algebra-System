@@ -21,7 +21,7 @@ public:
 
     std::string latex() override;
 
-    std::wstring stringify() override;
+    std::string str() override;
 
     std::string text() override;
 
@@ -29,12 +29,12 @@ public:
 
 protected:
     explicit BracketExpression(const ExpressionProperties& properties, Expression* argument,
-                               const wchar_t* openBracket, const wchar_t* closeBracket,
+                               const char* openBracket, const char* closeBracket,
                                const char* openBracketLatex, const char* closeBracketLatex);
 
 protected:
-    const wchar_t* openBracket;
-    const wchar_t* closeBracket;
+    const char* openBracket;
+    const char* closeBracket;
 
     const char* openBracketLatex;
     const char* closeBracketLatex;

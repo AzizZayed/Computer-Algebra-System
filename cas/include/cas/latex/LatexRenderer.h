@@ -25,8 +25,8 @@ protected:
     ~LatexRenderer() = default;
 
 private:
-    const std::string prefix = "lr_";
-    const std::string resFolder = "../../res/latex";
+    const std::string filePrefix = "lr_";
+    const std::string resourceDirectory = "../../res/latex";
 };
 
 CAS_NAMESPACE_END

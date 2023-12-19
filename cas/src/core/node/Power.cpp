@@ -9,7 +9,6 @@
 #include "cas/node/Product.h"
 #include "cas/node/Sum.h"
 #include "fmt/printf.h"
-#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -163,17 +162,17 @@ std::string Power::latex() {
     return fmt::sprintf("%s^{%s}", base->latex(), exponent->latex());
 }
 
-std::wstring Power::stringify() {
+std::string Power::str() {
     if (baseNeedsParentheses()) {
         if (exponentNeedsParentheses())
-            return fmt::format(L"({})^({})", base->stringify(), exponent->stringify());
+            return fmt::format("({})^({})", base->str(), exponent->str());
         else
-            return fmt::format(L"({})^{}", base->stringify(), exponent->stringify());
+            return fmt::format("({})^{}", base->str(), exponent->str());
     } else {
         if (exponentNeedsParentheses())
-            return fmt::format(L"{}^({})", base->stringify(), exponent->stringify());
+            return fmt::format("{}^({})", base->str(), exponent->str());
         else
-            return fmt::format(L"{}^{}", base->stringify(), exponent->stringify());
+            return fmt::format("{}^{}", base->str(), exponent->str());
     }
 }
 

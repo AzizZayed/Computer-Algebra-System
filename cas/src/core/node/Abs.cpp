@@ -10,7 +10,8 @@
 CAS_NAMESPACE
 
 Abs::Abs(Expression* argument)
-    : BracketExpression({ExpressionType::ABSOLUTE_VALUE, "absolute_value", "abs"}, argument, L"|", L"|", "\\left|", "\\right|") {}
+    : BracketExpression({ExpressionType::ABSOLUTE_VALUE, "absolute_value", "abs"},
+                        argument, "|", "|", "\\left|", "\\right|") {}
 
 double Abs::evaluate(const VariableMap& variables) {
     return std::abs(argument->evaluate(variables));
@@ -36,7 +37,7 @@ Expression* Abs::simplified() {
 }
 
 std::string Abs::text() {
-    return toString(openBracket) + argument->text() + toString(closeBracket);
+    return openBracket + argument->text() + closeBracket;
 }
 
 CAS_NAMESPACE_END

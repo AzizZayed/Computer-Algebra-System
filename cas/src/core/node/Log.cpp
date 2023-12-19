@@ -9,7 +9,6 @@
 #include "cas/node/Power.h"
 #include "cas/node/Product.h"
 #include "fmt/printf.h"
-#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -106,14 +105,14 @@ std::string Log::latex() {
     return fmt::sprintf("\\log_{%s}{%s}", base->latex(), argument->latex());
 }
 
-std::wstring Log::stringify() {
+std::string Log::str() {
     if (argumentNeedsParentheses()) {
         if (base->isOfType(ExpressionType::CONSTANT) || base->isOfType(ExpressionType::VARIABLE)) {
-            return fmt::format(L"log_{}({})", base->stringify(), argument->stringify());
+            return fmt::format("log_{}({})", base->str(), argument->str());
         }
-        return fmt::format(L"log({})({})", base->stringify(), argument->stringify());
+        return fmt::format("log({})({})", base->str(), argument->str());
     }
-    return fmt::format(L"log_{} {}", base->stringify(), argument->stringify());
+    return fmt::format("log_{} {}", base->str(), argument->str());
 }
 
 std::string Log::text() {

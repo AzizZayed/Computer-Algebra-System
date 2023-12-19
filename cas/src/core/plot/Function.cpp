@@ -74,8 +74,8 @@ std::string Function::latex() {
     return expr->latex();
 }
 
-std::wstring Function::stringify() {
-    return expr->stringify();
+std::string Function::str() {
+    return expr->str();
 }
 
 std::string Function::text() {

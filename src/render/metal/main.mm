@@ -126,7 +126,7 @@ int main() {
     std::vector<std::shared_ptr<Surface>> surfaces {
             std::make_shared<Surface>(device, "x^2 + y^2", grid, variables),
             std::make_shared<Surface>(device, "x^2 * y^2 + a", grid, variables),
-            std::make_shared<Surface>(device, "sin(x*y)", grid, variables),
+            std::make_shared<Surface>(device, "sin(phi*pi*x*y)", grid, variables),
             std::make_shared<Surface>(device, "abs(x * y)", grid, variables),
             std::make_shared<Surface>(device, "floor(round(ceil(x + y)))", grid, variables)};
 

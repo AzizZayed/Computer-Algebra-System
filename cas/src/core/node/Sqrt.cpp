@@ -8,12 +8,11 @@
 #include "cas/node/Product.h"
 #include "cas/util/StringUtils.h"
 #include "fmt/printf.h"
-#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
 Sqrt::Sqrt(Expression* base)
-    : Root({ExpressionType::SQUARE_ROOT, "square_root", "sqrt"}, base, new Const(2)) {}
+    : Root({ExpressionType::SQUARE_ROOT, "square_root", "sqrt"}, base, Const::n(2)) {}
 
 double Sqrt::evaluate(const VariableMap& variables) {
     return std::sqrt(base->evaluate(variables));
@@ -53,8 +52,8 @@ std::string Sqrt::latex() {
     return fmt::sprintf("\\sqrt{%s}", base->latex());
 }
 
-std::wstring Sqrt::stringify() {
-    return fmt::format(L"{}({})", toWstring(properties.getShortName()), base->stringify());
+std::string Sqrt::str() {
+    return fmt::format("{}({})", properties.getShortName(), base->str());
 }
 
 std::string Sqrt::text() {

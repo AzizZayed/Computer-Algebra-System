@@ -6,7 +6,6 @@
 #include "cas/node/Const.h"
 #include "cas/node/Operator.h"
 #include "fmt/format.h"
-#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -50,10 +49,10 @@ std::string Negate::latex() {
     return "-" + argument->latex();
 }
 
-std::wstring Negate::stringify() {
+std::string Negate::str() {
     if (needsParentheses())
-        return fmt::format(L"-({})", argument->stringify());
-    return fmt::format(L"-{}", argument->stringify());
+        return fmt::format("-({})", argument->str());
+    return fmt::format("-{}", argument->str());
 }
 
 std::string Negate::text() {

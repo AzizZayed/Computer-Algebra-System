@@ -58,8 +58,8 @@ std::string Cbrt::latex() {
     return fmt::sprintf("\\sqrt[3]{%s}", base->latex());
 }
 
-std::wstring Cbrt::stringify() {
-    return fmt::format(L"{}({})", toWstring(properties.getShortName()), base->stringify());
+std::string Cbrt::str() {
+    return fmt::format("{}({})", properties.getShortName(), base->str());
 }
 
 std::string Cbrt::text() {

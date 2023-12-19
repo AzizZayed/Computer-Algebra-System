@@ -100,9 +100,14 @@ std::string Product::latex() {
         if (needsParens)
             ss << "\\left(";
 
-        // If 2 consecutive constants, add the symbol between them
-        if (i > 0 && expressions[i - 1]->isOfType(ExpressionType::CONSTANT) && exp->isOfType(ExpressionType::CONSTANT))
-            ss << symbol;
+        // If 2 consecutive constants, add the symbol between them if they are not symbols
+        if (i > 0 && expressions[i - 1]->isOfType(ExpressionType::CONSTANT) && exp->isOfType(ExpressionType::CONSTANT)) {
+            auto* a = dynamic_cast<Const*>(expressions[i - 1]);
+            auto* b = dynamic_cast<Const*>(exp);
+
+            if (!a->isSymbol() && !b->isSymbol())
+                ss << symbol;
+        }
 
         ss << exp->latex();
 
@@ -113,11 +118,11 @@ std::string Product::latex() {
     return ss.str();
 }
 
-std::wstring Product::stringify() {
+std::string Product::str() {
     if (expressions.empty())
-        return L"";
+        return "";
 
-    std::wstringstream ss;
+    std::stringstream ss;
 
     for (size_t i = 0; i < expressions.size(); i++) {
         Expression* exp = expressions[i];
@@ -128,7 +133,7 @@ std::wstring Product::stringify() {
         if (i > 0)
             ss << " " << symbol << " ";
 
-        ss << exp->stringify();
+        ss << exp->str();
 
         if (needsParens)
             ss << ")";

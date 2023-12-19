@@ -29,7 +29,13 @@ inline bool instanceof (T * ptr) {
 }
 
 inline bool isWholeNumber(double number) {
-    return number == std::trunc(number);
+    double intPart;
+    return std::modf(number, &intPart) == 0.0;
+}
+
+inline bool doubleEquals(double a, double b, double epsilon = 1e-6) {
+    double max = std::max(1.0, std::max(std::fabs(a), std::fabs(b)));
+    return std::fabs(a - b) <= epsilon * max;
 }
 
 #endif//CAS_CAS_H

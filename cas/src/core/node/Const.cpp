@@ -3,17 +3,17 @@
 //
 
 #include "cas/node/Const.h"
-#include "fmt/xchar.h"
+#include <fmt/core.h>
 
 CAS_NAMESPACE
 
-const wchar_t* Const::PI_UNICODE = L"\u03C0";
-const wchar_t* Const::E_UNICODE = L"e";
-const wchar_t* Const::PHI_UNICODE = L"\u03D5";
+const char* Const::PI_UNICODE = "\u03C0";
+const char* Const::E_UNICODE = "e";
+const char* Const::PHI_UNICODE = "\u03D5";
 
-const char* Const::PI_LATEX = "\\pi";
+const char* Const::PI_LATEX = "\\pi ";
 const char* Const::E_LATEX = "e";
-const char* Const::PHI_LATEX = "\\varphi";
+const char* Const::PHI_LATEX = "\\varphi ";
 
 Const::Const(double value)
     : Expression{{ExpressionType::CONSTANT, "constant", "const"}}, value{value} {}
@@ -27,7 +27,15 @@ double Const::evaluate(const VariableMap&) {
 }
 
 bool Const::_equals(Expression* expression) {
-    return floatingsEqual(value, expression->evaluate());
+    return doubleEquals(value, expression->evaluate());
+}
+
+bool Const::is(double val, double eps = 1e-6) const {
+    return doubleEquals(this->value, val, eps);
+}
+
+bool Const::isSymbol() const {
+    return is(math_constants::PI) || is(math_constants::E) || is(math_constants::PHI);
 }
 
 Const* Const::_derivative(char) {
@@ -39,36 +47,37 @@ Const* Const::simplified() {
 }
 
 std::string Const::latex() {
-    if (value == math::PI) {
+    if (is(math_constants::PI)) {
         return PI_LATEX;
     }
-    if (value == math::E) {
+    if (is(math_constants::E)) {
         return E_LATEX;
     }
-    if (value == math::PHI) {
+    if (is(math_constants::PHI)) {
         return PHI_LATEX;
     }
 
     return text();
 }
 
-std::wstring Const::stringify() {
-    if (value == math::PI) {
+std::string Const::str() {
+    if (is(math_constants::PI)) {
         return PI_UNICODE;
     }
-    if (value == math::E) {
+    if (is(math_constants::E)) {
         return E_UNICODE;
     }
-    if (value == math::PHI) {
+    if (is(math_constants::PHI)) {
         return PHI_UNICODE;
     }
 
-    return fmt::to_wstring(value);
+    return text();
 }
 
 std::string Const::text() {
-    if (value == std::floor(value)) {
-        return std::to_string(int64_t(value));
+    double intPart;
+    if (std::modf(value, &intPart) == 0.0) {
+        return fmt::format("{:.0f}", value);
     }
 
     return std::to_string(value);

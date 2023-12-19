@@ -97,11 +97,11 @@ std::string Sum::latex() {
     return ss.str();
 }
 
-std::wstring Sum::stringify() {
+std::string Sum::str() {
     if (expressions.empty())
-        return L"";
+        return "";
 
-    std::wstringstream ss;
+    std::stringstream ss;
 
     for (size_t i = 0; i < expressions.size(); i++) {
         Expression* exp = expressions[i];
@@ -112,7 +112,7 @@ std::wstring Sum::stringify() {
         if (i > 0 && !exp->isNegated())
             ss << " " << symbol << " ";
 
-        ss << exp->stringify();
+        ss << exp->str();
 
         if (needsParens)
             ss << ")";

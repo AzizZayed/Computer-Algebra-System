@@ -5,9 +5,10 @@
 #ifndef CAS_TRIGFUNCTIONS_H
 #define CAS_TRIGFUNCTIONS_H
 
+#include <unordered_map>
+
 #include "cas/CAS.h"
 #include "cas/node/UnaryExpression.h"
-#include <unordered_map>
 
 CAS_NAMESPACE
 
@@ -26,7 +27,7 @@ public:
     bool _equals(Expression* expression) override;
 
     std::string latex() override;
-    std::wstring stringify() override;
+    std::string str() override;
 
 public:
     static const std::unordered_map<double, UnitCircleCoordinate> unitCircle;

@@ -19,7 +19,7 @@ public:
     virtual bool isEquivalent(IMath* expr) = 0;
 };
 
-namespace math {
+namespace math_constants {
     const double PI = 2 * std::acos(0.0);
     const double PI_2 = PI / 2;
     const double PI_3 = PI / 3;

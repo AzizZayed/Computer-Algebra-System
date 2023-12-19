@@ -29,7 +29,7 @@ std::string LatexRenderer::render(const std::string& latex, const std::string& f
 
     fmt::print("Invoking URL: {}\n", url);
 
-    std::string filepath = fmt::format("{}/{}{}.png", resFolder, prefix, filename);
+    std::string filepath = fmt::format("{}/{}{}.png", resourceDirectory, filePrefix, filename);
 
     // TODO: Check if file exists and if it does, don't download it again if it's the same
     const cpr::Response& response = download(url, filepath);
@@ -48,12 +48,12 @@ cpr::Response LatexRenderer::download(const std::string& url, const std::string&
 }
 
 void LatexRenderer::cleanup() {
-    for (const auto& entry: std::filesystem::directory_iterator(resFolder)) {
-        if (entry.path().filename().string().starts_with(prefix)) {
+    for (const auto& entry: std::filesystem::directory_iterator(resourceDirectory)) {
+        if (entry.path().filename().string().starts_with(filePrefix)) {
             std::filesystem::remove(entry.path());
         }
     }
-    fmt::print("Cleaned up images in {}\n", resFolder);
+    fmt::print("Cleaned up images in {}\n", resourceDirectory);
 }
 
 CAS_NAMESPACE_END

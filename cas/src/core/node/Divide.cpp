@@ -9,7 +9,6 @@
 #include "cas/node/Product.h"
 #include "cas/node/Sum.h"
 #include "fmt/printf.h"
-#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -103,8 +102,8 @@ std::string Divide::latex() {
     return fmt::sprintf("\\frac{%s}{%s}", dividend->latex(), divisor->latex());
 }
 
-std::wstring Divide::stringify() {
-    return fmt::format(L"({}/{})", dividend->stringify(), divisor->stringify());
+std::string Divide::str() {
+    return fmt::format("({}/{})", dividend->str(), divisor->str());
 }
 
 std::string Divide::text() {

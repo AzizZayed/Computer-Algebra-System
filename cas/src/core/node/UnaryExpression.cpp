@@ -7,7 +7,6 @@
 #include "cas/node/Var.h"
 #include "cas/util/StringUtils.h"
 #include "fmt/printf.h"
-#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -38,8 +37,8 @@ std::string UnaryExpression::latex() {
     return fmt::sprintf(R"(\%s{\left(%s\right)})", properties.getShortName(), argument->latex());
 }
 
-std::wstring UnaryExpression::stringify() {
-    return fmt::format(L"{}({})", toWstring(properties.getShortName()), argument->stringify());
+std::string UnaryExpression::str() {
+    return fmt::format("{}({})", properties.getShortName(), argument->str());
 }
 
 std::string UnaryExpression::text() {

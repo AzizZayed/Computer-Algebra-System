@@ -1,6 +1,7 @@
 //
 // Created by Abd-El-Aziz Zayed on 2022-09-24.
 //
+#include <algorithm>
 
 #include "cas/data/ExpressionParser.h"
 #include "cas/node/Abs.h"
@@ -34,7 +35,6 @@
 #include "cas/node/trig/Sin.h"
 #include "cas/node/trig/Tan.h"
 #include "cas/util/StringUtils.h"
-#include <algorithm>
 
 CAS_NAMESPACE
 

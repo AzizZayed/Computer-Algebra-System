@@ -21,7 +21,7 @@ public:
 
     std::string latex() override;
 
-    std::wstring stringify() override;
+    std::string str() override;
 
     std::string text() override;
 

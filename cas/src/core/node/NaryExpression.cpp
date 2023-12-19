@@ -43,66 +43,51 @@ bool NaryExpression::_equals(Expression* expression) {
 }
 
 std::string NaryExpression::latex() {
-    std::stringstream ss;
-    ss << "\\" << properties.getShortName() << "{\\left(";
-    for (size_t i = 0; i < expressions.size(); i++) {
-        ss << expressions[i]->latex();
-        if (i < expressions.size() - 1)
-            ss << ",";
-    }
-    ss << "\\right)}";
-    return ss.str();
+    std::string (*strExp)(Expression*) = [](Expression* expr) { return expr->latex(); };
+    return toString("\\" + properties.getShortName(), "{\\left(", ",", "\\right)}", strExp);
 }
 
-std::wstring NaryExpression::stringify() {
-    std::wstringstream ss;
-    ss << toWstring(properties.getShortName()) << L"(";
-    for (size_t i = 0; i < expressions.size(); i++) {
-        ss << expressions[i]->stringify();
-        if (i < expressions.size() - 1)
-            ss << ", ";
-    }
-    ss << L")";
-    return ss.str();
+std::string NaryExpression::str() {
+    std::string (*strExp)(Expression*) = [](Expression* expr) { return expr->str(); };
+    return toString(properties.getShortName(), "(", ", ", ")", strExp);
 }
 
 std::string NaryExpression::text() {
-    std::stringstream ss;
-    ss << properties.getShortName() << "(";
-    for (size_t i = 0; i < expressions.size(); i++) {
-        ss << expressions[i]->text();
-        if (i < expressions.size() - 1)
-            ss << ", ";
-    }
-    ss << ")";
-    return ss.str();
+    std::string (*strExp)(Expression*) = [](Expression* expr) { return expr->text(); };
+    return toString(properties.getShortName(), "(", ", ", ")", strExp);
 }
 
 std::string NaryExpression::explicitText() {
+    std::string (*strExp)(Expression*) = [](Expression* expr) { return expr->explicitText(); };
+    return toString(properties.getShortName(), "(", ", ", ")", strExp);
+}
+
+template<typename F>
+std::string NaryExpression::toString(const std::string& name, const char* start, const char* delimiter, const char* end, F&& function) {
     std::stringstream ss;
-    ss << properties.getShortName() << "(";
+    ss << name << start;
     for (size_t i = 0; i < expressions.size(); i++) {
-        ss << expressions[i]->explicitText();
+        ss << function(expressions[i]);
         if (i < expressions.size() - 1)
-            ss << ", ";
+            ss << delimiter;
     }
-    ss << ")";
+    ss << end;
     return ss.str();
 }
 
 template<typename F>
-void NaryExpression::forEach(F&& f) const {
-    std::for_each(expressions.begin(), expressions.end(), f);
+void NaryExpression::forEach(F&& function) const {
+    std::for_each(expressions.begin(), expressions.end(), function);
 }
 
 template<typename F>
-bool NaryExpression::any(F&& f) const {
-    return std::any_of(expressions.begin(), expressions.end(), f);
+bool NaryExpression::any(F&& function) const {
+    return std::any_of(expressions.begin(), expressions.end(), function);
 }
 
 template<typename F>
-bool NaryExpression::all(F&& f) const {
-    return std::all_of(expressions.begin(), expressions.end(), f);
+bool NaryExpression::all(F&& function) const {
+    return std::all_of(expressions.begin(), expressions.end(), function);
 }
 
 CAS_NAMESPACE_END

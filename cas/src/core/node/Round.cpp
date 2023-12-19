@@ -8,7 +8,9 @@
 CAS_NAMESPACE
 
 Round::Round(Expression* argument)
-    : BracketExpression({ExpressionType::ROUND, "round", "round"}, argument, L"\u230A", L"\u2309", "\\lfloor", "\\rceil") {}
+    : BracketExpression({ExpressionType::ROUND, "round", "round"},
+                        argument, "\u230A", "\u2309",
+                        "\\lfloor", "\\rceil") {}
 
 double Round::evaluate(const VariableMap& variables) {
     return std::round(argument->evaluate(variables));

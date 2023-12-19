@@ -20,11 +20,14 @@ public:
 
     std::string latex() override;
 
-    std::wstring stringify() override;
+    std::string str() override;
 
     std::string text() override;
 
     std::string explicitText() override;
+
+    template<typename F>
+    std::string toString(const std::string& name, const char* start, const char* delimiter, const char* end, F&& strExp);
 
     std::vector<Expression*> getExpressions() const { return {expressions}; }
 

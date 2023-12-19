@@ -5,7 +5,6 @@
 #include "cas/node/Mod.h"
 #include "cas/node/Const.h"
 #include "fmt/printf.h"
-#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -65,8 +64,8 @@ std::string Mod::latex() {
     return fmt::sprintf("\\mod{\\left(%s,%s\\right)}", dividend->latex(), divisor->latex());
 }
 
-std::wstring Mod::stringify() {
-    return fmt::format(L"mod({}, {})", dividend->stringify(), divisor->stringify());
+std::string Mod::str() {
+    return fmt::format("mod({}, {})", dividend->str(), divisor->str());
 }
 
 std::string Mod::text() {

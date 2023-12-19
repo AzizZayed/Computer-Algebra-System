@@ -9,7 +9,7 @@
 CAS_NAMESPACE
 
 BracketExpression::BracketExpression(const ExpressionProperties& properties, Expression* argument,
-                                     const wchar_t* openBracket, const wchar_t* closeBracket,
+                                     const char* openBracket, const char* closeBracket,
                                      const char* openBracketLatex, const char* closeBracketLatex)
     : UnaryExpression(properties, argument),
       openBracket(openBracket), closeBracket(closeBracket),
@@ -28,8 +28,8 @@ std::string BracketExpression::latex() {
     return fmt::format("{} {} {}", openBracketLatex, argument->latex(), closeBracketLatex);
 }
 
-std::wstring BracketExpression::stringify() {
-    return openBracket + argument->stringify() + closeBracket;
+std::string BracketExpression::str() {
+    return openBracket + argument->str() + closeBracket;
 }
 
 std::string BracketExpression::text() {

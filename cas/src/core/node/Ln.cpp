@@ -7,7 +7,6 @@
 #include "cas/node/Divide.h"
 #include "cas/node/Exp.h"
 #include "fmt/printf.h"
-#include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
@@ -61,10 +60,10 @@ std::string Ln::latex() {
     return fmt::sprintf("\\ln{%s}", argument->latex());
 }
 
-std::wstring Ln::stringify() {
+std::string Ln::str() {
     if (argumentNeedsParentheses())
-        return fmt::sprintf(L"ln(%s)", argument->stringify());
-    return fmt::format(L"ln{}", argument->stringify());
+        return fmt::sprintf("ln(%s)", argument->str());
+    return fmt::format("ln{}", argument->str());
 }
 
 std::string Ln::text() {

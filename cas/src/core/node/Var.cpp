@@ -40,8 +40,8 @@ std::string Var::latex() {
     return text();
 }
 
-std::wstring Var::stringify() {
-    return toWstring(text());
+std::string Var::str() {
+    return text();
 }
 
 std::string Var::text() {
