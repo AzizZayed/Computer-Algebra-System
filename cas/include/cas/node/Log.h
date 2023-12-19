@@ -39,9 +39,9 @@ public:
 
     std::string explicitText() override;
 
-    Expression* getBase() const { return base; }
+    [[nodiscard]] Expression* getBase() const { return base; }
 
-    Expression* getArgument() const { return argument; }
+    [[nodiscard]] Expression* getArgument() const { return argument; }
 
 protected:
     explicit Log(const ExpressionProperties& props, Expression* base, Expression* argument);

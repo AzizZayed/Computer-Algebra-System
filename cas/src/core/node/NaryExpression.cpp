@@ -1,17 +1,12 @@
-//
-// Created by Abd-El-Aziz Zayed on 2022-09-04.
-//
-
-#include "cas/node/NaryExpression.h"
-#include "cas/util/StringUtils.h"
 #include <algorithm>
 #include <sstream>
 
+#include "cas/node/NaryExpression.h"
+
 CAS_NAMESPACE
 
-NaryExpression::NaryExpression(const ExpressionProperties& props,
-                               std::vector<Expression*> expressions)
-    : Expression(props), expressions(std::move(expressions)) {
+NaryExpression::NaryExpression(const ExpressionProperties& props, const std::vector<Expression*>& expressions)
+    : Expression(props), expressions(expressions) {
     for (auto& expression: this->expressions) {
         expression->setParent(this);
     }

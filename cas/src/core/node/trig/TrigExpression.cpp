@@ -9,7 +9,6 @@
 #include "cas/node/Negate.h"
 #include "cas/node/Operator.h"
 #include "cas/node/Sqrt.h"
-#include "cas/util/StringUtils.h"
 #include <fmt/printf.h>
 
 CAS_NAMESPACE

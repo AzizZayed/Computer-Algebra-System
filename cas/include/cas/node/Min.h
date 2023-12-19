@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Min : public NaryExpression {
 public:
-    explicit Min(std::vector<Expression*> expressions);
+    explicit Min(const std::vector<Expression*>& expressions);
 
     Min() = delete;
 

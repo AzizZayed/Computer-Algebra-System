@@ -32,7 +32,7 @@ public:
 
     std::string text() override;
 
-    char getSymbol() const { return symbol; }
+    [[nodiscard]] char getSymbol() const { return symbol; }
 
     static Var* var(char variable) { return new Var(variable); }
 

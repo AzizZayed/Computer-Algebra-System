@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Max : public NaryExpression {
 public:
-    explicit Max(std::vector<Expression*> expressions);
+    explicit Max(const std::vector<Expression*>& expressions);
 
     Max() = delete;
 

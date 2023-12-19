@@ -15,11 +15,9 @@
 class Model {
 public:
     explicit Model(id<MTLDevice> device, const Vertex vertices[], size_t vc, const uint16_t indices[], size_t ic)
-        : vertexCount(vc), indexCount(ic) {
-        vertexBufferSize = vc * sizeof(Vertex);
-        indexBufferSize = ic * sizeof(uint16_t);
-        vertexBuffer = [device newBufferWithBytes:vertices length:vertexBufferSize options:MTLResourceStorageModeShared];
-        indexBuffer = [device newBufferWithBytes:indices length:indexBufferSize options:MTLResourceStorageModeShared];
+        : vertexBufferSize(vc * sizeof(Vertex)), indexBufferSize(ic * sizeof(uint16_t)), vertexCount(vc), indexCount(ic) {
+        vertexBuffer = [device newBufferWithBytes:vertices length:this->vertexBufferSize options:MTLResourceStorageModeShared];
+        indexBuffer = [device newBufferWithBytes:indices length:this->indexBufferSize options:MTLResourceStorageModeShared];
     }
 
 public:

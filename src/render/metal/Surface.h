@@ -27,9 +27,9 @@ public:
         id<MTLBuffer> vertexBuffer{};
         size_t bufferSize{};
         // random color with c++11
-        float color[4] = {static_cast<float>(rand()) / RAND_MAX,
-                          static_cast<float>(rand()) / RAND_MAX,
-                          static_cast<float>(rand()) / RAND_MAX, 1.0f};
+        float color[4] = {static_cast<float>(random()) / RAND_MAX,
+                          static_cast<float>(random()) / RAND_MAX,
+                          static_cast<float>(random()) / RAND_MAX, 1.0f};
         bool render = true;
     };
 

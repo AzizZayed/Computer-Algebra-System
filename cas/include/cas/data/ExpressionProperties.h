@@ -16,10 +16,10 @@ public:
 
     bool operator==(const ExpressionProperties& other) const;
 
-    uint16_t getOrder() const;
-    ExpressionType getType() const;
-    std::string getName() const;
-    std::string getShortName() const;
+    [[nodiscard]] uint16_t getOrder() const;
+    [[nodiscard]] ExpressionType getType() const;
+    [[nodiscard]] std::string getName() const;
+    [[nodiscard]] std::string getShortName() const;
 
 private:
     const uint16_t order;

@@ -4,7 +4,6 @@
 
 #include "cas/node/Negate.h"
 #include "cas/node/Const.h"
-#include "cas/node/Operator.h"
 #include "fmt/format.h"
 
 CAS_NAMESPACE

@@ -5,7 +5,6 @@
 #include "cas/node/Abs.h"
 #include "cas/node/Const.h"
 #include "cas/node/Negate.h"
-#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 

@@ -8,8 +8,11 @@
 
 CAS_NAMESPACE
 
-Min::Min(std::vector<Expression*> expressions)
-    : NaryExpression({ExpressionType::MIN, "minimum", "min"}, std::move(expressions)) {}
+Min::Min(const std::vector<Expression*>& expressions)
+    : NaryExpression({ExpressionType::MIN, "minimum", "min"}, expressions) {
+    if (expressions.empty())
+        throw std::runtime_error("Min must have at least one expression (got 0)");
+}
 
 double Min::evaluate(const VariableMap& variables) {
     auto functor = [&](Expression* a, Expression* b) {
@@ -35,10 +38,9 @@ Expression* Min::simplified() {
 
     std::vector<Expression*> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
-
-    std::transform(expressions.begin(), expressions.end(), simplifiedExpressions.begin(), [](Expression* expr) {
-        return expr->simplified();
-    });
+    for (auto& expression: expressions) {
+        simplifiedExpressions.push_back(expression->simplified());
+    }
 
     bool (*isConstant)(Expression*) = [](Expression* expression) {
         return expression->isOfType(ExpressionType::CONSTANT);

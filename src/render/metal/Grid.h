@@ -31,23 +31,23 @@ public:
     const double maxXRotation = M_PI;
     const double maxZRotation = 2 * M_PI;
 
-    double xLength() const {
+    [[nodiscard]] double xLength() const {
         return xMax - xMin;
     }
 
-    double yLength() const {
+    [[nodiscard]] double yLength() const {
         return yMax - yMin;
     }
 
-    double zLength() const {
+    [[nodiscard]] double zLength() const {
         return zMax - zMin;
     }
 
-    double xStep() const {
+    [[nodiscard]] double xStep() const {
         return xLength() / RESOLUTION;
     }
 
-    double yStep() const {
+    [[nodiscard]] double yStep() const {
         return yLength() / RESOLUTION;
     }
 
@@ -100,13 +100,13 @@ public:
         }
     }
 
-    Transform transform() const {
+    [[nodiscard]] Transform transform() const {
         double z = -2.0;
-        double scale = 1.00;
+        double sc = 1.00;
         return {
                 math::translate(0, yOrigin, z),
                 math::xRotate(-xRotation) * math::zRotate(-zRotation),
-                math::scale(scale / xLength(), scale / yLength(), scale / zLength())};
+                math::scale(sc / xLength(), sc / yLength(), sc / zLength())};
     }
 };
 

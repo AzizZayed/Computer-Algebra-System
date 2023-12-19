@@ -51,7 +51,7 @@ class Mod;
 
 class Expression : public IMath, public IRepresentableMath {
 public:
-    explicit Expression(const ExpressionProperties& properties);
+    explicit Expression(ExpressionProperties  properties);
     virtual ~Expression() = default;
 
     Expression(const Expression& expression) = delete; // Remove copy constructor
@@ -121,15 +121,15 @@ public:
 
     static bool compare(Expression* left, Expression* right);
 
-    ExpressionProperties getProperties() const;
+    [[nodiscard]] ExpressionProperties getProperties() const;
 
-    Expression* getParent() const;
+    [[nodiscard]] Expression* getParent() const;
 
     void setParent(Expression* newParent);
 
-    bool isNegated() const;
+    [[nodiscard]] bool isNegated() const;
 
-    bool isOfType(ExpressionType type) const;
+    [[nodiscard]] bool isOfType(ExpressionType type) const;
 
     bool isOfSameType(Expression* expression) const;
 

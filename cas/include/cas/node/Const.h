@@ -5,7 +5,6 @@
 #define CAS_CONSTANT_H
 
 #include "Expression.h"
-#include <unordered_map>
 
 CAS_NAMESPACE
 
@@ -21,9 +20,9 @@ public:
 
     bool _equals(Expression* expression) override;
 
-    bool is(double val, double eps) const;
+    [[nodiscard]] bool is(double val, double eps) const;
 
-    bool isSymbol() const;
+    [[nodiscard]] bool isSymbol() const;
 
     Const* clone() override;
 
@@ -37,7 +36,7 @@ public:
 
     std::string text() override;
 
-    double getValue() const { return value; }
+    [[nodiscard]] double getValue() const { return value; }
 
     static Const* PI() { return new Const{math_constants::PI}; }
 

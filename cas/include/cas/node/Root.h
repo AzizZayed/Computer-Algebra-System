@@ -26,7 +26,7 @@ public:
     std::string str() override;
     std::string text() override;
 
-    Expression* getRoot() const { return getExponent(); }
+    [[nodiscard]] Expression* getRoot() const { return getExponent(); }
 };
 
 CAS_NAMESPACE_END

@@ -67,9 +67,9 @@ public:
     void insert(char var, double value);
 
     double& operator[](char var);
-    double at(char var) const;
+    [[nodiscard]] double at(char var) const;
 
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
     VariableMapIterator begin();
     VariableMapIterator end();

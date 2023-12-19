@@ -1,15 +1,14 @@
-//
-// Created by Abd-El-Aziz Zayed on 2022-09-05.
-//
-
+#include <algorithm>
 #include "cas/node/Max.h"
 #include "cas/node/Const.h"
-#include <algorithm>
 
 CAS_NAMESPACE
 
-Max::Max(std::vector<Expression*> expressions)
-    : NaryExpression({ExpressionType::MAX, "maximum", "max"}, std::move(expressions)) {}
+Max::Max(const std::vector<Expression*>& expressions)
+    : NaryExpression({ExpressionType::MAX, "maximum", "max"}, expressions) {
+    if (expressions.empty())
+        throw std::runtime_error("Max must have at least one expression (got 0)");
+}
 
 double Max::evaluate(const VariableMap& variables) {
     auto functor = [&](Expression* a, Expression* b) {
@@ -35,10 +34,9 @@ Expression* Max::simplified() {
 
     std::vector<Expression*> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
-
-    std::transform(expressions.begin(), expressions.end(), simplifiedExpressions.begin(), [](Expression* expr) {
-        return expr->simplified();
-    });
+    for (auto& expression: expressions) {
+        simplifiedExpressions.push_back(expression->simplified());
+    }
 
     bool (*isConstant)(Expression*) = [](Expression* expression) {
         return expression->isOfType(ExpressionType::CONSTANT);
@@ -49,11 +47,10 @@ Expression* Max::simplified() {
     if (constantCount > 1) {
         bool allConstant = std::all_of(simplifiedExpressions.begin(), simplifiedExpressions.end(), isConstant);
         if (allConstant) {
-            double maxElement = (*std::max_element(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](Expression* a, Expression* b) {
-                                    return a->evaluate() > b->evaluate();
-                                }))->evaluate();
-
-            return Const::n(maxElement);
+            Expression* maxElement = *std::max_element(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](Expression* a, Expression* b) {
+                return a->evaluate() > b->evaluate();
+            });
+            return Const::n(maxElement->evaluate());
         }
 
         std::vector<Expression*> reducedExpressions;

@@ -5,7 +5,6 @@
 #include "cas/node/UnaryExpression.h"
 #include "cas/node/Const.h"
 #include "cas/node/Var.h"
-#include "cas/util/StringUtils.h"
 #include "fmt/printf.h"
 
 CAS_NAMESPACE

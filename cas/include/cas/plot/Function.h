@@ -25,14 +25,14 @@ public:
     std::string text() override;
     std::string explicitText() override;
 
-    std::string generateFilename() const;
+    [[nodiscard]] std::string generateFilename() const;
 
-    size_t getUid() const;
-    const std::string& getStrExpr() const;
-    Expression* getExpr() const;
-    const std::string& getName() const;
-    const std::string& getFilename() const;
-    const VarSet& getVariables() const;
+    [[nodiscard]] size_t getUid() const;
+    [[nodiscard]] const std::string& getStrExpr() const;
+    [[nodiscard]] Expression* getExpr() const;
+    [[nodiscard]] const std::string& getName() const;
+    [[nodiscard]] const std::string& getFilename() const;
+    [[nodiscard]] const VarSet& getVariables() const;
 
 protected:
     explicit Function(const std::string& strFunction, Expression* expr, const VarSet& variables, const std::string& name = "z");

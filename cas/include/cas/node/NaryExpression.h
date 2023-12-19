@@ -5,8 +5,8 @@
 #ifndef CAS_NARYFUNCTION_H
 #define CAS_NARYFUNCTION_H
 
-#include "Expression.h"
 #include <vector>
+#include "Expression.h"
 
 CAS_NAMESPACE
 
@@ -29,7 +29,7 @@ public:
     template<typename F>
     std::string toString(const std::string& name, const char* start, const char* delimiter, const char* end, F&& strExp);
 
-    std::vector<Expression*> getExpressions() const { return {expressions}; }
+    [[nodiscard]] std::vector<Expression*> getExpressions() const { return {expressions}; }
 
     template<typename F>
     bool all(F&& f) const;
@@ -41,7 +41,7 @@ public:
     void forEach(F&& f) const;
 
 protected:
-    explicit NaryExpression(const ExpressionProperties& props, std::vector<Expression*> expressions);
+    explicit NaryExpression(const ExpressionProperties& props, const std::vector<Expression*>& expressions);
 
 protected:
     std::vector<Expression*> expressions;

@@ -5,8 +5,8 @@
 #ifndef CAS_OPERATOR_H
 #define CAS_OPERATOR_H
 
-#include "Expression.h"
 #include <vector>
+#include "Expression.h"
 
 CAS_NAMESPACE
 
@@ -26,10 +26,10 @@ public:
 
     std::string explicitText() override;
 
-    char getSymbol() const { return symbol; }
+    [[nodiscard]] char getSymbol() const { return symbol; }
 
-    std::vector<Expression*> getExpressions() const { return {expressions}; }
-    size_t getExpressionsSize() const { return expressions.size(); }
+    [[nodiscard]] std::vector<Expression*> getExpressions() const { return {expressions}; }
+    [[nodiscard]] size_t getExpressionsSize() const { return expressions.size(); }
 
 protected:
     virtual double operate(double a, double b) = 0;

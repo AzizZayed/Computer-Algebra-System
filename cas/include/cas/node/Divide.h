@@ -36,8 +36,8 @@ public:
 
     std::string explicitText() override;
 
-    Expression* getDividend() const { return dividend; }
-    Expression* getDivisor() const { return divisor; }
+    [[nodiscard]] Expression* getDividend() const { return dividend; }
+    [[nodiscard]] Expression* getDivisor() const { return divisor; }
 
 private:
     Expression* dividend;

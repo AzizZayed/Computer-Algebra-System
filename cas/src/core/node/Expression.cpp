@@ -33,11 +33,12 @@
 #include "cas/node/trig/Tan.h"
 #include <fmt/core.h>
 #include <stdexcept>
+#include <utility>
 
 CAS_NAMESPACE
 
-Expression::Expression(const ExpressionProperties& properties)
-    : properties{properties} {}
+Expression::Expression(ExpressionProperties  properties)
+    : properties{std::move(properties)} {}
 
 double Expression::evaluate(const VariableMap&) {
     throw std::runtime_error("Expression::evaluate() is not implemented for " + properties.getName());

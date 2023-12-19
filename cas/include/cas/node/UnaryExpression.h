@@ -17,7 +17,7 @@ public:
 
     Expression* derivative(char var) override;
 
-    Expression* getArgument() const { return argument; }
+    [[nodiscard]] Expression* getArgument() const { return argument; }
 
     std::string latex() override;
 

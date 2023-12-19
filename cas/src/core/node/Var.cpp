@@ -3,9 +3,7 @@
 //
 
 #include "cas/node/Var.h"
-#include "cas/data/VariableMap.h"
 #include "cas/node/Const.h"
-#include "cas/util/StringUtils.h"
 
 CAS_NAMESPACE
 

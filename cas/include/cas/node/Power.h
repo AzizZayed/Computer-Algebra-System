@@ -37,9 +37,9 @@ public:
 
     std::string explicitText() override;
 
-    Expression* getBase() const { return base; }
+    [[nodiscard]] Expression* getBase() const { return base; }
 
-    Expression* getExponent() const { return exponent; }
+    [[nodiscard]] Expression* getExponent() const { return exponent; }
 
 protected:
     explicit Power(const ExpressionProperties& props, Expression* base, Expression* exponent);
