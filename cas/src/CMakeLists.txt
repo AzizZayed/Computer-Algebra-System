@@ -112,7 +112,6 @@ set(CAS_SRC_SOURCES
         core/node/trig/ArcCot.cpp
         core/node/trig/ArcCsc.cpp
         core/node/trig/InverseTrigExpression.cpp
-        core/data/ExpressionProperties.cpp
         core/data/VariableMap.cpp
         core/latex/LatexRenderer.cpp
         core/plot/Function.cpp

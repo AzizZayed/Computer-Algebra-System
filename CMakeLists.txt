@@ -19,6 +19,7 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
     endif()
 
     # Enable ASAN and UBSAN
+    # TODO: Fix sanitizers for Windows and Linux
     if (MSVC)
         add_compile_options(/fsanitize=address,undefined)
         add_link_options(/fsanitize=address,undefined)

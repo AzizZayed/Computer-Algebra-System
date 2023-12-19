@@ -7,11 +7,26 @@
 
 #include "IMath.h"
 #include "IRepresentableMath.h"
-#include "cas/data/ExpressionProperties.h"
 #include "cas/data/ExpressionType.h"
 #include <memory>
 
 CAS_NAMESPACE
+
+struct ExpressionProperties {
+public:
+   ExpressionProperties(ExpressionType type, std::string name, std::string shortName)
+        : order(static_cast<uint8_t>(type)), type(type), name(std::move(name)), shortName(std::move(shortName)) {}
+
+    uint16_t order;
+    ExpressionType type;
+    std::string name;
+    std::string shortName;
+
+    uint16_t getOrder() const { return order; }
+    ExpressionType getType() const { return type; }
+    std::string getName() const { return name; }
+    std::string getShortName() const { return shortName; }
+};
 
 class Const;
 class Var;

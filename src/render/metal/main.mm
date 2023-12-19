@@ -106,7 +106,7 @@ int main() {
     id<MTLDevice> device = MTLCreateSystemDefaultDevice();
     id<MTLCommandQueue> commandQueue = [device newCommandQueue];
 
-    id<MTLLibrary> library = getLibrary(device, "../src/render/metal/shader.metal");
+    id<MTLLibrary> library = getLibrary(device, "../../src/render/metal/shader.metal");
     id<MTLFunction> vertexFunction = [library newFunctionWithName:@"vertexMain"]; // struct with both functions
     id<MTLFunction> fragmentFunction = [library newFunctionWithName:@"fragmentMain"];
 
@@ -117,15 +117,15 @@ int main() {
     MTLDepthStencilDescriptor* depthStencilDescriptor = getDepthStencilDescriptor();
     id<MTLDepthStencilState> depthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
 
-    NSArray<MTKMesh*>* axis = loadMesh(device, vertexDescriptor, "../res/models/axis.obj");
+    NSArray<MTKMesh*>* axis = loadMesh(device, vertexDescriptor, "../../res/models/axis.obj");
 
     // ==================== WORLD/GRID Setup ====================
     Grid grid;
     Window window("Computer Algebra System", device, grid);
-    cas::VariableMap variables = {{'x', 0}, {'y', 0}};
+    cas::VariableMap variables = {{'x', 0}, {'y', 0}, {'a', 0}};
     std::vector<std::shared_ptr<Surface>> surfaces {
             std::make_shared<Surface>(device, "x^2 + y^2", grid, variables),
-            std::make_shared<Surface>(device, "x^2 * y^2", grid, variables),
+            std::make_shared<Surface>(device, "x^2 * y^2 + a", grid, variables),
             std::make_shared<Surface>(device, "sin(x*y)", grid, variables),
             std::make_shared<Surface>(device, "abs(x * y)", grid, variables),
             std::make_shared<Surface>(device, "floor(round(ceil(x + y)))", grid, variables)};

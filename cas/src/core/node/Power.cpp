@@ -15,8 +15,8 @@ CAS_NAMESPACE
 
 Power::Power(const ExpressionProperties& props, const ExprPtr& base, const ExprPtr& exponent)
     : Expr(props), base(base), exponent(exponent) {
-    //    this->base->setParent(shared_from_this());
-    //    this->exponent->setParent(shared_from_this());
+        this->base->setParent(this);
+        this->exponent->setParent(this);
 }
 
 Power::Power(const ExprPtr& base, const ExprPtr& exponent)
