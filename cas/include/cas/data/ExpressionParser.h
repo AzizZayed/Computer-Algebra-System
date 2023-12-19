@@ -1,7 +1,3 @@
-//
-// Created by Abd-El-Aziz Zayed on 2022-09-23.
-//
-
 #ifndef CAS_EXPRESSIONPARSER_H
 #define CAS_EXPRESSIONPARSER_H
 

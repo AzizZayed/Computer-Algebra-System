@@ -40,7 +40,7 @@ namespace debug {
         };
         size_t vertexCount = 4;
         size_t indexCount = 6;
-    }
+    }// namespace plane
 
     namespace cube {
         const Vertex vertices[] = {
@@ -93,7 +93,7 @@ namespace debug {
         };
         size_t vertexCount = 8;
         size_t indexCount = 36;
-    }
+    }// namespace cube
 
 }// namespace debug
 

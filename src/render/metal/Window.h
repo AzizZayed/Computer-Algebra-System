@@ -8,9 +8,9 @@
 #include <memory>
 #include <vector>
 
-#include "cas/data/VariableMap.h"
 #include "Grid.h"
 #include "Surface.h"
+#include "cas/data/VariableMap.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -125,9 +125,9 @@ public:
                 showSurface.push_back(1);
 
                 // Add surface variables to map
-                for (const Surface::Plot& plot : surface->plots) {
+                for (const Surface::Plot& plot: surface->plots) {
                     cas::VarSet vars = plot.function->getVariables();
-                    for (const char var : vars) {
+                    for (const char var: vars) {
                         if (!variables.contains(var)) {
                             variables.insert(var, 1.0);
                         }
@@ -147,7 +147,7 @@ public:
 
             // sliders
             ImGui::TextUnformatted("Sliders");
-            for (const char name : variables.variables()) {
+            for (const char name: variables.variables()) {
                 if (name != 'x' && name != 'y') {
                     double min = -10.0f;
                     double max = 10.0f;

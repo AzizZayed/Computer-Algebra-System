@@ -1,10 +1,10 @@
 #include <memory>
 
+#include "cas/data/VariableMap.h"
+
 #include "Grid.h"
 #include "Surface.h"
 #include "Window.h"
-
-#include "cas/data/VariableMap.h"
 
 #import <Metal/Metal.h>
 #import <MetalKit/MetalKit.h>
@@ -28,10 +28,10 @@ id<MTLLibrary> getLibrary(id<MTLDevice> device, const std::string& shaderPath) {
 
 MTLVertexDescriptor* getVertexDescriptor() {
     MTLVertexDescriptor* vertexDescriptor = [MTLVertexDescriptor new];
-    vertexDescriptor.attributes[0].format = MTLVertexFormatFloat3;// position
+    vertexDescriptor.attributes[0].format = MTLVertexFormatFloat3; // position
     vertexDescriptor.attributes[0].offset = 0;
     vertexDescriptor.attributes[0].bufferIndex = 0;
-    vertexDescriptor.attributes[1].format = MTLVertexFormatFloat4;// color
+    vertexDescriptor.attributes[1].format = MTLVertexFormatFloat4; // color
     vertexDescriptor.attributes[1].offset = sizeof(simd::float3);
     vertexDescriptor.attributes[1].bufferIndex = 0;
     vertexDescriptor.layouts[0].stride = sizeof(Vertex);
@@ -106,7 +106,7 @@ int main() {
     id<MTLDevice> device = MTLCreateSystemDefaultDevice();
     id<MTLCommandQueue> commandQueue = [device newCommandQueue];
 
-    id<MTLLibrary> library = getLibrary(device, "../src/render/metal/shader.metal");
+    id<MTLLibrary> library = getLibrary(device, "../../src/render/metal/shader.metal");
     id<MTLFunction> vertexFunction = [library newFunctionWithName:@"vertexMain"]; // struct with both functions
     id<MTLFunction> fragmentFunction = [library newFunctionWithName:@"fragmentMain"];
 
@@ -117,15 +117,15 @@ int main() {
     MTLDepthStencilDescriptor* depthStencilDescriptor = getDepthStencilDescriptor();
     id<MTLDepthStencilState> depthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
 
-    NSArray<MTKMesh*>* axis = loadMesh(device, vertexDescriptor, "../res/models/axis.obj");
+    NSArray<MTKMesh*>* axis = loadMesh(device, vertexDescriptor, "../../res/models/axis.obj");
 
     // ==================== WORLD/GRID Setup ====================
     Grid grid;
     Window window("Computer Algebra System", device, grid);
-    cas::VariableMap variables = {{'x', 0}, {'y', 0}};
+    cas::VariableMap variables = {{'x', 0}, {'y', 0}, {'a', 0}};
     std::vector<std::shared_ptr<Surface>> surfaces {
             std::make_shared<Surface>(device, "x^2 + y^2", grid, variables),
-            std::make_shared<Surface>(device, "x^2 * y^2", grid, variables),
+            std::make_shared<Surface>(device, "x^2 * y^2 + a", grid, variables),
             std::make_shared<Surface>(device, "sin(x*y)", grid, variables),
             std::make_shared<Surface>(device, "abs(x * y)", grid, variables),
             std::make_shared<Surface>(device, "floor(round(ceil(x + y)))", grid, variables)};

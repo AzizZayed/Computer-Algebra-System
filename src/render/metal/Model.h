@@ -5,8 +5,8 @@
 #ifndef COMPUTERALGEBRASYSTEM_MODEL_H
 #define COMPUTERALGEBRASYSTEM_MODEL_H
 
-#include <string>
 #include <fstream>
+#include <string>
 
 #import <Metal/Metal.h>
 #import <MetalKit/MetalKit.h>
@@ -14,8 +14,8 @@
 
 class Model {
 public:
-    explicit Model(id <MTLDevice> device, const Vertex vertices[], size_t vc, const uint16_t indices[], size_t ic)
-            : vertexCount(vc), indexCount(ic) {
+    explicit Model(id<MTLDevice> device, const Vertex vertices[], size_t vc, const uint16_t indices[], size_t ic)
+        : vertexCount(vc), indexCount(ic) {
         vertexBufferSize = vc * sizeof(Vertex);
         indexBufferSize = ic * sizeof(uint16_t);
         vertexBuffer = [device newBufferWithBytes:vertices length:vertexBufferSize options:MTLResourceStorageModeShared];
@@ -25,8 +25,8 @@ public:
 public:
     size_t vertexBufferSize;
     size_t indexBufferSize;
-    id <MTLBuffer> vertexBuffer;
-    id <MTLBuffer> indexBuffer;
+    id<MTLBuffer> vertexBuffer;
+    id<MTLBuffer> indexBuffer;
     size_t vertexCount;
     size_t indexCount;
 };

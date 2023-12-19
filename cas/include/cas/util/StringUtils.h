@@ -10,16 +10,6 @@
 #include <locale>
 #include <vector>
 
-inline std::wstring toWstring(const std::string& string) {
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-    return converter.from_bytes(string);
-}
-
-inline std::string toString(const std::wstring& wString) {
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-    return converter.to_bytes(wString);
-}
-
 inline void replaceAll(std::string& str, const std::string& from, const std::string& to) {
     size_t start_pos = 0;
     while ((start_pos = str.find(from, start_pos)) != std::string::npos) {

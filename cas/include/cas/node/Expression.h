@@ -12,6 +12,9 @@
 
 CAS_NAMESPACE
 
+class Const;
+class Var;
+
 class Product;
 class Sum;
 class Divide;

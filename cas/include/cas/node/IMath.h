@@ -44,8 +44,8 @@ namespace math {
     const double POSITIVE_INFINITY = std::numeric_limits<double>::infinity();
     const double NEGATIVE_INFINITY = -POSITIVE_INFINITY;
 
-}// namespace math
+} // namespace math
 
 CAS_NAMESPACE_END
 
-#endif//CAS_IMATH_H
+#endif //CAS_IMATH_H

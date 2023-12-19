@@ -12,6 +12,8 @@
 
 CAS_NAMESPACE
 
+// TODO redesign to store std::pairs so iterators can be references
+
 struct LetterMap {
     static const char LETTER_COUNT = 26;
     char letters = 0;

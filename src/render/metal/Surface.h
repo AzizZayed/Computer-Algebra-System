@@ -34,8 +34,7 @@ public:
     };
 
     explicit Surface(id<MTLDevice> device, const std::string& func, const Grid& grid, cas::VariableMap& variables)
-        : func(func), grid(grid), variables(variables)
-    {
+        : func(func), grid(grid), variables(variables) {
         cas::LatexRenderer& latexRenderer = cas::LatexRenderer::getInstance();
 
         plots[plot].function = new cas::Function(func, (const std::string&) "z", false);

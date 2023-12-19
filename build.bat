@@ -17,10 +17,10 @@ IF "%#%" "-eq" "0" (
 )
 
 IF "%build_debug%" "-eq" "1" (
-  cmake "-DCMAKE_BUILD_TYPE=Debug" "-S" "." "-B" "build-debug"
-  cmake "--build" "build-debug"
+  cmake "-DCMAKE_BUILD_TYPE=Debug" "-S" "." "-B" "builds/debug"
+  cmake "--build" "builds/debug"
 )
 IF "%build_release%" "-eq" "1" (
-  cmake "-DCMAKE_BUILD_TYPE=Release" "-S" "." "-B" "build-release"
-  cmake "--build" "build-release"
+  cmake "-DCMAKE_BUILD_TYPE=Release" "-S" "." "-B" "builds/release"
+  cmake "--build" "builds/release"
 )
