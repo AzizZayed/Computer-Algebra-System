@@ -6,44 +6,46 @@
 #include "cas/node/Const.h"
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "cas/node/trig/ArcCot.h"
 #include "cas/node/trig/Csc.h"
 #include "cas/node/trig/Sec.h"
 
 CAS_NAMESPACE
 
-Cot::Cot(Expression* argument) : TrigExpression({ExpressionType::COT, "cotangent", "cot"}, argument) {}
+Cot::Cot(const ExprPtr& argument) : TrigExpression({ExpressionType::COT, "cotangent", "cot"}, argument) {}
 
 double Cot::evaluate(const VariableMap& variables) {
     return 1.0 / std::tan(argument->evaluate(variables));
 }
 
-Cot* Cot::clone() {
-    return new Cot(argument->clone());
+ExprPtr Cot::clone() {
+    return Cot::from(argument->clone());
 }
 
-Expression* Cot::_derivative(char variable) {
-    return new Negate(argument->clone()
-                              ->csc()
-                              ->power(2)
-                              ->multiply(argument->derivative(variable)));
+ExprPtr Cot::_derivative(char variable) {
+    // cot( f )' = -csc( f )^2 * f'
+    return argument->clone()
+            ->csc()
+            ->power(2)
+            ->multiply(argument->derivative(variable))
+            ->negate();
 }
 
-Expression* Cot::simplified() {
+ExprPtr Cot::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         double value = argument->evaluate();
         if (unitCircle.contains(value)) {
-            Expression* tan = unitCircle.at(value).tan;
+            ExprPtr tan = unitCircle.at(value).tan;
             return tan->clone()->reciprocal();
         }
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+        auto* negate = dynamic_cast<Negate*>(argument.get());
         return negate->getArgument()->simplified()->cot()->negate();
     }
     if (argument->isOfType(ExpressionType::ARC_COT)) {
-        auto* arcCot = dynamic_cast<ArcCot*>(argument);
+        auto* arcCot = dynamic_cast<ArcCot*>(argument.get());
         return arcCot->getArgument()->simplified();
     }
 

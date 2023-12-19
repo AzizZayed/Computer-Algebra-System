@@ -11,14 +11,16 @@ CAS_NAMESPACE
 
 class ArcCsc : public InverseTrigExpression {
 public:
-    explicit ArcCsc(Expression* argument);
+    explicit ArcCsc(const ExprPtr& argument);
     ArcCsc() = delete;
     ~ArcCsc() override = default;
 
     double evaluate(const VariableMap& variables) override;
-    ArcCsc* clone() override;
-    Expression* _derivative(char variable) override;
-    Expression* simplified() override;
+    ExprPtr clone() override;
+    ExprPtr _derivative(char variable) override;
+    ExprPtr simplified() override;
+
+    static ArcCscPtr from(const ExprPtr& argument) { return std::make_shared<ArcCsc>(argument); }
 };
 
 CAS_NAMESPACE_END

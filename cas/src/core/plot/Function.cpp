@@ -19,30 +19,25 @@ Function::Function(std::string strFunction, const std::string& name, bool simpli
 
     this->expr = parser.parse(strFunction, variables);
     if (simplify) {
-        Expression* simplifiedExpr = this->expr->simplified();
-        delete this->expr;
+        ExprPtr simplifiedExpr = this->expr->simplified();
         this->expr = simplifiedExpr;
     }
 }
 
-Function::Function(const std::string& strFunction, cas::Expression* expr, const cas::VarSet& variables, const std::string& name)
+Function::Function(const std::string& strFunction, const ExprPtr& expr, const cas::VarSet& variables, const std::string& name)
     : uid(nextId()), strExpr(strFunction), expr(expr), name(name), filename(generateFilename()), variables(variables) {}
-
-Function::~Function() {
-    delete expr;
-}
 
 double Function::evaluate(const VariableMap& vars) {
     return expr->evaluate(vars);
 }
 
 Function* Function::derivative(char var) {
-    Expression* pExpression = expr->derivative(var);
+    ExprPtr pExpression = expr->derivative(var);
     return new Function(pExpression->text(), pExpression, this->variables, this->name + "_" + var);
 }
 
 Function* Function::simplifiedDerivative(char var) {
-    Expression* pExpression;
+    ExprPtr pExpression;
     try {
         pExpression = expr->derivative(var);
     } catch (std::runtime_error& e) {
@@ -51,9 +46,8 @@ Function* Function::simplifiedDerivative(char var) {
     }
 
     // Simplify the derivative until it can't be simplified anymore
-    Expression* simplifiedExpr = pExpression->simplified();
+    ExprPtr simplifiedExpr = pExpression->simplified();
     while (simplifiedExpr->text() != pExpression->text()) {
-        delete pExpression;
         pExpression = simplifiedExpr;
         simplifiedExpr = pExpression->simplified();
     }
@@ -62,12 +56,12 @@ Function* Function::simplifiedDerivative(char var) {
 }
 
 Function* Function::simplified() {
-    Expression* pExpression = expr->simplified();
+    ExprPtr pExpression = expr->simplified();
     return new Function(pExpression->text(), pExpression, this->variables, this->name + "_s");
 }
 
-bool Function::isEquivalent(cas::IMath* expression) {
-    return expr->isEquivalent(expression);
+bool Function::isEquivalent(Function* const & expression) {
+    return expr->isEquivalent(expression->expr);
 }
 
 std::string Function::latex() {
@@ -98,7 +92,7 @@ const std::string& Function::getStrExpr() const {
     return strExpr;
 }
 
-Expression* Function::getExpr() const {
+ExprPtr Function::getExpr() const {
     return expr;
 }
 

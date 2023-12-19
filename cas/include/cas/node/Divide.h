@@ -10,23 +10,22 @@
 
 CAS_NAMESPACE
 
-class Divide : public Expression {
+class Divide : public Expr {
 public:
-    explicit Divide(Expression* dividend, Expression* divisor);
-
     Divide() = delete;
+    explicit Divide(const ExprPtr& dividend, const ExprPtr& divisor);
 
-    ~Divide() override;
+    ~Divide() override = default;
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(Expression* expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
-    Divide* clone() override;
+    ExprPtr clone() override;
 
-    Divide* _derivative(char var) override;
+    ExprPtr _derivative(char var) override;
 
-    Expression* simplified() override;
+    ExprPtr simplified() override;
 
     std::string latex() override;
 
@@ -36,12 +35,14 @@ public:
 
     std::string explicitText() override;
 
-    Expression* getDividend() const { return dividend; }
-    Expression* getDivisor() const { return divisor; }
+    static DividePtr from(const ExprPtr& dividend, const ExprPtr& divisor) { return std::make_shared<Divide>(dividend, divisor); }
+
+    ExprPtr getDividend() const { return dividend; }
+    ExprPtr getDivisor() const { return divisor; }
 
 private:
-    Expression* dividend;
-    Expression* divisor;
+    ExprPtr dividend;
+    ExprPtr divisor;
 };
 
 CAS_NAMESPACE_END

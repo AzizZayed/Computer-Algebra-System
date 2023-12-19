@@ -8,39 +8,39 @@
 
 CAS_NAMESPACE
 
-Min::Min(std::vector<Expression*> expressions)
+Min::Min(std::vector<ExprPtr> expressions)
     : NaryExpression({ExpressionType::MIN, "minimum", "min"}, std::move(expressions)) {}
 
 double Min::evaluate(const VariableMap& variables) {
-    auto functor = [&](Expression* a, Expression* b) {
+    auto functor = [&](const ExprPtr& a, const ExprPtr& b) {
         return a->evaluate(variables) < b->evaluate(variables);
     };
 
     return (*std::min_element(expressions.begin(), expressions.end(), functor))->evaluate(variables);
 }
 
-Min* Min::clone() {
-    std::vector<Expression*> clonedExpressions;
+ExprPtr Min::clone() {
+    std::vector<ExprPtr> clonedExpressions;
     clonedExpressions.reserve(expressions.size());
 
     for (auto& expression: expressions)
         clonedExpressions.push_back(expression->clone());
 
-    return new Min(clonedExpressions);
+    return Min::from(clonedExpressions);
 }
 
-Expression* Min::simplified() {
+ExprPtr Min::simplified() {
     if (expressions.size() == 1)
         return expressions[0]->simplified();
 
-    std::vector<Expression*> simplifiedExpressions;
+    std::vector<ExprPtr> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
 
-    std::transform(expressions.begin(), expressions.end(), simplifiedExpressions.begin(), [](Expression* expr) {
+    std::transform(expressions.begin(), expressions.end(), simplifiedExpressions.begin(), [](const ExprPtr& expr) {
         return expr->simplified();
     });
 
-    bool (*isConstant)(Expression*) = [](Expression* expression) {
+    bool (*isConstant)(const ExprPtr&) = [](const ExprPtr& expression) {
         return expression->isOfType(ExpressionType::CONSTANT);
     };
 
@@ -49,14 +49,14 @@ Expression* Min::simplified() {
     if (constantCount > 1) {
         bool allConstant = std::all_of(simplifiedExpressions.begin(), simplifiedExpressions.end(), isConstant);
         if (allConstant) {
-            double minElement = (*std::min_element(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](Expression* a, Expression* b) {
+            double minElement = (*std::min_element(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](const ExprPtr& a, const ExprPtr& b) {
                                     return a->evaluate() < b->evaluate();
                                 }))->evaluate();
 
             return Const::n(minElement);
         }
 
-        std::vector<Expression*> reducedExpressions;
+        std::vector<ExprPtr> reducedExpressions;
         reducedExpressions.reserve(expressions.size());
 
         double min = math::POSITIVE_INFINITY;
@@ -73,10 +73,10 @@ Expression* Min::simplified() {
             return reducedExpressions[0];
         }
 
-        return new Min(reducedExpressions);
+        return Min::from(reducedExpressions);
     }
 
-    return new Min(simplifiedExpressions);
+    return Min::from(simplifiedExpressions);
 }
 
 CAS_NAMESPACE_END

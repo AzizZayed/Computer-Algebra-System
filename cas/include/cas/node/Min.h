@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Min : public NaryExpression {
 public:
-    explicit Min(std::vector<Expression*> expressions);
+    explicit Min(std::vector<ExprPtr> expressions);
 
     Min() = delete;
 
@@ -19,9 +19,11 @@ public:
 
     double evaluate(const VariableMap& variables) override;
 
-    Min* clone() override;
+    ExprPtr clone() override;
 
-    Expression* simplified() override;
+    ExprPtr simplified() override;
+
+    static MinPtr from(const std::vector<ExprPtr>& expressions) { return std::make_shared<Min>(expressions); }
 };
 
 CAS_NAMESPACE_END

@@ -11,19 +11,21 @@ CAS_NAMESPACE
 
 class Cbrt : public Root {
 public:
-    explicit Cbrt(Expression* base);
+    explicit Cbrt(const ExprPtr& base);
     Cbrt() = delete;
     ~Cbrt() override = default;
 
     double evaluate(const VariableMap& variables) override;
-    Cbrt* clone() override;
-    Expression* _derivative(char variable) override;
-    Expression* simplified() override;
+    ExprPtr clone() override;
+    ExprPtr _derivative(char variable) override;
+    ExprPtr simplified() override;
 
     std::string latex() override;
     std::wstring stringify() override;
     std::string text() override;
     std::string explicitText() override;
+
+    static CbrtPtr from(const ExprPtr& base) { return std::make_shared<Cbrt>(base); }
 };
 
 CAS_NAMESPACE_END

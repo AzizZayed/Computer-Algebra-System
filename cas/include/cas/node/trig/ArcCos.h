@@ -11,14 +11,16 @@ CAS_NAMESPACE
 
 class ArcCos : public InverseTrigExpression {
 public:
-    explicit ArcCos(Expression* argument);
+    explicit ArcCos(const ExprPtr& argument);
     ArcCos() = delete;
     ~ArcCos() override = default;
 
     double evaluate(const VariableMap& variables) override;
-    ArcCos* clone() override;
-    Expression* _derivative(char variable) override;
-    Expression* simplified() override;
+    ExprPtr clone() override;
+    ExprPtr _derivative(char variable) override;
+    ExprPtr simplified() override;
+
+    static ArcCosPtr from(const ExprPtr& argument) { return std::make_shared<ArcCos>(argument); }
 };
 
 CAS_NAMESPACE_END

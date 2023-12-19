@@ -7,29 +7,29 @@
 #include "cas/node/Divide.h"
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "cas/node/Sum.h"
 
 CAS_NAMESPACE
 
-ArcCot::ArcCot(Expression* argument)
+ArcCot::ArcCot(const ExprPtr& argument)
     : InverseTrigExpression({ExpressionType::ARC_COT, "arccot", "acot"}, argument) {}
 
 double ArcCot::evaluate(const VariableMap& variables) {
     return std::atan(1 / argument->evaluate(variables));
 }
 
-ArcCot* ArcCot::clone() {
-    return new ArcCot(argument->clone());
+ExprPtr ArcCot::clone() {
+    return ArcCot::from(argument->clone());
 }
 
-Expression* ArcCot::_derivative(char var) {
-    return new Divide(
+ExprPtr ArcCot::_derivative(char var) {
+    return Divide::from(
             argument->derivative(var)->negate(),
-            new Sum({argument->clone()->power(2), new Const(1)}));
+            Sum::from({argument->clone()->power(2), Const::one()}));
 }
 
-Expression* ArcCot::simplified() {
+ExprPtr ArcCot::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         if (argument->evaluate() == 1)
             return Const::PI()->divide(4);

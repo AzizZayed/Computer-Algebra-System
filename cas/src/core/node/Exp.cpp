@@ -5,31 +5,31 @@
 #include "cas/node/Exp.h"
 #include "cas/node/Const.h"
 #include "cas/node/Log.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "fmt/format.h"
 
 CAS_NAMESPACE
 
-Exp::Exp(Expression* exponent)
+Exp::Exp(const ExprPtr& exponent)
     : Power({ExpressionType::EXPONENTIAL, "exponential", "exp"}, Const::E(), exponent) {}
 
 double Exp::evaluate(const VariableMap& variables) {
     return std::exp(exponent->evaluate(variables));
 }
 
-Exp* Exp::clone() {
-    return new Exp(exponent->clone());
+ExprPtr Exp::clone() {
+    return Exp::from(exponent->clone());
 }
 
-Expression* Exp::_derivative(char var) {
+ExprPtr Exp::_derivative(char var) {
     if (exponent->isOfType(ExpressionType::CONSTANT)) {
-        return new Const;
+        return Const::zero();
     }
 
     return clone()->multiply(exponent->derivative(var));
 }
 
-Expression* Exp::simplified() {
+ExprPtr Exp::simplified() {
     if (exponent->isOfType(ExpressionType::CONSTANT)) {
         double exponentValue = exponent->evaluate();
         if (exponentValue == 0)
@@ -38,7 +38,7 @@ Expression* Exp::simplified() {
             return Const::E();
     }
     if (exponent->isOfType(ExpressionType::LOGARITHM)) {
-        auto* log = dynamic_cast<Log*>(exponent);
+        auto* log = dynamic_cast<Log*>(exponent.get());
         if (log->getBase()->equals(this->base))
             return log->getArgument()->simplified();
     }

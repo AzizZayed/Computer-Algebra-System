@@ -13,7 +13,7 @@
 #include "cas/node/Ln.h"
 #include "cas/node/Mod.h"
 #include "cas/node/Negate.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "cas/node/Round.h"
 #include "cas/node/Sign.h"
 #include "cas/node/Sqrt.h"
@@ -33,22 +33,23 @@
 #include "cas/node/trig/Tan.h"
 #include <fmt/core.h>
 #include <stdexcept>
+#include <vector>
 
 CAS_NAMESPACE
 
-Expression::Expression(const ExpressionProperties& properties)
+Expr::Expr(const ExpressionProperties& properties)
     : properties{properties} {}
 
-double Expression::evaluate(const VariableMap&) {
+double Expr::evaluate(const VariableMap&) {
     throw std::runtime_error("Expression::evaluate() is not implemented for " + properties.getName());
 }
 
-double Expression::evaluate() {
+double Expr::evaluate() {
     return evaluate({});
 }
 
-bool Expression::equals(Expression* expression) {
-    if (this == expression)
+bool Expr::equals(const ExprPtr& expression) {
+    if (this == expression.get())
         return true;
 
     if (!isOfType(expression->getProperties().getType()))
@@ -57,180 +58,177 @@ bool Expression::equals(Expression* expression) {
     return _equals(expression);
 }
 
-bool Expression::_equals(Expression*) {
+bool Expr::_equals(const ExprPtr&) {
     throw std::runtime_error("Expression::equals() is not implemented for " + properties.getName());
 }
 
-Expression* Expression::clone() {
+ExprPtr Expr::clone() {
     throw std::runtime_error("Expression::clone() is not implemented for " + properties.getName());
 }
 
-Expression* Expression::derivative(char var) {
+ExprPtr Expr::derivative(char var) {
     return _derivative(var);
 }
 
-Expression* Expression::_derivative(char) {
+ExprPtr Expr::_derivative(char) {
     throw std::runtime_error("Expression::derivative() is not implemented for " + properties.getName());
 }
 
-Expression* Expression::simplified() {
+ExprPtr Expr::simplified() {
     throw std::runtime_error("Expression::simplified() is not implemented for " + properties.getName());
 }
 
-bool Expression::isEquivalent(cas::IMath*) {
+bool Expr::isEquivalent(const ExprPtr&) {
     throw std::runtime_error("Expression::isEquivalent() is not implemented for " + properties.getName());
 }
 
-Product* Expression::multiply(Expression* expression) {
-    return new Product({this, expression});
+ProdPtr Expr::multiply(const ExprPtr& expression) {
+    return std::make_shared<Prod>(std::vector<ExprPtr>{shared_from_this(), expression});
 }
 
-Product* Expression::multiply(double value) {
-    return new Product({this, Const::n(value)});
+ProdPtr Expr::multiply(double value) {
+    return std::make_shared<Prod>(std::vector<ExprPtr>{shared_from_this(), Const::n(value)});
 }
 
-Sum* Expression::add(Expression* expression) {
-    return new Sum({this, expression});
+SumPtr Expr::add(const ExprPtr& expression) {
+    return std::make_shared<Sum>(std::vector<ExprPtr>{shared_from_this(), expression});
 }
 
-Sum* Expression::add(double value) {
-    return this->add(new Const(value));
+SumPtr Expr::add(double value) {
+    return add(Const::n(value));
 }
 
-Sum* Expression::subtract(Expression* expression) {
-    return new Sum({this, new Negate(expression)});
+SumPtr Expr::subtract(const ExprPtr& expression) {
+    const NegatePtr& negate = Negate::from(expression);
+    return std::make_shared<Sum>(std::vector<ExprPtr>{shared_from_this(), negate});
 }
 
-Sum* Expression::subtract(double value) {
-    return this->subtract(new Const(value));
+SumPtr Expr::subtract(double value) {
+    return subtract(Const::n(value));
 }
 
-Divide* Expression::divide(Expression* expression) {
-    return new Divide(this, expression);
+DividePtr Expr::divide(const ExprPtr& expression) {
+    return std::make_shared<Divide>(shared_from_this(), expression);
 }
 
-Divide* Expression::divide(double divisor) {
+DividePtr Expr::divide(double divisor) {
     return this->divide(Const::n(divisor));
 }
 
-Negate* Expression::negate() {
-    return new Negate(this);
+NegatePtr Expr::negate() {
+    return std::make_shared<Negate>(shared_from_this());
 }
 
-Power* Expression::power(Expression* expression) {
-    return new Power(this, expression);
+PowerPtr Expr::power(const ExprPtr& expression) {
+    return std::make_shared<Power>(shared_from_this(), expression);
 }
 
-Power* Expression::power(double exponent) {
-    return new Power(this, exponent);
+PowerPtr Expr::power(double exponent) {
+    return std::make_shared<Power>(shared_from_this(), exponent);
 }
 
-Exp* Expression::exp() {
-    return new Exp(this);
+ExpPtr Expr::exp() {
+    return std::make_shared<Exp>(shared_from_this());
 }
 
-Log* Expression::log(Expression* base) {
-    return new Log(base, this);
+LogPtr Expr::log(const ExprPtr& base) {
+    return std::make_shared<Log>(base, shared_from_this());
 }
-Log* Expression::log(double base) {
-    return new Log(base, this);
-}
-
-Ln* Expression::ln() {
-    return new Ln(this);
+LogPtr Expr::log(double base) {
+    return std::make_shared<Log>(base, shared_from_this());
 }
 
-Root* Expression::root(Expression* root) {
-    return new Root(this, root);
+LnPtr Expr::ln() {
+    return std::make_shared<Ln>(shared_from_this());
+}
+RootPtr Expr::root(const ExprPtr& root) {
+    return std::make_shared<Root>(shared_from_this(), root);
 }
 
-Root* Expression::root(double root) {
-    return new Root(this, root);
+RootPtr Expr::root(double root) {
+    return std::make_shared<Root>(shared_from_this(), root);
 }
 
-Sqrt* Expression::sqrt() {
-    return new Sqrt(this);
+SqrtPtr Expr::sqrt() {
+    return std::make_shared<Sqrt>(shared_from_this());
 }
 
-Cbrt* Expression::cbrt() {
-    return new Cbrt(this);
+CbrtPtr Expr::cbrt() {
+    return std::make_shared<Cbrt>(shared_from_this());
 }
 
-Abs* Expression::abs() {
-    return new Abs(this);
+AbsPtr Expr::abs() {
+    return std::make_shared<Abs>(shared_from_this());
 }
 
-Cos* Expression::cos() {
-    return new Cos(this);
+CosPtr Expr::cos() {
+    return std::make_shared<Cos>(shared_from_this());
 }
-Sin* Expression::sin() {
-    return new Sin(this);
+SinPtr Expr::sin() {
+    return std::make_shared<Sin>(shared_from_this());
 }
-Tan* Expression::tan() {
-    return new Tan(this);
+TanPtr Expr::tan() {
+    return std::make_shared<Tan>(shared_from_this());
 }
-ArcTan* Expression::atan() {
-    return new ArcTan(this);
+ArcTanPtr Expr::atan() {
+    return std::make_shared<ArcTan>(shared_from_this());
 }
-ArcCos* Expression::acos() {
-    return new ArcCos(this);
+ArcCosPtr Expr::acos() {
+    return std::make_shared<ArcCos>(shared_from_this());
 }
-ArcSin* Expression::asin() {
-    return new ArcSin(this);
+ArcSinPtr Expr::asin() {
+    return std::make_shared<ArcSin>(shared_from_this());
 }
-Csc* Expression::csc() {
-    return new Csc(this);
+CscPtr Expr::csc() {
+    return std::make_shared<Csc>(shared_from_this());
 }
-Sec* Expression::sec() {
-    return new Sec(this);
+SecPtr Expr::sec() {
+    return std::make_shared<Sec>(shared_from_this());
 }
-Cot* Expression::cot() {
-    return new Cot(this);
+CotPtr Expr::cot() {
+    return std::make_shared<Cot>(shared_from_this());
 }
-ArcCsc* Expression::acsc() {
-    return new ArcCsc(this);
+ArcCscPtr Expr::acsc() {
+    return std::make_shared<ArcCsc>(shared_from_this());
 }
-ArcSec* Expression::asec() {
-    return new ArcSec(this);
+ArcSecPtr Expr::asec() {
+    return std::make_shared<ArcSec>(shared_from_this());
 }
-ArcCot* Expression::acot() {
-    return new ArcCot(this);
-}
-
-Floor* Expression::floor() {
-    return new Floor(this);
+ArcCotPtr Expr::acot() {
+    return std::make_shared<ArcCot>(shared_from_this());
 }
 
-Ceil* Expression::ceil() {
-    return new Ceil(this);
+FloorPtr Expr::floor() {
+    return std::make_shared<Floor>(shared_from_this());
 }
 
-Round* Expression::round() {
-    return new Round(this);
+CeilPtr Expr::ceil() {
+    return std::make_shared<Ceil>(shared_from_this());
 }
 
-Sign* Expression::sign() {
-    return new Sign(this);
+RoundPtr Expr::round() {
+    return std::make_shared<Round>(shared_from_this());
 }
 
-Mod* Expression::mod(Expression* expression) {
-    return new Mod(this, expression);
+SignPtr Expr::sign() {
+    return std::make_shared<Sign>(shared_from_this());
 }
 
-Expression* Expression::reciprocal() {
+ModPtr Expr::mod(const ExprPtr& expression) {
+    return std::make_shared<Mod>(shared_from_this(), expression);
+}
+
+ExprPtr Expr::reciprocal() {
     if (isOfType(ExpressionType::DIVIDE)) {
         auto* div = dynamic_cast<Divide*>(this);
         return div->getDivisor()->divide(div->getDividend());
     }
 
-    return Const::n(1)->divide(this);
+    return Const::n(1)->divide(shared_from_this());
 }
 
-bool Expression::operator<(const cas::Expression& expression) const {
-    ExpressionType type = properties.getType();
-    ExpressionType expressionType = expression.properties.getType();
-
-    int diff = static_cast<uint8_t>(type) - static_cast<uint8_t>(expressionType);
+bool Expr::operator<(const cas::Expr& expression) const {
+    int diff = this->properties.getOrder() - expression.properties.getOrder();
 
     if (diff == 0) {
         if (isOfType(ExpressionType::VARIABLE)) {
@@ -258,39 +256,39 @@ bool Expression::operator<(const cas::Expression& expression) const {
     return diff < 0;
 }
 
-bool Expression::lessThan(cas::Expression* expression) const {
+bool Expr::lessThan(const ExprPtr& expression) const {
     return *this < *expression;
 }
 
-bool Expression::compare(cas::Expression* left, cas::Expression* right) {
+bool Expr::compare(const ExprPtr& left, const ExprPtr& right) {
     return left->lessThan(right);
 }
 
-ExpressionProperties Expression::getProperties() const {
+ExpressionProperties Expr::getProperties() const {
     return properties;
 }
 
-Expression* Expression::getParent() const {
+Expr* Expr::getParent() const {
     return parent;
 }
 
-void Expression::setParent(Expression* newParent) {
+void Expr::setParent(Expr* newParent) {
     this->parent = newParent;
 }
 
-bool Expression::isNegated() const {
+bool Expr::isNegated() const {
     return properties.getType() == ExpressionType::NEGATE;
 }
 
-bool Expression::isOfType(ExpressionType type) const {
+bool Expr::isOfType(ExpressionType type) const {
     return properties.getType() == type;
 }
 
-bool Expression::isOfSameType(Expression* expression) const {
+bool Expr::isOfSameType(const ExprPtr& expression) const {
     return isOfType(expression->getProperties().getType());
 }
 
-std::string Expression::explicitText() {
+std::string Expr::explicitText() {
     return properties.getShortName() + "(" + text() + ")";
 }
 

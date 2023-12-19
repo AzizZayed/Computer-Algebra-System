@@ -6,39 +6,42 @@
 #include "cas/node/Const.h"
 #include "cas/node/Divide.h"
 #include "cas/node/Negate.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/trig/ArcCos.h"
 #include "cas/node/trig/Sin.h"
 
 CAS_NAMESPACE
 
-Cos::Cos(Expression* argument) : TrigExpression({ExpressionType::COS, "cosine", "cos"}, argument) {}
+Cos::Cos(const ExprPtr& argument) : TrigExpression({ExpressionType::COS, "cosine", "cos"}, argument) {}
 
 double Cos::evaluate(const VariableMap& variables) {
     return std::cos(argument->evaluate(variables));
 }
 
-Cos* Cos::clone() {
-    return new Cos(argument->clone());
+ExprPtr Cos::clone() {
+    return Cos::from(argument->clone());
 }
 
-Expression* Cos::_derivative(char variable) {
-    return new Negate(argument->clone()->sin()->multiply(argument->derivative(variable)));
+ExprPtr Cos::_derivative(char variable) {
+    return argument->clone()
+            ->sin()
+            ->multiply(argument->derivative(variable))
+            ->negate();
 }
 
-Expression* Cos::simplified() {
+ExprPtr Cos::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         double value = argument->evaluate();
         if (unitCircle.contains(value))
             return unitCircle.at(value).cos->clone();
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+        auto* negate = dynamic_cast<Negate*>(argument.get());
         return negate->getArgument()->simplified()->cos();
     }
     if (argument->isOfType(ExpressionType::ARC_COS)) {
-        auto* arcCos = dynamic_cast<ArcCos*>(argument);
+        auto* arcCos = dynamic_cast<ArcCos*>(argument.get());
         return arcCos->getArgument()->simplified();
     }
 

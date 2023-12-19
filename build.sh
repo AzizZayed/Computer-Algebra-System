@@ -28,12 +28,12 @@ fi
 
 # Build the debug version if specified
 if [ $build_debug -eq 1 ]; then
-  cmake -DCMAKE_BUILD_TYPE=Debug -S . -B build-debug
-  cmake --build build-debug
+  cmake -DCMAKE_BUILD_TYPE=Debug -S . -B builds/debug
+  cmake --build builds/debug
 fi
 
 # Build the release version if specified
 if [ $build_release -eq 1 ]; then
-  cmake -DCMAKE_BUILD_TYPE=Release -S . -B build-release
-  cmake --build build-release
+  cmake -DCMAKE_BUILD_TYPE=Release -S . -B builds/release
+  cmake --build builds/release
 fi

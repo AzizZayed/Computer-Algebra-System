@@ -9,27 +9,27 @@
 
 CAS_NAMESPACE
 
-class Log : public Expression {
+class Log : public Expr {
 public:
-    explicit Log(Expression* base, Expression* argument);
+    explicit Log(const ExprPtr& base, const ExprPtr& argument);
 
-    explicit Log(double base, Expression* argument);
+    explicit Log(double base, const ExprPtr& argument);
 
-    explicit Log(Expression* argument);
+    explicit Log(const ExprPtr& argument);
 
     Log() = delete;
 
-    ~Log() override;
+    ~Log() override = default;
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(Expression* expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
-    Log* clone() override;
+    ExprPtr clone() override;
 
-    Expression* _derivative(char var) override;
+    ExprPtr _derivative(char var) override;
 
-    Expression* simplified() override;
+    ExprPtr simplified() override;
 
     std::string latex() override;
 
@@ -39,18 +39,22 @@ public:
 
     std::string explicitText() override;
 
-    Expression* getBase() const { return base; }
+    ExprPtr getBase() const { return base; }
 
-    Expression* getArgument() const { return argument; }
+    ExprPtr getArgument() const { return argument; }
+
+    static LogPtr from(const ExprPtr& base, const ExprPtr& argument) { return std::make_shared<Log>(base, argument); }
+    static LogPtr from(double base, const ExprPtr& argument) { return std::make_shared<Log>(base, argument); }
+    static LogPtr from(const ExprPtr& argument) { return std::make_shared<Log>(argument); }
 
 protected:
-    explicit Log(const ExpressionProperties& props, Expression* base, Expression* argument);
+    explicit Log(const ExpressionProperties& props, const ExprPtr& base, const ExprPtr& argument);
 
     bool argumentNeedsParentheses();
 
 protected:
-    Expression* base;
-    Expression* argument;
+    ExprPtr base;
+    ExprPtr argument;
 };
 
 CAS_NAMESPACE_END

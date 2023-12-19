@@ -9,25 +9,25 @@
 
 CAS_NAMESPACE
 
-class Power : public Expression {
+class Power : public Expr {
 public:
-    explicit Power(Expression* base, Expression* exponent);
+    explicit Power(const ExprPtr& base, const ExprPtr& exponent);
 
-    explicit Power(Expression* base, double exponent);
+    explicit Power(const ExprPtr& base, double exponent);
 
     Power() = delete;
 
-    ~Power() override;
+    ~Power() override = default;
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(Expression* expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
-    Power* clone() override;
+    ExprPtr clone() override;
 
-    Expression* _derivative(char var) override;
+    ExprPtr _derivative(char var) override;
 
-    Expression* simplified() override;
+    ExprPtr simplified() override;
 
     std::string latex() override;
 
@@ -37,20 +37,22 @@ public:
 
     std::string explicitText() override;
 
-    Expression* getBase() const { return base; }
+    ExprPtr getBase() const { return base; }
 
-    Expression* getExponent() const { return exponent; }
+    ExprPtr getExponent() const { return exponent; }
+
+    static PowerPtr from(const ExprPtr& base, const ExprPtr& exponent) { return std::make_shared<Power>(base, exponent); }
 
 protected:
-    explicit Power(const ExpressionProperties& props, Expression* base, Expression* exponent);
+    explicit Power(const ExpressionProperties& props, const ExprPtr& base, const ExprPtr& exponent);
 
     bool baseNeedsParentheses();
 
     bool exponentNeedsParentheses();
 
 protected:
-    Expression* base;
-    Expression* exponent;
+    ExprPtr base;
+    ExprPtr exponent;
 };
 
 CAS_NAMESPACE_END

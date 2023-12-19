@@ -15,7 +15,7 @@
 #include "cas/node/Min.h"
 #include "cas/node/Mod.h"
 #include "cas/node/Negate.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "cas/node/Round.h"
 #include "cas/node/Sign.h"
 #include "cas/node/Sqrt.h"
@@ -114,7 +114,7 @@ std::string ExpressionParser::pop(std::list<std::string>& list) {
     return top;
 }
 
-Expression* ExpressionParser::parse(const std::string& expression, VarSet& variables) {
+ExprPtr ExpressionParser::parse(const std::string& expression, VarSet& variables) {
     std::string expr = expression;
     removeUnnecessarySurroundingBrackets(expr);
 
@@ -139,13 +139,13 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
                 }
             }
 
-            std::vector<Expression*> expressions;
+            std::vector<ExprPtr> expressions;
             for (const std::string& part: parts) {
                 if (!part.empty())
                     expressions.push_back(parse(part, variables));
             }
 
-            return new Sum(expressions);
+            return Sum::from(expressions);
         } else if (contains(cut, "-")) {
             std::vector<std::string> parts = split(cut, "-");
             for (std::string& part: parts) {
@@ -155,20 +155,20 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
             }
 
             if (parts.size() == 2 && parts[0].empty()) {
-                return new Negate(parse(parts[1], variables));
+                return Negate::from(parse(parts[1], variables));
             }
 
             bool first = true;
-            std::vector<Expression*> expressions;
+            std::vector<ExprPtr> expressions;
             for (const std::string& part: parts) {
                 if (!part.empty()) {
-                    Expression* neg = parse(part, variables);
-                    expressions.push_back(first ? neg : new Negate(neg));
+                    ExprPtr neg = parse(part, variables);
+                    expressions.push_back(first ? neg : neg->negate());
                 }
                 first = false;
             }
 
-            return new Sum(expressions);
+            return Sum::from(expressions);
         } else if (contains(cut, "*")) {
             std::vector<std::string> parts = split(cut, "*");
             for (std::string& part: parts) {
@@ -177,13 +177,13 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
                 }
             }
 
-            std::vector<Expression*> expressions;
+            std::vector<ExprPtr> expressions;
             for (const std::string& part: parts) {
                 if (!part.empty())
                     expressions.push_back(parse(part, variables));
             }
 
-            return new Product(expressions);
+            return Prod::from(expressions);
         } else if (contains(cut, "/")) {
             std::vector<std::string> parts = splitFirst(cut, "/");
 
@@ -194,7 +194,7 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
                 replaceOnce(parts[1], "()", "(" + pop(remove) + ")");
             }
 
-            return new Divide(parse(parts[0], variables), parse(parts[1], variables));
+            return Divide::from(parse(parts[0], variables), parse(parts[1], variables));
         } else if (contains(cut, "^")) {
             std::vector<std::string> parts = splitFirst(cut, "^");
 
@@ -206,42 +206,42 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
             }
 
             std::string& base = parts[0];
-            Expression* power = parse(parts[1], variables);
+            ExprPtr power = parse(parts[1], variables);
             if (base == "e") {
-                return new Exp(power);
+                return Exp::from(power);
             }
 
-            return new Power(parse(base, variables), power);
+            return Power::from(parse(base, variables), power);
         } else if (cut == "-()") {
-            return new Negate(parse(pop(remove), variables));
+            return Negate::from(parse(pop(remove), variables));
         } else if (cut == "sin()") {
-            return new Sin(parse(pop(remove), variables));
+            return Sin::from(parse(pop(remove), variables));
         } else if (cut == "cos()") {
-            return new Cos(parse(pop(remove), variables));
+            return Cos::from(parse(pop(remove), variables));
         } else if (cut == "tan()") {
-            return new Tan(parse(pop(remove), variables));
+            return Tan::from(parse(pop(remove), variables));
         } else if (cut == "cot()") {
-            return new Cot(parse(pop(remove), variables));
+            return Cot::from(parse(pop(remove), variables));
         } else if (cut == "sec()") {
-            return new Sec(parse(pop(remove), variables));
+            return Sec::from(parse(pop(remove), variables));
         } else if (cut == "csc()") {
-            return new Csc(parse(pop(remove), variables));
+            return Csc::from(parse(pop(remove), variables));
         } else if (cut == "asin()" || cut == "arcsin()") {
-            return new ArcSin(parse(pop(remove), variables));
+            return ArcSin::from(parse(pop(remove), variables));
         } else if (cut == "acos()" || cut == "arccos()") {
-            return new ArcCos(parse(pop(remove), variables));
+            return ArcCos::from(parse(pop(remove), variables));
         } else if (cut == "atan()" || cut == "arctan()") {
-            return new ArcTan(parse(pop(remove), variables));
+            return ArcTan::from(parse(pop(remove), variables));
         } else if (cut == "acot()" || cut == "arccot()") {
-            return new ArcCot(parse(pop(remove), variables));
+            return ArcCot::from(parse(pop(remove), variables));
         } else if (cut == "asec()" || cut == "arcsec()") {
-            return new ArcSec(parse(pop(remove), variables));
+            return ArcSec::from(parse(pop(remove), variables));
         } else if (cut == "acsc()" || cut == "arccsc()") {
-            return new ArcCsc(parse(pop(remove), variables));
+            return ArcCsc::from(parse(pop(remove), variables));
         } else if (cut == "ln()") {
-            return new Ln(parse(pop(remove), variables));
+            return Ln::from(parse(pop(remove), variables));
         } else if (cut == "log()") {
-            return new Log(parse(pop(remove), variables));
+            return Log::from(parse(pop(remove), variables));
         } else if (cut.starts_with("log_")) {
             std::string log = cut.substr(4);
             std::vector<std::string> parts = split(log, "_");
@@ -253,23 +253,23 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
                 replaceOnce(parts[1], "()", "(" + pop(remove) + ")");
             }
 
-            return new Log(parse(parts[0], variables), parse(parts[1], variables));
+            return Log::from(parse(parts[0], variables), parse(parts[1], variables));
         } else if (cut == "sqrt()") {
-            return new Sqrt(parse(pop(remove), variables));
+            return Sqrt::from(parse(pop(remove), variables));
         } else if (cut == "cbrt()") {
-            return new Cbrt(parse(pop(remove), variables));
+            return Cbrt::from(parse(pop(remove), variables));
         } else if (cut == "abs()") {
-            return new Abs(parse(pop(remove), variables));
+            return Abs::from(parse(pop(remove), variables));
         } else if (cut == "exp()") {
-            return new Exp(parse(pop(remove), variables));
+            return Exp::from(parse(pop(remove), variables));
         } else if (cut == "floor()") {
-            return new Floor(parse(pop(remove), variables));
+            return Floor::from(parse(pop(remove), variables));
         } else if (cut == "ceil()") {
-            return new Ceil(parse(pop(remove), variables));
+            return Ceil::from(parse(pop(remove), variables));
         } else if (cut == "round()") {
-            return new Round(parse(pop(remove), variables));
+            return Round::from(parse(pop(remove), variables));
         } else if (cut == "sign()" || cut == "sgn()") {
-            return new Sign(parse(pop(remove), variables));
+            return Sign::from(parse(pop(remove), variables));
         } else if (cut == "mod()") {
             std::string mod = pop(remove);
             std::vector<std::string> parts = split(mod, ",");
@@ -278,29 +278,29 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
                 throw std::invalid_argument("Invalid number of arguments for mod in " + expression);
             }
 
-            return new Mod(parse(parts[0], variables), parse(parts[1], variables));
+            return Mod::from(parse(parts[0], variables), parse(parts[1], variables));
         } else if (cut == "max()") {
             std::string max = pop(remove);
             std::vector<std::string> parts = split(max, ",");
 
-            std::vector<Expression*> expressions;
+            std::vector<ExprPtr> expressions;
             for (const std::string& part: parts) {
                 if (!part.empty())
                     expressions.push_back(parse(part, variables));
             }
 
-            return new Max(expressions);
+            return Max::from(expressions);
         } else if (cut == "min()") {
             std::string max = pop(remove);
             std::vector<std::string> parts = split(max, ",");
 
-            std::vector<Expression*> expressions;
+            std::vector<ExprPtr> expressions;
             for (const std::string& part: parts) {
                 if (!part.empty())
                     expressions.push_back(parse(part, variables));
             }
 
-            return new Min(expressions);
+            return Min::from(expressions);
         }
     } else if (expr == "e") {
         return cas::Const::E();
@@ -311,117 +311,117 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
     } else if (expr.length() == 1 && isalpha(expr[0])) {
         char c = expr[0];
         variables.insert(c);
-        return new Var(c);
+        return Var::from(c);
     } else if (isNumber(expr)) {
-        return new Const(std::stod(expr));
+        return Const::from(std::stod(expr));
     } else if (contains(expr, "+")) {
         std::vector<std::string> parts = split(expr, "+");
 
-        std::vector<Expression*> expressions;
+        std::vector<ExprPtr> expressions;
         for (const std::string& part: parts) {
             if (!part.empty())
                 expressions.push_back(parse(part, variables));
         }
 
-        return new Sum(expressions);
+        return Sum::from(expressions);
     } else if (contains(expr, "-")) {
         std::vector<std::string> parts = split(expr, "-");
 
         if (parts.size() == 2 && parts[0].empty()) {
-            return new Negate(parse(parts[1], variables));
+            return Negate::from(parse(parts[1], variables));
         }
 
         bool first = true;
-        std::vector<Expression*> expressions;
+        std::vector<ExprPtr> expressions;
         for (const std::string& part: parts) {
             if (!part.empty()) {
-                Expression* neg = parse(part, variables);
-                expressions.push_back(first ? neg : new Negate(neg));
+                ExprPtr neg = parse(part, variables);
+                expressions.push_back(first ? neg : Negate::from(neg));
             }
             first = false;
         }
 
-        return new Sum(expressions);
+        return Sum::from(expressions);
     } else if (contains(expr, "*")) {
         std::vector<std::string> parts = split(expr, "*");
 
-        std::vector<Expression*> expressions;
+        std::vector<ExprPtr> expressions;
         for (const std::string& part: parts) {
             if (!part.empty())
                 expressions.push_back(parse(part, variables));
         }
 
-        return new Product(expressions);
+        return Prod::from(expressions);
     } else if (contains(expr, "/")) {
         std::vector<std::string> parts = splitFirst(expr, "/");
-        return new Divide(parse(parts[0], variables), parse(parts[1], variables));
+        return Divide::from(parse(parts[0], variables), parse(parts[1], variables));
     } else if (contains(expr, "^")) {
         std::vector<std::string> parts = splitFirst(expr, "^");
         std::string& base = parts[0];
-        Expression* power = parse(parts[1], variables);
+        ExprPtr power = parse(parts[1], variables);
 
         if (base == "e") {
-            return new Exp(power);
+            return Exp::from(power);
         }
-        return new Power(parse(base, variables), power);
+        return Power::from(parse(base, variables), power);
     } else if (expr.starts_with("-")) {
-        return new Negate(parse(expr.substr(1), variables));
+        return Negate::from(parse(expr.substr(1), variables));
     } else if (expr.starts_with("ln")) {
-        return new Ln(parse(expr.substr(2), variables));
+        return Ln::from(parse(expr.substr(2), variables));
     } else if (expr.starts_with("sin")) {
-        return new Sin(parse(expr.substr(3), variables));
+        return Sin::from(parse(expr.substr(3), variables));
     } else if (expr.starts_with("cos")) {
-        return new Cos(parse(expr.substr(3), variables));
+        return Cos::from(parse(expr.substr(3), variables));
     } else if (expr.starts_with("tan")) {
-        return new Tan(parse(expr.substr(3), variables));
+        return Tan::from(parse(expr.substr(3), variables));
     } else if (expr.starts_with("cot")) {
-        return new Cot(parse(expr.substr(3), variables));
+        return Cot::from(parse(expr.substr(3), variables));
     } else if (expr.starts_with("csc")) {
-        return new Csc(parse(expr.substr(3), variables));
+        return Csc::from(parse(expr.substr(3), variables));
     } else if (expr.starts_with("sec")) {
-        return new Sec(parse(expr.substr(3), variables));
+        return Sec::from(parse(expr.substr(3), variables));
     } else if (expr.starts_with("asin")) {
-        return new ArcSin(parse(expr.substr(4), variables));
+        return ArcSin::from(parse(expr.substr(4), variables));
     } else if (expr.starts_with("acos")) {
-        return new ArcCos(parse(expr.substr(4), variables));
+        return ArcCos::from(parse(expr.substr(4), variables));
     } else if (expr.starts_with("atan")) {
-        return new ArcTan(parse(expr.substr(4), variables));
+        return ArcTan::from(parse(expr.substr(4), variables));
     } else if (expr.starts_with("acot")) {
-        return new ArcCot(parse(expr.substr(4), variables));
+        return ArcCot::from(parse(expr.substr(4), variables));
     } else if (expr.starts_with("acsc")) {
-        return new ArcCsc(parse(expr.substr(4), variables));
+        return ArcCsc::from(parse(expr.substr(4), variables));
     } else if (expr.starts_with("asec")) {
-        return new ArcSec(parse(expr.substr(4), variables));
+        return ArcSec::from(parse(expr.substr(4), variables));
     } else if (expr.starts_with("arcsin")) {
-        return new ArcSin(parse(expr.substr(6), variables));
+        return ArcSin::from(parse(expr.substr(6), variables));
     } else if (expr.starts_with("arccos")) {
-        return new ArcCos(parse(expr.substr(6), variables));
+        return ArcCos::from(parse(expr.substr(6), variables));
     } else if (expr.starts_with("arctan")) {
-        return new ArcTan(parse(expr.substr(6), variables));
+        return ArcTan::from(parse(expr.substr(6), variables));
     } else if (expr.starts_with("arccot")) {
-        return new ArcCot(parse(expr.substr(6), variables));
+        return ArcCot::from(parse(expr.substr(6), variables));
     } else if (expr.starts_with("arccsc")) {
-        return new ArcCsc(parse(expr.substr(6), variables));
+        return ArcCsc::from(parse(expr.substr(6), variables));
     } else if (expr.starts_with("arcsec")) {
-        return new ArcSec(parse(expr.substr(6), variables));
+        return ArcSec::from(parse(expr.substr(6), variables));
     } else if (expr.starts_with("abs")) {
-        return new Abs(parse(expr.substr(3), variables));
+        return Abs::from(parse(expr.substr(3), variables));
     } else if (expr.starts_with("exp")) {
-        return new Exp(parse(expr.substr(3), variables));
+        return Exp::from(parse(expr.substr(3), variables));
     } else if (expr.starts_with("sqrt")) {
-        return new Sqrt(parse(expr.substr(4), variables));
+        return Sqrt::from(parse(expr.substr(4), variables));
     } else if (expr.starts_with("cbrt")) {
-        return new Cbrt(parse(expr.substr(4), variables));
+        return Cbrt::from(parse(expr.substr(4), variables));
     } else if (expr.starts_with("ceil")) {
-        return new Ceil(parse(expr.substr(4), variables));
+        return Ceil::from(parse(expr.substr(4), variables));
     } else if (expr.starts_with("floor")) {
-        return new Floor(parse(expr.substr(5), variables));
+        return Floor::from(parse(expr.substr(5), variables));
     } else if (expr.starts_with("round")) {
-        return new Round(parse(expr.substr(5), variables));
+        return Round::from(parse(expr.substr(5), variables));
     } else if (expr.starts_with("sign")) {
-        return new Sign(parse(expr.substr(4), variables));
+        return Sign::from(parse(expr.substr(4), variables));
     } else if (expr.starts_with("sgn")) {
-        return new Sign(parse(expr.substr(3), variables));
+        return Sign::from(parse(expr.substr(3), variables));
     } else if (expr.starts_with("log_")) {
         std::string log = expr.substr(4);
         std::vector<std::string> parts = split(log, "_");
@@ -429,12 +429,12 @@ Expression* ExpressionParser::parse(const std::string& expression, VarSet& varia
         if (parts.size() != 2)
             throw std::invalid_argument("Invalid expression " + expression);
 
-        return new Log(parse(parts[0], variables), parse(parts[1], variables));
+        return Log::from(parse(parts[0], variables), parse(parts[1], variables));
     } else if (expr.starts_with("log")) {
         if (expr.length() == 4)
-            return new Log(parse(expr.substr(3), variables));
+            return Log::from(parse(expr.substr(3), variables));
         if (expr.length() == 5)
-            return new Log(parse(std::string(1, expr[3]), variables), parse(std::string(1, expr[4]), variables));
+            return Log::from(parse(std::string(1, expr[3]), variables), parse(std::string(1, expr[4]), variables));
         throw std::invalid_argument("Invalid expression " + expression);
     }
 

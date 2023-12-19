@@ -11,23 +11,24 @@
 
 CAS_NAMESPACE
 
-ArcSin::ArcSin(Expression* argument)
+ArcSin::ArcSin(const ExprPtr& argument)
     : InverseTrigExpression({ExpressionType::ARC_SIN, "arcsin", "asin"}, argument) {}
 
 double ArcSin::evaluate(const VariableMap& variables) {
     return std::asin(argument->evaluate(variables));
 }
 
-ArcSin* ArcSin::clone() {
-    return new ArcSin(argument->clone());
+ExprPtr ArcSin::clone() {
+    return ArcSin::from(argument->clone());
 }
 
-Expression* ArcSin::_derivative(char var) {
-    std::vector<Expression*> terms = {new Const(1), argument->clone()->power(2)->negate()};
-    return new Divide(argument->derivative(var), new Sqrt(new Sum(terms)));
+ExprPtr ArcSin::_derivative(char var) {
+    // arcsin( f )' = f' / sqrt(1 - f^2)
+    std::vector<ExprPtr> terms = {Const::one(), argument->clone()->power(2)->negate()};
+    return argument->derivative(var)->divide(Sum::from(terms)->sqrt());
 }
 
-Expression* ArcSin::simplified() {
+ExprPtr ArcSin::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         if (argument->evaluate() == 0)
             return Const::zero();

@@ -11,18 +11,18 @@
 
 CAS_NAMESPACE
 
-ArcCos::ArcCos(Expression* argument)
+ArcCos::ArcCos(const ExprPtr& argument)
     : InverseTrigExpression({ExpressionType::ARC_COS, "arccos", "acos"}, argument) {}
 
 double ArcCos::evaluate(const VariableMap& variables) {
     return std::acos(argument->evaluate(variables));
 }
 
-ArcCos* ArcCos::clone() {
-    return new ArcCos(argument->clone());
+ExprPtr ArcCos::clone() {
+    return ArcCos::from(argument->clone());
 }
 
-Expression* ArcCos::_derivative(char var) {
+ExprPtr ArcCos::_derivative(char var) {
     return argument->derivative(var)
             ->negate()
             ->divide(Const::one()
@@ -30,7 +30,7 @@ Expression* ArcCos::_derivative(char var) {
                              ->sqrt());
 }
 
-Expression* ArcCos::simplified() {
+ExprPtr ArcCos::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         if (argument->evaluate() == 1)
             return Const::zero();

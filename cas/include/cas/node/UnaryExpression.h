@@ -9,15 +9,15 @@
 
 CAS_NAMESPACE
 
-class UnaryExpression : public Expression {
+class UnaryExpression : public Expr {
 public:
     UnaryExpression() = delete;
 
-    ~UnaryExpression() override;
+    ~UnaryExpression() override = default;
 
-    Expression* derivative(char var) override;
+    ExprPtr derivative(char var) override;
 
-    Expression* getArgument() const { return argument; }
+    ExprPtr getArgument() const { return argument; }
 
     std::string latex() override;
 
@@ -28,10 +28,10 @@ public:
     std::string explicitText() override;
 
 protected:
-    explicit UnaryExpression(const ExpressionProperties& properties, Expression* argument);
+    explicit UnaryExpression(const ExpressionProperties& properties, const ExprPtr& argument);
 
 protected:
-    Expression* argument;
+    ExprPtr argument;
 };
 
 CAS_NAMESPACE_END

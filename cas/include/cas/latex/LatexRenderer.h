@@ -26,7 +26,7 @@ protected:
 
 private:
     const std::string prefix = "lr_";
-    const std::string resFolder = "../res/latex";
+    const std::string resFolder = "../../res/latex";
 };
 
 CAS_NAMESPACE_END

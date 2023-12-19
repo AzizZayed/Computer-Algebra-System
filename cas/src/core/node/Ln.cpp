@@ -11,30 +11,30 @@
 
 CAS_NAMESPACE
 
-Ln::Ln(Expression* argument)
+Ln::Ln(const ExprPtr& argument)
     : Log({ExpressionType::NATURAL_LOGARITHM, "natural_logarithm", "ln"}, Const::E(), argument) {}
 
 double Ln::evaluate(const VariableMap& variables) {
     return std::log(argument->evaluate(variables));
 }
 
-bool Ln::_equals(Expression* expression) {
+bool Ln::_equals(const ExprPtr& expression) {
     if (expression->isOfType(ExpressionType::NATURAL_LOGARITHM)) {
-        auto* ln = dynamic_cast<Ln*>(expression);
+        auto* ln = dynamic_cast<Ln*>(expression.get());
         return argument->equals(ln->argument);
     }
     return false;
 }
 
-Ln* Ln::clone() {
-    return new Ln(argument->clone());
+ExprPtr Ln::clone() {
+    return Ln::from(argument->clone());
 }
 
-Expression* Ln::_derivative(char var) {
+ExprPtr Ln::_derivative(char var) {
     return argument->derivative(var)->divide(argument->clone());
 }
 
-Expression* Ln::simplified() {
+ExprPtr Ln::simplified() {
     if (argument->equals(base))
         return Const::one();
     if (argument->isOfType(ExpressionType::CONSTANT)) {
@@ -43,11 +43,11 @@ Expression* Ln::simplified() {
             return Const::zero();
     }
     if (argument->isOfType(ExpressionType::EXPONENTIAL)) {
-        auto* exp = dynamic_cast<Exp*>(argument);
+        auto* exp = dynamic_cast<Exp*>(argument.get());
         return exp->getExponent()->simplified();
     }
     if (argument->isOfType(ExpressionType::POWER)) {
-        auto* power = dynamic_cast<Power*>(argument);
+        auto* power = dynamic_cast<Power*>(argument.get());
         if (power->getBase()->equals(base))
             return power->getExponent()->simplified();
     }

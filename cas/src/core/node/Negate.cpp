@@ -10,32 +10,32 @@
 
 CAS_NAMESPACE
 
-Negate::Negate(Expression* expression)
+Negate::Negate(const ExprPtr& expression)
     : UnaryExpression({ExpressionType::NEGATE, "negate", "neg"}, expression) {}
 
 double Negate::evaluate(const VariableMap& variables) {
     return -argument->evaluate(variables);
 }
 
-bool Negate::_equals(Expression* expr) {
-    auto* negate = dynamic_cast<Negate*>(expr);
+bool Negate::_equals(const ExprPtr& expr) {
+    auto* negate = dynamic_cast<Negate*>(expr.get());
     return argument->equals(negate->argument);
 }
 
-Negate* Negate::clone() {
-    return new Negate(argument->clone());
+ExprPtr Negate::clone() {
+    return Negate::from(argument->clone());
 }
 
-Negate* Negate::_derivative(char var) {
-    return new Negate(argument->derivative(var));
+ExprPtr Negate::_derivative(char var) {
+    return Negate::from(argument->derivative(var));
 }
 
-Expression* Negate::simplified() {
+ExprPtr Negate::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
-        return Const::n(Expression::evaluate());
+        return Const::n(Expr::evaluate());
     }
     if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+        auto* negate = dynamic_cast<Negate*>(argument.get());
         return negate->argument->simplified();
     }
 

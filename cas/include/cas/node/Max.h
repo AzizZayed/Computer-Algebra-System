@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Max : public NaryExpression {
 public:
-    explicit Max(std::vector<Expression*> expressions);
+    explicit Max(std::vector<ExprPtr> expressions);
 
     Max() = delete;
 
@@ -19,9 +19,11 @@ public:
 
     double evaluate(const VariableMap& variables) override;
 
-    Max* clone() override;
+    ExprPtr clone() override;
 
-    Expression* simplified() override;
+    ExprPtr simplified() override;
+
+    static MaxPtr from(const std::vector<ExprPtr>& expressions) { return std::make_shared<Max>(expressions); }
 };
 
 CAS_NAMESPACE_END

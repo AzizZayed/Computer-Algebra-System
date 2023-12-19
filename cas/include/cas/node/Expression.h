@@ -7,12 +7,31 @@
 
 #include "IMath.h"
 #include "IRepresentableMath.h"
-#include "cas/data/ExpressionProperties.h"
 #include "cas/data/ExpressionType.h"
+#include <memory>
 
 CAS_NAMESPACE
 
-class Product;
+struct ExpressionProperties {
+public:
+   ExpressionProperties(ExpressionType type, std::string name, std::string shortName)
+        : order(static_cast<uint8_t>(type)), type(type), name(std::move(name)), shortName(std::move(shortName)) {}
+
+    uint16_t order;
+    ExpressionType type;
+    std::string name;
+    std::string shortName;
+
+    uint16_t getOrder() const { return order; }
+    ExpressionType getType() const { return type; }
+    std::string getName() const { return name; }
+    std::string getShortName() const { return shortName; }
+};
+
+class Const;
+class Var;
+
+class Prod;
 class Sum;
 class Divide;
 class Negate;
@@ -46,89 +65,129 @@ class Round;
 class Sign;
 class Mod;
 
-class Expression : public IMath, public IRepresentableMath {
+class Min;
+class Max;
+
+class Expr;
+
+using ExprPtr = std::shared_ptr<Expr>;
+using ConstPtr = std::shared_ptr<Const>;
+using VarPtr = std::shared_ptr<Var>;
+using ProdPtr = std::shared_ptr<Prod>;
+using SumPtr = std::shared_ptr<Sum>;
+using DividePtr = std::shared_ptr<Divide>;
+using NegatePtr = std::shared_ptr<Negate>;
+using PowerPtr = std::shared_ptr<Power>;
+using ExpPtr = std::shared_ptr<Exp>;
+using LogPtr = std::shared_ptr<Log>;
+using LnPtr = std::shared_ptr<Ln>;
+using RootPtr = std::shared_ptr<Root>;
+using SqrtPtr = std::shared_ptr<Sqrt>;
+using CbrtPtr = std::shared_ptr<Cbrt>;
+using SinPtr = std::shared_ptr<Sin>;
+using CosPtr = std::shared_ptr<Cos>;
+using TanPtr = std::shared_ptr<Tan>;
+using CotPtr = std::shared_ptr<Cot>;
+using CscPtr = std::shared_ptr<Csc>;
+using SecPtr = std::shared_ptr<Sec>;
+using ArcSinPtr = std::shared_ptr<ArcSin>;
+using ArcCosPtr = std::shared_ptr<ArcCos>;
+using ArcTanPtr = std::shared_ptr<ArcTan>;
+using ArcCotPtr = std::shared_ptr<ArcCot>;
+using ArcCscPtr = std::shared_ptr<ArcCsc>;
+using ArcSecPtr = std::shared_ptr<ArcSec>;
+using AbsPtr = std::shared_ptr<Abs>;
+using FloorPtr = std::shared_ptr<Floor>;
+using CeilPtr = std::shared_ptr<Ceil>;
+using RoundPtr = std::shared_ptr<Round>;
+using SignPtr = std::shared_ptr<Sign>;
+using ModPtr = std::shared_ptr<Mod>;
+using MinPtr = std::shared_ptr<Min>;
+using MaxPtr = std::shared_ptr<Max>;
+
+class Expr : public IMath<ExprPtr>, public IRepresentableMath, public std::enable_shared_from_this<Expr> {
 public:
-    explicit Expression(const ExpressionProperties& properties);
+    explicit Expr(const ExpressionProperties& properties);
 
-    virtual ~Expression() = default;
+    virtual ~Expr() = default;
 
-    Expression(const Expression& expression) = delete;
+    Expr(const Expr& expression) = delete;
 
     double evaluate(const VariableMap& variables) override;
     virtual double evaluate();
 
-    virtual bool equals(Expression* expression);
-    virtual bool _equals(Expression* expression);
+    virtual bool equals(const ExprPtr& expression);
+    virtual bool _equals(const ExprPtr& expression);
 
-    virtual Expression* clone();
+    virtual ExprPtr clone();
 
-    Expression* derivative(char var) override;
-    virtual Expression* _derivative(char var);
+    ExprPtr derivative(char var) override;
+    virtual ExprPtr _derivative(char var);
 
-    Expression* simplified() override;
-    bool isEquivalent(IMath* expression) override;
+    ExprPtr simplified() override;
+    bool isEquivalent(const ExprPtr& expression) override;
 
-    Product* multiply(Expression* expression);
-    Product* multiply(double value);
-    Sum* add(Expression* expression);
-    Sum* subtract(Expression* expression);
-    Sum* add(double value);
-    Sum* subtract(double value);
-    Divide* divide(Expression* expression);
-    Divide* divide(double divisor);
-    Negate* negate();
+    ProdPtr multiply(const ExprPtr& expression);
+    ProdPtr multiply(double value);
+    SumPtr add(const ExprPtr& expression);
+    SumPtr subtract(const ExprPtr& expression);
+    SumPtr add(double value);
+    SumPtr subtract(double value);
+    DividePtr divide(const ExprPtr& expression);
+    DividePtr divide(double divisor);
+    NegatePtr negate();
 
-    Power* power(Expression* expression);
-    Power* power(double exponent);
-    Exp* exp();
-    Log* log(Expression* base);
-    Log* log(double base);
-    Ln* ln();
+    PowerPtr power(const ExprPtr& expression);
+    PowerPtr power(double exponent);
+    ExpPtr exp();
+    LogPtr log(const ExprPtr& base);
+    LogPtr log(double base);
+    LnPtr ln();
 
-    Root* root(Expression* root);
-    Root* root(double root);
-    Sqrt* sqrt();
-    Cbrt* cbrt();
+    RootPtr root(const ExprPtr& root);
+    RootPtr root(double root);
+    SqrtPtr sqrt();
+    CbrtPtr cbrt();
 
-    Cos* cos();
-    Sin* sin();
-    Tan* tan();
-    ArcTan* atan();
-    ArcCos* acos();
-    ArcSin* asin();
-    Csc* csc();
-    Sec* sec();
-    Cot* cot();
-    ArcCsc* acsc();
-    ArcSec* asec();
-    ArcCot* acot();
+    CosPtr cos();
+    SinPtr sin();
+    TanPtr tan();
+    ArcTanPtr atan();
+    ArcCosPtr acos();
+    ArcSinPtr asin();
+    CscPtr csc();
+    SecPtr sec();
+    CotPtr cot();
+    ArcCscPtr acsc();
+    ArcSecPtr asec();
+    ArcCotPtr acot();
 
-    Abs* abs();
-    Floor* floor();
-    Ceil* ceil();
-    Round* round();
-    Sign* sign();
-    Mod* mod(Expression* expression);
+    AbsPtr abs();
+    FloorPtr floor();
+    CeilPtr ceil();
+    RoundPtr round();
+    SignPtr sign();
+    ModPtr mod(const ExprPtr& expression);
 
-    Expression* reciprocal();
+    ExprPtr reciprocal();
 
-    bool operator<(const Expression& expression) const;
+    bool operator<(const Expr& expression) const;
 
-    bool lessThan(Expression* expression) const;
+    bool lessThan(const ExprPtr& expression) const;
 
-    static bool compare(Expression* left, Expression* right);
+    static bool compare(const ExprPtr& left, const ExprPtr& right);
 
     ExpressionProperties getProperties() const;
 
-    Expression* getParent() const;
+    Expr* getParent() const;
 
-    void setParent(Expression* newParent);
+    void setParent(Expr* newParent);
 
     bool isNegated() const;
 
     bool isOfType(ExpressionType type) const;
 
-    bool isOfSameType(Expression* expression) const;
+    bool isOfSameType(const ExprPtr& expression) const;
 
     // TODO overload math operators + - * / ^
 
@@ -136,11 +195,8 @@ public:
 
 protected:
     const ExpressionProperties properties;
-    Expression* parent = nullptr;
+    Expr* parent = nullptr;
 };
-
-using ExpressionPtr = Expression*;
-using ExprPtr = Expression*;
 
 CAS_NAMESPACE_END
 

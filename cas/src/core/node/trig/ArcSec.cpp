@@ -8,24 +8,24 @@
 #include "cas/node/Divide.h"
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "cas/node/Sqrt.h"
 #include "cas/node/Sum.h"
 
 CAS_NAMESPACE
 
-ArcSec::ArcSec(Expression* argument)
+ArcSec::ArcSec(const ExprPtr& argument)
     : InverseTrigExpression({ExpressionType::ARC_SEC, "arcsec", "asec"}, argument) {}
 
 double ArcSec::evaluate(const VariableMap& variables) {
     return std::acos(1.0 / argument->evaluate(variables));
 }
 
-ArcSec* ArcSec::clone() {
-    return new ArcSec(argument->clone());
+ExprPtr ArcSec::clone() {
+    return ArcSec::from(argument->clone());
 }
 
-Expression* ArcSec::_derivative(char var) {
+ExprPtr ArcSec::_derivative(char var) {
     return argument->derivative(var)
             ->divide(argument->clone()
                              ->abs()
@@ -35,7 +35,7 @@ Expression* ArcSec::_derivative(char var) {
                                                 ->sqrt()));
 }
 
-Expression* ArcSec::simplified() {
+ExprPtr ArcSec::simplified() {
     if (argument->isOfType(ExpressionType::CONSTANT)) {
         if (argument->evaluate() == 1)
             return Const::zero();

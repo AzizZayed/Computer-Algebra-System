@@ -5,7 +5,7 @@ include(FetchContent)
 
 FetchContent_Declare(cpr
         GIT_REPOSITORY https://github.com/libcpr/cpr.git
-        GIT_TAG f88fd7737de3e640c61703eb57a0fa0ce00c60cd)
+        GIT_TAG 2553fc41450301cd09a9271c8d2c3e0cf3546b73)
 FetchContent_MakeAvailable(cpr)
 
 set(CPR_BUILD_TESTS OFF CACHE BOOL "Build the tests" FORCE)
@@ -29,7 +29,7 @@ set(CAS_SRC_HEADERS
         ../include/cas/node/Var.h
         ../include/cas/node/Operator.h
         ../include/cas/node/Sum.h
-        ../include/cas/node/Product.h
+        ../include/cas/node/Prod.h
         ../include/cas/node/Divide.h
         ../include/cas/node/Power.h
         ../include/cas/node/Negate.h
@@ -69,8 +69,7 @@ set(CAS_SRC_HEADERS
         ../include/cas/node/IMath.h
         ../include/cas/latex/LatexRenderer.h
         ../include/cas/data/ExpressionParser.h
-        ../include/cas/data/VariableMap.h
-        ../include/cas/plot/Surface.h)
+        ../include/cas/data/VariableMap.h)
 
 set(CAS_SRC_SOURCES
         core/node/Const.cpp
@@ -113,7 +112,6 @@ set(CAS_SRC_SOURCES
         core/node/trig/ArcCot.cpp
         core/node/trig/ArcCsc.cpp
         core/node/trig/InverseTrigExpression.cpp
-        core/data/ExpressionProperties.cpp
         core/data/VariableMap.cpp
         core/latex/LatexRenderer.cpp
         core/plot/Function.cpp

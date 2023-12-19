@@ -11,7 +11,7 @@ CAS_NAMESPACE
 
 class Floor : public BracketExpression {
 public:
-    explicit Floor(Expression* argument);
+    explicit Floor(const ExprPtr& argument);
 
     Floor() = delete;
 
@@ -19,9 +19,11 @@ public:
 
     double evaluate(const VariableMap& variables) override;
 
-    Floor* clone() override;
+    ExprPtr clone() override;
 
-    Expression* simplified() override;
+    ExprPtr simplified() override;
+
+    static FloorPtr from(const ExprPtr& argument) { return std::make_shared<Floor>(argument); }
 };
 
 CAS_NAMESPACE_END

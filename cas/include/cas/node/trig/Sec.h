@@ -12,14 +12,16 @@ CAS_NAMESPACE
 
 class Sec : public TrigExpression {
 public:
-    explicit Sec(Expression* argument);
+    explicit Sec(const ExprPtr& argument);
     Sec() = delete;
     ~Sec() override = default;
 
     double evaluate(const VariableMap& variables) override;
-    Sec* clone() override;
-    Expression* _derivative(char variable) override;
-    Expression* simplified() override;
+    ExprPtr clone() override;
+    ExprPtr _derivative(char variable) override;
+    ExprPtr simplified() override;
+
+    static SecPtr from(const ExprPtr& argument) { return std::make_shared<Sec>(argument); }
 };
 
 CAS_NAMESPACE_END

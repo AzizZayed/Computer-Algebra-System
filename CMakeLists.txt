@@ -5,7 +5,7 @@ project(ComputerAlgebraSystem
         LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_EXTENSIONS OFF)  # Don't use compiler extensions so we have a portable codebase.
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -19,6 +19,7 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
     endif()
 
     # Enable ASAN and UBSAN
+    # TODO: Fix sanitizers for Windows and Linux
     if (MSVC)
         add_compile_options(/fsanitize=address,undefined)
         add_link_options(/fsanitize=address,undefined)

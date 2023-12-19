@@ -9,28 +9,30 @@
 
 CAS_NAMESPACE
 
-class Mod : public Expression {
+class Mod : public Expr {
 public:
-    explicit Mod(Expression* dividend, Expression* divisor);
+    explicit Mod(const ExprPtr& dividend, const ExprPtr& divisor);
     Mod() = delete;
-    ~Mod() override;
+    ~Mod() override = default;
 
     double evaluate(const VariableMap& variables) override;
-    bool _equals(Expression* expression) override;
-    Mod* clone() override;
-    Expression* simplified() override;
+    bool _equals(const ExprPtr& expression) override;
+    ExprPtr clone() override;
+    ExprPtr simplified() override;
 
     std::string latex() override;
     std::wstring stringify() override;
     std::string text() override;
     std::string explicitText() override;
 
-    Expression* getDividend() const { return dividend; }
-    Expression* getDivisor() const { return divisor; }
+    ExprPtr getDividend() const { return dividend; }
+    ExprPtr getDivisor() const { return divisor; }
+
+    static ModPtr from(const ExprPtr& dividend, const ExprPtr& divisor) { return std::make_shared<Mod>(dividend, divisor); }
 
 private:
-    Expression* dividend;
-    Expression* divisor;
+    ExprPtr dividend;
+    ExprPtr divisor;
 };
 
 CAS_NAMESPACE_END

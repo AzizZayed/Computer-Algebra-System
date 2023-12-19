@@ -6,41 +6,33 @@
 #include "cas/node/Const.h"
 #include "cas/node/Negate.h"
 #include "cas/node/Power.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "cas/node/Sum.h"
 #include "fmt/printf.h"
 #include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
-Divide::Divide(Expression* dividend, Expression* divisor)
-    : Expression({ExpressionType::DIVIDE, "divide", "div"}), dividend(dividend), divisor(divisor) {
-    this->dividend->setParent(this);
-    this->divisor->setParent(this);
-}
-
-Divide::~Divide() {
-    delete dividend;
-    delete divisor;
-
-    dividend = nullptr;
-    divisor = nullptr;
+Divide::Divide(const ExprPtr& dividend, const ExprPtr& divisor)
+    : Expr({ExpressionType::DIVIDE, "divide", "div"}), dividend(dividend), divisor(divisor) {
+    dividend->setParent(this);
+    divisor->setParent(this);
 }
 
 double Divide::evaluate(const VariableMap& variables) {
     return dividend->evaluate(variables) / divisor->evaluate(variables);
 }
 
-bool Divide::_equals(Expression* expression) {
-    auto* divide = dynamic_cast<Divide*>(expression);
+bool Divide::_equals(const ExprPtr& expression) {
+    auto* divide = dynamic_cast<Divide*>(expression.get());
     return dividend->equals(divide->dividend) && divisor->equals(divide->divisor);
 }
 
-Divide* Divide::clone() {
-    return new Divide(dividend->clone(), divisor->clone());
+ExprPtr Divide::clone() {
+    return Divide::from(dividend->clone(), divisor->clone());
 }
 
-Divide* Divide::_derivative(char var) {
+ExprPtr Divide::_derivative(char var) {
     return dividend->derivative(var)
             ->multiply(divisor->clone())// f' * g
             ->subtract(dividend->clone()
@@ -49,7 +41,7 @@ Divide* Divide::_derivative(char var) {
                              ->power(2));// (f' * g - f * g') / g^2
 }
 
-Expression* Divide::simplified() {
+ExprPtr Divide::simplified() {
     if (dividend->equals(divisor)) {
         return Const::one();
     }
@@ -58,20 +50,20 @@ Expression* Divide::simplified() {
     bool divisorIsDivide = divisor->isOfType(ExpressionType::DIVIDE);
 
     if (dividendIsDivide && !divisorIsDivide) {// (g/h)/f = g/(h*f)
-        auto* dDividend = dynamic_cast<Divide*>(dividend);
+        auto* dDividend = dynamic_cast<Divide*>(dividend.get());
         return dDividend->dividend->simplified()
                 ->divide(dDividend->divisor->simplified()
                                  ->multiply(divisor));
     }
     if (!dividendIsDivide && divisorIsDivide) {// f/(g/h) = (f*h)/g
-        auto* divisorDivide = dynamic_cast<Divide*>(divisor);
+        auto* divisorDivide = dynamic_cast<Divide*>(divisor.get());
         return dividend
                 ->multiply(divisorDivide->divisor->simplified())
                 ->divide(divisorDivide->dividend->simplified());
     }
     if (dividendIsDivide) {// (g/h)/(f/k) = (g*k)/(h*f)
-        auto* dividendDivide = dynamic_cast<Divide*>(dividend);
-        auto* divisorDivide = dynamic_cast<Divide*>(divisor);
+        auto* dividendDivide = dynamic_cast<Divide*>(dividend.get());
+        auto* divisorDivide = dynamic_cast<Divide*>(divisor.get());
         return dividendDivide->dividend->simplified()
                 ->multiply(divisorDivide->divisor->simplified())
                 ->divide(dividendDivide->divisor->simplified()
@@ -87,7 +79,7 @@ Expression* Divide::simplified() {
 
         double result = dividendValue / divisorValue;
         if (isWholeNumber(result)) {
-            return new Const(result);
+            return Const::n(result);
         }
         return Const::n(dividendValue)->divide(Const::n(divisorValue));
     }

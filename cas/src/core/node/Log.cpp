@@ -7,57 +7,49 @@
 #include "cas/node/Divide.h"
 #include "cas/node/Ln.h"
 #include "cas/node/Power.h"
-#include "cas/node/Product.h"
+#include "cas/node/Prod.h"
 #include "fmt/printf.h"
 #include "fmt/xchar.h"
 
 CAS_NAMESPACE
 
-Log::Log(const ExpressionProperties& props, Expression* base, Expression* argument)
-    : Expression(props), base(base), argument(argument) {
+Log::Log(const ExpressionProperties& props, const ExprPtr& base, const ExprPtr& argument)
+    : Expr(props), base(base), argument(argument) {
     base->setParent(this);
     argument->setParent(this);
 }
 
-Log::Log(Expression* base, Expression* argument)
+Log::Log(const ExprPtr& base, const ExprPtr& argument)
     : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, base, argument) {}
 
-Log::Log(double base, Expression* argument)
-    : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, new Const(base), argument) {}
+Log::Log(double base, const ExprPtr& argument)
+    : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, Const::n(base), argument) {}
 
-Log::Log(Expression* argument)
+Log::Log(const ExprPtr& argument)
     : Log({ExpressionType::LOGARITHM, "logarithm", "log"}, Const::n(10), argument) {}
-
-Log::~Log() {
-    delete base;
-    delete argument;
-
-    base = nullptr;
-    argument = nullptr;
-}
 
 double Log::evaluate(const VariableMap& variables) {
     return std::log(argument->evaluate(variables)) / std::log(base->evaluate(variables));
 }
 
-bool Log::_equals(Expression* expression) {
+bool Log::_equals(const ExprPtr& expression) {
     if (expression->isOfType(ExpressionType::LOGARITHM)) {
-        auto* log = dynamic_cast<Log*>(expression);
+        auto* log = dynamic_cast<Log*>(expression.get());
         return base->equals(log->base) && argument->equals(log->argument);
     }
     return false;
 }
 
-Log* Log::clone() {
-    return new Log(base->clone(), argument->clone());
+ExprPtr Log::clone() {
+    return Log::from(base->clone(), argument->clone());
 }
 
-Expression* Log::_derivative(char var) {
+ExprPtr Log::_derivative(char var) {
     bool baseIsConstant = base->isOfType(ExpressionType::CONSTANT);
     bool argumentIsConstant = argument->isOfType(ExpressionType::CONSTANT);
 
     if (baseIsConstant && argumentIsConstant) {
-        return new Const(0);
+        return Const::zero();
     }
 
     if (baseIsConstant) {
@@ -66,18 +58,16 @@ Expression* Log::_derivative(char var) {
                                  ->multiply(base->clone()->ln()));
     }
 
-    Expression* exp = base->clone()
-                              ->ln()
-                              ->divide(argument->clone()
-                                               ->ln());
-    Expression* derivative = exp->derivative(var);
-
-    delete exp;
+    ExprPtr exp = base->clone()
+                          ->ln()
+                          ->divide(argument->clone()
+                                           ->ln());
+    ExprPtr derivative = exp->derivative(var);
 
     return derivative;
 }
 
-Expression* Log::simplified() {
+ExprPtr Log::simplified() {
     if (argument->equals(base))
         return Const::one();
 
@@ -88,12 +78,12 @@ Expression* Log::simplified() {
     }
 
     if (argument->isOfType(ExpressionType::POWER)) {
-        auto* power = dynamic_cast<Power*>(argument);
+        auto* power = dynamic_cast<Power*>(argument.get());
         if (power->getBase()->equals(base))
             return power->getExponent()->simplified();
     }
 
-    return new Log(base->simplified(), argument->simplified());
+    return Log::from(base->simplified(), argument->simplified());
 }
 
 bool Log::argumentNeedsParentheses() {

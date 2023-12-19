@@ -9,22 +9,21 @@
 
 CAS_NAMESPACE
 
-class Var : public Expression {
+class Var : public Expr {
 public:
     explicit Var(char variable);
-    explicit Var() : Var('x') {}
 
     ~Var() override = default;
 
     double evaluate(const VariableMap& variables) override;
 
-    bool _equals(Expression* expression) override;
+    bool _equals(const ExprPtr& expression) override;
 
-    Var* clone() override;
+    ExprPtr clone() override;
 
-    Expression* _derivative(char var) override;
+    ExprPtr _derivative(char var) override;
 
-    Var* simplified() override;
+    ExprPtr simplified() override;
 
     std::string latex() override;
 
@@ -34,24 +33,26 @@ public:
 
     char getSymbol() const { return symbol; }
 
-    static Var* var(char variable) { return new Var(variable); }
+    static VarPtr var(char variable) { return Var::from(variable); }
 
-    static Var* a() { return var('a'); }
-    static Var* b() { return var('b'); }
-    static Var* c() { return var('c'); }
+    static VarPtr a() { return var('a'); }
+    static VarPtr b() { return var('b'); }
+    static VarPtr c() { return var('c'); }
 
-    static Var* i() { return var('i'); }
-    static Var* j() { return var('j'); }
-    static Var* k() { return var('k'); }
+    static VarPtr i() { return var('i'); }
+    static VarPtr j() { return var('j'); }
+    static VarPtr k() { return var('k'); }
 
-    static Var* x() { return var('x'); }
-    static Var* y() { return var('y'); }
-    static Var* z() { return var('z'); }
-    static Var* w() { return var('w'); }
+    static VarPtr x() { return var('x'); }
+    static VarPtr y() { return var('y'); }
+    static VarPtr z() { return var('z'); }
+    static VarPtr w() { return var('w'); }
 
-    static Var* s() { return var('s'); }
-    static Var* t() { return var('t'); }
-    static Var* u() { return var('u'); }
+    static VarPtr s() { return var('s'); }
+    static VarPtr t() { return var('t'); }
+    static VarPtr u() { return var('u'); }
+
+    static VarPtr from(char variable) { return std::make_shared<Var>(variable); }
 
 private:
     const char symbol;
