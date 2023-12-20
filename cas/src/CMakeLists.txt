@@ -69,8 +69,7 @@ set(CAS_SRC_HEADERS
         ../include/cas/node/IMath.h
         ../include/cas/latex/LatexRenderer.h
         ../include/cas/data/ExpressionParser.h
-        ../include/cas/data/VariableMap.h
-        ../include/cas/plot/Surface.h)
+        ../include/cas/data/VariableMap.h)
 
 set(CAS_SRC_SOURCES
         core/node/Const.cpp
