@@ -15,30 +15,30 @@ ArcCos::ArcCos(Expression* argument)
     : InverseTrigExpression({ExpressionType::ARC_COS, "arccos", "acos"}, argument) {}
 
 double ArcCos::evaluate(const VariableMap& variables) {
-    return std::acos(argument->evaluate(variables));
+    return std::acos(arg->evaluate(variables));
 }
 
 ArcCos* ArcCos::clone() {
-    return new ArcCos(argument->clone());
+    return new ArcCos(arg->clone());
 }
 
 Expression* ArcCos::_derivative(char var) {
-    return argument->derivative(var)
+    return arg->derivative(var)
             ->negate()
             ->divide(Const::one()
-                             ->subtract(argument->clone()->power(2))
+                             ->subtract(arg->clone()->power(2))
                              ->sqrt());
 }
 
 Expression* ArcCos::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
-        if (argument->evaluate() == 1)
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
+        if (arg->evaluate() == 1)
             return Const::zero();
-        if (argument->evaluate() == -1)
+        if (arg->evaluate() == -1)
             return Const::PI();
     }
 
-    return argument->simplified()->acos();
+    return arg->simplified()->acos();
 }
 
 CAS_NAMESPACE_END

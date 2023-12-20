@@ -23,4 +23,4 @@ public:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_ARCCSC_H
+#endif  //CAS_ARCCSC_H

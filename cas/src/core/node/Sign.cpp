@@ -14,7 +14,7 @@ Sign::Sign(Expression* argument)
     : UnaryExpression({ExpressionType::SIGN, "sign", "sign"}, argument) {}
 
 double Sign::evaluate(const VariableMap& variables) {
-    double eval = argument->evaluate(variables);
+    double eval = arg->evaluate(variables);
     return eval > 0 ? 1 : eval < 0 ? -1
                                    : 0;
 }
@@ -25,37 +25,37 @@ bool Sign::_equals(Expression* expression) {
 
     if (expression->isOfType(ExpressionType::SIGN)) {
         auto* sign = dynamic_cast<Sign*>(expression);
-        return argument->equals(sign->argument);
+        return arg->equals(sign->arg);
     }
     return false;
 }
 
 Sign* Sign::clone() {
-    return new Sign(argument->clone());
+    return new Sign(arg->clone());
 }
 
 Expression* Sign::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
         return new Const(Expression::evaluate());
     }
-    if (argument->isOfType(ExpressionType::SIGN)) {
-        return argument->simplified();
+    if (arg->isOfType(ExpressionType::SIGN)) {
+        return arg->simplified();
     }
-    if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+    if (arg->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(arg);
         return negate->getArgument()->simplified()->sign()->negate();
     }
-    return argument->simplified()->sign();
+    return arg->simplified()->sign();
 }
 
 std::string Sign::latex() {
     if (needsParentheses())
-        return fmt::sprintf(R"(\text{sign}{\,\left(%s\right)})", argument->latex());
-    return fmt::sprintf(R"(\text{sign}{\,%s})", argument->latex());
+        return fmt::sprintf(R"(\text{sign}{\,\left(%s\right)})", arg->latex());
+    return fmt::sprintf(R"(\text{sign}{\,%s})", arg->latex());
 }
 
 bool Sign::needsParentheses() {
-    return argument->isOfType(ExpressionType::SUM) || argument->isOfType(ExpressionType::PRODUCT) || argument->isOfType(ExpressionType::LOGARITHM) || argument->isOfType(ExpressionType::NATURAL_LOGARITHM) || argument->isOfType(ExpressionType::POWER) || argument->isOfType(ExpressionType::DIVIDE);
+    return arg->isOfType(ExpressionType::SUM) || arg->isOfType(ExpressionType::PRODUCT) || arg->isOfType(ExpressionType::LOGARITHM) || arg->isOfType(ExpressionType::NATURAL_LOGARITHM) || arg->isOfType(ExpressionType::POWER) || arg->isOfType(ExpressionType::DIVIDE);
 }
 
 CAS_NAMESPACE_END

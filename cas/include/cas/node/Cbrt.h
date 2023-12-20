@@ -28,4 +28,4 @@ public:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_CBRT_H
+#endif  //CAS_CBRT_H

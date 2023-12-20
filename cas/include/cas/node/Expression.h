@@ -51,11 +51,11 @@ class Mod;
 
 class Expression : public IMath, public IRepresentableMath {
 public:
-    explicit Expression(ExpressionProperties  properties);
+    explicit Expression(ExpressionProperties properties);
     virtual ~Expression() = default;
 
-    Expression(const Expression& expression) = delete; // Remove copy constructor
-//    Expression& operator=(const Expression& expression) = delete; // Remove copy assignment
+    Expression(const Expression& expression) = delete;  // Remove copy constructor
+                                                        //    Expression& operator=(const Expression& expression) = delete; // Remove copy assignment
 
     double evaluate(const VariableMap& variables) override;
     virtual double evaluate();
@@ -69,7 +69,7 @@ public:
     virtual Expression* _derivative(char var);
 
     Expression* simplified() override;
-    bool isEquivalent(IMath* expression) override;
+    bool equivalent(IMath* expression) override;
 
     Product* multiply(Expression* expression);
     Product* multiply(double value);
@@ -142,10 +142,6 @@ protected:
     Expression* parent = nullptr;
 };
 
-using ExpressionPtr = Expression*;
-using ExprPtr = Expression*;
-using Expr = Expression;
-
 CAS_NAMESPACE_END
 
-#endif//CAS_EXPRESSION_H
+#endif  //CAS_EXPRESSION_H

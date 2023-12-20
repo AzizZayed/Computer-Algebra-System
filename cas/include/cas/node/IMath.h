@@ -5,9 +5,9 @@
 #ifndef CAS_IMATH_H
 #define CAS_IMATH_H
 
-#include <cmath>
 #include "cas/CAS.h"
 #include "cas/data/VariableMap.h"
+#include <cmath>
 
 CAS_NAMESPACE
 
@@ -16,7 +16,7 @@ public:
     virtual double evaluate(const VariableMap& variables) = 0;
     virtual IMath* derivative(char var) = 0;
     virtual IMath* simplified() = 0;
-    virtual bool isEquivalent(IMath* expr) = 0;
+    virtual bool equivalent(IMath* expr) = 0;
 };
 
 namespace math_constants {
@@ -44,8 +44,8 @@ namespace math_constants {
     const double POSITIVE_INFINITY = std::numeric_limits<double>::infinity();
     const double NEGATIVE_INFINITY = -POSITIVE_INFINITY;
 
-} // namespace math
+}  // namespace math_constants
 
 CAS_NAMESPACE_END
 
-#endif //CAS_IMATH_H
+#endif  //CAS_IMATH_H

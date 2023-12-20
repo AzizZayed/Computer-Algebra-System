@@ -17,7 +17,7 @@ BracketExpression::BracketExpression(const ExpressionProperties& properties, Exp
 
 bool BracketExpression::_equals(Expression* other) {
     auto* otherBracketFunction = dynamic_cast<BracketExpression*>(other);
-    return argument->equals(otherBracketFunction->argument);
+    return arg->equals(otherBracketFunction->arg);
 }
 
 Expression* BracketExpression::derivative(char) {
@@ -25,19 +25,19 @@ Expression* BracketExpression::derivative(char) {
 }
 
 std::string BracketExpression::latex() {
-    return fmt::format("{} {} {}", openBracketLatex, argument->latex(), closeBracketLatex);
+    return fmt::format("{} {} {}", openBracketLatex, arg->latex(), closeBracketLatex);
 }
 
 std::string BracketExpression::str() {
-    return openBracket + argument->str() + closeBracket;
+    return openBracket + arg->str() + closeBracket;
 }
 
 std::string BracketExpression::text() {
-    return properties.getShortName() + "[" + argument->text() + "]";
+    return properties.getShortName() + "[" + arg->text() + "]";
 }
 
 std::string BracketExpression::explicitText() {
-    return properties.getShortName() + "(" + argument->explicitText() + ")";
+    return properties.getShortName() + "(" + arg->explicitText() + ")";
 }
 
 CAS_NAMESPACE_END

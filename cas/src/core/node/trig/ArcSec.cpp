@@ -18,36 +18,36 @@ ArcSec::ArcSec(Expression* argument)
     : InverseTrigExpression({ExpressionType::ARC_SEC, "arcsec", "asec"}, argument) {}
 
 double ArcSec::evaluate(const VariableMap& variables) {
-    return std::acos(1.0 / argument->evaluate(variables));
+    return std::acos(1.0 / arg->evaluate(variables));
 }
 
 ArcSec* ArcSec::clone() {
-    return new ArcSec(argument->clone());
+    return new ArcSec(arg->clone());
 }
 
 Expression* ArcSec::_derivative(char var) {
-    return argument->derivative(var)
-            ->divide(argument->clone()
+    return arg->derivative(var)
+            ->divide(arg->clone()
                              ->abs()
-                             ->multiply(argument->clone()
+                             ->multiply(arg->clone()
                                                 ->power(2)
                                                 ->subtract(1)
                                                 ->sqrt()));
 }
 
 Expression* ArcSec::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
-        if (argument->evaluate() == 1)
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
+        if (arg->evaluate() == 1)
             return Const::zero();
-        if (argument->evaluate() == 2)
+        if (arg->evaluate() == 2)
             return Const::PI()->divide(3);
-        if (argument->evaluate() == -1)
+        if (arg->evaluate() == -1)
             return Const::PI();
-        if (argument->evaluate() == -2)
+        if (arg->evaluate() == -2)
             return Const::PI()->multiply(2)->divide(3);
     }
 
-    return argument->simplified()->asec();
+    return arg->simplified()->asec();
 }
 
 CAS_NAMESPACE_END

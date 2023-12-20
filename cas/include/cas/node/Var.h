@@ -59,4 +59,4 @@ private:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_VARIABLE_H
+#endif  //CAS_VARIABLE_H

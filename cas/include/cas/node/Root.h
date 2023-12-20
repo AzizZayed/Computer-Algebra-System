@@ -31,4 +31,4 @@ public:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_ROOT_H
+#endif  //CAS_ROOT_H

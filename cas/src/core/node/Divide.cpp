@@ -41,11 +41,11 @@ Divide* Divide::clone() {
 
 Divide* Divide::_derivative(char var) {
     return dividend->derivative(var)
-            ->multiply(divisor->clone())// f' * g
+            ->multiply(divisor->clone())  // f' * g
             ->subtract(dividend->clone()
-                               ->multiply(divisor->derivative(var)))// f' * g - f * g'
+                               ->multiply(divisor->derivative(var)))  // f' * g - f * g'
             ->divide(divisor->clone()
-                             ->power(2));// (f' * g - f * g') / g^2
+                             ->power(2));  // (f' * g - f * g') / g^2
 }
 
 Expression* Divide::simplified() {
@@ -56,19 +56,19 @@ Expression* Divide::simplified() {
     bool dividendIsDivide = dividend->isOfType(ExpressionType::DIVIDE);
     bool divisorIsDivide = divisor->isOfType(ExpressionType::DIVIDE);
 
-    if (dividendIsDivide && !divisorIsDivide) {// (g/h)/f = g/(h*f)
+    if (dividendIsDivide && !divisorIsDivide) {  // (g/h)/f = g/(h*f)
         auto* dDividend = dynamic_cast<Divide*>(dividend);
         return dDividend->dividend->simplified()
                 ->divide(dDividend->divisor->simplified()
                                  ->multiply(divisor));
     }
-    if (!dividendIsDivide && divisorIsDivide) {// f/(g/h) = (f*h)/g
+    if (!dividendIsDivide && divisorIsDivide) {  // f/(g/h) = (f*h)/g
         auto* divisorDivide = dynamic_cast<Divide*>(divisor);
         return dividend
                 ->multiply(divisorDivide->divisor->simplified())
                 ->divide(divisorDivide->dividend->simplified());
     }
-    if (dividendIsDivide) {// (g/h)/(f/k) = (g*k)/(h*f)
+    if (dividendIsDivide) {  // (g/h)/(f/k) = (g*k)/(h*f)
         auto* dividendDivide = dynamic_cast<Divide*>(dividend);
         auto* divisorDivide = dynamic_cast<Divide*>(divisor);
         return dividendDivide->dividend->simplified()

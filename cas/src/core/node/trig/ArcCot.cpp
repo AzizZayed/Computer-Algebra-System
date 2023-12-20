@@ -16,30 +16,30 @@ ArcCot::ArcCot(Expression* argument)
     : InverseTrigExpression({ExpressionType::ARC_COT, "arccot", "acot"}, argument) {}
 
 double ArcCot::evaluate(const VariableMap& variables) {
-    return std::atan(1 / argument->evaluate(variables));
+    return std::atan(1 / arg->evaluate(variables));
 }
 
 ArcCot* ArcCot::clone() {
-    return new ArcCot(argument->clone());
+    return new ArcCot(arg->clone());
 }
 
 Expression* ArcCot::_derivative(char var) {
     return new Divide(
-            argument->derivative(var)->negate(),
-            new Sum({argument->clone()->power(2), new Const(1)}));
+            arg->derivative(var)->negate(),
+            new Sum({arg->clone()->power(2), new Const(1)}));
 }
 
 Expression* ArcCot::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
-        if (argument->evaluate() == 1)
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
+        if (arg->evaluate() == 1)
             return Const::PI()->divide(4);
-        if (argument->evaluate() == 0)
+        if (arg->evaluate() == 0)
             return Const::PI()->divide(2);
-        if (argument->evaluate() == -1)
+        if (arg->evaluate() == -1)
             return Const::PI()->multiply(3)->divide(4);
     }
 
-    return argument->simplified()->acot();
+    return arg->simplified()->acot();
 }
 
 CAS_NAMESPACE_END

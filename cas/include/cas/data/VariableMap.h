@@ -5,7 +5,7 @@
 #ifndef CAS_VARIABLEMAP_H
 #define CAS_VARIABLEMAP_H
 
-#include <cas/CAS.h>
+#include "cas/CAS.h"
 #include <iterator>
 #include <stdexcept>
 #include <vector>
@@ -35,7 +35,7 @@ struct VariableMapIterator {
     VariableMapIterator(VariableMap& map, char letter);
 
     VariableMapIterator& operator++();
-    VariableMapIterator operator++(int);
+    const VariableMapIterator operator++(int);
 
     bool operator==(const VariableMapIterator& other) const;
     bool operator!=(const VariableMapIterator& other) const;
@@ -97,4 +97,4 @@ private:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_VARIABLEMAP_H
+#endif  //CAS_VARIABLEMAP_H

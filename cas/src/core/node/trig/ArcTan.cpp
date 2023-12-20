@@ -15,33 +15,33 @@ ArcTan::ArcTan(Expression* argument)
     : InverseTrigExpression({ExpressionType::ARC_TAN, "arctan", "atan"}, argument) {}
 
 double ArcTan::evaluate(const VariableMap& variables) {
-    return std::atan(argument->evaluate(variables));
+    return std::atan(arg->evaluate(variables));
 }
 
 ArcTan* ArcTan::clone() {
-    return new ArcTan(argument->clone());
+    return new ArcTan(arg->clone());
 }
 
 Expression* ArcTan::_derivative(char var) {
     return new Divide(
-            argument->derivative(var),
-            new Sum({new Const(1), argument->clone()->power(2)}));
+            arg->derivative(var),
+            new Sum({new Const(1), arg->clone()->power(2)}));
 }
 
 Expression* ArcTan::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
-        if (argument->evaluate() == 0)
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
+        if (arg->evaluate() == 0)
             return Const::zero();
-        if (argument->evaluate() == 1)
+        if (arg->evaluate() == 1)
             return Const::PI()->divide(4);
-        if (argument->evaluate() == -1)
+        if (arg->evaluate() == -1)
             return Const::PI()->negate()->divide(4);
     }
-    if (argument->isOfType(ExpressionType::NEGATE)) {
-        return argument->simplified()->atan()->negate();
+    if (arg->isOfType(ExpressionType::NEGATE)) {
+        return arg->simplified()->atan()->negate();
     }
 
-    return argument->simplified()->atan();
+    return arg->simplified()->atan();
 }
 
 CAS_NAMESPACE_END

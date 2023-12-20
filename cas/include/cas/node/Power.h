@@ -55,4 +55,4 @@ protected:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_POWER_H
+#endif  //CAS_POWER_H

@@ -39,4 +39,4 @@ protected:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_TRIGFUNCTIONS_H
+#endif  //CAS_TRIGFUNCTIONS_H

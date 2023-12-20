@@ -44,7 +44,7 @@ ExpressionParser& ExpressionParser::getInstance() {
 }
 
 void ExpressionParser::setup(std::string& expr) {
-    expr.erase(std::remove_if(expr.begin(), expr.end(), isspace), expr.end());// Remove all spaces
+    expr.erase(std::remove_if(expr.begin(), expr.end(), isspace), expr.end());  // Remove all spaces
     std::replace(expr.begin(), expr.end(), '[', '(');
     std::replace(expr.begin(), expr.end(), ']', ')');
     std::replace(expr.begin(), expr.end(), '{', '(');

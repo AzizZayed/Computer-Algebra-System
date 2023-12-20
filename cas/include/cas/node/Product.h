@@ -35,4 +35,4 @@ protected:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_PRODUCT_H
+#endif  //CAS_PRODUCT_H

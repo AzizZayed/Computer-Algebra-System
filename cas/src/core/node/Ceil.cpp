@@ -15,29 +15,29 @@ Ceil::Ceil(Expression* argument)
                         "\\lceil", "\\rceil") {}
 
 double Ceil::evaluate(const VariableMap& variables) {
-    return std::ceil(argument->evaluate(variables));
+    return std::ceil(arg->evaluate(variables));
 }
 
 Ceil* Ceil::clone() {
-    return new Ceil(argument->clone());
+    return new Ceil(arg->clone());
 }
 
 Expression* Ceil::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
         return Const::n(Expression::evaluate());
     }
-    if (argument->isOfType(ExpressionType::CEIL)) {
-        return argument->simplified();
+    if (arg->isOfType(ExpressionType::CEIL)) {
+        return arg->simplified();
     }
-    if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+    if (arg->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(arg);
         return negate->getArgument()->simplified()->floor()->negate();
     }
 
     // TODO ceil(x + a) = ceil(x) + a
     // TODO ceil(x - a) = ceil(x) - a
 
-    return argument->simplified()->ceil();
+    return arg->simplified()->ceil();
 }
 
 CAS_NAMESPACE_END

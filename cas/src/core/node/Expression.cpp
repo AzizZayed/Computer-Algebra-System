@@ -37,8 +37,8 @@
 
 CAS_NAMESPACE
 
-Expression::Expression(ExpressionProperties  properties)
-    : properties{std::move(properties)} {}
+Expression::Expression(ExpressionProperties properties)
+    : properties {std::move(properties)} {}
 
 double Expression::evaluate(const VariableMap&) {
     throw std::runtime_error("Expression::evaluate() is not implemented for " + properties.getName());
@@ -78,11 +78,11 @@ Expression* Expression::simplified() {
     throw std::runtime_error("Expression::simplified() is not implemented for " + properties.getName());
 }
 
-bool Expression::isEquivalent(cas::IMath*) {
+bool Expression::equivalent(IMath*) {
     throw std::runtime_error("Expression::isEquivalent() is not implemented for " + properties.getName());
 }
 
-Product* Expression::multiply(Expression* expression) {
+Product* Expression::multiply(Expression* expression) {  // Reuse the current object, so no memory leak if chained
     return new Product({this, expression});
 }
 
@@ -95,11 +95,11 @@ Sum* Expression::add(Expression* expression) {
 }
 
 Sum* Expression::add(double value) {
-    return this->add(new Const(value));
+    return this->add(Const::n(value));
 }
 
 Sum* Expression::subtract(Expression* expression) {
-    return new Sum({this, new Negate(expression)});
+    return new Sum({this, expression->negate()});
 }
 
 Sum* Expression::subtract(double value) {

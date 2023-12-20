@@ -15,36 +15,34 @@ CAS_NAMESPACE
 Tan::Tan(Expression* argument) : TrigExpression({ExpressionType::TAN, "tangent", "tan"}, argument) {}
 
 double Tan::evaluate(const VariableMap& variables) {
-    return std::tan(argument->evaluate(variables));
+    return std::tan(arg->evaluate(variables));
 }
 
 Tan* Tan::clone() {
-    return new Tan(argument->clone());
+    return new Tan(arg->clone());
 }
 
 Expression* Tan::_derivative(char variable) {
-    return argument->clone()
-            ->sec()
-            ->power(2)
-            ->multiply(argument->derivative(variable));
+    Expression* derivative = arg->derivative(variable);
+    return arg->clone()->sec()->power(2)->multiply(derivative);
 }
 
 Expression* Tan::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
-        double value = argument->evaluate();
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
+        double value = arg->evaluate();
         if (unitCircle.contains(value))
             return unitCircle.at(value).tan->clone();
     }
-    if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+    if (arg->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(arg);
         return negate->getArgument()->simplified()->tan()->negate();
     }
-    if (argument->isOfType(ExpressionType::ARC_TAN)) {
-        auto* arcTan = dynamic_cast<ArcTan*>(argument);
+    if (arg->isOfType(ExpressionType::ARC_TAN)) {
+        auto* arcTan = dynamic_cast<ArcTan*>(arg);
         return arcTan->getArgument()->simplified();
     }
 
-    return argument->simplified()->tan();
+    return arg->simplified()->tan();
 }
 
 CAS_NAMESPACE_END

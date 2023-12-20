@@ -31,4 +31,4 @@ private:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_SIGN_H
+#endif  //CAS_SIGN_H

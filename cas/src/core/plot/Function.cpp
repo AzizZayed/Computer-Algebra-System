@@ -66,8 +66,8 @@ Function* Function::simplified() {
     return new Function(pExpression->text(), pExpression, this->variables, this->name + "_s");
 }
 
-bool Function::isEquivalent(cas::IMath* expression) {
-    return expr->isEquivalent(expression);
+bool Function::equivalent(IMath* expression) {
+    return expr->equivalent(expression);
 }
 
 std::string Function::latex() {

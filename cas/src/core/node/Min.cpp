@@ -38,7 +38,7 @@ Expression* Min::simplified() {
 
     std::vector<Expression*> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
-    for (auto& expression: expressions) {
+    for (Expression* expression: expressions) {
         simplifiedExpressions.push_back(expression->simplified());
     }
 

@@ -13,30 +13,30 @@ Abs::Abs(Expression* argument)
                         argument, "|", "|", "\\left|", "\\right|") {}
 
 double Abs::evaluate(const VariableMap& variables) {
-    return std::abs(argument->evaluate(variables));
+    return std::abs(arg->evaluate(variables));
 }
 
 Abs* Abs::clone() {
-    return new Abs(argument->clone());
+    return new Abs(arg->clone());
 }
 
 Expression* Abs::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
         return Const::n(Expression::evaluate());
     }
-    if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+    if (arg->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(arg);
         return negate->getArgument()->abs();
     }
-    if (argument->isOfType(ExpressionType::ABSOLUTE_VALUE)) {
-        return argument->simplified();
+    if (arg->isOfType(ExpressionType::ABSOLUTE_VALUE)) {
+        return arg->simplified();
     }
 
-    return argument->simplified()->abs();
+    return arg->simplified()->abs();
 }
 
 std::string Abs::text() {
-    return openBracket + argument->text() + closeBracket;
+    return openBracket + arg->text() + closeBracket;
 }
 
 CAS_NAMESPACE_END

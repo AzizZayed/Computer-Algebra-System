@@ -248,13 +248,12 @@ VariableMapIterator& VariableMapIterator::operator++() {
         if (letter == 'z' + 1) {
             letter = 'A';
         }
-    } while (((letter >= 'a' && letter <= 'z') || (letter >= 'A' && letter <= 'Z')) &&
-             !variableMap.contains(letter));
+    } while (((letter >= 'a' && letter <= 'z') || (letter >= 'A' && letter <= 'Z')) && !variableMap.contains(letter));
 
     return *this;
 }
 
-VariableMapIterator VariableMapIterator::operator++(int) {
+const VariableMapIterator VariableMapIterator::operator++(int) {
     VariableMapIterator tmp = *this;
     ++(*this);
     return tmp;

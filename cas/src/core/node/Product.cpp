@@ -19,7 +19,7 @@ Product* Product::clone() {
     for (auto& expression: expressions)
         clonedExpressions.push_back(expression->clone());
 
-    return new Product{clonedExpressions};
+    return new Product {clonedExpressions};
 }
 
 Expression* Product::_derivative(char var) {
@@ -34,10 +34,10 @@ Expression* Product::_derivative(char var) {
             Expression* prod = i == j ? exp->derivative(var) : exp->clone();
             products.push_back(prod);
         }
-        differentiatedExpressions.push_back(new Product{products});
+        differentiatedExpressions.push_back(new Product {products});
     }
 
-    return new Sum{differentiatedExpressions};
+    return new Sum {differentiatedExpressions};
 }
 
 Expression* Product::simplified() {
@@ -80,7 +80,7 @@ Expression* Product::simplified() {
     std::sort(simplifiedExpressions.begin(), simplifiedExpressions.end(), [](Expression* a, Expression* b) {
         return a->lessThan(b);
     });
-    return new Product{simplifiedExpressions};
+    return new Product {simplifiedExpressions};
 }
 
 bool Product::needsParentheses(Expression* expression) {

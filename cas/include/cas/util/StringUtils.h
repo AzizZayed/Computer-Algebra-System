@@ -58,4 +58,4 @@ inline bool isNumber(const std::string& str) {
     return *p == 0;
 }
 
-#endif//CAS_STRINGUTILS_H
+#endif  //CAS_STRINGUTILS_H

@@ -13,37 +13,36 @@ CAS_NAMESPACE
 Sec::Sec(Expression* argument) : TrigExpression({ExpressionType::SEC, "secant", "sec"}, argument) {}
 
 double Sec::evaluate(const VariableMap& variables) {
-    return 1.0 / std::cos(argument->evaluate(variables));
+    return 1.0 / std::cos(arg->evaluate(variables));
 }
 
 Sec* Sec::clone() {
-    return new Sec(argument->clone());
+    return new Sec(arg->clone());
 }
 
 Expression* Sec::_derivative(char variable) {
-    return new Product({argument->clone()->sec(),
-                        argument->clone()->tan(),
-                        argument->derivative(variable)});
+    Expression* derivative = arg->derivative(variable);
+    return new Product({arg->clone()->sec(), arg->clone()->tan(), derivative});
 }
 
 Expression* Sec::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
-        double value = argument->evaluate();
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
+        double value = arg->evaluate();
         if (unitCircle.contains(value)) {
             Expression* cos = unitCircle.at(value).cos;
             return cos->clone()->reciprocal();
         }
     }
-    if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+    if (arg->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(arg);
         return negate->getArgument()->simplified()->sec()->negate();
     }
-    if (argument->isOfType(ExpressionType::TAN)) {
-        auto* tan = dynamic_cast<Tan*>(argument);
+    if (arg->isOfType(ExpressionType::TAN)) {
+        auto* tan = dynamic_cast<Tan*>(arg);
         return tan->getArgument()->simplified()->sec();
     }
 
-    return argument->simplified()->sec();
+    return arg->simplified()->sec();
 }
 
 CAS_NAMESPACE_END

@@ -18,7 +18,7 @@ public:
     Function* derivative(char var) override;
     Function* simplifiedDerivative(char var);
     Function* simplified() override;
-    bool isEquivalent(IMath* expression) override;
+    bool equivalent(IMath* expression) override;
 
     std::string latex() override;
     std::string str() override;
@@ -48,4 +48,4 @@ private:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_FORMULA_H
+#endif  //CAS_FORMULA_H

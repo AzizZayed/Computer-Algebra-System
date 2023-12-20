@@ -35,4 +35,4 @@ private:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_MOD_H
+#endif  //CAS_MOD_H

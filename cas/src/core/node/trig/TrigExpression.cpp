@@ -37,23 +37,23 @@ TrigExpression::TrigExpression(const ExpressionProperties& properties, Expressio
 
 bool TrigExpression::_equals(Expression* other) {
     auto* otherTrigFunction = dynamic_cast<TrigExpression*>(other);
-    return argument->equals(otherTrigFunction->argument);
+    return arg->equals(otherTrigFunction->arg);
 }
 
 bool TrigExpression::needsParentheses() {
-    return instanceof <Operator>(argument) || instanceof <Log>(argument) || argument->isOfType(ExpressionType::POWER) || argument->isOfType(ExpressionType::DIVIDE);
+    return instanceof <Operator>(arg) || instanceof <Log>(arg) || arg->isOfType(ExpressionType::POWER) || arg->isOfType(ExpressionType::DIVIDE);
 }
 
 std::string TrigExpression::latex() {
     if (needsParentheses())
-        return fmt::sprintf(R"(\%s{\left(%s\right)})", properties.getShortName(), argument->latex());
-    return fmt::sprintf("\\%s{%s}", properties.getShortName(), argument->latex());
+        return fmt::sprintf(R"(\%s{\left(%s\right)})", properties.getShortName(), arg->latex());
+    return fmt::sprintf("\\%s{%s}", properties.getShortName(), arg->latex());
 }
 
 std::string TrigExpression::str() {
     if (needsParentheses())
-        return fmt::format("{} ({})", properties.getShortName(), argument->str());
-    return fmt::format("{} {}", properties.getShortName(), argument->str());
+        return fmt::format("{} ({})", properties.getShortName(), arg->str());
+    return fmt::format("{} {}", properties.getShortName(), arg->str());
 }
 
 CAS_NAMESPACE_END

@@ -12,7 +12,7 @@ class Const : public Expression {
 public:
     explicit Const(double value);
 
-    explicit Const() : Const(0.0) {};
+    Const() = delete;
 
     ~Const() override = default;
 
@@ -38,17 +38,17 @@ public:
 
     [[nodiscard]] double getValue() const { return value; }
 
-    static Const* PI() { return new Const{math_constants::PI}; }
+    static Const* PI() { return new Const {math_constants::PI}; }
 
-    static Const* E() { return new Const{math_constants::E}; }
+    static Const* E() { return new Const {math_constants::E}; }
 
-    static Const* PHI() { return new Const{math_constants::PHI}; }
+    static Const* PHI() { return new Const {math_constants::PHI}; }
 
-    static Const* zero() { return new Const; }
+    static Const* zero() { return new Const(0.0); }
 
-    static Const* one() { return new Const{1.0}; }
+    static Const* one() { return new Const {1.0}; }
 
-    static Const* n(double value) { return new Const{value}; }
+    static Const* n(double value) { return new Const {value}; }
 
 private:
     double value;
@@ -65,4 +65,4 @@ public:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_CONSTANT_H
+#endif  //CAS_CONSTANT_H

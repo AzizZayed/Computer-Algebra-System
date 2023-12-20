@@ -17,7 +17,7 @@ public:
 
     Expression* derivative(char var) override;
 
-    [[nodiscard]] Expression* getArgument() const { return argument; }
+    [[nodiscard]] Expression* getArgument() const { return arg; }
 
     std::string latex() override;
 
@@ -31,9 +31,9 @@ protected:
     explicit UnaryExpression(const ExpressionProperties& properties, Expression* argument);
 
 protected:
-    Expression* argument;
+    Expression* arg;
 };
 
 CAS_NAMESPACE_END
 
-#endif//CAS_UNARYFUNCTION_H
+#endif  //CAS_UNARYFUNCTION_H

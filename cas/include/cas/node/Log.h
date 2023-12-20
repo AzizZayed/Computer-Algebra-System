@@ -55,4 +55,4 @@ protected:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_LOG_H
+#endif  //CAS_LOG_H

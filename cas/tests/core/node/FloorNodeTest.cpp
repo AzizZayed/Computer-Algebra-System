@@ -121,9 +121,7 @@ TEST(FloorNodeTest, FloorDerivativeTest) {
         } catch (std::runtime_error& e) {
             EXPECT_STREQ("The floor_value::derivative() operation is not supported", e.what());
             throw;
-        }
-    },
-                 std::runtime_error);
+        } }, std::runtime_error);
 }
 
 TEST(FloorNodeTest, FloorTextTest) {

@@ -35,4 +35,4 @@ protected:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_SUM_H
+#endif  //CAS_SUM_H

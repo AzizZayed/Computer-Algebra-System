@@ -17,32 +17,32 @@ ArcCsc::ArcCsc(Expression* argument)
     : InverseTrigExpression({ExpressionType::ARC_CSC, "arccsc", "acsc"}, argument) {}
 
 double ArcCsc::evaluate(const VariableMap& variables) {
-    return std::asin(1 / argument->evaluate(variables));
+    return std::asin(1 / arg->evaluate(variables));
 }
 
 ArcCsc* ArcCsc::clone() {
-    return new ArcCsc(argument->clone());
+    return new ArcCsc(arg->clone());
 }
 
 Expression* ArcCsc::_derivative(char var) {
-    return argument->derivative(var)
+    return arg->derivative(var)
             ->negate()
-            ->divide(argument->clone()
+            ->divide(arg->clone()
                              ->abs()
-                             ->multiply(argument->clone()
+                             ->multiply(arg->clone()
                                                 ->power(2)
                                                 ->subtract(1)
                                                 ->sqrt()));
 }
 
 Expression* ArcCsc::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
-        if (argument->evaluate() == 1)
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
+        if (arg->evaluate() == 1)
             return Const::PI()->divide(2);
-        if (argument->evaluate() == -1)
+        if (arg->evaluate() == -1)
             return Const::PI()->negate()->divide(2);
     }
-    return argument->simplified()->acsc();
+    return arg->simplified()->acsc();
 }
 
 CAS_NAMESPACE_END

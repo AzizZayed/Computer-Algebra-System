@@ -23,7 +23,7 @@ Exp* Exp::clone() {
 
 Expression* Exp::_derivative(char var) {
     if (exponent->isOfType(ExpressionType::CONSTANT)) {
-        return new Const;
+        return Const::zero();
     }
 
     return clone()->multiply(exponent->derivative(var));

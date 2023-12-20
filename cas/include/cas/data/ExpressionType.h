@@ -48,4 +48,4 @@ enum class ExpressionType : uint8_t {
 
 CAS_NAMESPACE_END
 
-#endif//CAS_EXPRESSIONTYPE_H
+#endif  //CAS_EXPRESSIONTYPE_H

@@ -4,8 +4,8 @@
 
 #include "cas/node/Sum.h"
 #include "cas/node/Const.h"
-#include <sstream>
 #include <algorithm>
+#include <sstream>
 
 CAS_NAMESPACE
 
@@ -19,7 +19,7 @@ Sum* Sum::clone() {
     for (auto& expression: expressions)
         clonedExpressions.push_back(expression->clone());
 
-    return new Sum{clonedExpressions};
+    return new Sum(clonedExpressions);
 }
 
 Sum* Sum::_derivative(char var) {
@@ -29,7 +29,7 @@ Sum* Sum::_derivative(char var) {
     for (auto& expression: expressions)
         differentiatedExpressions.push_back(expression->derivative(var));
 
-    return new Sum{differentiatedExpressions};
+    return new Sum(differentiatedExpressions);
 }
 
 Expression* Sum::simplified() {
@@ -70,7 +70,7 @@ Expression* Sum::simplified() {
         return simplifiedExpressions[0];
 
     std::sort(simplifiedExpressions.begin(), simplifiedExpressions.end());
-    return new Sum{simplifiedExpressions};
+    return new Sum {simplifiedExpressions};
 }
 
 std::string Sum::latex() {

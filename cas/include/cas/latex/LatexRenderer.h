@@ -31,4 +31,4 @@ private:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_LATEXRENDERER_H
+#endif  //CAS_LATEXRENDERER_H

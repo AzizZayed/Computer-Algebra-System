@@ -49,55 +49,55 @@ Expression* Power::_derivative(char var) {
     bool baseIsNumber = base->isOfType(ExpressionType::CONSTANT);
     bool exponentIsNumber = exponent->isOfType(ExpressionType::CONSTANT);
 
-    if (baseIsNumber && exponentIsNumber)// case b^k, where b and k are both numbers (constants)
+    if (baseIsNumber && exponentIsNumber)  // case b^k, where b and k are both numbers (constants)
         return new Const(0);
 
-    if (!baseIsNumber && exponentIsNumber)// case [ f(x) ]^k, where k is a constant
+    if (!baseIsNumber && exponentIsNumber)  // case [ f(x) ]^k, where k is a constant
     {
         auto* k = dynamic_cast<Const*>(exponent);
 
         return new Product({
                 // k*f^(k-1)*f'
-                exponent->clone(),                  // k
-                base->derivative(var),              // f'
-                new Power(                          // f^(k - 1)
-                        base->clone(),              // f
-                        new Const(k->getValue() - 1)// k - 1
-                        )                           // end f^(k - 1)
-        });                                         // end k*f^(k-1)*f'
+                exponent->clone(),                    // k
+                base->derivative(var),                // f'
+                new Power(                            // f^(k - 1)
+                        base->clone(),                // f
+                        new Const(k->getValue() - 1)  // k - 1
+                        )                             // end f^(k - 1)
+        });                                           // end k*f^(k-1)*f'
     }
 
-    if (baseIsNumber)// case k^[ f(x) ], where k is a constant
+    if (baseIsNumber)  // case k^[ f(x) ], where k is a constant
     {
         return new Product({
                 // k^f * lnk * f'
-                this->clone(),            // a^f
-                exponent->derivative(var),// f'
-                new Ln(base)              // lnk
-        });                               // end k^f * lnk * f'
+                this->clone(),              // a^f
+                exponent->derivative(var),  // f'
+                new Ln(base)                // lnk
+        });                                 // end k^f * lnk * f'
     }
 
     // otherwise: case [ f(x) ]^[ g(x) ], here we use the generalized power rule
     return new Product({
             // [f(x)]^[g(x)] * ( g'*lnf + g*f'/f )
-            this->clone(),// [f(x)] ^ [g(x)]
+            this->clone(),  // [f(x)] ^ [g(x)]
             new Sum({
                     // g'*lnf + g*f'/f
                     new Product({
                             // g' * lnf
-                            exponent->derivative(var),// g'
-                            new Ln(base)              // lnf
-                    }),                               // end g' * lnf
+                            exponent->derivative(var),  // g'
+                            new Ln(base)                // lnf
+                    }),                                 // end g' * lnf
                     new Product({
                             // g * f' * 1/f
-                            exponent->clone(),            // g
-                            new Divide(                   // f'/f
-                                    base->derivative(var),// f'
-                                    base->clone()         // f
-                                    )                     // end f'/f
-                    })                                    // end g*f'/f
-            })                                            // end g'*lnf + g*f'/f
-    });                                                   // end [f(x)]^[g(x)] * ( g'*lnf + g*f'/f)
+                            exponent->clone(),              // g
+                            new Divide(                     // f'/f
+                                    base->derivative(var),  // f'
+                                    base->clone()           // f
+                                    )                       // end f'/f
+                    })                                      // end g*f'/f
+            })                                              // end g'*lnf + g*f'/f
+    });                                                     // end [f(x)]^[g(x)] * ( g'*lnf + g*f'/f)
 }
 
 Expression* Power::simplified() {

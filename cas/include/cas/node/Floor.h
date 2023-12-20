@@ -26,4 +26,4 @@ public:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_FLOOR_H
+#endif  //CAS_FLOOR_H

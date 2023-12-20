@@ -13,29 +13,29 @@ Floor::Floor(Expression* argument)
     : BracketExpression({ExpressionType::FLOOR, "floor_value", "floor"}, argument, "\u230A", "\u230B", "\\lfloor", "\\rfloor") {}
 
 double Floor::evaluate(const VariableMap& variables) {
-    return std::floor(argument->evaluate(variables));
+    return std::floor(arg->evaluate(variables));
 }
 
 Floor* Floor::clone() {
-    return new Floor(argument->clone());
+    return new Floor(arg->clone());
 }
 
 Expression* Floor::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
         return Const::n(Expression::evaluate());
     }
-    if (argument->isOfType(ExpressionType::FLOOR)) {
-        return argument->simplified();
+    if (arg->isOfType(ExpressionType::FLOOR)) {
+        return arg->simplified();
     }
-    if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+    if (arg->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(arg);
         return negate->getArgument()->simplified()->ceil()->negate();
     }
 
     // TODO floor(x + a) = floor(x) + a
     // TODO floor(x - a) = floor(x) - a
 
-    return argument->simplified()->floor();
+    return arg->simplified()->floor();
 }
 
 CAS_NAMESPACE_END

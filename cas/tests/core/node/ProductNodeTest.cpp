@@ -9,8 +9,8 @@
 #include "gtest/gtest.h"
 
 TEST(ProductNodeTest, ProductCreationTest) {
-    std::vector<cas::Expression*> expressions = {new cas::Const{1}, new cas::Const{2}, new cas::Const{4}};
-    auto product = new cas::Product{expressions};
+    std::vector<cas::Expression*> expressions = {new cas::Const {1}, new cas::Const {2}, new cas::Const {4}};
+    auto product = new cas::Product {expressions};
     EXPECT_EQ(cas::ExpressionType::PRODUCT, product->getProperties().getType());
     EXPECT_EQ("product", product->getProperties().getName());
     EXPECT_EQ("prod", product->getProperties().getShortName());
@@ -26,14 +26,14 @@ TEST(ProductNodeTest, ProductCreationTest) {
 }
 
 TEST(ProductNodeTest, ProductDestroyTest) {
-    auto product = new cas::Product{{new cas::Const{1}, new cas::Const{2}, new cas::Const{4}}};
+    auto product = new cas::Product {{new cas::Const {1}, new cas::Const {2}, new cas::Const {4}}};
     delete product;
 
     EXPECT_NE(product, nullptr);
 }
 
 TEST(ProductNodeTest, ProductCloneTest) {
-    auto product = new cas::Product{{new cas::Const{1}, new cas::Const{2}, new cas::Const{4}}};
+    auto product = new cas::Product {{new cas::Const {1}, new cas::Const {2}, new cas::Const {4}}};
     cas::Product* product2 = product->clone();
     EXPECT_EQ(product->getProperties().getType(), product2->getProperties().getType());
     EXPECT_EQ(product->getProperties().getName(), product2->getProperties().getName());
@@ -45,7 +45,7 @@ TEST(ProductNodeTest, ProductCloneTest) {
 }
 
 TEST(ProductNodeTest, ProductEvaluationTest) {
-    auto product = new cas::Product{{new cas::Var('x'), new cas::Var('y'), new cas::Const{4}}};
+    auto product = new cas::Product {{new cas::Var('x'), new cas::Var('y'), new cas::Const {4}}};
     std::unordered_map<char, double> map = {{'x', 3},
                                             {'y', 2}};
 
@@ -54,9 +54,9 @@ TEST(ProductNodeTest, ProductEvaluationTest) {
 }
 
 TEST(ProductNodeTest, ProductEqualsTest) {
-    auto* product = new cas::Product{{new cas::Var('x'), new cas::Var('y'), new cas::Const{4}}};
-    auto* product2 = new cas::Product{{new cas::Var('x'), new cas::Var('y'), new cas::Const{4}}};
-    auto* product3 = new cas::Product{{new cas::Var('x'), new cas::Var('y'), new cas::Const{5}}};
+    auto* product = new cas::Product {{new cas::Var('x'), new cas::Var('y'), new cas::Const {4}}};
+    auto* product2 = new cas::Product {{new cas::Var('x'), new cas::Var('y'), new cas::Const {4}}};
+    auto* product3 = new cas::Product {{new cas::Var('x'), new cas::Var('y'), new cas::Const {5}}};
     EXPECT_TRUE(product->equals(product2));
     EXPECT_FALSE(product->equals(product3));
 
@@ -64,20 +64,20 @@ TEST(ProductNodeTest, ProductEqualsTest) {
 }
 
 TEST(ProductNodeTest, ProductDerivativeTest) {
-    auto* product = new cas::Product{{new cas::Var('x'), new cas::Var('y')}};
+    auto* product = new cas::Product {{new cas::Var('x'), new cas::Var('y')}};
     auto* product2 = product->derivative('x');
     auto* product3 = product->derivative('y');
 
     EXPECT_TRUE(product2->equals(
-            new cas::Sum({new cas::Product{
+            new cas::Sum({new cas::Product {
                                   {new cas::Const(1), new cas::Var('y')}},
-                          new cas::Product{
+                          new cas::Product {
                                   {new cas::Var('x'), new cas::Const(0)}}})));
 
     EXPECT_TRUE(product3->equals(
-            new cas::Sum({new cas::Product{
+            new cas::Sum({new cas::Product {
                                   {new cas::Const(0), new cas::Var('y')}},
-                          new cas::Product{
+                          new cas::Product {
                                   {new cas::Var('x'), new cas::Const(1)}}})));
 }
 
@@ -86,7 +86,7 @@ TEST(ProductNodeTest, ProductSimplifiedTest) {
 }
 
 TEST(ProductNodeTest, ProductLatexTest) {
-    auto* product = new cas::Product{
+    auto* product = new cas::Product {
             {
                     new cas::Var('x'),
                     new cas::Var('y'),
@@ -97,7 +97,7 @@ TEST(ProductNodeTest, ProductLatexTest) {
 }
 
 TEST(ProductNodeTest, ProductStringifyTest) {
-    auto* product2 = new cas::Product{
+    auto* product2 = new cas::Product {
             {
                     new cas::Var('x'),
                     new cas::Var('y'),
@@ -109,7 +109,7 @@ TEST(ProductNodeTest, ProductStringifyTest) {
 }
 
 TEST(ProductNodeTest, ProductTextTest) {
-    auto* product = new cas::Product{
+    auto* product = new cas::Product {
             {
                     new cas::Var('x'),
                     new cas::Var('y'),
@@ -120,7 +120,7 @@ TEST(ProductNodeTest, ProductTextTest) {
 }
 
 TEST(ProductNodeTest, ProductExplicitTextTest) {
-    auto* product = new cas::Product{
+    auto* product = new cas::Product {
             {
                     new cas::Var('x'),
                     new cas::Var('y'),

@@ -13,22 +13,22 @@ Round::Round(Expression* argument)
                         "\\lfloor", "\\rceil") {}
 
 double Round::evaluate(const VariableMap& variables) {
-    return std::round(argument->evaluate(variables));
+    return std::round(arg->evaluate(variables));
 }
 
 Round* Round::clone() {
-    return new Round(argument->clone());
+    return new Round(arg->clone());
 }
 
 Expression* Round::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
         return Const::n(Expression::evaluate());
     }
-    if (argument->isOfType(ExpressionType::ROUND)) {
-        return argument->simplified();
+    if (arg->isOfType(ExpressionType::ROUND)) {
+        return arg->simplified();
     }
 
-    return argument->simplified()->round();
+    return arg->simplified()->round();
 }
 
 CAS_NAMESPACE_END

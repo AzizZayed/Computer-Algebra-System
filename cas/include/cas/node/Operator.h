@@ -5,8 +5,8 @@
 #ifndef CAS_OPERATOR_H
 #define CAS_OPERATOR_H
 
-#include <vector>
 #include "Expression.h"
+#include <vector>
 
 CAS_NAMESPACE
 
@@ -44,4 +44,4 @@ protected:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_OPERATOR_H
+#endif  //CAS_OPERATOR_H

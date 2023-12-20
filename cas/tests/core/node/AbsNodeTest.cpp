@@ -79,9 +79,7 @@ TEST(AbsNodeTest, AbsDerivativeTest) {
         } catch (std::runtime_error& e) {
             EXPECT_STREQ("The absolute_value::derivative() operation is not supported", e.what());
             throw;
-        }
-    },
-                 std::runtime_error);
+        } }, std::runtime_error);
 }
 
 TEST(AbsNodeTest, AbsSimplifiedTest) {

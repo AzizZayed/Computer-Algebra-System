@@ -57,7 +57,7 @@ std::string NaryExpression::explicitText() {
     return toString(properties.getShortName(), "(", ", ", ")", strExp);
 }
 
-template<typename F>
+template <typename F>
 std::string NaryExpression::toString(const std::string& name, const char* start, const char* delimiter, const char* end, F&& function) {
     std::stringstream ss;
     ss << name << start;
@@ -70,17 +70,17 @@ std::string NaryExpression::toString(const std::string& name, const char* start,
     return ss.str();
 }
 
-template<typename F>
+template <typename F>
 void NaryExpression::forEach(F&& function) const {
     std::for_each(expressions.begin(), expressions.end(), function);
 }
 
-template<typename F>
+template <typename F>
 bool NaryExpression::any(F&& function) const {
     return std::any_of(expressions.begin(), expressions.end(), function);
 }
 
-template<typename F>
+template <typename F>
 bool NaryExpression::all(F&& function) const {
     return std::all_of(expressions.begin(), expressions.end(), function);
 }

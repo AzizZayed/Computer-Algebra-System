@@ -23,7 +23,7 @@ inline size_t nextId() {
 
 CAS_NAMESPACE_END
 
-template<typename Base, typename T>
+template <typename Base, typename T>
 inline bool instanceof (T * ptr) {
     return dynamic_cast<Base*>(ptr) != nullptr;
 }
@@ -38,4 +38,4 @@ inline bool doubleEquals(double a, double b, double epsilon = 1e-6) {
     return std::fabs(a - b) <= epsilon * max;
 }
 
-#endif//CAS_CAS_H
+#endif  //CAS_CAS_H

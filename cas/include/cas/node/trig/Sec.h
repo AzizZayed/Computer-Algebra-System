@@ -24,4 +24,4 @@ public:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_SEC_H
+#endif  //CAS_SEC_H

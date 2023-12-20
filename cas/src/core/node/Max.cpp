@@ -1,6 +1,6 @@
-#include <algorithm>
 #include "cas/node/Max.h"
 #include "cas/node/Const.h"
+#include <algorithm>
 
 CAS_NAMESPACE
 
@@ -22,7 +22,7 @@ Max* Max::clone() {
     std::vector<Expression*> clonedExpressions;
     clonedExpressions.reserve(expressions.size());
 
-    for (auto& expression: expressions)
+    for (Expression* expression: expressions)
         clonedExpressions.push_back(expression->clone());
 
     return new Max(clonedExpressions);
@@ -34,7 +34,7 @@ Expression* Max::simplified() {
 
     std::vector<Expression*> simplifiedExpressions;
     simplifiedExpressions.reserve(expressions.size());
-    for (auto& expression: expressions) {
+    for (Expression* expression: expressions) {
         simplifiedExpressions.push_back(expression->simplified());
     }
 

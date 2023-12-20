@@ -10,42 +10,44 @@
 CAS_NAMESPACE
 
 UnaryExpression::UnaryExpression(const ExpressionProperties& properties, Expression* argument)
-    : Expression(properties), argument(argument) {
-    this->argument->setParent(this);
+    : Expression(properties), arg(argument) {
+    this->arg->setParent(this);
 }
 
 UnaryExpression::~UnaryExpression() {
-    delete argument;
-    argument = nullptr;
+    delete arg;
+    arg = nullptr;
 }
 
 Expression* UnaryExpression::derivative(char var) {
-    if (argument->isOfType(ExpressionType::CONSTANT))
-        return new Const(0);
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
+        return Const::zero();
+    }
 
-    if (argument->isOfType(ExpressionType::VARIABLE)) {
-        auto* variable = dynamic_cast<Var*>(argument);
-        if (variable->getSymbol() != var)
-            return new Const(0);
+    if (arg->isOfType(ExpressionType::VARIABLE)) {
+        auto* variable = dynamic_cast<Var*>(arg);
+        if (variable->getSymbol() != var) {
+            return Const::zero();
+        }
     }
 
     return _derivative(var);
 }
 
 std::string UnaryExpression::latex() {
-    return fmt::sprintf(R"(\%s{\left(%s\right)})", properties.getShortName(), argument->latex());
+    return fmt::sprintf(R"(\%s{\left(%s\right)})", properties.getShortName(), arg->latex());
 }
 
 std::string UnaryExpression::str() {
-    return fmt::format("{}({})", properties.getShortName(), argument->str());
+    return fmt::format("{}({})", properties.getShortName(), arg->str());
 }
 
 std::string UnaryExpression::text() {
-    return fmt::format("{}({})", properties.getShortName(), argument->text());
+    return fmt::format("{}({})", properties.getShortName(), arg->text());
 }
 
 std::string UnaryExpression::explicitText() {
-    return fmt::format("{}({})", properties.getShortName(), argument->explicitText());
+    return fmt::format("{}({})", properties.getShortName(), arg->explicitText());
 }
 
 CAS_NAMESPACE_END

@@ -27,7 +27,7 @@ bool Var::_equals(Expression* expression) {
 
 Expression* Var::_derivative(char var) {
     double derivative = symbol == var ? 1.0 : 0.0;
-    return new Const{derivative};
+    return new Const {derivative};
 }
 
 Var* Var::simplified() {
@@ -43,7 +43,7 @@ std::string Var::str() {
 }
 
 std::string Var::text() {
-    return std::string{symbol};
+    return std::string {symbol};
 }
 
 CAS_NAMESPACE_END

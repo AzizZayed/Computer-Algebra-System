@@ -16,7 +16,7 @@ const char* Const::E_LATEX = "e";
 const char* Const::PHI_LATEX = "\\varphi ";
 
 Const::Const(double value)
-    : Expression{{ExpressionType::CONSTANT, "constant", "const"}}, value{value} {}
+    : Expression {{ExpressionType::CONSTANT, "constant", "const"}}, value {value} {}
 
 Const* Const::clone() {
     return Const::n(value);

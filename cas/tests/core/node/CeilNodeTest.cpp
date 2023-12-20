@@ -74,9 +74,7 @@ TEST(CeilNodeTest, CeilDerivativeTest) {
         } catch (std::runtime_error& e) {
             EXPECT_STREQ("The ceiling::derivative() operation is not supported", e.what());
             throw;
-        }
-    },
-                 std::runtime_error);
+        } }, std::runtime_error);
 
     delete ceil;
 }

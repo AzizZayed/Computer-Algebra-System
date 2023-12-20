@@ -42,9 +42,7 @@ TEST(VariableNodeTest, VariableEvaluationTest) {
         } catch (std::runtime_error& e) {
             EXPECT_STREQ("Var not found for evaluation", e.what());
             throw;
-        }
-    },
-                 std::runtime_error);
+        } }, std::runtime_error);
 }
 
 TEST(VariableNodeTest, VariableEqualsTest) {

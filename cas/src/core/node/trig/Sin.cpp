@@ -11,39 +11,38 @@
 
 CAS_NAMESPACE
 
-Sin::Sin(Expression* argument) : TrigExpression({ExpressionType::SIN, "sinus", "sin"}, argument) {}
+Sin::Sin(Expression* argument)
+    : TrigExpression({ExpressionType::SIN, "sine", "sin"}, argument) {}
 
 double Sin::evaluate(const VariableMap& variables) {
-    return std::sin(argument->evaluate(variables));
+    return std::sin(arg->evaluate(variables));
 }
 
 Sin* Sin::clone() {
-    return new Sin(argument->clone());
+    return new Sin(arg->clone());
 }
 
 Expression* Sin::_derivative(char variable) {
-    return argument
-            ->clone()
-            ->cos()
-            ->multiply(argument->derivative(variable));
+    Expression* derivative = arg->derivative(variable);
+    return arg->clone()->cos()->multiply(derivative);
 }
 
 Expression* Sin::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
-        double value = argument->evaluate();
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
+        double value = arg->evaluate();
         if (unitCircle.contains(value))
             return unitCircle.at(value).sin->clone();
     }
-    if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+    if (arg->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(arg);
         return negate->getArgument()->simplified()->sin()->negate();
     }
-    if (argument->isOfType(ExpressionType::ARC_SIN)) {
-        auto* arcSin = dynamic_cast<ArcSin*>(argument);
+    if (arg->isOfType(ExpressionType::ARC_SIN)) {
+        auto* arcSin = dynamic_cast<ArcSin*>(arg);
         return arcSin->getArgument()->simplified();
     }
 
-    return argument->simplified()->sin();
+    return arg->simplified()->sin();
 }
 
 CAS_NAMESPACE_END

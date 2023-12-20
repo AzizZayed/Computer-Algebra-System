@@ -17,7 +17,7 @@ TEST(FunctionTest, FunctionTestCreate) {
     EXPECT_EQ(f.getUid(), 1);
     EXPECT_EQ(f.getStrExpr(), str);
     EXPECT_EQ(f.getVariables().size(), 1);
-    EXPECT_EQ(f.getVariables(), cas::VarSet{'x'});
+    EXPECT_EQ(f.getVariables(), cas::VarSet {'x'});
 
     EXPECT_TRUE(f.getExpr()->equals(
             new cas::Sum({cas::Var::x()->power(2),

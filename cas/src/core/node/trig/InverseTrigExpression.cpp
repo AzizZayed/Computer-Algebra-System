@@ -12,8 +12,8 @@ InverseTrigExpression::InverseTrigExpression(const ExpressionProperties& props, 
 
 std::string InverseTrigExpression::latex() {
     if (needsParentheses())
-        return fmt::sprintf(R"(\text{%s}{\,\left(%s\right)})", properties.getName(), argument->latex());
-    return fmt::sprintf("\\text{%s}{\\,%s}", properties.getName(), argument->latex());
+        return fmt::sprintf(R"(\text{%s}{\,\left(%s\right)})", properties.getName(), arg->latex());
+    return fmt::sprintf("\\text{%s}{\\,%s}", properties.getName(), arg->latex());
 }
 
 CAS_NAMESPACE_END

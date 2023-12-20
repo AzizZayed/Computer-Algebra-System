@@ -13,36 +13,38 @@
 
 CAS_NAMESPACE
 
-Cos::Cos(Expression* argument) : TrigExpression({ExpressionType::COS, "cosine", "cos"}, argument) {}
+Cos::Cos(Expression* argument)
+    : TrigExpression({ExpressionType::COS, "cosine", "cos"}, argument) {}
 
 double Cos::evaluate(const VariableMap& variables) {
-    return std::cos(argument->evaluate(variables));
+    return std::cos(arg->evaluate(variables));
 }
 
 Cos* Cos::clone() {
-    return new Cos(argument->clone());
+    return new Cos(arg->clone());
 }
 
 Expression* Cos::_derivative(char variable) {
-    return new Negate(argument->clone()->sin()->multiply(argument->derivative(variable)));
+    Expression* derivative = arg->derivative(variable);
+    return new Negate(arg->clone()->sin()->multiply(derivative));
 }
 
 Expression* Cos::simplified() {
-    if (argument->isOfType(ExpressionType::CONSTANT)) {
-        double value = argument->evaluate();
+    if (arg->isOfType(ExpressionType::CONSTANT)) {
+        double value = arg->evaluate();
         if (unitCircle.contains(value))
             return unitCircle.at(value).cos->clone();
     }
-    if (argument->isOfType(ExpressionType::NEGATE)) {
-        auto* negate = dynamic_cast<Negate*>(argument);
+    if (arg->isOfType(ExpressionType::NEGATE)) {
+        auto* negate = dynamic_cast<Negate*>(arg);
         return negate->getArgument()->simplified()->cos();
     }
-    if (argument->isOfType(ExpressionType::ARC_COS)) {
-        auto* arcCos = dynamic_cast<ArcCos*>(argument);
+    if (arg->isOfType(ExpressionType::ARC_COS)) {
+        auto* arcCos = dynamic_cast<ArcCos*>(arg);
         return arcCos->getArgument()->simplified();
     }
 
-    return argument->simplified()->cos();
+    return arg->simplified()->cos();
 }
 
 CAS_NAMESPACE_END

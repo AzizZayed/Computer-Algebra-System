@@ -44,7 +44,7 @@ std::string LatexRenderer::render(const std::string& latex, const std::string& f
 
 cpr::Response LatexRenderer::download(const std::string& url, const std::string& filepath) {
     std::ofstream ofstream = std::ofstream(filepath);
-    return cpr::Download(ofstream, cpr::Url{url});
+    return cpr::Download(ofstream, cpr::Url {url});
 }
 
 void LatexRenderer::cleanup() {

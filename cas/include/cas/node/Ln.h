@@ -38,4 +38,4 @@ public:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_LN_H
+#endif  //CAS_LN_H

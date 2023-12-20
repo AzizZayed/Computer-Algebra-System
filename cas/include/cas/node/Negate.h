@@ -41,4 +41,4 @@ protected:
 
 CAS_NAMESPACE_END
 
-#endif//CAS_NEGATE_H
+#endif  //CAS_NEGATE_H
