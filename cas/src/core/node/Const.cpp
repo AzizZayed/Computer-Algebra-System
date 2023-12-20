@@ -7,9 +7,9 @@
 
 CAS_NAMESPACE
 
-const char* Const::PI_UNICODE = "\u03C0";
+const char* Const::PI_UNICODE = "π";
 const char* Const::E_UNICODE = "e";
-const char* Const::PHI_UNICODE = "\u03D5";
+const char* Const::PHI_UNICODE = "ϕ";
 
 const char* Const::PI_LATEX = "\\pi ";
 const char* Const::E_LATEX = "e";

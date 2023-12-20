@@ -56,7 +56,7 @@ Expression* Max::simplified() {
         std::vector<Expression*> reducedExpressions;
         reducedExpressions.reserve(expressions.size());
 
-        double max = -1.0 / 0.0;
+        double max = math_constants::NEGATIVE_INFINITY;
         for (auto& expr: simplifiedExpressions) {
             if (expr->isOfType(ExpressionType::CONSTANT)) {
                 max = std::max(max, expr->evaluate());

@@ -8,8 +8,8 @@
 CAS_NAMESPACE
 
 Round::Round(Expression* argument)
-    : BracketExpression({ExpressionType::ROUND, "round", "round"},
-                        argument, "\u230A", "\u2309",
+    : BracketExpression({ExpressionType::ROUND, "round", "round"}, argument,
+                        "⌊", "⌋",
                         "\\lfloor", "\\rceil") {}
 
 double Round::evaluate(const VariableMap& variables) {

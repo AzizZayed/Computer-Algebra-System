@@ -1,11 +1,11 @@
 //
 // Created by Abd-El-Aziz Zayed on 2022-09-01.
 //
-
+#include <algorithm>
+#include <sstream>
 #include "cas/node/Product.h"
 #include "cas/node/Const.h"
 #include "cas/node/Sum.h"
-#include <sstream>
 
 CAS_NAMESPACE
 
